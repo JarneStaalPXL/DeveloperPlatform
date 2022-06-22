@@ -1,9 +1,9 @@
 <template>
-  <nav>
+  <!-- <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  </nav> -->
+  <router-view />
 </template>
 
 <style lang="scss">
@@ -26,5 +26,9 @@ nav {
       color: #42b983;
     }
   }
+}
+
+* {
+  font-family: "Poppins", sans-serif;
 }
 </style>
