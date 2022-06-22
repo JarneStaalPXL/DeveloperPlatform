@@ -1,4 +1,4 @@
-# testingproject
+# FrontendPlatform
 
 ## Project setup
 ```

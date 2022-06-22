@@ -1,10 +1,39 @@
 <template>
-  <!-- <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav> -->
+  <n-config-provider :theme="darkTheme">
+    <n-card>
+      <n-space horizontal class="d-flex justify-content-center">
+        <n-button @click="$router.push('/GradientGenerator')"
+          >Gradient Generator</n-button
+        >
+        <!-- <n-button @click="$router.push('/WebsiteBuilder')"
+          >Website Builder</n-button
+        > -->
+      </n-space>
+    </n-card>
+  </n-config-provider>
+
   <router-view />
 </template>
+
+
+<script>
+import { NButton, NSpace, NConfigProvider, darkTheme, NCard } from "naive-ui";
+export default {
+  name: "TemplateDesigner",
+  components: {
+    NButton,
+    NSpace,
+    NConfigProvider,
+    NCard,
+  },
+  setup() {
+    return {
+      darkTheme,
+    };
+  },
+};
+</script>
+
 
 <style lang="scss">
 #app {
