@@ -1,11 +1,11 @@
 <template>
   <n-space vertical>
     <n-card>
-      <header
-        class="d-flex justify-content-between flex-wrap"
-        style="gap: 50px"
-      >
-        <n-card title="Random Gradient Generator" style="width: 33%">
+      <nav class="nav justify-content-center">
+        <h1>Gradient Background Generator</h1>
+      </nav>
+      <header class="d-flex justify-content-center" style="gap: 50px">
+        <n-card title="Random Gradient Background Generator" class="w-25">
           <n-space vertical>
             <div class="d-flex flex-column justify-content-end">
               <n-space vertical>
@@ -30,7 +30,7 @@
           </n-space>
         </n-card>
 
-        <n-card title="Gradient Creator" style="width: 33%">
+        <n-card title="Gradient Creator" class="w-25">
           <n-space vertical>
             <n-color-picker
               :modes="['hex']"
@@ -47,77 +47,28 @@
               id="getBGBtn"
               class="w-100"
               @click="this.GetGeneratedGradientBackgroundsFromSelectedColor()"
-            >
-              Generate background with specified color gradient</n-button
+              >Generate background with specified color gradient</n-button
             >
           </n-space>
         </n-card>
-        <n-card title="Positioning" style="width: 22%">
-          <n-select
-            v-if="gradientLayout.includes('linear')"
-            v-model:value="gradientPositioning"
-            placeholder="position"
-            :options="[
-              {
-                label: 'to right',
-                value: 'to right',
-              },
-              {
-                label: 'to left',
-                value: 'to left',
-              },
-              {
-                label: 'to top',
-                value: 'to top',
-              },
-              {
-                label: 'to bottom',
-                value: 'to bottom',
-              },
-              {
-                label: 'to top right',
-                value: 'to top right',
-              },
-              {
-                label: 'to top left',
-                value: 'to top left',
-              },
-              {
-                label: 'to bottom right',
-                value: 'to bottom right',
-              },
-              {
-                label: 'to bottom left',
-                value: 'to bottom left',
-              },
-            ]"
-          >
-          </n-select>
-        </n-card>
       </header>
-      <!-- <h3 v-if="generatedGradientBGS.length > 0">Choose a background</h3> -->
+      <h3 v-if="generatedGradientBGS.length > 0">Choose a background</h3>
 
-      <section v-if="generatedGradientBGS.length > 0">
+      <section id="generatedBGContainer" v-if="generatedGradientBGS.length > 0">
         <!--Generated backgrounds (gradients)-->
-        <div id="generatedBGContainer">
-          <button
-            @click="setSelectedGradient(item)"
-            v-for="item of generatedGradientBGS"
-            class="gradientBox"
-            :key="item"
-            :style="
-              'background: ' +
-              gradientLayout +
-              '-gradient(' +
-              gradientPositioning +
-              ',' +
-              item.color1 +
-              ',' +
-              item.color2 +
-              ')'
-            "
-          ></button>
-        </div>
+        <button
+          @click="setSelectedGradient(item)"
+          v-for="item of generatedGradientBGS"
+          class="gradientBox"
+          :key="item"
+          :style="
+            'background: linear-gradient(to right,' +
+            item.color1 +
+            ',' +
+            item.color2 +
+            ')'
+          "
+        ></button>
       </section>
 
       <section
@@ -130,11 +81,7 @@
             <div
               class="resultGradientBox"
               :style="
-                'background: ' +
-                gradientLayout +
-                '-gradient(' +
-                gradientPositioning +
-                ',' +
+                'background: linear-gradient(to right,' +
                 selectedGradient.color1 +
                 ',' +
                 selectedGradient.color2 +
@@ -150,11 +97,7 @@
               id="codeField"
               style="font-size: 23px !important"
               :code="
-                'background: ' +
-                gradientLayout +
-                '-gradient(' +
-                gradientPositioning +
-                ',' +
+                'background: linear-gradient(to right,' +
                 selectedGradient.color1 +
                 ',' +
                 selectedGradient.color2 +
@@ -177,7 +120,6 @@ import {
   NButton,
   NInput,
   NSpace,
-  NSelect,
   NInputNumber,
   NColorPicker,
 } from "naive-ui";
@@ -192,7 +134,6 @@ export default {
     NSpace,
     NInputNumber,
     NColorPicker,
-    NSelect,
   },
   data() {
     return {
@@ -202,8 +143,6 @@ export default {
       amountBGSelect: null,
       selectedFirstColor: null,
       selectedSecondColor: null,
-      gradientPositioning: "to right",
-      gradientLayout: "linear",
     };
   },
   mounted() {
@@ -257,13 +196,6 @@ export default {
       this.generatedGradientBGS = arr;
     },
     GetGeneratedGradientBackgroundsFromSelectedColor() {
-      if (
-        this.selectedFirstColor === null ||
-        this.selectedSecondColor === null
-      ) {
-        window.$message.error("Please select colors.");
-        return;
-      }
       let arr = [];
       arr.push({
         color1: this.selectedFirstColor,
@@ -289,12 +221,10 @@ nav {
     color: white;
   }
 }
-
 h3 {
   color: white;
   padding: 50px;
 }
-
 .gradientBox {
   width: 300px;
   margin: auto;
@@ -312,16 +242,15 @@ h3 {
 }
 
 #generatedBGContainer {
-  padding-top: 50px;
+  padding: 50px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, 300px);
+  grid-template-columns: repeat(auto-fill, 320px);
   grid-gap: 1rem;
   list-style: none;
   height: auto;
   margin: 0 auto;
   justify-content: space-between;
 }
-
 #resultContainer {
   margin: auto;
   margin: 60px;
@@ -338,12 +267,9 @@ h3 {
 }
 
 * {
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
-
 .n-card-cover {
   height: 500px !important;
 }
