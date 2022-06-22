@@ -99,6 +99,7 @@
 
       <section v-if="generatedGradientBGS.length > 0">
         <!--Generated backgrounds (gradients)-->
+
         <div id="generatedBGContainer">
           <button
             @click="setSelectedGradient(item)"
@@ -144,6 +145,46 @@
               <h1 id="result"></h1>
               <img src="" />
             </div>
+            <n-select
+              v-if="gradientLayout.includes('linear')"
+              v-model:value="gradientPositioning"
+              placeholder="position"
+              :options="[
+                {
+                  label: 'to right',
+                  value: 'to right',
+                },
+                {
+                  label: 'to left',
+                  value: 'to left',
+                },
+                {
+                  label: 'to top',
+                  value: 'to top',
+                },
+                {
+                  label: 'to bottom',
+                  value: 'to bottom',
+                },
+                {
+                  label: 'to top right',
+                  value: 'to top right',
+                },
+                {
+                  label: 'to top left',
+                  value: 'to top left',
+                },
+                {
+                  label: 'to bottom right',
+                  value: 'to bottom right',
+                },
+                {
+                  label: 'to bottom left',
+                  value: 'to bottom left',
+                },
+              ]"
+            >
+            </n-select>
           </template>
           <div class="d-flex justify-content-center" style="gap: 25px">
             <n-code
@@ -304,7 +345,8 @@ h3 {
 
 .resultGradientBox {
   height: 500px;
-  border-radius: 15px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -323,8 +365,7 @@ h3 {
 }
 
 #resultContainer {
-  margin: auto;
-  margin: 60px;
+  margin-top: 60px;
 }
 
 .gradientBox:hover {

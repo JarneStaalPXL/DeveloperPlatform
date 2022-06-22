@@ -279,8 +279,7 @@ h3 {
 }
 
 #resultContainer {
-  margin: auto;
-  margin: 60px;
+  margin-top: 60px;
 }
 
 .gradientBox:hover {
