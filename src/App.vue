@@ -2,9 +2,8 @@
   <n-config-provider :theme="darkTheme">
     <n-card>
       <n-space horizontal class="d-flex justify-content-center">
-        <n-button @click="$router.push('/GradientGenerator')"
-          >Gradient Generator</n-button
-        >
+        <n-button @click="$router.push('/LinearGradientGenerator')">Linear Gradient Generator</n-button>
+        <n-button @click="$router.push('/RadialGradientGenerator')">Radial Gradient Generator</n-button>
         <!-- <n-button @click="$router.push('/WebsiteBuilder')"
           >Website Builder</n-button
         > -->

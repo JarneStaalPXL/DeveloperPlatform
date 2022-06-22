@@ -1,17 +1,16 @@
 <template>
   <n-space vertical>
     <n-card>
-      <nav class="nav justify-content-center">
+      <!-- <nav class="nav justify-content-center">
         <h1>Gradient Background Generator</h1>
-      </nav>
-      <header class="d-flex justify-content-center" style="gap: 50px">
-        <n-card title="Random Gradient Generator" style="width:35vw">
+      </nav> -->
+      <header class="d-flex justify-content-center flex-wrap" style="gap: 50px">
+        <n-card title="Random Gradient Generator" style="width:33%">
           <n-space vertical>
             <div class="d-flex flex-column justify-content-end">
               <n-space vertical>
                 <n-input-number id="amountInput" class="w-100 m-auto" v-model:value="amountBG" clearable
                   placeholder="Amount" min="1" :value="amountBG" max="1000" />
-
                 <n-button id="getBGBtn" class="w-100" @click="this.GetGeneratedGradientBackgrounds(amountBG)">Generate
                   backgrounds</n-button>
               </n-space>
@@ -19,7 +18,7 @@
           </n-space>
         </n-card>
 
-        <n-card title="Gradient Creator" style="width:35vw">
+        <n-card title="Gradient Creator" style="width:33%">
           <n-space vertical>
             <n-color-picker :modes="['hex']" v-model:value="selectedFirstColor" :show-alpha="false" />
             <n-color-picker :modes="['hex']" v-model:value="selectedSecondColor" :show-alpha="false" />
@@ -28,59 +27,63 @@
               Generate backgrounds with specified color</n-button>
           </n-space>
         </n-card>
-        <n-card title="Positioning">
-          <n-select v-model:value="gradientPositioning" placeholder="position" :options="[{
-            label: 'to right',
-            value: 'to right'
-          }, {
-            label: 'to left',
-            value: 'to left'
-          },
-          {
-            label: 'to top',
-            value: 'to top'
-          }, {
-            label: 'to bottom',
-            value: 'to bottom'
-          },
-          {
-            label: 'to top right',
-            value: 'to top right'
-          }, {
-            label: 'to top left',
-            value: 'to top left'
-          },
-          {
-            label: 'to bottom right',
-            value: 'to bottom right'
-          }, {
-            label: 'to bottom left',
-            value: 'to bottom left'
-          
-          }]">
-
+        <n-card title="Positioning" style="width:33%">
+          <n-select v-if="gradientLayout.includes('linear')" v-model:value="gradientPositioning" placeholder="position"
+            :options="[{
+              label: 'to right',
+              value: 'to right'
+            }, {
+              label: 'to left',
+              value: 'to left'
+            },
+            {
+              label: 'to top',
+              value: 'to top'
+            }, {
+              label: 'to bottom',
+              value: 'to bottom'
+            },
+            {
+              label: 'to top right',
+              value: 'to top right'
+            }, {
+              label: 'to top left',
+              value: 'to top left'
+            },
+            {
+              label: 'to bottom right',
+              value: 'to bottom right'
+            }, {
+              label: 'to bottom left',
+              value: 'to bottom left'
+            
+            }]">
           </n-select>
+
         </n-card>
       </header>
-      <h3 v-if="generatedGradientBGS.length > 0">Choose a background</h3>
+      <!-- <h3 v-if="generatedGradientBGS.length > 0">Choose a background</h3> -->
 
-      <section id="generatedBGContainer" v-if="generatedGradientBGS.length > 0">
+      <section v-if="generatedGradientBGS.length > 0">
         <!--Generated backgrounds (gradients)-->
-        <button @click="setSelectedGradient(item)" v-for="item of generatedGradientBGS" class="gradientBox" :key="item"
-          :style="
-            'background: linear-gradient(' + gradientPositioning + ',' +
-            item.color1 +
-            ',' +
-            item.color2 +
-            ')'
-          "></button>
+        <div id="generatedBGContainer">
+          <button @click="setSelectedGradient(item)" v-for="item of generatedGradientBGS" class="gradientBox"
+            :key="item" :style="
+              'background: ' + gradientLayout + '-gradient(' + gradientPositioning + ',' +
+              item.color1 +
+              ',' +
+              item.color2 +
+              ')'
+            "></button>
+        </div>
       </section>
 
       <section v-if="selectedGradient !== null" class="d-flex justify-content-between" id="resultContainer">
         <n-card title="CSS">
           <template #cover>
             <div class="resultGradientBox" :style="
-              'background: linear-gradient(' + gradientPositioning + ',' +
+            
+              'background: ' + gradientLayout + '-gradient(' + gradientPositioning + ',' +
               selectedGradient.color1 +
               ',' +
               selectedGradient.color2 +
@@ -91,8 +94,9 @@
             </div>
           </template>
           <div class="d-flex justify-content-center" style="gap: 25px">
+
             <n-code id="codeField" style="font-size: 23px !important" :code="
-              'background: linear-gradient(' + gradientPositioning + ',' +
+              'background: ' + gradientLayout + '-gradient(' + gradientPositioning + ',' +
               selectedGradient.color1 +
               ',' +
               selectedGradient.color2 +
@@ -138,7 +142,8 @@ export default {
       amountBGSelect: null,
       selectedFirstColor: null,
       selectedSecondColor: null,
-      gradientPositioning: "to right"
+      gradientPositioning: "to right",
+      gradientLayout: "linear"
     };
   },
   mounted() {
@@ -244,9 +249,9 @@ h3 {
 }
 
 #generatedBGContainer {
-  padding: 50px;
+  padding-top: 50px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, 320px);
+  grid-template-columns: repeat(auto-fill, 300px);
   grid-gap: 1rem;
   list-style: none;
   height: auto;

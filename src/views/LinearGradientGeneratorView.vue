@@ -2,7 +2,7 @@
   <div>
     <n-config-provider :hljs="hljs" :theme="darkTheme">
       <n-message-provider>
-        <GradientBackgroundGenerator />
+        <LinearGradientBackgroundGenerator />
       </n-message-provider>
     </n-config-provider>
   </div>
@@ -11,17 +11,17 @@
 <script>
 import { NConfigProvider, darkTheme, NMessageProvider } from "naive-ui";
 import WebsiteBuilder from "@/components/WebsiteBuilder.vue";
-import GradientBackgroundGenerator from "@/components/GradientBackgroundGenerator.vue";
+import LinearGradientBackgroundGenerator from "@/components/LinearGradientBackgroundGenerator.vue";
 import hljs from "highlight.js/lib/core";
 import css from "highlight.js/lib/languages/css";
 
 hljs.registerLanguage("css", css);
 // @ is an alias to /src
 export default {
-  name: "GradientGeneratorView",
+  name: "LinearGradientGeneratorView",
   components: {
     WebsiteBuilder,
-    GradientBackgroundGenerator,
+    LinearGradientBackgroundGenerator,
     NConfigProvider,
     NMessageProvider,
   },
