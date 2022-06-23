@@ -26,7 +26,7 @@
                   id="getBGBtn"
                   class="w-100"
                   @click="this.GetGeneratedGradientBackgrounds(amountBG)"
-                  >Generate backgrounds</n-button
+                  >Generate gradients</n-button
                 >
               </n-space>
             </div>
@@ -51,7 +51,7 @@
               class="w-100"
               @click="this.GetGeneratedGradientBackgroundsFromSelectedColor()"
             >
-              Generate background with specified color gradient</n-button
+              Generate gradient</n-button
             >
           </n-space>
         </n-card>
@@ -282,6 +282,27 @@ h3 {
 
 .gradientBox:hover {
   border: 5px solid white;
+}
+@media only screen and (max-width: 992px) {
+  .naiveUICard {
+    width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 670px) {
+  .gradientBox {
+    width: 150px;
+    height: 150px;
+  }
+  #generatedBGContainer {
+    grid-template-columns: repeat(2, 200px);
+  }
+}
+
+@media only screen and (max-width: 470px) {
+  #generatedBGContainer {
+    grid-template-columns: repeat(2, 154px);
+  }
 }
 </style>
 

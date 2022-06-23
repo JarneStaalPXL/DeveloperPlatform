@@ -23,7 +23,7 @@
                   id="getBGBtn"
                   class="w-100"
                   @click="this.GetGeneratedGradientBackgrounds(amountBG)"
-                  >Generate backgrounds</n-button
+                  >Generate gradients</n-button
                 >
               </n-space>
             </div>
@@ -47,7 +47,7 @@
               id="getBGBtn"
               class="w-100"
               @click="this.GetGeneratedGradientBackgroundsFromSelectedColor()"
-              >Generate background with specified color gradient</n-button
+              >Generate gradient</n-button
             >
           </n-space>
         </n-card>

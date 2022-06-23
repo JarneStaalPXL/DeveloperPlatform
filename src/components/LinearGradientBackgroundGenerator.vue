@@ -5,7 +5,11 @@
         class="d-flex justify-content-between flex-wrap"
         style="gap: 50px"
       >
-        <n-card title="Random Gradient Generator" style="width: 33%">
+        <n-card
+          title="Random Gradient Generator"
+          style="width: 33%"
+          class="naiveUICard"
+        >
           <n-space vertical>
             <div class="d-flex flex-column justify-content-end">
               <n-space vertical>
@@ -23,14 +27,14 @@
                   id="getBGBtn"
                   class="w-100"
                   @click="this.GetGeneratedGradientBackgrounds(amountBG)"
-                  >Generate backgrounds</n-button
+                  >Generate gradients</n-button
                 >
               </n-space>
             </div>
           </n-space>
         </n-card>
 
-        <n-card title="Gradient Creator" style="width: 33%">
+        <n-card title="Gradient Creator" style="width: 33%" class="naiveUICard">
           <n-space vertical>
             <n-color-picker
               :modes="['hex']"
@@ -48,11 +52,11 @@
               class="w-100"
               @click="this.GetGeneratedGradientBackgroundsFromSelectedColor()"
             >
-              Generate background with specified color gradient</n-button
+              Generate background</n-button
             >
           </n-space>
         </n-card>
-        <n-card title="Positioning" style="width: 22%">
+        <n-card title="Positioning" style="width: 22%" class="naiveUICard">
           <n-select
             v-if="gradientLayout.includes('linear')"
             v-model:value="gradientPositioning"
@@ -204,7 +208,7 @@
               language="css"
             ></n-code>
             <n-button @click="copyCSS()">Copy</n-button>
-            <n-button
+            <!-- <n-button
               @click="
                 $router.push({
                   name: 'lineargradientexample',
@@ -222,8 +226,10 @@
                   },
                 })
               "
-              >Show example</n-button
-            >
+              >Show example</n-button> -->
+            <n-button @click="createCanvasWithGradientAndDownload()">
+              Download as background
+            </n-button>
           </div>
         </n-card>
       </section>
@@ -281,6 +287,83 @@ export default {
       });
   },
   methods: {
+    createCanvasWithGradientAndDownload() {
+      let canvas = document.createElement("canvas");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      let ctx = canvas.getContext("2d");
+
+      let gradient = null;
+
+      //Turn code below in switch case
+      switch (this.gradientPositioning) {
+        case "to right":
+          gradient = ctx.createLinearGradient(0, 0, window.innerWidth, 0);
+          break;
+        case "to left":
+          gradient = ctx.createLinearGradient(window.innerWidth, 0, 0, 0);
+          break;
+        case "to top":
+          gradient = ctx.createLinearGradient(0, window.innerHeight, 0, 0);
+          break;
+        case "to bottom":
+          gradient = ctx.createLinearGradient(0, 0, 0, window.innerHeight);
+          break;
+        case "to top right":
+          gradient = ctx.createLinearGradient(
+            0,
+            window.innerHeight,
+            window.innerWidth,
+            0
+          );
+          break;
+        case "to top left":
+          gradient = ctx.createLinearGradient(
+            window.innerWidth,
+            window.innerHeight,
+            0,
+            0
+          );
+          break;
+        case "to bottom right":
+          gradient = ctx.createLinearGradient(
+            0,
+            0,
+            window.innerWidth,
+            window.innerHeight
+          );
+          break;
+        case "to bottom left":
+          gradient = ctx.createLinearGradient(
+            window.innerWidth,
+            0,
+            0,
+            window.innerHeight
+          );
+          break;
+      }
+
+      gradient.addColorStop(0, this.selectedGradient.color1);
+      gradient.addColorStop(1, this.selectedGradient.color2);
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL();
+
+      let image = new Image();
+      image.src = dataUrl;
+
+      let a = document.createElement("a");
+      a.href = dataUrl;
+      a.download =
+        "background" +
+        this.selectedGradient.color1 +
+        "-" +
+        this.selectedGradient.color2 +
+        ".png";
+      a.click();
+      return dataUrl;
+    },
     copyCSS() {
       /* Get the text field */
       var copyText = document.getElementById("codeField").innerText;
@@ -289,6 +372,7 @@ export default {
 
       /* Alert the copied text */
       window.$message.success("CSS is copied to clipboard.");
+      this.createCanvasWithGradient();
     },
     setSelectedGradient(item) {
       this.selectedGradient = item;
@@ -397,6 +481,28 @@ h3 {
 
 .gradientBox:hover {
   border: 5px solid white;
+}
+
+@media only screen and (max-width: 992px) {
+  .naiveUICard {
+    width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 670px) {
+  .gradientBox {
+    width: 150px;
+    height: 150px;
+  }
+  #generatedBGContainer {
+    grid-template-columns: repeat(2, 200px);
+  }
+}
+
+@media only screen and (max-width: 470px) {
+  #generatedBGContainer {
+    grid-template-columns: repeat(2, 154px);
+  }
 }
 </style>
 

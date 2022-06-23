@@ -3,12 +3,13 @@ import LinearGradientExampleView from '../views/LinearGradientExampleView.vue'
 import LinearGradientGeneratorView from '../views/LinearGradientGeneratorView'
 import RadialGradientGeneratorView from '../views/RadialGradientGeneratorView'
 import WebsiteBuilderView from "../views/WebsiteBuilderView"
+import HomeView from "../views/HomeView"
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: LinearGradientGeneratorView
+    component: HomeView
   },
   {
     path: '/LinearGradientGenerator',
