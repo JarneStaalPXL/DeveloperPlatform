@@ -191,8 +191,8 @@
             </n-select>
           </template>
           <div
-            class="d-flex justify-content-center flex-wrap"
-            style="gap: 25px"
+            class="d-flex flex-column justify-content-center align-items-center"
+            style="gap: 10px"
           >
             <n-code
               id="codeField"
@@ -210,27 +210,11 @@
               "
               language="css"
             ></n-code>
-            <n-button @click="copyCSS()">Copy CSS</n-button>
-            <!-- <n-button
-              @click="
-                $router.push({
-                  name: 'lineargradientexample',
-                  params: {
-                    selectedStyle:
-                      'background: ' +
-                      gradientLayout +
-                      '-gradient(' +
-                      gradientPositioning +
-                      ',' +
-                      selectedGradient.color1 +
-                      ',' +
-                      selectedGradient.color2 +
-                      ')',
-                  },
-                })
-              "
-              >Show example</n-button> -->
-            <n-button @click="createCanvasWithGradientAndDownload()">
+            <n-button style="width: 50vw" @click="copyCSS()">Copy CSS</n-button>
+            <n-button
+              style="width: 50vw"
+              @click="createCanvasWithGradientAndDownload()"
+            >
               Download as background
             </n-button>
           </div>
@@ -251,7 +235,7 @@ import {
   NInputNumber,
   NColorPicker,
 } from "naive-ui";
-import { useMessage } from "naive-ui";
+import { useMessage, useLoadingBar } from "naive-ui";
 import LinearGradientExample from "@/components/LinearGradientExample.vue";
 export default {
   name: "TemplateDesigner",
@@ -291,6 +275,7 @@ export default {
   },
   methods: {
     createCanvasWithGradientAndDownload() {
+      window.$loadingbar.start();
       let canvas = document.createElement("canvas");
       canvas.width = 3840;
       canvas.height = 2160;
@@ -305,7 +290,6 @@ export default {
 
       let gradient = null;
 
-      //Turn code below in switch case
       switch (this.gradientPositioning) {
         case "to right":
           gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
@@ -371,6 +355,10 @@ export default {
         this.selectedGradient.color2 +
         ".png";
       a.click();
+      window.$message.success("Background is downloaded.");
+      setTimeout(() => {
+        window.$loadingbar.finish();
+      }, 0);
       return dataUrl;
     },
     copyCSS() {
@@ -440,6 +428,7 @@ export default {
   },
   setup() {
     window.$message = useMessage();
+    window.$loadingbar = useLoadingBar();
   },
 };
 </script>

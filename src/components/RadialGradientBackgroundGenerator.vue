@@ -102,7 +102,10 @@
               <img src="" />
             </div>
           </template>
-          <div class="d-flex justify-content-center" style="gap: 25px">
+          <div
+            class="d-flex justify-content-center flex-column"
+            style="gap: 10px"
+          >
             <n-code
               id="codeField"
               style="font-size: 23px !important"
@@ -118,7 +121,25 @@
               language="css"
             ></n-code>
 
-            <n-button @click="copyCSS()">Copy</n-button>
+            <div
+              class="
+                d-flex
+                flex-column
+                justify-content-center
+                align-items-center
+              "
+              style="gap: 10px"
+            >
+              <n-button style="width: 50vw" @click="copyCSS()"
+                >Copy CSS</n-button
+              >
+              <n-button
+                style="width: 50vw"
+                @click="createCanvasWithGradientAndDownload()"
+              >
+                Download as background
+              </n-button>
+            </div>
           </div>
         </n-card>
       </section>
@@ -137,7 +158,7 @@ import {
   NInputNumber,
   NColorPicker,
 } from "naive-ui";
-import { useMessage } from "naive-ui";
+import { useMessage, useLoadingBar } from "naive-ui";
 export default {
   name: "TemplateDesigner",
   components: {
@@ -173,6 +194,55 @@ export default {
       });
   },
   methods: {
+    createCanvasWithGradientAndDownload() {
+      window.$loadingbar.start();
+
+      let canvas = document.createElement("canvas");
+      canvas.width = 3840;
+      canvas.height = 2160;
+
+      //Check if on mobile
+      if (window.innerWidth < 768) {
+        canvas.width = 540;
+        canvas.height = 960;
+      }
+
+      let ctx = canvas.getContext("2d");
+
+      let gradient = ctx.createRadialGradient(
+        canvas.width / 2,
+        canvas.height / 2,
+        0,
+        canvas.width / 2,
+        canvas.height / 2,
+        canvas.width / 2
+      );
+
+      gradient.addColorStop(0, this.selectedGradient.color1);
+      gradient.addColorStop(1, this.selectedGradient.color2);
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL();
+
+      let image = new Image();
+      image.src = dataUrl;
+
+      let a = document.createElement("a");
+      a.href = dataUrl;
+      a.download =
+        "background" +
+        this.selectedGradient.color1 +
+        "-" +
+        this.selectedGradient.color2 +
+        ".png";
+      a.click();
+
+      window.$message.success("Background is downloaded.");
+      setTimeout(() => {
+        window.$loadingbar.finish();
+      }, 0);
+      return dataUrl;
+    },
     copyCSS() {
       /* Get the text field */
       var copyText = document.getElementById("codeField").innerText;
@@ -233,6 +303,7 @@ export default {
   },
   setup() {
     window.$message = useMessage();
+    window.$loadingbar = useLoadingBar();
   },
 };
 </script>
@@ -283,6 +354,7 @@ h3 {
 .gradientBox:hover {
   border: 5px solid white;
 }
+
 @media only screen and (max-width: 992px) {
   .naiveUICard {
     width: 100% !important;
@@ -296,6 +368,10 @@ h3 {
   }
   #generatedBGContainer {
     grid-template-columns: repeat(2, 200px);
+  }
+  //make code font smaller
+  #codeField {
+    display: none;
   }
 }
 
