@@ -4,7 +4,7 @@
       <template #header><p id="title">Frontend Platform</p></template>
     </n-card>
     <section class="gradientGenerators mt-5 pt-5">
-      <a @click="$router.push('/LinearGradientGenerator')" class="w-50">
+      <a @click="$router.push('/LinearGradientGenerator')">
         <n-card title="Linear Gradient Generator">
           <div
             class="gradientBox"
@@ -13,7 +13,7 @@
         </n-card>
       </a>
 
-      <a @click="$router.push('/RadialGradientGenerator')" class="w-50">
+      <a @click="$router.push('/RadialGradientGenerator')">
         <n-card title="Radial Gradient Generator">
           <div
             class="gradientBox"
@@ -56,6 +56,7 @@ h1 {
 .gradientGenerators {
   display: flex;
   gap: 50px;
+  flex-wrap: wrap;
 }
 .titleCard,
 .gradientGenerators {

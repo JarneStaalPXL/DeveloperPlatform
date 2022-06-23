@@ -8,7 +8,11 @@
         class="d-flex justify-content-between flex-wrap"
         style="gap: 50px"
       >
-        <n-card title="Random Gradient Generator" style="width: 33%">
+        <n-card
+          class="naiveUICard"
+          title="Random Gradient Generator"
+          style="width: 33%"
+        >
           <n-space vertical>
             <div class="d-flex flex-column justify-content-end">
               <n-space vertical>
@@ -33,7 +37,7 @@
           </n-space>
         </n-card>
 
-        <n-card title="Gradient Creator" style="width: 33%">
+        <n-card class="naiveUICard" title="Gradient Creator" style="width: 33%">
           <n-space vertical>
             <n-color-picker
               :modes="['hex']"
@@ -358,6 +362,9 @@ h3 {
 @media only screen and (max-width: 992px) {
   .naiveUICard {
     width: 100% !important;
+  }
+  header {
+    flex-direction: column;
   }
 }
 
