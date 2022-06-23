@@ -190,10 +190,13 @@
             >
             </n-select>
           </template>
-          <div class="d-flex justify-content-center" style="gap: 25px">
+          <div
+            class="d-flex justify-content-center flex-wrap"
+            style="gap: 25px"
+          >
             <n-code
               id="codeField"
-              style="font-size: 23px !important"
+              style="font-size: 23px"
               :code="
                 'background: ' +
                 gradientLayout +
@@ -207,7 +210,7 @@
               "
               language="css"
             ></n-code>
-            <n-button @click="copyCSS()">Copy</n-button>
+            <n-button @click="copyCSS()">Copy CSS</n-button>
             <!-- <n-button
               @click="
                 $router.push({
@@ -289,8 +292,14 @@ export default {
   methods: {
     createCanvasWithGradientAndDownload() {
       let canvas = document.createElement("canvas");
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      canvas.width = 3840;
+      canvas.height = 2160;
+
+      //Check if on mobile
+      if (window.innerWidth < 768) {
+        canvas.width = 540;
+        canvas.height = 960;
+      }
 
       let ctx = canvas.getContext("2d");
 
@@ -299,29 +308,29 @@ export default {
       //Turn code below in switch case
       switch (this.gradientPositioning) {
         case "to right":
-          gradient = ctx.createLinearGradient(0, 0, window.innerWidth, 0);
+          gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
           break;
         case "to left":
-          gradient = ctx.createLinearGradient(window.innerWidth, 0, 0, 0);
+          gradient = ctx.createLinearGradient(canvas.width, 0, 0, 0);
           break;
         case "to top":
-          gradient = ctx.createLinearGradient(0, window.innerHeight, 0, 0);
+          gradient = ctx.createLinearGradient(0, canvas.height, 0, 0);
           break;
         case "to bottom":
-          gradient = ctx.createLinearGradient(0, 0, 0, window.innerHeight);
+          gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
           break;
         case "to top right":
           gradient = ctx.createLinearGradient(
             0,
-            window.innerHeight,
-            window.innerWidth,
+            canvas.height,
+            canvas.width,
             0
           );
           break;
         case "to top left":
           gradient = ctx.createLinearGradient(
-            window.innerWidth,
-            window.innerHeight,
+            canvas.width,
+            canvas.height,
             0,
             0
           );
@@ -330,16 +339,16 @@ export default {
           gradient = ctx.createLinearGradient(
             0,
             0,
-            window.innerWidth,
-            window.innerHeight
+            canvas.width,
+            canvas.height
           );
           break;
         case "to bottom left":
           gradient = ctx.createLinearGradient(
-            window.innerWidth,
+            canvas.width,
             0,
             0,
-            window.innerHeight
+            canvas.height
           );
           break;
       }
@@ -496,6 +505,10 @@ h3 {
   }
   #generatedBGContainer {
     grid-template-columns: repeat(2, 200px);
+  }
+  //make code font smaller
+  #codeField {
+    display: none;
   }
 }
 
