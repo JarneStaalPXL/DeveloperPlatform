@@ -204,6 +204,26 @@
               language="css"
             ></n-code>
             <n-button @click="copyCSS()">Copy</n-button>
+            <n-button
+              @click="
+                $router.push({
+                  name: 'lineargradientexample',
+                  params: {
+                    selectedStyle:
+                      'background: ' +
+                      gradientLayout +
+                      '-gradient(' +
+                      gradientPositioning +
+                      ',' +
+                      selectedGradient.color1 +
+                      ',' +
+                      selectedGradient.color2 +
+                      ')',
+                  },
+                })
+              "
+              >Show example</n-button
+            >
           </div>
         </n-card>
       </section>
@@ -223,6 +243,7 @@ import {
   NColorPicker,
 } from "naive-ui";
 import { useMessage } from "naive-ui";
+import LinearGradientExample from "@/components/LinearGradientExample.vue";
 export default {
   name: "TemplateDesigner",
   components: {
@@ -234,6 +255,7 @@ export default {
     NInputNumber,
     NColorPicker,
     NSelect,
+    LinearGradientExample,
   },
   data() {
     return {
@@ -262,8 +284,6 @@ export default {
     copyCSS() {
       /* Get the text field */
       var copyText = document.getElementById("codeField").innerText;
-      console.log(copyText);
-
       /* Copy the text inside the text field */
       navigator.clipboard.writeText(copyText);
 
@@ -272,6 +292,13 @@ export default {
     },
     setSelectedGradient(item) {
       this.selectedGradient = item;
+      this.$store.commit("setSelectedLinearGradient", {
+        color1: item.color1,
+        color2: item.color2,
+        gradientPositioning: this.gradientPositioning,
+        gradientLayout: this.gradientLayout,
+      });
+
       setTimeout(() => {
         window.location.href = "#result";
       }, 0);

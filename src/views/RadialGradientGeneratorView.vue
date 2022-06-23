@@ -1,11 +1,11 @@
 <template>
-    <div>
-        <n-config-provider :hljs="hljs" :theme="darkTheme">
-            <n-message-provider>
-                <RadialGradientBackgroundGenerator />
-            </n-message-provider>
-        </n-config-provider>
-    </div>
+  <div>
+    <n-config-provider :hljs="hljs" :theme="darkTheme">
+      <n-message-provider>
+        <RadialGradientBackgroundGenerator />
+      </n-message-provider>
+    </n-config-provider>
+  </div>
 </template>
 
 <script>
@@ -18,23 +18,21 @@ import css from "highlight.js/lib/languages/css";
 hljs.registerLanguage("css", css);
 // @ is an alias to /src
 export default {
-    name: "RadialGradientGeneratorView",
-    components: {
-        WebsiteBuilder,
-        RadialGradientBackgroundGenerator,
-        NConfigProvider,
-        NMessageProvider,
-    },
-    mounted() {
-        document.addEventListener("contextmenu", (e) => {
-            console.log(e);
-        });
-    },
-    setup() {
-        return {
-            hljs,
-            darkTheme,
-        };
-    },
+  name: "RadialGradientGeneratorView",
+  components: {
+    WebsiteBuilder,
+    RadialGradientBackgroundGenerator,
+    NConfigProvider,
+    NMessageProvider,
+  },
+  mounted() {
+    document.addEventListener("contextmenu", (e) => {});
+  },
+  setup() {
+    return {
+      hljs,
+      darkTheme,
+    };
+  },
 };
 </script>

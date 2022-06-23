@@ -26,9 +26,7 @@ export default {
     NMessageProvider,
   },
   mounted() {
-    document.addEventListener("contextmenu", (e) => {
-      console.log(e);
-    });
+    document.addEventListener("contextmenu", (e) => {});
   },
   setup() {
     return {
