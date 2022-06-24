@@ -33,18 +33,35 @@
                   >Generate gradients</n-button
                 >
                 <n-spin size="small" :show="downloadingGradients">
-                  <n-button
-                    class="w-100"
-                    @click="this.downloadAllShownGradients()"
+                  <n-popconfirm
+                    @positive-click="this.downloadAllShownGradients()"
+                    @negative-click="this.abortedDownloadGradients()"
+                    positive-text="Download"
                   >
+                    <template #trigger>
+                      <n-button class="w-100">
+                        {{
+                          currentFileAmountZipped <= 0
+                            ? "Download " +
+                              generatedGradientBGS.length +
+                              " gradients"
+                            : "Downloaded " +
+                              currentFileAmountZipped +
+                              " gradients"
+                        }}
+                      </n-button>
+                    </template>
+
+                    Are you sure you want to download
+                    {{ generatedGradientBGS.length }} gradients
+                    {{ windowWidth > 560 ? "in 4K resolution" : "" }}?<br />
+                    Size will be maximum of
                     {{
-                      currentFileAmountZipped <= 0
-                        ? "Download " +
-                          generatedGradientBGS.length +
-                          " gradients"
-                        : "Downloaded " + currentFileAmountZipped + " gradients"
+                      windowWidth > 550
+                        ? 2 * amountBG + "MB"
+                        : convertKilobytesToMegabytes(amountBG * 150) + "MB"
                     }}
-                  </n-button>
+                  </n-popconfirm>
                 </n-spin>
               </n-space>
             </div>
@@ -175,6 +192,7 @@ import {
   NInputNumber,
   NColorPicker,
   NSpin,
+  NPopconfirm,
 } from "naive-ui";
 import JSZip from "jszip";
 import FileSaver from "file-saver";
@@ -190,7 +208,13 @@ export default {
     NInputNumber,
     NColorPicker,
     NSelect,
+    NPopconfirm,
     NSpin,
+  },
+  computed: {
+    windowWidth() {
+      return window.innerWidth;
+    },
   },
   data() {
     return {

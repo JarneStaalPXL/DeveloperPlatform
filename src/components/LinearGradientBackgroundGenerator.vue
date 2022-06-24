@@ -33,6 +33,7 @@
                   <n-popconfirm
                     @positive-click="this.downloadAllShownGradients()"
                     @negative-click="this.abortedDownloadGradients()"
+                    positive-text="Download"
                   >
                     <template #trigger>
                       <n-button class="w-100">
@@ -49,13 +50,13 @@
                     </template>
 
                     Are you sure you want to download
-                    {{ generatedGradientBGS.length }} gradients in 4K
-                    resolution?<br />
+                    {{ generatedGradientBGS.length }} gradients
+                    {{ windowWidth > 560 ? "in 4K resolution" : "" }}?<br />
                     Size will be maximum of
                     {{
-                      windowHeight > 550
+                      windowWidth > 550
                         ? 2 * amountBG + "MB"
-                        : amountBG * 150 + "KB"
+                        : convertKilobytesToMegabytes(amountBG * 150) + "MB"
                     }}
                   </n-popconfirm>
                 </n-spin>
@@ -303,8 +304,8 @@ export default {
     };
   },
   computed: {
-    windowHeight() {
-      return window.innerHeight;
+    windowWidth() {
+      return window.innerWidth;
     },
   },
   mounted() {
@@ -319,6 +320,9 @@ export default {
       });
   },
   methods: {
+    convertKilobytesToMegabytes(kilobytes) {
+      return (kilobytes / 1024).toFixed(2);
+    },
     abortedDownloadGradients() {
       window.$message.warning("Download aborted");
     },
@@ -540,6 +544,7 @@ export default {
       return /^#[0-9A-F]{6}$/i.test(str);
     },
     GetGeneratedGradientBackgrounds(amountBG) {
+      this.currentFileAmountZipped = 0;
       let arr = [];
       let index = 0;
 
