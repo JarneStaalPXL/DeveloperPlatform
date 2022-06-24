@@ -24,7 +24,7 @@
                   placeholder="Amount"
                   min="1"
                   :value="amountBG"
-                  max="100"
+                  max="50"
                 />
                 <n-button
                   id="getBGBtn"
@@ -32,6 +32,20 @@
                   @click="this.GetGeneratedGradientBackgrounds(amountBG)"
                   >Generate gradients</n-button
                 >
+                <n-spin size="small" :show="downloadingGradients">
+                  <n-button
+                    class="w-100"
+                    @click="this.downloadAllShownGradients()"
+                  >
+                    {{
+                      currentFileAmountZipped <= 0
+                        ? "Download " +
+                          generatedGradientBGS.length +
+                          " gradients"
+                        : "Downloaded " + currentFileAmountZipped + " gradients"
+                    }}
+                  </n-button>
+                </n-spin>
               </n-space>
             </div>
           </n-space>
@@ -160,7 +174,10 @@ import {
   NSelect,
   NInputNumber,
   NColorPicker,
+  NSpin,
 } from "naive-ui";
+import JSZip from "jszip";
+import FileSaver from "file-saver";
 import { useMessage, useLoadingBar } from "naive-ui";
 export default {
   name: "TemplateDesigner",
@@ -173,6 +190,7 @@ export default {
     NInputNumber,
     NColorPicker,
     NSelect,
+    NSpin,
   },
   data() {
     return {
@@ -183,6 +201,8 @@ export default {
       selectedFirstColor: null,
       selectedSecondColor: null,
       gradientLayout: "radial",
+      downloadingGradients: false,
+      currentFileAmountZipped: 0,
     };
   },
   mounted() {
@@ -197,6 +217,70 @@ export default {
       });
   },
   methods: {
+    async downloadAllShownGradients() {
+      let zip = new JSZip();
+
+      //Loading
+      // this.downloadingGradients = true;
+      window.$loadingbar.start();
+
+      //generate canvas and add to zip
+      var result = new Promise((resolve, reject) => {
+        this.generatedGradientBGS.forEach((gradient, index, array) => {
+          let canvas = this.createCanvasWithPassedGradient({
+            color1: gradient.color1,
+            color2: gradient.color2,
+          });
+
+          canvas.toBlob((blob) => {
+            zip.file(
+              "background" + gradient.color1 + "-" + gradient.color2 + ".png",
+              blob
+            );
+            this.currentFileAmountZipped = index + 1;
+            if (index === array.length - 1) resolve();
+          });
+        });
+      });
+
+      result.then(() => {
+        window.$loadingbar.finish();
+        this.downloadingGradients = false;
+        console.log("Should be done zipping");
+        zip.generateAsync({ type: "blob" }).then((blob) => {
+          FileSaver.saveAs(blob, "backgrounds.zip");
+        });
+        window.$message.success("Downloaded all backgrounds");
+      });
+    },
+    createCanvasWithPassedGradient(colors) {
+      let canvas = document.createElement("canvas");
+      canvas.width = 3840;
+      canvas.height = 2160;
+
+      //Check if on mobile
+      if (window.innerWidth < 768) {
+        canvas.width = 540;
+        canvas.height = 960;
+      }
+
+      let ctx = canvas.getContext("2d");
+
+      let gradient = ctx.createRadialGradient(
+        canvas.width / 2,
+        canvas.height / 2,
+        0,
+        canvas.width / 2,
+        canvas.height / 2,
+        canvas.width / 2
+      );
+
+      gradient.addColorStop(0, colors.color1);
+      gradient.addColorStop(1, colors.color2);
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      return canvas;
+    },
     createCanvasWithGradientAndDownload() {
       window.$loadingbar.start();
 
@@ -266,6 +350,7 @@ export default {
       return /^#[0-9A-F]{6}$/i.test(str);
     },
     GetGeneratedGradientBackgrounds(amountBG) {
+      this.currentFileAmountZipped = 0;
       let arr = [];
       let index = 0;
 

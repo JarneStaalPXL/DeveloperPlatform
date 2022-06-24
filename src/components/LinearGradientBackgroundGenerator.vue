@@ -21,7 +21,7 @@
                   placeholder="Amount"
                   min="1"
                   :value="amountBG"
-                  max="100"
+                  max="50"
                 />
                 <n-button
                   id="getBGBtn"
@@ -30,12 +30,34 @@
                   >Generate gradients</n-button
                 >
                 <n-spin size="small" :show="downloadingGradients">
-                  <n-button
-                    class="w-100"
-                    @click="this.downloadAllShownGradients()"
+                  <n-popconfirm
+                    @positive-click="this.downloadAllShownGradients()"
+                    @negative-click="this.abortedDownloadGradients()"
                   >
-                    Download all {{ generatedGradientBGS.length }} gradients
-                  </n-button>
+                    <template #trigger>
+                      <n-button class="w-100">
+                        {{
+                          currentFileAmountZipped <= 0
+                            ? "Download " +
+                              generatedGradientBGS.length +
+                              " gradients"
+                            : "Downloaded " +
+                              currentFileAmountZipped +
+                              " gradients"
+                        }}
+                      </n-button>
+                    </template>
+
+                    Are you sure you want to download
+                    {{ generatedGradientBGS.length }} gradients in 4K
+                    resolution?<br />
+                    Size will be maximum of
+                    {{
+                      windowHeight > 550
+                        ? 2 * amountBG + "MB"
+                        : amountBG * 150 + "KB"
+                    }}
+                  </n-popconfirm>
                 </n-spin>
               </n-space>
             </div>
@@ -244,6 +266,7 @@ import {
   NColorPicker,
   NIcon,
   NSpin,
+  NPopconfirm,
 } from "naive-ui";
 import JSZip from "jszip";
 import FileSaver from "file-saver";
@@ -263,6 +286,7 @@ export default {
     LinearGradientExample,
     NIcon,
     NSpin,
+    NPopconfirm,
   },
   data() {
     return {
@@ -275,7 +299,13 @@ export default {
       gradientPositioning: "to right",
       gradientLayout: "linear",
       downloadingGradients: false,
+      currentFileAmountZipped: 0,
     };
+  },
+  computed: {
+    windowHeight() {
+      return window.innerHeight;
+    },
   },
   mounted() {
     this.GetGeneratedGradientBackgrounds(this.amountBG);
@@ -289,39 +319,43 @@ export default {
       });
   },
   methods: {
+    abortedDownloadGradients() {
+      window.$message.warning("Download aborted");
+    },
     async downloadAllShownGradients() {
       let zip = new JSZip();
 
       //Loading
-      this.downloadingGradients = true;
+      // this.downloadingGradients = true;
       window.$loadingbar.start();
 
       //generate canvas and add to zip
-      var bar = new Promise((resolve, reject) => {
+      var result = new Promise((resolve, reject) => {
         this.generatedGradientBGS.forEach((gradient, index, array) => {
           let canvas = this.createCanvasWithPassedGradient({
             color1: gradient.color1,
             color2: gradient.color2,
           });
 
-          canvas.toBlob(async function (blob) {
+          canvas.toBlob((blob) => {
             zip.file(
               "background" + gradient.color1 + "-" + gradient.color2 + ".png",
               blob
             );
-            console.log("Put file in zip");
+            this.currentFileAmountZipped = index + 1;
             if (index === array.length - 1) resolve();
           });
         });
       });
 
-      bar.then(() => {
+      result.then(() => {
         window.$loadingbar.finish();
         this.downloadingGradients = false;
         console.log("Should be done zipping");
-        zip.generateAsync({ type: "blob" }).then(function (blob) {
+        zip.generateAsync({ type: "blob" }).then((blob) => {
           FileSaver.saveAs(blob, "backgrounds.zip");
         });
+        window.$message.success("Downloaded all backgrounds");
       });
     },
     createCanvasWithPassedGradient(colors) {
