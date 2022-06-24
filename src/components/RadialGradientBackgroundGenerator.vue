@@ -24,7 +24,7 @@
                   placeholder="Amount"
                   min="1"
                   :value="amountBG"
-                  max="1000"
+                  max="100"
                 />
                 <n-button
                   id="getBGBtn"

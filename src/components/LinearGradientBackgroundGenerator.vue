@@ -21,7 +21,7 @@
                   placeholder="Amount"
                   min="1"
                   :value="amountBG"
-                  max="1000"
+                  max="100"
                 />
                 <n-button
                   id="getBGBtn"
@@ -29,6 +29,14 @@
                   @click="this.GetGeneratedGradientBackgrounds(amountBG)"
                   >Generate gradients</n-button
                 >
+                <n-spin size="small" :show="downloadingGradients">
+                  <n-button
+                    class="w-100"
+                    @click="this.downloadAllShownGradients()"
+                  >
+                    Download all {{ generatedGradientBGS.length }} gradients
+                  </n-button>
+                </n-spin>
               </n-space>
             </div>
           </n-space>
@@ -52,7 +60,7 @@
               class="w-100"
               @click="this.GetGeneratedGradientBackgroundsFromSelectedColor()"
             >
-              Generate background</n-button
+              Generate gradient</n-button
             >
           </n-space>
         </n-card>
@@ -101,10 +109,10 @@
       </header>
       <!-- <h3 v-if="generatedGradientBGS.length > 0">Choose a background</h3> -->
 
-      <section v-if="generatedGradientBGS.length > 0">
+      <n-card v-if="generatedGradientBGS.length > 0" class="naiveUICard mt-3">
         <!--Generated backgrounds (gradients)-->
 
-        <div id="generatedBGContainer">
+        <div id="generatedBGContainer" class="w-100">
           <button
             @click="setSelectedGradient(item)"
             v-for="item of generatedGradientBGS"
@@ -123,7 +131,7 @@
             "
           ></button>
         </div>
-      </section>
+      </n-card>
 
       <section
         v-if="selectedGradient !== null"
@@ -235,7 +243,10 @@ import {
   NInputNumber,
   NColorPicker,
   NIcon,
+  NSpin,
 } from "naive-ui";
+import JSZip from "jszip";
+import FileSaver from "file-saver";
 import { useMessage, useLoadingBar } from "naive-ui";
 import LinearGradientExample from "@/components/LinearGradientExample.vue";
 export default {
@@ -251,6 +262,7 @@ export default {
     NSelect,
     LinearGradientExample,
     NIcon,
+    NSpin,
   },
   data() {
     return {
@@ -262,6 +274,7 @@ export default {
       selectedSecondColor: null,
       gradientPositioning: "to right",
       gradientLayout: "linear",
+      downloadingGradients: false,
     };
   },
   mounted() {
@@ -276,6 +289,109 @@ export default {
       });
   },
   methods: {
+    async downloadAllShownGradients() {
+      let zip = new JSZip();
+
+      //Loading
+      this.downloadingGradients = true;
+      window.$loadingbar.start();
+
+      //generate canvas and add to zip
+      var bar = new Promise((resolve, reject) => {
+        this.generatedGradientBGS.forEach((gradient, index, array) => {
+          let canvas = this.createCanvasWithPassedGradient({
+            color1: gradient.color1,
+            color2: gradient.color2,
+          });
+
+          canvas.toBlob(async function (blob) {
+            zip.file(
+              "background" + gradient.color1 + "-" + gradient.color2 + ".png",
+              blob
+            );
+            console.log("Put file in zip");
+            if (index === array.length - 1) resolve();
+          });
+        });
+      });
+
+      bar.then(() => {
+        window.$loadingbar.finish();
+        this.downloadingGradients = false;
+        console.log("Should be done zipping");
+        zip.generateAsync({ type: "blob" }).then(function (blob) {
+          FileSaver.saveAs(blob, "backgrounds.zip");
+        });
+      });
+    },
+    createCanvasWithPassedGradient(colors) {
+      let canvas = document.createElement("canvas");
+      canvas.width = 3840;
+      canvas.height = 2160;
+
+      //Check if on mobile
+      if (window.innerWidth < 768) {
+        canvas.width = 540;
+        canvas.height = 960;
+      }
+
+      let ctx = canvas.getContext("2d");
+
+      let gradient = null;
+
+      switch (this.gradientPositioning) {
+        case "to right":
+          gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+          break;
+        case "to left":
+          gradient = ctx.createLinearGradient(canvas.width, 0, 0, 0);
+          break;
+        case "to top":
+          gradient = ctx.createLinearGradient(0, canvas.height, 0, 0);
+          break;
+        case "to bottom":
+          gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+          break;
+        case "to top right":
+          gradient = ctx.createLinearGradient(
+            0,
+            canvas.height,
+            canvas.width,
+            0
+          );
+          break;
+        case "to top left":
+          gradient = ctx.createLinearGradient(
+            canvas.width,
+            canvas.height,
+            0,
+            0
+          );
+          break;
+        case "to bottom right":
+          gradient = ctx.createLinearGradient(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+          );
+          break;
+        case "to bottom left":
+          gradient = ctx.createLinearGradient(
+            canvas.width,
+            0,
+            0,
+            canvas.height
+          );
+          break;
+      }
+
+      gradient.addColorStop(0, colors.color1);
+      gradient.addColorStop(1, colors.color2);
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      return canvas;
+    },
     createCanvasWithGradientAndDownload() {
       window.$loadingbar.start();
       let canvas = document.createElement("canvas");
@@ -474,6 +590,7 @@ h3 {
   height: auto;
   margin: 0 auto;
   justify-content: space-between;
+  width: 100%;
 }
 
 #resultContainer {
