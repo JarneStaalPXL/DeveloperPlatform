@@ -60,7 +60,6 @@
           </n-space>
         </n-card>
       </header>
-      <!-- <h3 v-if="generatedGradientBGS.length > 0">Choose a background</h3> -->
 
       <section v-if="generatedGradientBGS.length > 0">
         <!--Generated backgrounds (gradients)-->
@@ -329,6 +328,7 @@ h3 {
   margin: auto;
   height: 300px;
   border-radius: 15px;
+  border: 0;
 }
 
 .resultGradientBox {

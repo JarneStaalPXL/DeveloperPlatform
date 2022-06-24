@@ -234,6 +234,7 @@ import {
   NSelect,
   NInputNumber,
   NColorPicker,
+  NIcon,
 } from "naive-ui";
 import { useMessage, useLoadingBar } from "naive-ui";
 import LinearGradientExample from "@/components/LinearGradientExample.vue";
@@ -249,6 +250,7 @@ export default {
     NColorPicker,
     NSelect,
     LinearGradientExample,
+    NIcon,
   },
   data() {
     return {
@@ -450,6 +452,7 @@ h3 {
   margin: auto;
   height: 300px;
   border-radius: 15px;
+  border: 0;
 }
 
 .resultGradientBox {

@@ -51,6 +51,7 @@ h1 {
   height: 300px;
   border-radius: 15px;
   margin-bottom: 20px;
+  border: 0;
 }
 
 .gradientGenerators {
