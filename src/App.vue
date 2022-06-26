@@ -1,19 +1,24 @@
 <template>
-  <n-config-provider :theme="darkTheme">
-    <a
-      @click="scrollToTop()"
-      v-if="$route.path !== '/' && isScrollingUp === false"
-      class="float2"
-    >
-      <i class="fa-solid fa-arrow-up my-float"></i>
-    </a>
-    <a
-      @click="scrollToBottom()"
-      v-if="$route.path !== '/' && isScrollingUp === true"
-      class="float2"
-    >
-      <i class="fa-solid fa-arrow-down my-float"></i> </a
-  ></n-config-provider>
+  <a
+    @click="scrollToTop()"
+    v-if="$route.path !== '/' && isScrollingUp === false"
+    class="float2"
+  >
+    <i class="fa-solid fa-arrow-up my-float"></i>
+  </a>
+  <a
+    @click="scrollToBottom()"
+    v-if="$route.path !== '/' && isScrollingUp === true"
+    class="float2"
+  >
+    <i class="fa-solid fa-arrow-down my-float"></i>
+  </a>
+  <a v-if="!$store.state.isLoggedIn" @click="googleSignin()" class="float3">
+    <i class="fa-brands fa-google my-float"></i>
+  </a>
+  <a @click="handleSignout()" class="float3" v-else>
+    <i class="fa-solid fa-right-from-bracket my-float"></i>
+  </a>
 
   <div class="content">
     <router-link to="/" v-if="$route.path !== '/'" class="float">
@@ -32,6 +37,7 @@
 
 
 <script>
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { NButton, NSpace, NConfigProvider, darkTheme, NCard } from "naive-ui";
 export default {
   name: "TemplateDesigner",
@@ -58,6 +64,29 @@ export default {
       console.log(document.body.scrollHeight);
       window.scrollTo(0, document.body.scrollHeight);
     },
+    async googleSignin() {
+      const provider = new GoogleAuthProvider();
+      const auth = getAuth();
+      signInWithPopup(auth, provider)
+        .then(async (result) => {
+          this.$store.commit("setUserData", { user: result.user });
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          const token = credential.accessToken;
+          // The signed-in user info.
+          const user = result.user;
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // The AuthCredential type that was used.
+          const credential = GoogleAuthProvider.credentialFromError(error);
+          // ...
+        });
+    },
   },
   mounted() {
     document.addEventListener("scroll", () => {
@@ -78,6 +107,35 @@ export default {
 };
 </script>
 
+
+<script setup>
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+
+const store = useStore();
+const router = useRouter();
+
+const isLoggedIn = ref(false);
+let auth;
+onMounted(() => {
+  auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+    if (user !== null) {
+      isLoggedIn.value = !!user;
+      store.state.isLoggedIn = isLoggedIn.value;
+    }
+  });
+});
+
+const handleSignout = () => {
+  signOut(auth).then(() => {
+    store.commit("removeUserData");
+    router.push(store.state.routing.startPage);
+  });
+};
+</script>
 <style lang="scss">
 .fade-enter-active,
 .fade-leave-active {
@@ -100,7 +158,8 @@ export default {
   width: 100%;
 }
 .float,
-.float2 {
+.float2,
+.float3 {
   position: fixed;
   width: 60px;
   height: 60px;
@@ -120,6 +179,9 @@ export default {
 .my-float {
   margin-top: 22px;
   color: black;
+}
+.float3 {
+  bottom: 170px;
 }
 a:hover {
   cursor: pointer;
