@@ -211,5 +211,7 @@ body {
 }
 * {
   font-family: "Poppins", sans-serif;
+  //Set cursor image
+  cursor: url("./assets/cursor.svg"), default;
 }
 </style>

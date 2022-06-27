@@ -161,7 +161,47 @@
         class="d-flex justify-content-between"
         id="resultContainer"
       >
-        <n-card title="CSS">
+        <n-card>
+          <!--h1 with gradient-->
+
+          <div class="mt-5 typographyContainer">
+            <div>
+              <div>
+                <p>Heading 1</p>
+                <h1 :style="getGradientCSSForText()">A gradient text</h1>
+              </div>
+
+              <div>
+                <p>Heading 2</p>
+                <h2 :style="getGradientCSSForText()">A gradient text</h2>
+              </div>
+            </div>
+
+            <div>
+              <div>
+                <p>Heading 3</p>
+                <h3 :style="getGradientCSSForText()">A gradient text</h3>
+              </div>
+
+              <div>
+                <p>Heading 4</p>
+                <h4 :style="getGradientCSSForText()">A gradient text</h4>
+              </div>
+            </div>
+
+            <div>
+              <div>
+                <p>Heading 5</p>
+                <h5 :style="getGradientCSSForText()">A gradient text</h5>
+              </div>
+
+              <div>
+                <p>Heading 6</p>
+                <h6 :style="getGradientCSSForText()">A gradient text</h6>
+              </div>
+            </div>
+          </div>
+
           <template #cover>
             <div
               class="resultGradientBox"
@@ -225,7 +265,7 @@
             class="d-flex flex-column justify-content-center align-items-center"
             style="gap: 10px"
           >
-            <n-code
+            <!-- <n-code
               id="codeField"
               style="font-size: 23px"
               :code="
@@ -240,8 +280,42 @@
                 ')'
               "
               language="css"
-            ></n-code>
-            <n-button style="width: 50vw" @click="copyCSS()">Copy CSS</n-button>
+            ></n-code> -->
+            <n-popconfirm
+              :show-icon="false"
+              positive-text="Background gradient"
+              negative-text="Text gradient"
+            >
+              <template #action>
+                <n-button
+                  type="success"
+                  @click="copyToClipboard(getGradientCSSForText())"
+                  >Text Gradient</n-button
+                >
+                <n-button
+                  type="success"
+                  @click="
+                    copyToClipboard(
+                      'background: ' +
+                        gradientLayout +
+                        '-gradient(' +
+                        gradientPositioning +
+                        ',' +
+                        selectedGradient.color1 +
+                        ',' +
+                        selectedGradient.color2 +
+                        ')'
+                    )
+                  "
+                  >Background Gradient</n-button
+                >
+              </template>
+              <template #trigger>
+                <n-button style="width: 50vw">Copy CSS</n-button>
+              </template>
+              What CSS do you want to copy?
+            </n-popconfirm>
+
             <n-button
               style="width: 50vw"
               @click="createCanvasWithGradientAndDownload()"
@@ -320,6 +394,17 @@ export default {
       });
   },
   methods: {
+    getGradientCSSForText() {
+      return (
+        "background: linear-gradient(" +
+        this.gradientPositioning +
+        "," +
+        this.selectedGradient.color1 +
+        "," +
+        this.selectedGradient.color2 +
+        " );-webkit-background-clip: text;-webkit-text-fill-color: transparent;"
+      );
+    },
     convertKilobytesToMegabytes(kilobytes) {
       return (kilobytes / 1024).toFixed(2);
     },
@@ -517,9 +602,9 @@ export default {
       }, 0);
       return dataUrl;
     },
-    copyCSS() {
+    copyToClipboard(copytext) {
       /* Get the text field */
-      var copyText = document.getElementById("codeField").innerText;
+      // var copyText = document.getElementById("codeField").innerText;
       /* Copy the text inside the text field */
       navigator.clipboard.writeText(copyText);
 
@@ -597,9 +682,22 @@ nav {
   }
 }
 
-h3 {
-  color: white;
-  padding: 50px;
+.typographyContainer {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  display: flex;
+  gap: 10vw;
+  justify-content: center;
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+    margin-bottom: 20px;
+  }
 }
 
 .gradientBox {
