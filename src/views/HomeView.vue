@@ -6,17 +6,12 @@
           <p class="title">Frontend Platform</p>
 
           <Transition appear>
-            <n-avatar
-              v-if="$store.state.isLoggedIn"
-              size="large"
-              :style="{
-                color: 'white',
-                backgroundColor: '#A097E0',
-                marginTop: 'auto',
-                marginBottom: 'auto',
-              }"
-              >{{ userName ? userName.toUpperCase() : "" }}</n-avatar
-            >
+            <n-avatar v-if="$store.state.isLoggedIn" size="large" :style="{
+              color: 'white',
+              backgroundColor: '#A097E0',
+              marginTop: 'auto',
+              marginBottom: 'auto',
+            }">{{ userName ? userName.toUpperCase() : "" }}</n-avatar>
           </Transition>
         </div>
       </template>
@@ -26,7 +21,7 @@
       <template #header>
         <div class="d-flex" style="gap: 10px">
           <h4>Gradient Generators</h4>
-          <n-badge :value="2" />
+          <n-badge :value="2" color="grey" />
         </div>
       </template>
       <GradientGeneratorsList />
@@ -84,6 +79,7 @@ export default {
 #name {
   margin-top: auto;
 }
+
 h1 {
   color: white;
 }
@@ -93,15 +89,18 @@ h1 {
   margin: auto;
   width: 85vw;
 }
+
 .titleCard {
   margin-top: 30px;
 }
+
 a {
   text-decoration: none;
   border: 2px solid transparent;
   border-radius: 30px;
   transition: ease-in-out 0.3s;
 }
+
 // .n-card.n-card--bordered {
 //   border: 2px solid transparent;
 //   &:hover .radio-btns__btn:not(:hover) {
