@@ -57,11 +57,9 @@ export default {
   },
   methods: {
     scrollToTop() {
-      console.log(document.body.scrollHeight);
       window.scrollTo(0, 0);
     },
     scrollToBottom() {
-      console.log(document.body.scrollHeight);
       window.scrollTo(0, document.body.scrollHeight);
     },
     async googleSignin() {
@@ -75,7 +73,6 @@ export default {
           const token = credential.accessToken;
           // The signed-in user info.
           const user = result.user;
-          console.log(user);
           // ...
         })
         .catch((error) => {
@@ -132,7 +129,7 @@ onMounted(() => {
 const handleSignout = () => {
   signOut(auth).then(() => {
     store.commit("removeUserData");
-    router.push(store.state.routing.startPage);
+    router.push("/");
   });
 };
 </script>
