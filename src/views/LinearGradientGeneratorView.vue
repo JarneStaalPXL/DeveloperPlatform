@@ -24,7 +24,7 @@ import {
   NNotificationProvider,
 } from "naive-ui";
 import WebsiteBuilder from "@/components/WebsiteBuilder.vue";
-import LinearGradientBackgroundGenerator from "@/components/LinearGradientBackgroundGenerator.vue";
+import LinearGradientBackgroundGenerator from "@/components/HomeViewComponents/GradientGenerators/LinearGradientBackgroundGenerator.vue";
 import hljs from "highlight.js/lib/core";
 import css from "highlight.js/lib/languages/css";
 

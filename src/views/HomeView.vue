@@ -6,17 +6,22 @@
           <p class="title">Frontend Platform</p>
 
           <Transition appear>
-            <n-avatar v-if="$store.state.isLoggedIn" size="large" :style="{
-              color: 'white',
-              backgroundColor: '#A097E0',
-              marginTop: 'auto',
-              marginBottom: 'auto',
-            }">{{ userName ? userName.toUpperCase() : "" }}</n-avatar>
+            <n-avatar
+              v-if="$store.state.isLoggedIn"
+              size="large"
+              :style="{
+                color: 'white',
+                backgroundColor: '#A097E0',
+                marginTop: 'auto',
+                marginBottom: 'auto',
+              }"
+              >{{ userName ? userName.toUpperCase() : "" }}</n-avatar
+            >
           </Transition>
         </div>
       </template>
     </n-card>
-    <n-card class="gradientGeneratorCard" :style="{ marginTop: '30px' }">
+    <n-card class="categoryCard" :style="{ marginTop: '30px' }">
       <!--card header template-->
       <template #header>
         <div class="d-flex" style="gap: 10px">
@@ -26,11 +31,23 @@
       </template>
       <GradientGeneratorsList />
     </n-card>
+
+    <n-card class="categoryCard" :style="{ marginTop: '30px' }">
+      <!--card header template-->
+      <template #header>
+        <div class="d-flex" style="gap: 10px">
+          <h4>Responsivity</h4>
+          <n-badge :value="1" color="grey" />
+        </div>
+      </template>
+      <ResponsivityList />
+    </n-card>
   </n-config-provider>
 </template>
 
 <script>
-import GradientGeneratorsList from "@/components/HomeViewComponents/GradientGeneratorsList.vue";
+import GradientGeneratorsList from "@/components/HomeViewComponents/GradientGenerators/GradientGeneratorsList.vue";
+import ResponsivityList from "@/components/HomeViewComponents/Responsivity/ResponsivityList.vue";
 import { NCard, NConfigProvider, darkTheme, NAvatar, NBadge } from "naive-ui";
 export default {
   name: "HomeView",
@@ -40,6 +57,7 @@ export default {
     NAvatar,
     NBadge,
     GradientGeneratorsList,
+    ResponsivityList,
   },
   setup() {
     return {
@@ -85,7 +103,7 @@ h1 {
 }
 
 .titleCard,
-.gradientGeneratorCard {
+.categoryCard {
   margin: auto;
   width: 85vw;
 }

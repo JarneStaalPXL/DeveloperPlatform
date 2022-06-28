@@ -1,6 +1,8 @@
 <template>
   <section class="gradientGenerators">
-    <a @click="$router.push('/LinearGradientGenerator')">
+    <a
+      @click="$router.push($store.state.routings.lineargradientgenerator.path)"
+    >
       <div
         class="gradientBox"
         style="background: linear-gradient(to right, #a6a4de, #6619f3)"
@@ -9,7 +11,9 @@
       </div>
     </a>
 
-    <a @click="$router.push('/RadialGradientGenerator')">
+    <a
+      @click="$router.push($store.state.routings.radialgradientgenerator.path)"
+    >
       <div
         class="gradientBox"
         style="background: radial-gradient(#a6a4de, #6619f3)"

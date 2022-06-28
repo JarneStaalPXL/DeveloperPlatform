@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LinearGradientExampleView from '../views/LinearGradientExampleView.vue'
 import LinearGradientGeneratorView from '../views/LinearGradientGeneratorView'
 import RadialGradientGeneratorView from '../views/RadialGradientGeneratorView'
 import WebsiteBuilderView from "../views/WebsiteBuilderView"
 import HomeView from "../views/HomeView"
+import DOMAnalyzerView from "../views/DOMAnalyzerView"
 
 const routes = [
   {
@@ -22,19 +22,15 @@ const routes = [
     component: RadialGradientGeneratorView
   },
   {
-    path: '/LinearGradientExample/',
-    name: 'lineargradientexample',
-    component: LinearGradientExampleView,
-    props: true,
-    params: true,
-    query: true,
-
-  },
-  {
     path: '/WebsiteBuilder',
     name: 'websitebuilder',
     component: WebsiteBuilderView
   },
+  {
+    path: '/DomAnalyzer',
+    name: 'domanalyzer',
+    component: DOMAnalyzerView
+  }
 ]
 
 const router = createRouter({

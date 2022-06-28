@@ -1,8 +1,16 @@
 <template>
-  <a @click="scrollToTop()" v-if="$route.path !== '/' && isScrollingUp === false" class="float2">
+  <a
+    @click="scrollToTop()"
+    v-if="$route.path !== '/' && isScrollingUp === false"
+    class="float2"
+  >
     <i class="fa-solid fa-arrow-up my-float"></i>
   </a>
-  <a @click="scrollToBottom()" v-if="$route.path !== '/' && isScrollingUp === true" class="float2">
+  <a
+    @click="scrollToBottom()"
+    v-if="$route.path !== '/' && isScrollingUp === true"
+    class="float2"
+  >
     <i class="fa-solid fa-arrow-down my-float"></i>
   </a>
   <a v-if="!$store.state.isLoggedIn" @click="googleSignin()" class="float3">
@@ -16,21 +24,33 @@
     <router-link to="/" v-if="$route.path !== '/'" class="float">
       <i class="fa-solid fa-house my-float"></i>
     </router-link>
-    <router-view v-slot="{ Component, route }">
-      <transition name="fade" mode="out-in">
-        <component :is="Component" :key="route.meta.usePathKey ? route.path : undefined" />
-      </transition>
-    </router-view>
+    <n-notification-provider>
+      <router-view v-slot="{ Component, route }">
+        <transition name="fade" mode="out-in">
+          <component
+            :is="Component"
+            :key="route.meta.usePathKey ? route.path : undefined"
+          />
+        </transition>
+      </router-view>
+    </n-notification-provider>
   </div>
 </template>
 
 
 <script>
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { NButton, NSpace, NConfigProvider, darkTheme, NCard } from "naive-ui";
+import {
+  NButton,
+  NSpace,
+  NConfigProvider,
+  darkTheme,
+  NCard,
+  NNotificationProvider,
+} from "naive-ui";
 export default {
   name: "TemplateDesigner",
-  mounted() { },
+  mounted() {},
   data() {
     return {
       isScrollingDown: false,
@@ -43,6 +63,7 @@ export default {
     NSpace,
     NConfigProvider,
     NCard,
+    NNotificationProvider,
   },
   methods: {
     scrollToTop() {

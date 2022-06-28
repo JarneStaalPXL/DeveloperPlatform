@@ -9,7 +9,35 @@ export default createStore({
     isLoggedIn: false,
     userObj: {},
     loggedInFirebaseUser: null,
+    routings: {
+      home: {
+        path: '/',
+        name: 'home',
+        component: 'HomeView'
+      },
+      lineargradientgenerator: {
+        path: '/LinearGradientGenerator',
+        name: 'lineargradientgenerator',
+        component: 'LinearGradientGeneratorView'
+      },
+      radialgradientgenerator: {
+        path: '/RadialGradientGenerator',
+        name: 'radialgradientgenerator',
+        component: 'RadialGradientGeneratorView'
+      },
+      websitebuilder: {
+        path: '/WebsiteBuilder',
+        name: 'websitebuilder',
+        component: 'WebsiteBuilderView'
+      },
+      domAnalyzer: {
+        path: '/DomAnalyzer',
+        name: 'domanalyzer',
+        component: 'DomAnalyzerView'
+      }
+    },
   },
+
   getters: {
   },
   mutations: {

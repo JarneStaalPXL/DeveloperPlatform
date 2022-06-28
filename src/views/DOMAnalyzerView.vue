@@ -3,9 +3,9 @@
     <n-config-provider :hljs="hljs" :theme="darkTheme">
       <n-loading-bar-provider>
         <n-message-provider>
-          <n-notification-provider>
+          <n-notification-provider :max="3">
             <n-dialog-provider>
-              <RadialGradientBackgroundGenerator />
+              <DOMAnalyzer />
             </n-dialog-provider>
           </n-notification-provider>
         </n-message-provider>
@@ -23,22 +23,20 @@ import {
   NDialogProvider,
   NNotificationProvider,
 } from "naive-ui";
-import WebsiteBuilder from "@/components/WebsiteBuilder.vue";
-import RadialGradientBackgroundGenerator from "@/components/HomeViewComponents/GradientGenerators/RadialGradientBackgroundGenerator.vue";
+import DOMAnalyzer from "@/components/HomeViewComponents/Responsivity/DOMAnalyzer.vue";
 import hljs from "highlight.js/lib/core";
 import css from "highlight.js/lib/languages/css";
 
 hljs.registerLanguage("css", css);
 // @ is an alias to /src
 export default {
-  name: "RadialGradientGeneratorView",
+  name: "DOMAnalyzerView",
   components: {
-    WebsiteBuilder,
-    RadialGradientBackgroundGenerator,
     NConfigProvider,
     NMessageProvider,
     NLoadingBarProvider,
     NDialogProvider,
+    DOMAnalyzer,
     NNotificationProvider,
   },
   mounted() {
