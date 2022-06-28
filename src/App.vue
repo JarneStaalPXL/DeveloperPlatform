@@ -157,7 +157,7 @@ const handleSignout = () => {
   border-radius: 50px;
   text-align: center;
   box-shadow: 2px 2px 3px #999;
-  z-index: 99999;
+  z-index: 2000;
 }
 
 .float2 {
@@ -179,6 +179,10 @@ a:hover {
 </style>
 
 <style lang="scss">
+html {
+  scroll-behavior: smooth;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
