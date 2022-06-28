@@ -614,6 +614,7 @@ nav {
   display: flex;
   gap: 10vw;
   justify-content: center;
+  align-items: center;
 
   p,
   h1,
