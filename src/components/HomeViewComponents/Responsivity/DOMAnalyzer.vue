@@ -80,11 +80,13 @@
         aria-modal="true"
       >
         <template #header-extra> </template>
-        To analys this website, you need to download the free CORS UNBLOCK
-        extension first. Come back here after install and try again.
+        To analyze this website, you need to download the free CORS UNBLOCK
+        extension first. Once installed, click on the extension to enable it and
+        reload this page.
         <template #footer>
           <a
             id="installExtensionBtn"
+            target="_blank"
             href="https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino"
             >Install</a
           >
