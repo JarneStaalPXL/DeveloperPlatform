@@ -110,7 +110,7 @@
         <n-scrollbar style="max-height: 100%">
           <section v-if="selectedGradient !== null" class="d-flex flex-column justify-content-between"
             id="resultContainer">
-            <div class="mt-5 typographyContainer">
+            <div class="typographyContainer">
               <div>
                 <div>
                   <p>Heading 1</p>
@@ -215,9 +215,9 @@
             <n-popconfirm v-model:show="copyCSSPopShow" :show-icon="false" positive-text="Background gradient"
               negative-text="Text gradient">
               <template #action>
-                <n-button color="#8a2be2" type="success" @click="copyToClipboard(getGradientCSSForText())">Text Gradient
+                <n-button type="success" @click="copyToClipboard(getGradientCSSForText())">Text Gradient
                 </n-button>
-                <n-button color="#8a2be2" type="success" @click="
+                <n-button type="success" @click="
                   copyToClipboard(
                     'background: ' +
                     gradientLayout +
@@ -232,12 +232,12 @@
                 ">Background Gradient</n-button>
               </template>
               <template #trigger>
-                <n-button class="w-50">Copy CSS</n-button>
+                <n-button :style="{ color: 'white' }" class="w-50">Copy CSS</n-button>
               </template>
               What CSS do you want to copy?
             </n-popconfirm>
 
-            <n-button class="w-50" @click="createCanvasWithGradientAndDownload()">
+            <n-button :style="{ color: 'white' }" class="w-50" @click="createCanvasWithGradientAndDownload()">
               Download as background
             </n-button>
           </div>
@@ -610,11 +610,9 @@ nav {
 }
 
 .typographyContainer {
-  margin-top: 50px;
   margin-bottom: 50px;
   display: flex;
   gap: 10vw;
-  justify-content: center;
   align-items: center;
 
   p,
@@ -642,9 +640,8 @@ nav {
 }
 
 .resultGradientBox {
-  height: 500px;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  height: 300px;
+  border-radius: 15px;
   display: flex;
   justify-content: center;
   align-items: center;

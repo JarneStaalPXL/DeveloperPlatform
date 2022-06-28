@@ -73,7 +73,7 @@
           <section v-if="selectedGradient !== null" class="d-flex flex-column justify-content-between"
             id="resultContainer">
 
-            <div class="mt-5 typographyContainer">
+            <div class="typographyContainer">
               <div>
                 <div>
                   <p>Heading 1</p>
@@ -440,7 +440,7 @@ nav {
 }
 
 .resultGradientBox {
-  height: 500px;
+  height: 300px;
   border-radius: 15px;
   display: flex;
   justify-content: center;
@@ -460,11 +460,9 @@ nav {
 }
 
 .typographyContainer {
-  margin-top: 50px;
   margin-bottom: 50px;
   display: flex;
   gap: 10vw;
-  justify-content: center;
   align-items: center;
 
   p,
