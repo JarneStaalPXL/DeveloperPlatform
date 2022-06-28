@@ -66,10 +66,46 @@
             "></button>
         </div>
       </section>
+    </n-card>
+    <n-drawer v-model:show="drawerActive" :width="'95vw'">
+      <n-drawer-content closable>
+        <n-scrollbar style="max-height: 100%">
+          <section v-if="selectedGradient !== null" class="d-flex flex-column justify-content-between"
+            id="resultContainer">
 
-      <!-- <section v-if="selectedGradient !== null" class="d-flex justify-content-between" id="resultContainer">
-        <n-card title="CSS">
-          <template #cover>
+            <div class="mt-5 typographyContainer">
+              <div>
+                <div>
+                  <p>Heading 1</p>
+                  <h1 :style="getGradientCSSForText()">gradient text</h1>
+                </div>
+                <div>
+                  <p>Heading 2</p>
+                  <h2 :style="getGradientCSSForText()">gradient text</h2>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <p>Heading 3</p>
+                  <h3 :style="getGradientCSSForText()">gradient text</h3>
+                </div>
+                <div>
+                  <p>Heading 4</p>
+                  <h4 :style="getGradientCSSForText()">gradient text</h4>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <p>Heading 5</p>
+                  <h5 :style="getGradientCSSForText()">gradient text</h5>
+                </div>
+                <div>
+                  <p>Heading 6</p>
+                  <h6 :style="getGradientCSSForText()">gradient text</h6>
+                </div>
+              </div>
+            </div>
+
             <div class="resultGradientBox" :style="
               'background: ' +
               gradientLayout +
@@ -82,84 +118,7 @@
               <h1 id="result"></h1>
               <img src="" />
             </div>
-          </template>
-          <div class="d-flex justify-content-center flex-column" style="gap: 10px">
-            <n-code id="codeField" style="font-size: 23px !important" :code="
-              'background: ' +
-              gradientLayout +
-              '-gradient(' +
-              selectedGradient.color1 +
-              ',' +
-              selectedGradient.color2 +
-              ')'
-            " language="css"></n-code>
 
-            <div class="
-                d-flex
-                flex-column
-                justify-content-center
-                align-items-center
-              " style="gap: 10px">
-              <n-button style="width: 50vw" @click="copyCSS()">Copy CSS</n-button>
-              <n-button style="width: 50vw" @click="createCanvasWithGradientAndDownload()">
-                Download as background
-              </n-button>
-            </div>
-          </div>
-        </n-card>
-      </section> -->
-    </n-card>
-    <n-drawer v-model:show="drawerActive" :width="'95vw'">
-      <n-drawer-content closable>
-        <n-scrollbar style="max-height: 100%">
-          <section v-if="selectedGradient !== null" class="d-flex justify-content-between" id="resultContainer">
-            <n-card>
-              <div class="mt-5 typographyContainer">
-                <div>
-                  <div>
-                    <p>Heading 1</p>
-                    <h1 :style="getGradientCSSForText()">A gradient text</h1>
-                  </div>
-                  <div>
-                    <p>Heading 2</p>
-                    <h2 :style="getGradientCSSForText()">A gradient text</h2>
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <p>Heading 3</p>
-                    <h3 :style="getGradientCSSForText()">A gradient text</h3>
-                  </div>
-                  <div>
-                    <p>Heading 4</p>
-                    <h4 :style="getGradientCSSForText()">A gradient text</h4>
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <p>Heading 5</p>
-                    <h5 :style="getGradientCSSForText()">A gradient text</h5>
-                  </div>
-                  <div>
-                    <p>Heading 6</p>
-                    <h6 :style="getGradientCSSForText()">A gradient text</h6>
-                  </div>
-                </div>
-              </div>
-
-              <div class="resultGradientBox" :style="
-                'background: ' +
-                gradientLayout +
-                '-gradient(' +
-                selectedGradient.color1 +
-                ',' +
-                selectedGradient.color2 +
-                ')'
-              ">
-                <h1 id="result"></h1>
-                <img src="" />
-              </div>
-            </n-card>
           </section>
         </n-scrollbar>
         <template #header :style="{

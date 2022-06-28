@@ -108,58 +108,58 @@
     <n-drawer v-model:show="drawerActive" :width="'95vw'">
       <n-drawer-content closable>
         <n-scrollbar style="max-height: 100%">
-          <section v-if="selectedGradient !== null" class="d-flex justify-content-between" id="resultContainer">
-            <n-card>
-              <div class="mt-5 typographyContainer">
+          <section v-if="selectedGradient !== null" class="d-flex flex-column justify-content-between"
+            id="resultContainer">
+            <div class="mt-5 typographyContainer">
+              <div>
                 <div>
-                  <div>
-                    <p>Heading 1</p>
-                    <h1 :style="getGradientCSSForText()">A gradient text</h1>
-                  </div>
-                  <div>
-                    <p>Heading 2</p>
-                    <h2 :style="getGradientCSSForText()">A gradient text</h2>
-                  </div>
+                  <p>Heading 1</p>
+                  <h1 :style="getGradientCSSForText()">gradient text</h1>
                 </div>
                 <div>
-                  <div>
-                    <p>Heading 3</p>
-                    <h3 :style="getGradientCSSForText()">A gradient text</h3>
-                  </div>
-                  <div>
-                    <p>Heading 4</p>
-                    <h4 :style="getGradientCSSForText()">A gradient text</h4>
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <p>Heading 5</p>
-                    <h5 :style="getGradientCSSForText()">A gradient text</h5>
-                  </div>
-                  <div>
-                    <p>Heading 6</p>
-                    <h6 :style="getGradientCSSForText()">A gradient text</h6>
-                  </div>
+                  <p>Heading 2</p>
+                  <h2 :style="getGradientCSSForText()">gradient text</h2>
                 </div>
               </div>
-
-              <div class="resultGradientBox" :style="
-                'background: ' +
-                gradientLayout +
-                '-gradient(' +
-                gradientPositioning +
-                ',' +
-                selectedGradient.color1 +
-                ',' +
-                selectedGradient.color2 +
-                ')'
-              ">
-                <h1 id="result"></h1>
-                <img src="" />
+              <div>
+                <div>
+                  <p>Heading 3</p>
+                  <h3 :style="getGradientCSSForText()">gradient text</h3>
+                </div>
+                <div>
+                  <p>Heading 4</p>
+                  <h4 :style="getGradientCSSForText()">gradient text</h4>
+                </div>
               </div>
+              <div>
+                <div>
+                  <p>Heading 5</p>
+                  <h5 :style="getGradientCSSForText()">gradient text</h5>
+                </div>
+                <div>
+                  <p>Heading 6</p>
+                  <h6 :style="getGradientCSSForText()">gradient text</h6>
+                </div>
+              </div>
+            </div>
+
+            <div class="resultGradientBox" :style="
+              'background: ' +
+              gradientLayout +
+              '-gradient(' +
+              gradientPositioning +
+              ',' +
+              selectedGradient.color1 +
+              ',' +
+              selectedGradient.color2 +
+              ')'
+            ">
+              <h1 id="result"></h1>
+              <img src="" />
+            </div>
 
 
-            </n-card>
+
           </section>
         </n-scrollbar>
         <template #header :style="{
@@ -215,8 +215,9 @@
             <n-popconfirm v-model:show="copyCSSPopShow" :show-icon="false" positive-text="Background gradient"
               negative-text="Text gradient">
               <template #action>
-                <n-button type="success" @click="copyToClipboard(getGradientCSSForText())">Text Gradient</n-button>
-                <n-button type="success" @click="
+                <n-button color="#8a2be2" type="success" @click="copyToClipboard(getGradientCSSForText())">Text Gradient
+                </n-button>
+                <n-button color="#8a2be2" type="success" @click="
                   copyToClipboard(
                     'background: ' +
                     gradientLayout +
