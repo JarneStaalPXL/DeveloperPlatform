@@ -1,10 +1,10 @@
 <template>
   <section class="responsivityContainer">
-    <a @click="$router.push($store.state.routings.domAnalyzer.path)">
+    <!-- <a @click="$router.push($store.state.routings.domAnalyzer.path)">
       <div class="item">
         <p>DOM Analyser</p>
       </div>
-    </a>
+    </a> -->
   </section>
 </template>
 
@@ -30,9 +30,11 @@ export default {};
   display: flex;
   justify-content: center;
   align-items: center;
+
   p {
     font-size: 18px;
   }
+
   &:hover {
     border: 2px solid white;
   }

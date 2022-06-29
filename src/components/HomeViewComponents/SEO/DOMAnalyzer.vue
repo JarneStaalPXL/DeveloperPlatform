@@ -2,13 +2,8 @@
   <n-space vertical>
     <!--Inputs-->
     <n-card>
-      <n-input
-        v-model:value="urlToAnalyse"
-        placeholder="URL website to analyse"
-      ></n-input>
-      <n-button class="w-100" @click="analyzeWebsite(urlToAnalyse)"
-        >Analyse</n-button
-      >
+      <n-input v-model:value="urlToAnalyse" placeholder="URL website to analyse"></n-input>
+      <n-button class="w-100" @click="analyzeWebsite(urlToAnalyse)">Analyse</n-button>
     </n-card>
 
     <!--Results elements-->
@@ -70,32 +65,52 @@
     </n-card>
 
     <!--Results images-->
-    <n-card
-      v-if="
-        allImagesFromDocument !== undefined && allImagesFromDocument.length > 0
-      "
-      :title="'Images (' + allImagesFromDocument.length + ')'"
-    >
+    <n-card v-if="
+      allImagesFromDocument !== undefined && allImagesFromDocument.length > 0
+    " :title="'Images (' + allImagesFromDocument.length + ')'">
       <div>
-        <button
-          class="imageBtn"
-          v-for="(image, index) in allImagesFromDocument"
-          :key="index"
-          :style="{ backgroundImage: `url(${image.src})` }"
-          @click="openImageDrawer(image)"
-        ></button>
+        <button class="imageBtn" v-for="(image, index) in allImagesFromDocument" :key="index"
+          :style="{ backgroundImage: `url(${image.src})` }" @click="openImageDrawer(image)"></button>
       </div>
     </n-card>
 
     <!--Results Meta-->
-    <n-card title="Meta data" v-if="metaDataObj !== undefined">
-      <n-row :style="{ display: 'block' }">
-        <n-col :span="5">
-          <n-statistic label="Meta description">
-            {{ metaDataObj.metaDescription }}
-          </n-statistic>
-        </n-col>
-      </n-row>
+    <!--TODO: Change to the length of the object keys length that have a value-->
+    <n-card :title="'Meta data (' + Object.keys(metaDataObj).length + ')'" v-if="metaDataObj !== undefined">
+
+      <n-statistic label="Meta description" v-if="metaDataObj.metaDescription">
+        <p> {{ metaDataObj.metaDescription }}</p>
+      </n-statistic>
+      <n-statistic label="Meta keywords" v-if="metaDataObj.metaKeywords">
+        <p> {{ metaDataObj.metaKeywords }}</p>
+      </n-statistic>
+      <n-statistic label="Meta title" v-if="metaDataObj.metaTitle">
+        <p> {{ metaDataObj.metaTitle }}</p>
+      </n-statistic>
+      <n-statistic label="Meta author" v-if="metaDataObj.metaAuthor">
+        <p> {{ metaDataObj.metaAuthor }}</p>
+      </n-statistic>
+      <n-statistic label="Meta publisher" v-if="metaDataObj.metaPublisher">
+        <p> {{ metaDataObj.metaPublisher }}</p>
+      </n-statistic>
+      <n-statistic label="Meta copyright" v-if="metaDataObj.metaCopyright">
+        <p> {{ metaDataObj.metaCopyright }}</p>
+      </n-statistic>
+      <n-statistic label="Meta language" v-if="metaDataObj.metaLanguage">
+        <p> {{ metaDataObj.metaLanguage }}</p>
+      </n-statistic>
+      <n-statistic label="Meta generator" v-if="metaDataObj.metaGenerator">
+        <p> {{ metaDataObj.metaGenerator }}</p>
+      </n-statistic>
+      <n-statistic label="Meta robots" v-if="metaDataObj.metaRobots">
+        <p> {{ metaDataObj.metaRobots }}</p>
+      </n-statistic>
+      <n-statistic label="Meta revisit after" v-if="metaDataObj.metaRevisitAfter">
+        <p> {{ metaDataObj.metaRevisitAfter }}</p>
+      </n-statistic>
+      <n-statistic label="Meta viewport" v-if="metaDataObj.metaViewport">
+        <p> {{ metaDataObj.metaViewport }}</p>
+      </n-statistic>
     </n-card>
 
     <!--Results SEO-->
@@ -135,39 +150,23 @@
 
     <!--CORS Extension Modal-->
     <n-modal v-model:show="showModalCORSExtension">
-      <n-card
-        style="width: 600px"
-        title="Required Extension"
-        :bordered="false"
-        size="huge"
-        role="dialog"
-        aria-modal="true"
-      >
+      <n-card style="width: 600px" title="Required Extension" :bordered="false" size="huge" role="dialog"
+        aria-modal="true">
         <template #header-extra> </template>
         To analyze this website, you need to download the free CORS UNBLOCK
         extension first. Once installed, click on the extension to enable it and
         reload this page.
         <template #footer>
-          <a
-            id="installExtensionBtn"
-            target="_blank"
-            href="https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino"
-            >Install</a
-          >
+          <a id="installExtensionBtn" target="_blank"
+            href="https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino">Install</a>
         </template>
       </n-card>
     </n-modal>
     <!--Image Drawer-->
-    <n-drawer
-      v-model:show="imageDrawerActive"
-      :width="502"
-      :placement="'right'"
-    >
+    <n-drawer v-model:show="imageDrawerActive" :width="502" :placement="'right'">
       <n-drawer-content title="Image" closable>
         <img class="drawerImagePreview" :src="imageForImageDrawer.src" />
-        <n-button @click="downloadImage(imageForImageDrawer)" class="mt-2 w-100"
-          >Download image</n-button
-        >
+        <n-button @click="downloadImage(imageForImageDrawer)" class="mt-2 w-100">Download image</n-button>
       </n-drawer-content>
     </n-drawer>
   </n-space>
@@ -235,8 +234,8 @@ export default {
             let extension = image.src.split(".").pop();
             extension = extension.split("?").shift();
 
-            //set filename to background plus random generated number
-            let filename = "background" + Math.floor(Math.random() * 100000);
+            //set filename to image plus random generated number
+            let filename = "image" + Math.floor(Math.random() * 100000);
 
             console.log(filename);
 
@@ -355,96 +354,74 @@ export default {
       let metaDescription = doc.querySelector(
         'meta[name="description"]'
       ).content;
+
       //Get meta element with name="keywords"
-      let metaKeywords = doc.querySelector('meta[name="keywords"]').content;
-      console.log(
-        "🚀 ~ file: DOMAnalyzer.vue ~ line 360 ~ getMetaInformationFromDocument ~ metaKeywords",
-        metaKeywords
-      );
+      let metaKeywords = doc.querySelector('meta[name="keywords"]');
+      if (metaKeywords !== null) {
+        metaKeywords = metaKeywords.content;
+      }
 
       //Get meta element with name="author"
-      let metaAuthor = doc.querySelector('meta[name="author"]').content;
-      console.log(
-        "🚀 ~ file: DOMAnalyzer.vue ~ line 364 ~ getMetaInformationFromDocument ~ metaAuthor",
-        metaAuthor
-      );
+      let metaAuthor = doc.querySelector('meta[name="author"]');
+      if (metaAuthor !== null) {
+        metaAuthor = metaAuthor.content;
+      }
       //Get meta element with name="robots"
-      let metaRobots = doc.querySelector('meta[name="robots"]').content;
-      console.log(
-        "🚀 ~ file: DOMAnalyzer.vue ~ line 367 ~ getMetaInformationFromDocument ~ metaRobots",
-        metaRobots
-      );
-      //Get meta element with name="og:title"
-      let metaOGTitle = doc.querySelector('meta[property="og:title"]').content;
-      console.log(
-        "🚀 ~ file: DOMAnalyzer.vue ~ line 370 ~ getMetaInformationFromDocument ~ metaOGTitle",
-        metaOGTitle
-      );
-      //Get meta element with name="og:description"
-      let metaOGDescription = doc.querySelector(
-        'meta[property="og:description"]'
-      ).content;
-      console.log(
-        "🚀 ~ file: DOMAnalyzer.vue ~ line 375 ~ getMetaInformationFromDocument ~ metaOGDescription",
-        metaOGDescription
-      );
-      //Get meta element with name="og:image"
-      let metaOGImage = doc.querySelector('meta[property="og:image"]').content;
-      console.log(
-        "🚀 ~ file: DOMAnalyzer.vue ~ line 378 ~ getMetaInformationFromDocument ~ metaOGImage",
-        metaOGImage
-      );
-      //Get meta element with name="og:url"
-      let metaOGURL = doc.querySelector('meta[property="og:url"]').content;
-      console.log(
-        "🚀 ~ file: DOMAnalyzer.vue ~ line 381 ~ getMetaInformationFromDocument ~ metaOGURL",
-        metaOGURL
-      );
-      //Get meta element with name="og:site_name"
-      let metaOGSiteName = doc.querySelector(
-        'meta[property="og:site_name"]'
-      ).content;
-      console.log(
-        "🚀 ~ file: DOMAnalyzer.vue ~ line 386 ~ getMetaInformationFromDocument ~ metaOGSiteName",
-        metaOGSiteName
-      );
-      //Get meta element with name="og:type"
-      let metaOGType = doc.querySelector('meta[property="og:type"]').content;
-      console.log(
-        "🚀 ~ file: DOMAnalyzer.vue ~ line 389 ~ getMetaInformationFromDocument ~ metaOGType",
-        metaOGType
-      );
-      //Get meta element with name="og:locale"
-      let metaOGLocale = doc.querySelector(
-        'meta[property="og:locale"]'
-      ).content;
-      console.log(
-        "🚀 ~ file: DOMAnalyzer.vue ~ line 394 ~ getMetaInformationFromDocument ~ metaOGLocale",
-        metaOGLocale
-      );
-      //Get meta element with name="og:locale:alternate"
-      let metaOGLocaleAlternate = doc.querySelector(
-        'meta[property="og:locale:alternate"]'
-      ).content;
-      console.log(
-        "🚀 ~ file: DOMAnalyzer.vue ~ line 399 ~ getMetaInformationFromDocument ~ metaOGLocaleAlternate",
-        metaOGLocaleAlternate
-      );
+      let metaRobots = doc.querySelector('meta[name="robots"]');
+      if (metaRobots !== null) {
+        metaRobots = metaRobots.content;
+      }
+      //Get meta element with name="revisit-after"
+      let metaRevisitAfter = doc.querySelector('meta[name="revisit-after"]');
+      if (metaRevisitAfter !== null) {
+        metaRevisitAfter = metaRevisitAfter.content;
+      }
+      //Get meta element with name="viewport"
+      let metaViewport = doc.querySelector('meta[name="viewport"]');
+      if (metaViewport !== null) {
+        metaViewport = metaViewport.content;
+      }
+
+      //Get meta element with name="generator"
+      let metaGenerator = doc.querySelector('meta[name="generator"]');
+      if (metaGenerator !== null) {
+        metaGenerator = metaGenerator.content;
+      }
+      //Get meta element with name="copyright"
+      let metaCopyright = doc.querySelector('meta[name="copyright"]');
+      if (metaCopyright !== null) {
+        metaCopyright = metaCopyright.content;
+      }
+      //Get meta element with name="language"
+      let metaLanguage = doc.querySelector('meta[name="language"]');
+      if (metaLanguage !== null) {
+        metaLanguage = metaLanguage.content;
+      }
+      //Get meta element with name="rating"
+      let metaRating = doc.querySelector('meta[name="rating"]');
+      if (metaRating !== null) {
+        metaRating = metaRating.content;
+      }
+      //Get meta element with name="category"
+      let metaCategory = doc.querySelector('meta[name="category"]');
+      if (metaCategory !== null) {
+        metaCategory = metaCategory.content;
+      }
 
       this.metaDataObj = {
         metaDescription: metaDescription,
         metaKeywords: metaKeywords,
         metaAuthor: metaAuthor,
         metaRobots: metaRobots,
-        metaOGTitle: metaOGTitle,
-        metaOGDescription: metaOGDescription,
-        metaOGImage: metaOGImage,
-        metaOGURL: metaOGURL,
-        metaOGSiteName: metaOGSiteName,
-        metaOGType: metaOGType,
-        metaOGLocale: metaOGLocale,
-        metaOGLocaleAlternate: metaOGLocaleAlternate,
+        metaRevisitAfter: metaRevisitAfter,
+        metaViewport: metaViewport,
+        metaGenerator: metaGenerator,
+        metaCopyright: metaCopyright,
+        metaLanguage: metaLanguage,
+        metaRating: metaRating,
+        metaCategory: metaCategory,
       };
+      console.log(this.metaDataObj);
     },
     getSEOPerformance(doc) {
       //Get count of images that do not have an alt attribute
@@ -494,13 +471,16 @@ export default {
   background-repeat: no-repeat;
   border-radius: 50%;
   margin: 10px;
+
   &:hover {
     border: 2px solid white;
   }
 }
+
 #installExtensionBtn {
   text-decoration: none;
 }
+
 .drawerImagePreview {
   width: 100%;
   height: auto;

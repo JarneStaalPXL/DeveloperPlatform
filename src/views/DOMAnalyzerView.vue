@@ -23,7 +23,7 @@ import {
   NDialogProvider,
   NNotificationProvider,
 } from "naive-ui";
-import DOMAnalyzer from "@/components/HomeViewComponents/Responsivity/DOMAnalyzer.vue";
+import DOMAnalyzer from "@/components/HomeViewComponents/SEO/DOMAnalyzer.vue";
 import hljs from "highlight.js/lib/core";
 import css from "highlight.js/lib/languages/css";
 
@@ -40,7 +40,7 @@ export default {
     NNotificationProvider,
   },
   mounted() {
-    document.addEventListener("contextmenu", (e) => {});
+    document.addEventListener("contextmenu", (e) => { });
   },
   setup() {
     return {
