@@ -1,0 +1,27 @@
+"filename", "language", "JavaScript", "JSON", "JSON with Comments", "Vue", "Markdown", "HTML", "XML", "comment", "blank", "total"
+"g:\VUE PROJECTS\2022\FrontendPlatform\README.md", "Markdown", 0, 0, 0, 0, 15, 0, 0, 0, 5, 20
+"g:\VUE PROJECTS\2022\FrontendPlatform\babel.config.js", "JavaScript", 5, 0, 0, 0, 0, 0, 0, 0, 1, 6
+"g:\VUE PROJECTS\2022\FrontendPlatform\jsconfig.json", "JSON with Comments", 0, 0, 8, 0, 0, 0, 0, 12, 0, 20
+"g:\VUE PROJECTS\2022\FrontendPlatform\package-lock.json", "JSON", 0, 8571, 0, 0, 0, 0, 0, 0, 1, 8572
+"g:\VUE PROJECTS\2022\FrontendPlatform\package.json", "JSON", 0, 37, 0, 0, 0, 0, 0, 0, 1, 38
+"g:\VUE PROJECTS\2022\FrontendPlatform\public\index.html", "HTML", 0, 0, 0, 0, 0, 31, 0, 3, 3, 37
+"g:\VUE PROJECTS\2022\FrontendPlatform\src\App.vue", "Vue", 0, 0, 0, 205, 0, 0, 0, 9, 24, 238
+"g:\VUE PROJECTS\2022\FrontendPlatform\src\assets\cursor.svg", "XML", 0, 0, 0, 0, 0, 0, 9, 0, 1, 10
+"g:\VUE PROJECTS\2022\FrontendPlatform\src\assets\pointinghand.svg", "XML", 0, 0, 0, 0, 0, 0, 35, 1, 5, 41
+"g:\VUE PROJECTS\2022\FrontendPlatform\src\components\HomeViewComponents\GradientGenerators\GradientGeneratorsList.vue", "Vue", 0, 0, 0, 52, 0, 0, 0, 0, 4, 56
+"g:\VUE PROJECTS\2022\FrontendPlatform\src\components\HomeViewComponents\GradientGenerators\LinearGradientBackgroundGenerator.vue", "Vue", 0, 0, 0, 732, 0, 0, 0, 15, 45, 792
+"g:\VUE PROJECTS\2022\FrontendPlatform\src\components\HomeViewComponents\GradientGenerators\RadialGradientBackgroundGenerator.vue", "Vue", 0, 0, 0, 535, 0, 0, 0, 20, 46, 601
+"g:\VUE PROJECTS\2022\FrontendPlatform\src\components\HomeViewComponents\Responsivity\DOMAnalyzer.vue", "Vue", 0, 0, 0, 404, 0, 0, 0, 29, 32, 465
+"g:\VUE PROJECTS\2022\FrontendPlatform\src\components\HomeViewComponents\Responsivity\ResponsivityList.vue", "Vue", 0, 0, 0, 37, 0, 0, 0, 0, 3, 40
+"g:\VUE PROJECTS\2022\FrontendPlatform\src\components\WebsiteBuilder.vue", "Vue", 0, 0, 0, 202, 0, 0, 0, 2, 5, 209
+"g:\VUE PROJECTS\2022\FrontendPlatform\src\main.js", "JavaScript", 18, 0, 0, 0, 0, 0, 0, 7, 7, 32
+"g:\VUE PROJECTS\2022\FrontendPlatform\src\router\index.js", "JavaScript", 38, 0, 0, 0, 0, 0, 0, 0, 4, 42
+"g:\VUE PROJECTS\2022\FrontendPlatform\src\store\index.js", "JavaScript", 72, 0, 0, 0, 0, 0, 0, 0, 5, 77
+"g:\VUE PROJECTS\2022\FrontendPlatform\src\views\AboutView.vue", "Vue", 0, 0, 0, 5, 0, 0, 0, 0, 1, 6
+"g:\VUE PROJECTS\2022\FrontendPlatform\src\views\DOMAnalyzerView.vue", "Vue", 0, 0, 0, 49, 0, 0, 0, 1, 3, 53
+"g:\VUE PROJECTS\2022\FrontendPlatform\src\views\HomeView.vue", "Vue", 0, 0, 0, 115, 0, 0, 0, 9, 13, 137
+"g:\VUE PROJECTS\2022\FrontendPlatform\src\views\LinearGradientGeneratorView.vue", "Vue", 0, 0, 0, 51, 0, 0, 0, 1, 3, 55
+"g:\VUE PROJECTS\2022\FrontendPlatform\src\views\RadialGradientGeneratorView.vue", "Vue", 0, 0, 0, 51, 0, 0, 0, 1, 3, 55
+"g:\VUE PROJECTS\2022\FrontendPlatform\src\views\WebsiteBuilderView.vue", "Vue", 0, 0, 0, 27, 0, 0, 0, 0, 2, 29
+"g:\VUE PROJECTS\2022\FrontendPlatform\vue.config.js", "JavaScript", 4, 0, 0, 0, 0, 0, 0, 0, 1, 5
+"Total", "-", 137, 8608, 8, 2465, 15, 31, 44, 110, 218, 11636
