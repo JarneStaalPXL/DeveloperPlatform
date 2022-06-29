@@ -2,8 +2,13 @@
   <n-space vertical>
     <!--Inputs-->
     <n-card>
-      <n-input v-model:value="urlToAnalyse" placeholder="URL website to analyse"></n-input>
-      <n-button class="w-100" @click="analyzeWebsite(urlToAnalyse)">Analyse</n-button>
+      <n-input
+        v-model:value="urlToAnalyse"
+        placeholder="URL website to analyse"
+      ></n-input>
+      <n-button class="w-100" @click="analyzeWebsite(urlToAnalyse)"
+        >Analyse</n-button
+      >
     </n-card>
 
     <!--Results elements-->
@@ -65,51 +70,63 @@
     </n-card>
 
     <!--Results images-->
-    <n-card v-if="
-      allImagesFromDocument !== undefined && allImagesFromDocument.length > 0
-    " :title="'Images (' + allImagesFromDocument.length + ')'">
+    <n-card
+      v-if="
+        allImagesFromDocument !== undefined && allImagesFromDocument.length > 0
+      "
+      :title="'Images (' + allImagesFromDocument.length + ')'"
+    >
       <div>
-        <button class="imageBtn" v-for="(image, index) in allImagesFromDocument" :key="index"
-          :style="{ backgroundImage: `url(${image.src})` }" @click="openImageDrawer(image)"></button>
+        <button
+          class="imageBtn"
+          v-for="(image, index) in allImagesFromDocument"
+          :key="index"
+          :style="{ backgroundImage: `url(${image.src})` }"
+          @click="openImageDrawer(image)"
+        ></button>
       </div>
     </n-card>
 
     <!--Results Meta-->
-    <!--TODO: Change to the length of the object keys length that have a value-->
-    <n-card :title="'Meta data (' + Object.keys(metaDataObj).length + ')'" v-if="metaDataObj !== undefined">
-
+    <n-card
+      :title="'Meta data (' + metaDataObjLength() + ')'"
+      v-if="metaDataObj !== undefined"
+    >
       <n-statistic label="Meta description" v-if="metaDataObj.metaDescription">
-        <p> {{ metaDataObj.metaDescription }}</p>
+        <p>{{ metaDataObj.metaDescription }}</p>
       </n-statistic>
       <n-statistic label="Meta keywords" v-if="metaDataObj.metaKeywords">
-        <p> {{ metaDataObj.metaKeywords }}</p>
+        <p>{{ metaDataObj.metaKeywords }}</p>
       </n-statistic>
       <n-statistic label="Meta title" v-if="metaDataObj.metaTitle">
-        <p> {{ metaDataObj.metaTitle }}</p>
+        <p>{{ metaDataObj.metaTitle }}</p>
       </n-statistic>
       <n-statistic label="Meta author" v-if="metaDataObj.metaAuthor">
-        <p> {{ metaDataObj.metaAuthor }}</p>
+        <p>{{ metaDataObj.metaAuthor }}</p>
       </n-statistic>
       <n-statistic label="Meta publisher" v-if="metaDataObj.metaPublisher">
-        <p> {{ metaDataObj.metaPublisher }}</p>
+        <p>{{ metaDataObj.metaPublisher }}</p>
       </n-statistic>
       <n-statistic label="Meta copyright" v-if="metaDataObj.metaCopyright">
-        <p> {{ metaDataObj.metaCopyright }}</p>
+        <p>{{ metaDataObj.metaCopyright }}</p>
       </n-statistic>
       <n-statistic label="Meta language" v-if="metaDataObj.metaLanguage">
-        <p> {{ metaDataObj.metaLanguage }}</p>
+        <p>{{ metaDataObj.metaLanguage }}</p>
       </n-statistic>
       <n-statistic label="Meta generator" v-if="metaDataObj.metaGenerator">
-        <p> {{ metaDataObj.metaGenerator }}</p>
+        <p>{{ metaDataObj.metaGenerator }}</p>
       </n-statistic>
       <n-statistic label="Meta robots" v-if="metaDataObj.metaRobots">
-        <p> {{ metaDataObj.metaRobots }}</p>
+        <p>{{ metaDataObj.metaRobots }}</p>
       </n-statistic>
-      <n-statistic label="Meta revisit after" v-if="metaDataObj.metaRevisitAfter">
-        <p> {{ metaDataObj.metaRevisitAfter }}</p>
+      <n-statistic
+        label="Meta revisit after"
+        v-if="metaDataObj.metaRevisitAfter"
+      >
+        <p>{{ metaDataObj.metaRevisitAfter }}</p>
       </n-statistic>
       <n-statistic label="Meta viewport" v-if="metaDataObj.metaViewport">
-        <p> {{ metaDataObj.metaViewport }}</p>
+        <p>{{ metaDataObj.metaViewport }}</p>
       </n-statistic>
     </n-card>
 
@@ -150,23 +167,39 @@
 
     <!--CORS Extension Modal-->
     <n-modal v-model:show="showModalCORSExtension">
-      <n-card style="width: 600px" title="Required Extension" :bordered="false" size="huge" role="dialog"
-        aria-modal="true">
+      <n-card
+        style="width: 600px"
+        title="Required Extension"
+        :bordered="false"
+        size="huge"
+        role="dialog"
+        aria-modal="true"
+      >
         <template #header-extra> </template>
         To analyze this website, you need to download the free CORS UNBLOCK
         extension first. Once installed, click on the extension to enable it and
         reload this page.
         <template #footer>
-          <a id="installExtensionBtn" target="_blank"
-            href="https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino">Install</a>
+          <a
+            id="installExtensionBtn"
+            target="_blank"
+            href="https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino"
+            >Install</a
+          >
         </template>
       </n-card>
     </n-modal>
     <!--Image Drawer-->
-    <n-drawer v-model:show="imageDrawerActive" :width="502" :placement="'right'">
+    <n-drawer
+      v-model:show="imageDrawerActive"
+      :width="502"
+      :placement="'right'"
+    >
       <n-drawer-content title="Image" closable>
         <img class="drawerImagePreview" :src="imageForImageDrawer.src" />
-        <n-button @click="downloadImage(imageForImageDrawer)" class="mt-2 w-100">Download image</n-button>
+        <n-button @click="downloadImage(imageForImageDrawer)" class="mt-2 w-100"
+          >Download image</n-button
+        >
       </n-drawer-content>
     </n-drawer>
   </n-space>
@@ -217,6 +250,18 @@ export default {
     };
   },
   methods: {
+    metaDataObjLength() {
+      let count = 0;
+
+      //for every key in the object, if the value is not undefined, increase the count
+      for (let key in this.metaDataObj) {
+        if (this.metaDataObj[key] !== null) {
+          count++;
+        }
+      }
+
+      return count;
+    },
     downloadImage(image) {
       //Download image from external url
       fetch(image.src)
@@ -236,9 +281,6 @@ export default {
 
             //set filename to image plus random generated number
             let filename = "image" + Math.floor(Math.random() * 100000);
-
-            console.log(filename);
-
             if (extension.length > 3) {
               window.$message.error("Cannot download this specific image");
               return;
@@ -421,7 +463,6 @@ export default {
         metaRating: metaRating,
         metaCategory: metaCategory,
       };
-      console.log(this.metaDataObj);
     },
     getSEOPerformance(doc) {
       //Get count of images that do not have an alt attribute
