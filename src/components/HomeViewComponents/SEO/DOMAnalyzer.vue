@@ -2,6 +2,7 @@
   <n-space vertical>
     <!--Inputs-->
     <n-card>
+      <n-button @click="playNumberAnimation()">Number animation</n-button>
       <n-input
         v-model:value="urlToAnalyse"
         placeholder="URL website to analyse"
@@ -19,54 +20,95 @@
       <n-row :style="{ display: 'block' }">
         <n-col :span="5">
           <n-statistic label="Heading 1">
-            {{ analysedDocumentElementCount.h1Count }}
+            <n-number-animation
+              ref="numberAnimationInstRef1"
+              :from="0"
+              :to="analysedDocumentElementCount.h1Count"
+              :active="false"
+            />
           </n-statistic>
         </n-col>
         <n-col :span="5">
           <n-statistic label="Heading 2">
-            {{ analysedDocumentElementCount.h2Count }}
+            <n-number-animation
+              ref="numberAnimationInstRef2"
+              :from="0"
+              :to="analysedDocumentElementCount.h2Count"
+              :active="false"
+            />
           </n-statistic>
         </n-col>
-
         <n-col :span="5">
           <n-statistic label="Heading 3">
-            {{ analysedDocumentElementCount.h3Count }}
+            <n-number-animation
+              ref="numberAnimationInstRef3"
+              :from="0"
+              :to="analysedDocumentElementCount.h3Count"
+              :active="false"
+            />
           </n-statistic>
         </n-col>
-
         <n-col :span="5">
           <n-statistic label="Heading 4">
-            {{ analysedDocumentElementCount.h4Count }}
+            <n-number-animation
+              ref="numberAnimationInstRef4"
+              :from="0"
+              :to="analysedDocumentElementCount.h5Count"
+              :active="false"
+            />
           </n-statistic>
         </n-col>
-
         <n-col :span="5">
           <n-statistic label="Heading 5">
-            {{ analysedDocumentElementCount.h5Count }}
+            <n-number-animation
+              ref="numberAnimationInstRef5"
+              :from="0"
+              :to="analysedDocumentElementCount.h5Count"
+              :active="false"
+            />
           </n-statistic>
         </n-col>
-
         <n-col :span="5">
           <n-statistic label="Heading 6">
-            {{ analysedDocumentElementCount.h6Count }}
+            <n-number-animation
+              ref="numberAnimationInstRef6"
+              :from="0"
+              :to="analysedDocumentElementCount.h6Count"
+              :active="false"
+            />
           </n-statistic>
         </n-col>
 
         <n-col :span="5">
           <n-statistic label="Paragraphs">
-            {{ analysedDocumentElementCount.pCount }}
+            <n-number-animation
+              ref="numberAnimationInstRef7"
+              :from="0"
+              :to="analysedDocumentElementCount.pCount"
+              :active="false"
+            />
           </n-statistic>
         </n-col>
 
         <n-col :span="5">
           <n-statistic label="Images">
-            {{ analysedDocumentElementCount.imgCount }}
+            <n-number-animation
+              ref="numberAnimationInstRef8"
+              :from="0"
+              :to="analysedDocumentElementCount.imgCount"
+              :active="false"
+            />
           </n-statistic>
         </n-col>
 
         <n-col :span="5">
           <n-statistic label="Scripts">
-            {{ analysedDocumentElementCount.scriptCount }}
+            <n-number-animation
+              ref="numberAnimationInstRef9"
+              :from="0"
+              :to="analysedDocumentElementCount.scriptCount"
+              :active="false"
+            />
           </n-statistic>
         </n-col>
       </n-row>
@@ -83,8 +125,12 @@
         <button
           class="imageBtn"
           v-for="(image, index) in allImagesFromDocument"
+          :alt="image.alt"
           :key="index"
-          :style="{ backgroundImage: `url(${image.src})` }"
+          :class="{ redborder: image.alt === '' }"
+          :style="{
+            backgroundImage: `url(${image.src})`,
+          }"
           @click="openImageDrawer(image)"
         ></button>
       </div>
@@ -200,6 +246,22 @@
       :placement="'right'"
     >
       <n-drawer-content title="Image" closable>
+        <n-alert
+          v-if="imageHasAlt === false"
+          title="SEO Warning"
+          type="warning"
+          class="mb-2"
+        >
+          Image does not have an alt attribute which has a negative impact on
+          SEO
+          <br />
+          <br />
+          <a
+            href="https://www.innovationvisual.com/knowledge/why-image-alt-text-is-important-for-seo#:~:text=This%20is%20because%20search%20engines,when%20they%20are%20searching%20online."
+            target="_blank"
+            >Read more about it</a
+          >
+        </n-alert>
         <img class="drawerImagePreview" :src="imageForImageDrawer.src" />
         <n-button @click="downloadImage(imageForImageDrawer)" class="mt-2 w-100"
           >Download image</n-button
@@ -226,7 +288,10 @@ import {
   NDrawerContent,
   useLoadingBar,
   NSpin,
+  NAlert,
+  NNumberAnimation,
 } from "naive-ui";
+import { ref } from "vue";
 export default {
   name: "DOMAnalyzer",
   components: {
@@ -242,6 +307,8 @@ export default {
     NDrawer,
     NDrawerContent,
     NSpin,
+    NAlert,
+    NNumberAnimation,
   },
   data() {
     return {
@@ -252,6 +319,7 @@ export default {
       imageDrawerActive: false,
       imageForImageDrawer: undefined,
       imagesWithoutAltCount: undefined,
+      imageHasAlt: undefined,
       metaDataObj: undefined,
       seoScoreObj: undefined,
       analysingWebsite: false,
@@ -308,6 +376,7 @@ export default {
     },
     openImageDrawer(image) {
       this.imageForImageDrawer = image;
+      this.imageHasAlt = image.alt ? true : false;
       this.imageDrawerActive = true;
     },
     analyzeWebsite(url) {
@@ -345,6 +414,7 @@ export default {
         })
         .catch((err) => {
           // There was an error
+          window.$loadingbar.error();
           window.$notification.error({
             title: "Error",
             content: err.toString(),
@@ -353,6 +423,8 @@ export default {
           this.analysedDocumentElementCount = undefined;
           this.allImagesFromDocument = undefined;
           this.analysingWebsite = false;
+          this.seoScoreObj = undefined;
+          this.metaDataObj = undefined;
         });
     },
     buildStatisticsForWebsite(doc) {
@@ -360,6 +432,9 @@ export default {
       this.getAllImagesFromDocument(doc);
       this.getMetaInformationFromDocument(doc);
       this.getSEOPerformance(doc);
+      setTimeout(() => {
+        this.playNumberAnimation();
+      }, 200);
     },
     setCountForCommonElements(doc) {
       let h1Count = doc.getElementsByTagName("h1").length;
@@ -386,7 +461,7 @@ export default {
         scriptCount: scriptCount,
       };
     },
-    getAllImagesFromDocument(doc) {
+    async getAllImagesFromDocument(doc) {
       let images = doc.getElementsByTagName("img");
       //Remove the image in images that are duplicate
       let imagesWithoutDuplicates = [];
@@ -396,22 +471,25 @@ export default {
             images[i].src = "EMPTY";
           }
           //Don't push when src contains localhost -> unreachable image
+          //TODO:
           if (
             !images[i].src.includes("localhost") ||
-            !images[i].src.includes("EMPTY")
+            !images[i].baseURI.includes("localhost") ||
+            (!images[i].src.includes("EMPTY") &&
+              !images[i].src.includes("data:"))
           ) {
             imagesWithoutDuplicates.push(images[i]);
           }
         }
       }
-
       this.allImagesFromDocument = imagesWithoutDuplicates;
     },
     getMetaInformationFromDocument(doc) {
       //Get meta element with name="description"
-      let metaDescription = doc.querySelector(
-        'meta[name="description"]'
-      ).content;
+      let metaDescription = doc.querySelector('meta[name="description"]');
+      if (metaDescription !== null) {
+        metaDescription = metaDescription.content;
+      }
 
       //Get meta element with name="keywords"
       let metaKeywords = doc.querySelector('meta[name="keywords"]');
@@ -487,7 +565,7 @@ export default {
       for (let img of imgs) {
         if (img.alt === "") {
           imagesWithoutAlt++;
-          img.style.border = "1px solid red";
+          // img.style.border = "2px solid red";
         }
       }
 
@@ -511,6 +589,39 @@ export default {
     window.$notification = useNotification();
     window.$message = useMessage();
     window.$loadingbar = useLoadingBar();
+
+    const numberAnimationInstRef1 = ref(null);
+    const numberAnimationInstRef2 = ref(null);
+    const numberAnimationInstRef3 = ref(null);
+    const numberAnimationInstRef4 = ref(null);
+    const numberAnimationInstRef5 = ref(null);
+    const numberAnimationInstRef6 = ref(null);
+    const numberAnimationInstRef7 = ref(null);
+    const numberAnimationInstRef8 = ref(null);
+    const numberAnimationInstRef9 = ref(null);
+    return {
+      numberAnimationInstRef1,
+      numberAnimationInstRef2,
+      numberAnimationInstRef3,
+      numberAnimationInstRef4,
+      numberAnimationInstRef5,
+      numberAnimationInstRef6,
+      numberAnimationInstRef7,
+      numberAnimationInstRef8,
+      numberAnimationInstRef9,
+
+      playNumberAnimation() {
+        numberAnimationInstRef1.value?.play();
+        numberAnimationInstRef2.value?.play();
+        numberAnimationInstRef3.value?.play();
+        numberAnimationInstRef4.value?.play();
+        numberAnimationInstRef5.value?.play();
+        numberAnimationInstRef6.value?.play();
+        numberAnimationInstRef7.value?.play();
+        numberAnimationInstRef8.value?.play();
+        numberAnimationInstRef9.value?.play();
+      },
+    };
   },
 };
 </script>
@@ -541,6 +652,17 @@ export default {
 .metaCard {
   p {
     font-size: 18px;
+  }
+}
+
+.redborder {
+  border: 2px solid orange;
+}
+
+a {
+  color: white;
+  &:hover {
+    color: gray;
   }
 }
 </style>
