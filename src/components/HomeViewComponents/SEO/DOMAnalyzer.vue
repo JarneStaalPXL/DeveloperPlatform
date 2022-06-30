@@ -477,22 +477,17 @@ export default {
 
       let imagesWithAlt = imgs.length - imagesWithoutAlt;
       let imgWithoutAlt = imagesWithoutAlt;
-      let imgWithAltPercentage = (
-        (imgs.length - imagesWithoutAlt) /
-        imgs.length
-      ).toFixed(2);
-      let imgWithoutAltPercentage = (
-        (imagesWithoutAlt / imgs.length) *
-        100
-      ).toFixed(2);
+      let imgWithAltPercentage = (imgs.length - imagesWithoutAlt) / imgs.length;
+      let imgWithoutAltPercentage = (imagesWithoutAlt / imgs.length) * 100;
 
-      let totalScore = imgWithAltPercentage;
+      let metaScore = (this.metaDataObjLength() / 10) * 100;
+      let totalScore = metaScore + imgWithAltPercentage;
       this.seoScoreObj = {
         imagesWithAlt: imagesWithAlt,
         imagesWithoutAlt: imgWithoutAlt,
-        imagesWithAltPercentage: imgWithAltPercentage,
-        imagesWithoutAltPercentage: imgWithoutAltPercentage,
-        seoTotalScore: totalScore,
+        imagesWithAltPercentage: imgWithAltPercentage.toFixed(2),
+        imagesWithoutAltPercentage: imgWithoutAltPercentage.toFixed(2),
+        seoTotalScore: totalScore.toFixed(2),
       };
     },
   },
