@@ -6,9 +6,12 @@
         v-model:value="urlToAnalyse"
         placeholder="URL website to analyse"
       ></n-input>
-      <n-button class="w-100" @click="analyzeWebsite(urlToAnalyse)"
-        >Analyse</n-button
-      >
+
+      <n-spin size="small" :show="analysingWebsite">
+        <n-button class="w-100" @click="analyzeWebsite(urlToAnalyse)"
+          >Analyse</n-button
+        >
+      </n-spin>
     </n-card>
 
     <!--Results elements-->
@@ -50,13 +53,13 @@
         </n-col>
 
         <n-col :span="5">
-          <n-statistic label="Paragraph">
+          <n-statistic label="Paragraphs">
             {{ analysedDocumentElementCount.pCount }}
           </n-statistic>
         </n-col>
 
         <n-col :span="5">
-          <n-statistic label="Image">
+          <n-statistic label="Images">
             {{ analysedDocumentElementCount.imgCount }}
           </n-statistic>
         </n-col>
@@ -89,6 +92,7 @@
 
     <!--Results Meta-->
     <n-card
+      class="metaCard"
       :title="'Meta data (' + metaDataObjLength() + ')'"
       v-if="metaDataObj !== undefined"
     >
@@ -220,6 +224,8 @@ import {
   NModal,
   NDrawer,
   NDrawerContent,
+  useLoadingBar,
+  NSpin,
 } from "naive-ui";
 export default {
   name: "DOMAnalyzer",
@@ -235,6 +241,7 @@ export default {
     NModal,
     NDrawer,
     NDrawerContent,
+    NSpin,
   },
   data() {
     return {
@@ -247,6 +254,7 @@ export default {
       imagesWithoutAltCount: undefined,
       metaDataObj: undefined,
       seoScoreObj: undefined,
+      analysingWebsite: false,
     };
   },
   methods: {
@@ -303,6 +311,8 @@ export default {
       this.imageDrawerActive = true;
     },
     analyzeWebsite(url) {
+      //Loading animation
+
       // fetch website content from url
       // return content
       if (url === "" || url === undefined) {
@@ -317,6 +327,9 @@ export default {
         return;
       }
 
+      window.$loadingbar.start();
+      this.analysingWebsite = true;
+
       fetch(url)
         .then((response) => {
           // The API call was successful!
@@ -327,6 +340,8 @@ export default {
           var doc = parser.parseFromString(html, "text/html");
           this.buildStatisticsForWebsite(doc);
           window.$message.success("Succesfully fetched website content");
+          window.$loadingbar.finish();
+          this.analysingWebsite = false;
         })
         .catch((err) => {
           // There was an error
@@ -337,6 +352,7 @@ export default {
           this.showModalCORSExtension = true;
           this.analysedDocumentElementCount = undefined;
           this.allImagesFromDocument = undefined;
+          this.analysingWebsite = false;
         });
     },
     buildStatisticsForWebsite(doc) {
@@ -494,6 +510,7 @@ export default {
   setup() {
     window.$notification = useNotification();
     window.$message = useMessage();
+    window.$loadingbar = useLoadingBar();
   },
 };
 </script>
@@ -520,6 +537,11 @@ export default {
 .drawerImagePreview {
   width: 100%;
   height: auto;
+}
+.metaCard {
+  p {
+    font-size: 18px;
+  }
 }
 </style>
 
