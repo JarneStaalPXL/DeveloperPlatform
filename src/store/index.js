@@ -31,7 +31,7 @@ export default createStore({
         component: 'WebsiteBuilderView'
       },
       domAnalyzer: {
-        path: '/DomAnalyzer',
+        path: '/DOMAnalyzer',
         name: 'domanalyzer',
         component: 'DomAnalyzerView'
       }

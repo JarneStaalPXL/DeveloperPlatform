@@ -27,7 +27,7 @@ const routes = [
     component: WebsiteBuilderView
   },
   {
-    path: '/DomAnalyzer',
+    path: '/DOMAnalyzer',
     name: 'domanalyzer',
     component: DOMAnalyzerView
   }
