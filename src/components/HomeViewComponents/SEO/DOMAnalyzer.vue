@@ -2,7 +2,6 @@
   <n-space vertical>
     <!--Inputs-->
     <n-card>
-      <n-button @click="playNumberAnimation()">Number animation</n-button>
       <n-input
         v-model:value="urlToAnalyse"
         placeholder="URL website to analyse"
