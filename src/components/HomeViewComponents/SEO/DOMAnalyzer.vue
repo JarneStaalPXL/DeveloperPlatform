@@ -262,7 +262,10 @@
           >
         </n-alert>
         <img class="drawerImagePreview" :src="imageForImageDrawer.src" />
-        <n-button @click="downloadImage(imageForImageDrawer)" class="mt-2 w-100"
+        <n-button
+          v-if="selectedImageIsDownloadable"
+          @click="downloadImage(imageForImageDrawer)"
+          class="mt-2 w-100"
           >Download image</n-button
         >
       </n-drawer-content>
@@ -322,6 +325,7 @@ export default {
       metaDataObj: undefined,
       seoScoreObj: undefined,
       analysingWebsite: false,
+      selectedImageIsDownloadable: true,
     };
   },
   methods: {

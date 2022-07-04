@@ -1,10 +1,10 @@
 <template>
   <section class="responsivityContainer">
-    <!-- <a @click="$router.push($store.state.routings.domAnalyzer.path)">
+    <a @click="$router.push($store.state.routings.responsivityChecker.path)">
       <div class="item">
-        <p>DOM Analyser</p>
+        <p>Website Responsivity Checker</p>
       </div>
-    </a> -->
+    </a>
   </section>
 </template>
 
@@ -30,7 +30,7 @@ export default {};
   display: flex;
   justify-content: center;
   align-items: center;
-
+  background: black;
   p {
     font-size: 18px;
   }

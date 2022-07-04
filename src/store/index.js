@@ -34,6 +34,11 @@ export default createStore({
         path: '/DOMAnalyzer',
         name: 'domanalyzer',
         component: 'DomAnalyzerView'
+      },
+      responsivityChecker: {
+        path: '/ResponsivityChecker',
+        name: 'responsivitychecker',
+        component: 'ResponsivityCheckerView'
       }
     },
   },
