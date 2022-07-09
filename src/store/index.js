@@ -39,6 +39,11 @@ export default createStore({
         path: '/ResponsivityChecker',
         name: 'responsivitychecker',
         component: 'ResponsivityCheckerView'
+      },
+      colorPalletGenerator: {
+        path: '/colorPalletGenerator',
+        name: 'colorpalletgenerator',
+        component: 'ColorPalletGeneratorView'
       }
     },
   },

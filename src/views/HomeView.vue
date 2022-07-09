@@ -6,17 +6,12 @@
           <p class="title">Frontend Platform</p>
 
           <Transition appear>
-            <n-avatar
-              v-if="$store.state.isLoggedIn"
-              size="large"
-              :style="{
-                color: 'white',
-                backgroundColor: '#A097E0',
-                marginTop: 'auto',
-                marginBottom: 'auto',
-              }"
-              >{{ userName ? userName.toUpperCase() : "" }}</n-avatar
-            >
+            <n-avatar v-if="$store.state.isLoggedIn" size="large" :style="{
+              color: 'white',
+              backgroundColor: '#A097E0',
+              marginTop: 'auto',
+              marginBottom: 'auto',
+            }">{{ userName ? userName.toUpperCase() : "" }}</n-avatar>
           </Transition>
         </div>
       </template>
@@ -53,10 +48,22 @@
       </template>
       <ResponsivityList />
     </n-card>
+
+    <n-card class="categoryCard" :style="{ marginTop: '30px' }">
+      <!--card header template-->
+      <template #header>
+        <div class="d-flex" style="gap: 10px">
+          <h4>Color Generators</h4>
+          <n-badge :value="1" color="grey" />
+        </div>
+      </template>
+      <ColorGeneratorsList />
+    </n-card>
   </n-config-provider>
 </template>
 
 <script>
+import ColorGeneratorsList from "@/components/HomeViewComponents/ColorGenerators/ColorGeneratorsList.vue";
 import ResponsivityList from "@/components/HomeViewComponents/Responsivity/ResponsivityList.vue";
 import GradientGeneratorsList from "@/components/HomeViewComponents/GradientGenerators/GradientGeneratorsList.vue";
 import SEOList from "@/components/HomeViewComponents/SEO/SEOList.vue";
@@ -70,6 +77,7 @@ export default {
     NBadge,
     GradientGeneratorsList,
     ResponsivityList,
+    ColorGeneratorsList,
     SEOList,
   },
   setup() {
