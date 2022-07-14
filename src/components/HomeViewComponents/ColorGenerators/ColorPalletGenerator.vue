@@ -6,7 +6,10 @@
           class="colorPalletGenerator d-flex justify-content-between"
           style="gap: 25px"
         >
-          <n-card class="w-50" title="Color lighter/darkener">
+          <n-card
+            class="colorPalletFunctionalItem"
+            title="Color lighter/darkener"
+          >
             <n-h6>Please select a color</n-h6>
             <n-color-picker
               v-model:value="color"
@@ -17,7 +20,7 @@
                 '#00FF78FF',
                 '#0076FFFF',
                 '#FF9D00FF',
-                '#FF0000FF',
+                '#FF3F3FFF',
                 '#A700EEFF',
               ]"
               :show-preview="true"
@@ -75,14 +78,17 @@
                         <n-color-picker v-model:value="shadedColor" :modes="['hex']" :show-preview="true">
                         </n-color-picker> -->
           </n-card>
-          <n-card class="w-50" title="Color Pallet Generator">
+          <n-card
+            class="colorPalletFunctionalItem"
+            title="Color Pallet Generator"
+          >
             <n-color-picker
               v-model:value="selectedColorForPallet"
               :swatches="[
                 '#00FF78FF',
                 '#0076FFFF',
                 '#FF9D00FF',
-                '#FF0000FF',
+                '#FF3F3FFF',
                 '#A700EEFF',
               ]"
               :modes="['hex']"
@@ -95,7 +101,11 @@
             >
             <n-h6>Do you want to know a specific color of a site?</n-h6>
             <n-button
-              @click="openColorPickerExtensionDownloadPage()"
+              @click="
+                openPopupWindow(
+                  'https://chrome.google.com/webstore/detail/colorpick-eyedropper/ohcpnigalekghcmgcdcenkpelffpdolg'
+                )
+              "
               class="w-100"
               >Download Colorpicker extension</n-button
             >
@@ -133,8 +143,9 @@
   </n-space>
 
   <n-drawer
-    :style="{ minWidth: '500px' }"
+    :style="{ minWidth: '50%' }"
     v-model:show="showColorPalletDrawer"
+    class="clpalletDw"
     :default-width="500"
     :placement="'left'"
     :trap-focus="false"
@@ -214,31 +225,14 @@ export default {
   },
   mounted() {
     window.$message = useMessage();
-    this.userInstalledChromeExtensions();
   },
   methods: {
-    userInstalledChromeExtensions() {
-      //check what extensions the user has installed
-      const EXTENSION_ID = "ohcpnigalekghcmgcdcenkpelffpdolg";
-      console.log(chrome.extensions);
-      chrome.runtime.sendMessage(EXTENSION_ID, "version", (response) => {
-        if (!response) {
-          console.log("No extension");
-          return;
-        }
-        console.log("Extension version: ", response.version);
-      });
-    },
-    openColorPickerExtensionDownloadPage() {
+    openPopupWindow(url) {
       //calculate height of screen
       var height = screen.height;
       //calculate width of screen
       var width = screen.width;
-      window.open(
-        "https://chrome.google.com/webstore/detail/colorpick-eyedropper/ohcpnigalekghcmgcdcenkpelffpdolg",
-        "popup",
-        `height=${height},width=${width}`
-      );
+      window.open(url, "popup", `height=${height},width=${width}`);
     },
     saveColorPallet(colorPallet) {
       let obj = {};
@@ -334,6 +328,24 @@ export default {
   }
   a:hover {
     color: white;
+  }
+}
+.colorPalletFunctionalItem {
+  width: 50%;
+}
+</style>
+<style lang="scss">
+//media query for mobile
+@media only screen and (max-width: 992px) {
+  .colorPalletGenerator {
+    display: block !important;
+  }
+  .colorPalletFunctionalItem {
+    width: 100% !important;
+    margin-bottom: 10px;
+  }
+  .clpalletDw {
+    min-width: 100% !important;
   }
 }
 </style>
