@@ -5,7 +5,7 @@ import WebsiteBuilderView from "../views/WebsiteBuilderView"
 import HomeView from "../views/HomeView"
 import DOMAnalyzerView from "../views/DOMAnalyzerView"
 import ResponsivityCheckerView from "../views/ResponsivityCheckerView"
-import ColorPalletGeneratorView from '../views/ColorPalletGeneratorView'
+import ColorPalleteGeneratorView from '../views/ColorPalleteGeneratorView'
 
 const routes = [
   {
@@ -39,9 +39,9 @@ const routes = [
     component: ResponsivityCheckerView
   },
   {
-    path: '/colorPalletGenerator',
-    name: 'colorpalletgenerator',
-    component: ColorPalletGeneratorView
+    path: '/colorPalleteGenerator',
+    name: 'colorpalletegenerator',
+    component: ColorPalleteGeneratorView
   }
 ]
 

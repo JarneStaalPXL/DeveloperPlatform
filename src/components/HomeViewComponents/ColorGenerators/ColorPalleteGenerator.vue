@@ -80,7 +80,7 @@
           </n-card>
           <n-card
             class="colorPalletFunctionalItem"
-            title="Color Pallet Generator"
+            title="Color Pallete Generator"
           >
             <n-color-picker
               v-model:value="selectedColorForPallet"
@@ -97,7 +97,7 @@
             >
             </n-color-picker>
             <n-button class="w-100" @click="generateColorPallet()"
-              >Generate color pallet</n-button
+              >Generate color pallete</n-button
             >
             <n-h6>Do you want to know a specific color of a site?</n-h6>
             <n-button
@@ -114,12 +114,13 @@
       </n-space>
     </n-card>
 
-    <n-card title="Saved Color Pallets" v-if="savedColorPallets.length > 0">
+    <n-card title="Saved Color Palletes" v-if="savedColorPallets.length > 0">
       <section>
+        {{ $store.state.userSavedColorPallets.length }}
         <n-card
-          v-for="color of savedColorPallets"
+          v-for="color of $store.state.userSavedColorPallets"
           :key="color"
-          :title="'Color pallet' + ' build from HEX: ' + color[0]"
+          :title="'Color pallete' + ' build from HEX: ' + color[0]"
         >
           <div
             v-for="cl in color"
@@ -151,7 +152,7 @@
     :trap-focus="false"
     resizable
   >
-    <n-drawer-content title="Color Pallet" closable>
+    <n-drawer-content title="Color Pallete" closable>
       <section id="colorPalletContent">
         <div
           v-for="color in colorPallet"
@@ -171,8 +172,17 @@
         </div>
       </section>
       <template #footer>
-        <n-button @click="saveColorPallet(colorPallet)"
-          >Save color pallet</n-button
+        <n-button
+          @click="
+            $store.state.isLoggedIn
+              ? saveColorPallet(colorPallet)
+              : (showColorPalletDrawer = false)
+          "
+          >{{
+            $store.state.isLoggedIn
+              ? "Save color pallete"
+              : "Log in with Google to save color pallette"
+          }}</n-button
         >
       </template>
     </n-drawer-content>
@@ -234,15 +244,42 @@ export default {
       var width = screen.width;
       window.open(url, "popup", `height=${height},width=${width}`);
     },
-    saveColorPallet(colorPallet) {
+    async saveColorPallet(colorPallet) {
+      this.$store.dispatch(
+        "GET_USER_SAVED_COLOR_PALLETES",
+        localStorage.getItem("uid")
+      );
+
       let obj = {};
+      let tempArr = [];
       let index = 0;
       for (let color of colorPallet) {
         obj[index] = color;
         index++;
       }
-      this.savedColorPallets.push(obj);
-      this.showColorPalletDrawer = false;
+      console.log(this.$store.state.userSavedColorPallet);
+      if (this.$store.state.userSavedColorPallet !== undefined) {
+        tempArr = JSON.parse(
+          JSON.stringify(this.$store.state.userSavedColorPallet)
+        );
+      }
+      tempArr.push(obj);
+
+      //save to Strapi
+      await this.$store
+        .dispatch("ADD_COLORPALLETE_TO_ACCOUNT", {
+          id: localStorage.getItem("uid"),
+          colorPallet: JSON.stringify(tempArr),
+        })
+        .then(() => {
+          window.$message.success("Color pallete saved successfully!");
+
+          this.$store.commit("addColorPalletToSaved", obj);
+          this.showColorPalletDrawer = false;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     copyHEXToClipboard(color) {
       navigator.clipboard.writeText(color);

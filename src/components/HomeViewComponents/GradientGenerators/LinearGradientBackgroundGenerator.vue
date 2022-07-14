@@ -444,7 +444,6 @@ export default {
       result.then(() => {
         window.$loadingbar.finish();
         this.downloadingGradients = false;
-        console.log("Should be done zipping");
         zip.generateAsync({ type: "blob" }).then((blob) => {
           FileSaver.saveAs(blob, "backgrounds.zip");
         });
