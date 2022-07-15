@@ -2,9 +2,9 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    baseUrlStrapi: 'http://localhost:1337',
-    baseUrlStrapiApi: 'http://localhost:1337' + '/api/',
-    strapiApiKey: '0dcd9dae2696b2a73a5be5e20b687ba8e2cd661cd2d1639fdefe8a3a787c6dff5a13d09ff08f1623f0a6ec4e57694e70c73caaa1deb58b29e1e59964025683afd56bc87538d8030d63467935c3e6ec9038b35664a405f417301bae12d2bb3c8fb50cc4d3186e5206d87e61905889416f727ca47b80ab88f6f007f716506120ab',
+    baseUrlStrapi: 'https://frontendplatformbackend.herokuapp.com',
+    baseUrlStrapiApi: 'https://frontendplatformbackend.herokuapp.com' + '/api/',
+    strapiApiKey: '1bad8621f0c81dc23565fd6f813668bfb5f9b32eb678b6f9db74439ac6849d30ac8b5ee03ba74b66c73892a6a291aac2cb6c5899d85aa3851be2ce20cbf8a8bb1c12aed7b1c9a61b2731d5e4e4a86e20b0fe3c6c96c5cd0bf928236d3eda0f609fe998f20b9e95b3f3ed5431ec43dc1c98369f4ef3c713d3bc70d07ab80011b8',
     selectedLinearGradient: {},
     name: "",
     profilepic: "",
@@ -66,12 +66,11 @@ export default createStore({
         state.userSavedColorPallets = [];
       }
       colorPallet = JSON.parse(colorPallet);
-      newArr.push(colorPallet[0]);
+      newArr.unshift(colorPallet[0]);
       state.userSavedColorPallets = JSON.parse(JSON.stringify(newArr));
     },
     setUserSavedColorPallets(state, payload) {
-      if (payload !== undefined) state.userSavedColorPallets = payload;
-      console.log(state.userSavedColorPallets);
+      if (payload !== undefined && payload !== null) state.userSavedColorPallets = payload;
     },
     setSelectedLinearGradient(state, payload) {
       state.selectedLinearGradient = payload
@@ -94,15 +93,55 @@ export default createStore({
       state.email = "";
       state.isLoggedIn = false;
       state.favoriteTools = [];
+      state.userSavedColorPallets = [];
 
       localStorage.removeItem('userName');
       localStorage.removeItem('profilePic');
       localStorage.removeItem('email');
       localStorage.removeItem('uid');
-      localStorage.removeItem('startScreenBackground');
     },
+    removeColorPalletFromSaved(state, colorPallet) {
+      if (colorPallet !== undefined && colorPallet !== null) {
+        console.log("🚀 ~ file: index.js ~ line 104 ~ removeColorPalletFromSaved ~ colorPallet", colorPallet)
+        //check if colorPallet object is in state.userSavedColorPallets using filter
+        for (let cp of state.userSavedColorPallets) {
+          console.log(cp);
+        }
+
+        let newArr = state.userSavedColorPallets.filter(cp => {
+          return cp[0] !== colorPallet.colorpallet[0];
+        }
+        );
+        state.userSavedColorPallets = newArr;
+        return;
+      }
+
+      console.log("Colorpallet is undefined or null")
+    }
   },
   actions: {
+    async REMOVE_COLOR_FROM_SAVED_PALLETTE({ state, dispatch, commit }, user) {
+      if (user === undefined) {
+        return Promise.reject("user is undefined");
+      }
+      commit('removeColorPalletFromSaved', user);
+
+      //remove colorpallette from strapi
+      const userId = await dispatch('GET_USER_ID', user.id);
+      const rawResponse = await fetch(`${state.baseUrlStrapiApi}user-details/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + state.strapiApiKey
+        },
+        body: JSON.stringify({ data: { colorpallet: state.userSavedColorPallets } })
+      });
+      const content = await rawResponse.json();
+      console.log(content);
+      console.log(user);
+      await dispatch('GET_USER_SAVED_COLOR_PALLETES', user.id);
+    },
     async ADD_COLORPALLETE_TO_ACCOUNT({ state, dispatch, commit }, user) {
       if (user === undefined) {
         return Promise.reject("Color Pallete is undefined");

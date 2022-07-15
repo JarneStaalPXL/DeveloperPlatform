@@ -116,28 +116,42 @@
     <transition appear>
       <n-card
         title="Saved Color Palletes"
-        v-if="$store.state.userSavedColorPallets !== undefined"
+        v-if="$store.state.userSavedColorPallets.length > 0"
       >
-        <section>
+        <section class="fullSavedColorPalletsContainer">
           <n-card
-            v-for="color of savedColorPallets"
-            :key="color"
-            :title="'Color pallete' + ' build from HEX: ' + color[0]"
+            closable
+            @close="removeColorFromSavedPallete(cp)"
+            v-for="cp of savedColorPallets"
+            :key="cp"
+            class="allColorPalletCards"
+            :title="'Color pallete' + ' build from HEX: ' + cp[0]"
           >
             <div
-              v-for="cl in color"
+              v-for="cl in cp"
               :key="cl"
               :style="{ background: cl }"
               class="colorPalletItem"
             >
-              <div class="d-flex justify-content-between w-100">
-                <n-button
-                  :style="{ backgroundColor: '#2C2C32' }"
-                  class="m-2"
-                  @click="copyHEXToClipboard(cl)"
-                  >Copy HEX</n-button
+              <div class="d-flex justify-content-start w-100">
+                <n-popconfirm
+                  positive-text="Copy HEX code"
+                  negative-text="No"
+                  @positive-click="copyHEXToClipboard(cl)"
+                  @negative-click="null"
                 >
-                <p class="d-flex m-auto">{{ cl.toUpperCase() }}</p>
+                  <template #trigger>
+                    <n-button :style="{ backgroundColor: 'black' }" class="m-2"
+                      ><n-p
+                        :style="{ color: cl }"
+                        class="d-flex hexCodeTextParagraph"
+                      >
+                        {{ cl.toUpperCase() }}
+                      </n-p></n-button
+                    >
+                  </template>
+                  Do you want to copy the HEX code to clipboard?
+                </n-popconfirm>
               </div>
             </div>
           </n-card>
@@ -207,7 +221,9 @@ import {
   NDrawerContent,
   NRadioGroup,
   NRadioButton,
+  NPopconfirm,
   NH6,
+  NP,
 } from "naive-ui";
 export default {
   components: {
@@ -222,7 +238,9 @@ export default {
     NDrawerContent,
     NRadioGroup,
     NRadioButton,
+    NPopconfirm,
     NH6,
+    NP,
   },
   data() {
     return {
@@ -250,6 +268,21 @@ export default {
       //calculate width of screen
       var width = screen.width;
       window.open(url, "popup", `height=${height},width=${width}`);
+    },
+    async removeColorFromSavedPallete(colorPallet) {
+      colorPallet = JSON.parse(JSON.stringify(colorPallet));
+      await this.$store
+        .dispatch("REMOVE_COLOR_FROM_SAVED_PALLETTE", {
+          id: localStorage.getItem("uid"),
+          colorpallet: colorPallet,
+        })
+        .then(() => {
+          window.$message.success("Color pallete deleted");
+        })
+        .catch((err) => {
+          window.$message.error("Error deleting color pallete");
+          console.error(err);
+        });
     },
     async saveColorPallet(colorPallet) {
       await this.$store
@@ -379,9 +412,21 @@ export default {
 .colorPalletFunctionalItem {
   width: 50%;
 }
-</style>
-<style lang="scss">
-//media query for mobile
+
+.hexCodeTextParagraph {
+  width: 150px;
+  justify-content: center;
+}
+
+.allColorPalletCards {
+  width: 25%;
+}
+
+.fullSavedColorPalletsContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 @media only screen and (max-width: 992px) {
   .colorPalletGenerator {
     display: block !important;
@@ -392,6 +437,11 @@ export default {
   }
   .clpalletDw {
     min-width: 100% !important;
+  }
+  .allColorPalletCards {
+    width: 100%;
+  }
+  .fullSavedColorPalletsContainer {
   }
 }
 </style>
