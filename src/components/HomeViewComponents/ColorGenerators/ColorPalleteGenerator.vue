@@ -113,34 +113,37 @@
         </div>
       </n-space>
     </n-card>
-
-    <n-card title="Saved Color Palletes" v-if="savedColorPallets.length > 0">
-      <section>
-        {{ $store.state.userSavedColorPallets.length }}
-        <n-card
-          v-for="color of $store.state.userSavedColorPallets"
-          :key="color"
-          :title="'Color pallete' + ' build from HEX: ' + color[0]"
-        >
-          <div
-            v-for="cl in color"
-            :key="cl"
-            :style="{ background: cl }"
-            class="colorPalletItem"
+    <transition appear>
+      <n-card
+        title="Saved Color Palletes"
+        v-if="$store.state.userSavedColorPallets !== undefined"
+      >
+        <section>
+          <n-card
+            v-for="color of savedColorPallets"
+            :key="color"
+            :title="'Color pallete' + ' build from HEX: ' + color[0]"
           >
-            <div class="d-flex justify-content-between w-100">
-              <n-button
-                :style="{ backgroundColor: '#2C2C32' }"
-                class="m-2"
-                @click="copyHEXToClipboard(cl)"
-                >Copy HEX</n-button
-              >
-              <p class="d-flex m-auto">{{ cl.toUpperCase() }}</p>
+            <div
+              v-for="cl in color"
+              :key="cl"
+              :style="{ background: cl }"
+              class="colorPalletItem"
+            >
+              <div class="d-flex justify-content-between w-100">
+                <n-button
+                  :style="{ backgroundColor: '#2C2C32' }"
+                  class="m-2"
+                  @click="copyHEXToClipboard(cl)"
+                  >Copy HEX</n-button
+                >
+                <p class="d-flex m-auto">{{ cl.toUpperCase() }}</p>
+              </div>
             </div>
-          </div>
-        </n-card>
-      </section>
-    </n-card>
+          </n-card>
+        </section>
+      </n-card>
+    </transition>
   </n-space>
 
   <n-drawer
@@ -230,8 +233,12 @@ export default {
       showColorPalletDrawer: false,
       lighter: false,
       colorPallet: [],
-      savedColorPallets: [],
     };
+  },
+  computed: {
+    savedColorPallets() {
+      return this.$store.state.userSavedColorPallets;
+    },
   },
   mounted() {
     window.$message = useMessage();
@@ -245,40 +252,42 @@ export default {
       window.open(url, "popup", `height=${height},width=${width}`);
     },
     async saveColorPallet(colorPallet) {
-      this.$store.dispatch(
-        "GET_USER_SAVED_COLOR_PALLETES",
-        localStorage.getItem("uid")
-      );
-
-      let obj = {};
-      let tempArr = [];
-      let index = 0;
-      for (let color of colorPallet) {
-        obj[index] = color;
-        index++;
-      }
-      console.log(this.$store.state.userSavedColorPallet);
-      if (this.$store.state.userSavedColorPallet !== undefined) {
-        tempArr = JSON.parse(
-          JSON.stringify(this.$store.state.userSavedColorPallet)
-        );
-      }
-      tempArr.push(obj);
-
-      //save to Strapi
       await this.$store
-        .dispatch("ADD_COLORPALLETE_TO_ACCOUNT", {
-          id: localStorage.getItem("uid"),
-          colorPallet: JSON.stringify(tempArr),
-        })
-        .then(() => {
-          window.$message.success("Color pallete saved successfully!");
+        .dispatch("GET_USER_SAVED_COLOR_PALLETES", localStorage.getItem("uid"))
+        .then(async () => {
+          let obj = {};
+          let index = 0;
+          for (let color of colorPallet) {
+            obj[index] = color;
+            index++;
+          }
 
-          this.$store.commit("addColorPalletToSaved", obj);
-          this.showColorPalletDrawer = false;
-        })
-        .catch((err) => {
-          console.log(err);
+          let tempArr = [];
+          if (this.$store.state.userSavedColorPallet === undefined) {
+            this.$store.state.userSavedColorPallet = [];
+          }
+          if (this.$store.state.userSavedColorPallet !== undefined) {
+            tempArr = JSON.parse(
+              JSON.stringify(this.$store.state.userSavedColorPallet)
+            );
+          }
+          console.log("Object I want in array below", obj);
+          tempArr.push(obj);
+          console.log("The array", tempArr);
+
+          //save to Strapi
+          await this.$store
+            .dispatch("ADD_COLORPALLETE_TO_ACCOUNT", {
+              id: localStorage.getItem("uid"),
+              colorPallet: JSON.stringify(tempArr),
+            })
+            .then(() => {
+              window.$message.success("Color pallete saved successfully!");
+              this.showColorPalletDrawer = false;
+            })
+            .catch((err) => {
+              console.error(err);
+            });
         });
     },
     copyHEXToClipboard(color) {

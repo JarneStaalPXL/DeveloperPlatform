@@ -56,10 +56,22 @@ export default createStore({
   },
   mutations: {
     addColorPalletToSaved(state, colorPallet) {
-      colorPallet !== undefined ? state.userSavedColorPallets.push(colorPallet) : null
+      let newArr = [];
+      if (state.userSavedColorPallets !== null) {
+        for (let cp of state.userSavedColorPallets) {
+          newArr.push(cp);
+        }
+      }
+      else {
+        state.userSavedColorPallets = [];
+      }
+      colorPallet = JSON.parse(colorPallet);
+      newArr.push(colorPallet[0]);
+      state.userSavedColorPallets = JSON.parse(JSON.stringify(newArr));
     },
     setUserSavedColorPallets(state, payload) {
-      state.userSavedColorPallets = payload
+      if (payload !== undefined) state.userSavedColorPallets = payload;
+      console.log(state.userSavedColorPallets);
     },
     setSelectedLinearGradient(state, payload) {
       state.selectedLinearGradient = payload
@@ -91,11 +103,17 @@ export default createStore({
     },
   },
   actions: {
-    async ADD_COLORPALLETE_TO_ACCOUNT({ state, dispatch }, user) {
+    async ADD_COLORPALLETE_TO_ACCOUNT({ state, dispatch, commit }, user) {
       if (user === undefined) {
         return Promise.reject("Color Pallete is undefined");
       }
 
+      commit('addColorPalletToSaved', user.colorPallet);
+      console.log(state.userSavedColorPallets);
+      if (state.userSavedColorPallets === undefined) {
+        console.log("why is userSavedColorPallets undefined in ADD_COLORPALLETE_TO_ACCOUNT");
+        return;
+      }
       //find id of user with useruid
       const userId = await dispatch('GET_USER_ID', user.id);
       const rawResponse = await fetch(`${state.baseUrlStrapiApi}user-details/${userId}`, {
@@ -105,12 +123,13 @@ export default createStore({
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + state.strapiApiKey
         },
-        body: JSON.stringify({ data: { colorpallet: user.colorPallet } })
+        body: JSON.stringify({ data: { colorpallet: state.userSavedColorPallets } })
       });
       const content = await rawResponse.json();
+      console.log(content);
     },
     async CREATE_ACCOUNT({ state, dispatch, commit }, user) {
-      if (!dispatch('USER_EXISTS', user.uid)) {
+      if (!await dispatch('USER_EXISTS', user.uid)) {
         const rawResponse = await fetch(`${state.baseUrlStrapiApi}user-details`, {
           method: 'POST',
           headers: {
@@ -125,9 +144,10 @@ export default createStore({
           })
         });
         const content = await rawResponse.json();
+        console.log(content);
       }
       commit("setUserData", { user: user });
-      dispatch("GET_USER_SAVED_COLOR_PALLETES", user.uid);
+      dispatch('LOAD_USER_SAVED_DATA', user.uid);
     },
     async USER_EXISTS({ state }, userId) {
       const dataResponse = await fetch(`${state.baseUrlStrapiApi}user-details?userid=${userId}`, {
@@ -139,7 +159,8 @@ export default createStore({
         }
       });
       const content2 = await dataResponse.json();
-      return content2.data.length > 0;
+      console.log(content2)
+      return content2.data.length > 0
     },
     async GET_USER_ID({ state }, userUid) {
       const dataResponse = await fetch(`${state.baseUrlStrapiApi}user-details?userid=${userUid}`, {
@@ -151,9 +172,15 @@ export default createStore({
         }
       });
       const content2 = await dataResponse.json();
+      if (content2.data.length === 0) {
+        return Promise.reject("User does not exist");
+      }
       return content2.data[0].id;
     },
     async GET_USER_SAVED_COLOR_PALLETES({ state, dispatch, commit }, userUid) {
+      if (userUid === undefined) {
+        return Promise.reject("User uid is undefined");
+      }
       const userId = await dispatch('GET_USER_ID', userUid);
       const dataResponse = await fetch(`${state.baseUrlStrapiApi}user-details/${userId}`, {
         method: 'GET',
@@ -164,8 +191,11 @@ export default createStore({
         }
       });
       const content2 = await dataResponse.json();
-      commit("setUserSavedColorPallets", JSON.parse(content2.data.attributes.colorpallet));
-    }
+      commit("setUserSavedColorPallets", content2.data.attributes.colorpallet);
+    },
+    async LOAD_USER_SAVED_DATA({ dispatch }, uid) {
+      dispatch('GET_USER_SAVED_COLOR_PALLETES', uid);
+    },
   },
   modules: {
   }

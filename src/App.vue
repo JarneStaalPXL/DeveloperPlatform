@@ -96,6 +96,9 @@ export default {
     },
   },
   mounted() {
+    if (localStorage.getItem("uid") !== null) {
+      this.$store.dispatch("LOAD_USER_SAVED_DATA", localStorage.getItem("uid"));
+    }
     document.addEventListener("scroll", () => {
       //Check if scrollY is decreasing
       if (window.scrollY < this.lastScrollY) {
