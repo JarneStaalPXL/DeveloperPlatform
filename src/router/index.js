@@ -6,6 +6,7 @@ import HomeView from "../views/HomeView"
 import DOMAnalyzerView from "../views/DOMAnalyzerView"
 import ResponsivityCheckerView from "../views/ResponsivityCheckerView"
 import ColorPalleteGeneratorView from '../views/ColorPalleteGeneratorView'
+import ColorLightenerDarkerView from '../views/ColorLightenerDarkerView'
 
 const routes = [
   {
@@ -42,6 +43,11 @@ const routes = [
     path: '/colorPalleteGenerator',
     name: 'colorpalletegenerator',
     component: ColorPalleteGeneratorView
+  },
+  {
+    path: '/colorlightenerdarker',
+    name: 'colorlightenerdarker',
+    component: ColorLightenerDarkerView
   }
 ]
 

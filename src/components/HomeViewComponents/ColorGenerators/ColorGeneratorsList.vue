@@ -1,7 +1,12 @@
 <template>
   <section class="colorGeneratorContainer">
+    <a @click="$router.push($store.state.routings.colorLightenerDarker.path)">
+      <div class="item" id="colorLightenerDarkerBox">
+        <p>Color Lightener/Darker</p>
+      </div>
+    </a>
     <a @click="$router.push($store.state.routings.colorPalleteGenerator.path)">
-      <div class="item">
+      <div class="item" id="colorPalleteGeneratorBox">
         <p>Color Pallete Generator</p>
       </div>
     </a>
@@ -13,6 +18,14 @@ export default {};
 </script>
 
 <style lang="scss" scoped>
+#colorLightenerDarkerBox {
+  background: rgb(166, 164, 222);
+}
+
+#colorPalleteGeneratorBox {
+  background: url("../../../../src/assets/colorGradient.png");
+  background-size: 100% 100%;
+}
 .colorGeneratorContainer {
   display: flex;
   gap: 50px;

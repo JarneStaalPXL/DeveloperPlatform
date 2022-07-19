@@ -1,87 +1,15 @@
 <template>
   <n-space vertical>
-    <n-card>
-      <n-space :style="{ display: 'block' }">
-        <div
-          class="colorPalletGenerator d-flex justify-content-between"
-          style="gap: 25px"
+    <n-space :style="{ display: 'block' }" class="fullContainer">
+      <div
+        class="colorPalletGenerator d-flex justify-content-between"
+        style="gap: 25px"
+      >
+        <n-card
+          class="colorPalletFunctionalItem"
+          title="Color Pallete Generator"
         >
-          <n-card
-            class="colorPalletFunctionalItem"
-            title="Color lighter/darkener"
-          >
-            <n-h6>Please select a color</n-h6>
-            <n-color-picker
-              v-model:value="color"
-              :modes="['hex']"
-              :on-complete="generateDarkOrLighterColor(color, shadePercentage)"
-              placeholder="Enter a color"
-              :swatches="[
-                '#00FF78FF',
-                '#0076FFFF',
-                '#FF9D00FF',
-                '#FF3F3FFF',
-                '#A700EEFF',
-              ]"
-              :show-preview="true"
-            >
-            </n-color-picker>
-
-            <n-h6>Choose if u want a Lighter or Darker color</n-h6>
-            <n-radio-group
-              @change="handleChange"
-              name="radiobuttongroup1"
-              class="d-flex mb-2"
-            >
-              <n-radio-button
-                class="w-100"
-                :value="'Lighter'"
-                :label="'Lighter'"
-              />
-              <n-radio-button
-                class="w-100"
-                :value="'Darker'"
-                :label="'Darker'"
-              />
-            </n-radio-group>
-
-            <n-h6>Enter the amount that will apply to this color</n-h6>
-            <n-input-number
-              @keyup="generateDarkOrLighterColor(color, shadePercentage)"
-              v-model:value="shadePercentage"
-              placeholder="Enter amount "
-              :min="0"
-              :max="100"
-            >
-              <template #suffix> % </template>
-            </n-input-number>
-
-            <!-- <n-button class="w-100" @click="generateDarkOrLighterColor(color, shadePercentage)">Apply
-                        </n-button> -->
-            <n-card title="Result" class="mt-3" v-if="shadePercentage">
-              <n-h6
-                >This is a {{ lighter ? "lighter" : "darker" }} color of
-                {{ color }}</n-h6
-              >
-              <n-color-picker
-                v-model:value="shadedColor"
-                :modes="['hex']"
-                :show-preview="true"
-                disabled
-              >
-              </n-color-picker>
-              <n-button class="w-100" @click="copyHEXToClipboard(shadedColor)"
-                >Copy to clipboard
-              </n-button>
-            </n-card>
-            <!-- <h4 class="mt-5 pb-3">Result</h4>
-                        <n-color-picker v-model:value="shadedColor" :modes="['hex']" :show-preview="true">
-                        </n-color-picker> -->
-          </n-card>
-          <n-card
-            class="colorPalletFunctionalItem"
-            title="Color Pallete Generator"
-          >
+          <section id="creationSection">
             <n-color-picker
               v-model:value="selectedColorForPallet"
               :swatches="[
@@ -109,10 +37,11 @@
               class="w-100"
               >Download Colorpicker extension</n-button
             >
-          </n-card>
-        </div>
-      </n-space>
-    </n-card>
+          </section>
+        </n-card>
+      </div>
+    </n-space>
+
     <transition appear>
       <n-card
         title="Saved Color Palletes"
@@ -285,6 +214,14 @@ export default {
         });
     },
     async saveColorPallet(colorPallet) {
+      //check if colorPallet is already in savedColorPallets
+      for (let cp of this.savedColorPallets) {
+        if (cp[0] === colorPallet[0]) {
+          window.$message.error("Color pallete already saved");
+          this.showColorPalletDrawer = false;
+          return;
+        }
+      }
       await this.$store
         .dispatch("GET_USER_SAVED_COLOR_PALLETES", localStorage.getItem("uid"))
         .then(async () => {
@@ -388,6 +325,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#creationSection {
+  width: 50%;
+  margin: auto;
+}
 .colorPalletItem {
   height: 50px;
   display: flex;
@@ -409,9 +350,6 @@ export default {
     color: white;
   }
 }
-.colorPalletFunctionalItem {
-  width: 50%;
-}
 
 .hexCodeTextParagraph {
   width: 150px;
@@ -428,6 +366,12 @@ export default {
 }
 
 @media only screen and (max-width: 992px) {
+  #creationSection {
+    width: 100%;
+  }
+  .fullContainer {
+    width: 100%;
+  }
   .colorPalletGenerator {
     display: block !important;
   }

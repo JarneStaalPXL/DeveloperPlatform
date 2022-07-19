@@ -47,6 +47,11 @@ export default createStore({
         path: '/colorPalleteGenerator',
         name: 'colorpalletegenerator',
         component: 'ColorPalleteGeneratorView'
+      },
+      colorLightenerDarker: {
+        path: '/colorlightenerdarker',
+        name: 'colorlightenerdarker',
+        component: 'ColorLightenerDarkerView'
       }
     },
     userSavedColorPallets: [],
