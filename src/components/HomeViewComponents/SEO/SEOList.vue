@@ -22,7 +22,6 @@ export default {};
 
 .item {
   width: 300px;
-  margin: auto;
   height: 300px;
   border-radius: 15px;
   margin-bottom: 20px;

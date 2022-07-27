@@ -107,12 +107,7 @@ export default createStore({
     },
     removeColorPalletFromSaved(state, colorPallet) {
       if (colorPallet !== undefined && colorPallet !== null) {
-        console.log("🚀 ~ file: index.js ~ line 104 ~ removeColorPalletFromSaved ~ colorPallet", colorPallet)
         //check if colorPallet object is in state.userSavedColorPallets using filter
-        for (let cp of state.userSavedColorPallets) {
-          console.log(cp);
-        }
-
         let newArr = state.userSavedColorPallets.filter(cp => {
           return cp[0] !== colorPallet.colorpallet[0];
         }
@@ -120,8 +115,6 @@ export default createStore({
         state.userSavedColorPallets = newArr;
         return;
       }
-
-      console.log("Colorpallet is undefined or null")
     }
   },
   actions: {
@@ -143,8 +136,6 @@ export default createStore({
         body: JSON.stringify({ data: { colorpallet: state.userSavedColorPallets } })
       });
       const content = await rawResponse.json();
-      console.log(content);
-      console.log(user);
       await dispatch('GET_USER_SAVED_COLOR_PALLETES', user.id);
     },
     async ADD_COLORPALLETE_TO_ACCOUNT({ state, dispatch, commit }, user) {
@@ -153,9 +144,7 @@ export default createStore({
       }
 
       commit('addColorPalletToSaved', user.colorPallet);
-      console.log(state.userSavedColorPallets);
       if (state.userSavedColorPallets === undefined) {
-        console.log("why is userSavedColorPallets undefined in ADD_COLORPALLETE_TO_ACCOUNT");
         return;
       }
       //find id of user with useruid
@@ -170,7 +159,6 @@ export default createStore({
         body: JSON.stringify({ data: { colorpallet: state.userSavedColorPallets } })
       });
       const content = await rawResponse.json();
-      console.log(content);
     },
     async CREATE_ACCOUNT({ state, dispatch, commit }, user) {
       if (!await dispatch('USER_EXISTS', user.uid)) {
@@ -188,7 +176,6 @@ export default createStore({
           })
         });
         const content = await rawResponse.json();
-        console.log(content);
       }
       commit("setUserData", { user: user });
       dispatch('LOAD_USER_SAVED_DATA', user.uid);
@@ -203,7 +190,6 @@ export default createStore({
         }
       });
       const content2 = await dataResponse.json();
-      console.log(content2)
       return content2.data.length > 0
     },
     async GET_USER_ID({ state }, userUid) {

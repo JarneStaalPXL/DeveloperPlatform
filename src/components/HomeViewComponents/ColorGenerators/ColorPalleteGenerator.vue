@@ -118,18 +118,20 @@
         </div>
       </section>
       <template #footer>
-        <n-button
-          @click="
-            $store.state.isLoggedIn
-              ? saveColorPallet(colorPallet)
-              : (showColorPalletDrawer = false)
-          "
-          >{{
-            $store.state.isLoggedIn
-              ? "Save color pallete"
-              : "Log in with Google to save color pallette"
-          }}</n-button
-        >
+        <n-spin :show="showSaveColorPalletBtn">
+          <n-button
+            @click="
+              $store.state.isLoggedIn
+                ? saveColorPallet(colorPallet)
+                : (showColorPalletDrawer = false)
+            "
+            >{{
+              $store.state.isLoggedIn
+                ? "Save color pallete"
+                : "Log in with Google to save color pallette"
+            }}</n-button
+          >
+        </n-spin>
       </template>
     </n-drawer-content>
   </n-drawer>
@@ -153,6 +155,7 @@ import {
   NPopconfirm,
   NH6,
   NP,
+  NSpin,
 } from "naive-ui";
 export default {
   components: {
@@ -170,6 +173,7 @@ export default {
     NPopconfirm,
     NH6,
     NP,
+    NSpin,
   },
   data() {
     return {
@@ -214,6 +218,7 @@ export default {
         });
     },
     async saveColorPallet(colorPallet) {
+      this.showSaveColorPalletBtn = true;
       //check if colorPallet is already in savedColorPallets
       for (let cp of this.savedColorPallets) {
         if (cp[0] === colorPallet[0]) {
@@ -241,9 +246,7 @@ export default {
               JSON.stringify(this.$store.state.userSavedColorPallet)
             );
           }
-          console.log("Object I want in array below", obj);
           tempArr.push(obj);
-          console.log("The array", tempArr);
 
           //save to Strapi
           await this.$store
@@ -254,9 +257,11 @@ export default {
             .then(() => {
               window.$message.success("Color pallete saved successfully!");
               this.showColorPalletDrawer = false;
+              this.showSaveColorPalletBtn = false;
             })
             .catch((err) => {
               console.error(err);
+              this.showSaveColorPalletBtn = false;
             });
         });
     },
@@ -319,6 +324,7 @@ export default {
       handleChange(e) {
         checkedValueRef.value = e.target.value;
       },
+      showSaveColorPalletBtn: ref(false),
     };
   },
 };
