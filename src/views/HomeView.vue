@@ -25,6 +25,16 @@
       <!--card header template-->
       <template #header>
         <div class="d-flex" style="gap: 10px">
+          <h4>Global Frontend Tools</h4>
+          <n-badge :value="1" color="grey" />
+        </div>
+      </template>
+      <GlobalFrontendToolsList />
+    </n-card>
+    <n-card class="categoryCard" :style="{ marginTop: '30px' }">
+      <!--card header template-->
+      <template #header>
+        <div class="d-flex" style="gap: 10px">
           <h4>Gradient Generators</h4>
           <n-badge :value="2" color="grey" />
         </div>
@@ -63,17 +73,6 @@
         </div>
       </template>
       <ColorGeneratorsList />
-    </n-card>
-
-    <n-card class="categoryCard" :style="{ marginTop: '30px' }">
-      <!--card header template-->
-      <template #header>
-        <div class="d-flex" style="gap: 10px">
-          <h4>Global Frontend Tools</h4>
-          <n-badge :value="1" color="grey" />
-        </div>
-      </template>
-      <GlobalFrontendToolsList />
     </n-card>
   </n-config-provider>
 </template>
