@@ -34,7 +34,59 @@ export default {
           name: "Online Tools Toolbox",
           link: "https://10015.io/",
           websitePreviewImage: require("../../../assets/toolsio.png"),
-          textColor: null,
+          textColor: "black",
+        },
+        {
+          name: "SVG Illustrations",
+          link: "https://undraw.co/illustrations",
+          websitePreviewImage: require("../../../assets/undraw.png"),
+          textColor: "black",
+        },
+        {
+          name: "Illustrations and Icons",
+          link: "https://iconscout.com/",
+          websitePreviewImage: require("../../../assets/iconscout.png"),
+          textColor: "black",
+        },
+        {
+          name: "SVG Blob Generator",
+          link: "https://www.blobmaker.app/",
+          websitePreviewImage: require("../../../assets/blobmaker.png"),
+          textColor: "black",
+        },
+        {
+          name: "Chart Library",
+          link: "https://apexcharts.com/",
+          websitePreviewImage: require("../../../assets/apexcharts.png"),
+          textColor: "black",
+        },
+        {
+          name: "Toast Alert Library",
+          link: "https://apvarun.github.io/toastify-js/",
+          websitePreviewImage: require("../../../assets/toastify.png"),
+          textColor: "black",
+        },
+        {
+          name: "Input auto-formatter",
+          link: "https://nosir.github.io/cleave.js/",
+          websitePreviewImage: require("../../../assets/cleave.png"),
+          textColor: "black",
+        },
+
+        {
+          name: "CSS Key Frame Creator",
+          link: "https://keyframes.app/",
+          websitePreviewImage: require("../../../assets/keyframescreator.png"),
+        },
+        {
+          name: "Retro Game Creator (JS Library)",
+          link: "https://kaboomjs.com/",
+          websitePreviewImage: require("../../../assets/kaboomjs.jpg"),
+        },
+        {
+          name: "Animation Library",
+          link: "https://greensock.com/gsap/",
+          websitePreviewImage: require("../../../assets/greensock.png"),
         },
         {
           name: "Animated Backgrounds",
@@ -42,11 +94,7 @@ export default {
           websitePreviewImage: require("../../../assets/animatedbackgrounds.gif"),
           textColor: null,
         },
-        {
-          name: "Retro Game Creator (JS Library)",
-          link: "https://kaboomjs.com/",
-          websitePreviewImage: require("../../../assets/kaboomjs.jpg"),
-        },
+
         {
           name: "SVG Pattern Generator",
           link: "https://patternpad.com/",
@@ -56,26 +104,52 @@ export default {
           name: "CSS Loaders",
           link: "https://whirl.netlify.app/",
           websitePreviewImage: require("../../../assets/whirl.png"),
+          textColor: "black",
         },
+
         {
-          name: "CSS Key Frames Creator",
-          link: "https://keyframes.app/",
-          websitePreviewImage: require("../../../assets/keyframescreator.png"),
-        },
-        {
-          name: "Toast Alert Library",
-          link: "https://apvarun.github.io/toastify-js/",
-          websitePreviewImage: require("../../../assets/toastify.png"),
-        },
-        {
-          name: "Input auto-formatter",
-          link: "https://nosir.github.io/cleave.js/",
-          websitePreviewImage: require("../../../assets/cleave.png"),
+          name: "CSS Animated Backgrounds",
+          link: "https://alvarotrigo.com/blog/animated-backgrounds-css/",
+          websitePreviewImage: require("../../../assets/animatedbackgrounds.png"),
         },
         {
           name: "Mesh Gradient Generator",
           link: "https://csshero.org/mesher/",
           websitePreviewImage: require("../../../assets/mesher.png"),
+        },
+
+        {
+          name: "Visual Effects Library",
+          link: "https://party.js.org/",
+          websitePreviewImage: require("../../../assets/party.png"),
+        },
+
+        {
+          name: "Glassmorphism Generator",
+          link: "https://hype4.academy/tools/glassmorphism-generator",
+          websitePreviewImage: require("../../../assets/glassmorphism.png"),
+        },
+        {
+          name: "SVG Waves Generator",
+          link: "https://getwaves.io/",
+          websitePreviewImage: require("../../../assets/wave.svg"),
+        },
+        {
+          name: "Date Functions Library",
+          link: "https://date-fns.org/",
+          websitePreviewImage: require("../../../assets/date-fns.png"),
+        },
+        {
+          name: "Mockup Creator",
+          link: "https://carrd.co/build",
+          websitePreviewImage: require("../../../assets/carrd.png"),
+          textColor: "black",
+        },
+        {
+          name: "Fully Customizable Chart Library",
+          link: "https://gionkunz.github.io/chartist-js/",
+          websitePreviewImage: require("../../../assets/chartist.png"),
+          textColor: "black",
         },
       ],
     };
@@ -102,16 +176,23 @@ export default {
   align-items: end;
   background: black;
   background-size: cover;
+  background-position: center;
 
   p {
     font-size: 18px;
     background: black;
     padding: 20px;
     border-radius: 15px;
-    color: white;
     transition: opacity 0.3s ease-in-out;
     margin: 0;
     width: 100%;
+
+    background: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
   }
 
   &:hover {
