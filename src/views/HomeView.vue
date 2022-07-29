@@ -3,42 +3,60 @@
     <n-card class="titleCard">
       <template #header>
         <div class="d-flex justify-content-between">
-          <p class="title">Frontend Platform</p>
+          <p class="title">Developer Platform</p>
 
           <Transition appear>
-            <n-avatar v-if="$store.state.isLoggedIn" size="large" :style="{
-              color: 'white',
-              backgroundColor: '#A097E0',
-              marginTop: 'auto',
-              marginBottom: 'auto',
-            }">{{ userName ? userName.toUpperCase() : "" }}</n-avatar>
+            <n-avatar
+              v-if="$store.state.isLoggedIn"
+              size="large"
+              :style="{
+                color: 'white',
+                backgroundColor: '#A097E0',
+                marginTop: 'auto',
+                marginBottom: 'auto',
+              }"
+              >{{ userName ? userName.toUpperCase() : "" }}</n-avatar
+            >
           </Transition>
         </div>
       </template>
     </n-card>
-    <n-card class="categoryCard" :style="{ marginTop: '30px' }">
-      <!--card header template-->
-      <template #header>
-        <div class="d-flex" style="gap: 10px">
-          <h4>Global Frontend Tools</h4>
-          <n-badge :value="1" color="grey" />
-        </div>
-      </template>
-      <GlobalFrontendToolsList />
-    </n-card>
-    <n-card class="categoryCard" :style="{ marginTop: '30px' }">
-      <!--card header template-->
-      <template #header>
-        <div class="d-flex" style="gap: 10px">
-          <h4>Gradient Generators</h4>
-          <n-badge :value="2" color="grey" />
-        </div>
-      </template>
-      <GradientGeneratorsList />
-    </n-card>
+    <n-collapse>
+      <n-card class="categoryCard" :style="{ marginTop: '30px' }">
+        <!--card header template-->
+        <n-collapse-item :default-expanded-names="['1']">
+          <template #header>
+            <div class="d-flex" style="gap: 10px">
+              <h4>Global Frontend Tools</h4>
+              <n-badge
+                :value="$store.state.globalFrontendTools.length"
+                color="grey"
+              />
+            </div>
+          </template>
 
+          <GlobalFrontendToolsList />
+        </n-collapse-item>
+      </n-card>
+    </n-collapse>
+
+    <n-collapse>
+      <n-card class="categoryCard" :style="{ marginTop: '30px' }">
+        <!--card header template-->
+        <n-collapse-item :default-expanded-names="['2']">
+          <template #header>
+            <div class="d-flex" style="gap: 10px">
+              <h4>Gradient Generators</h4>
+              <n-badge :value="2" color="grey" />
+            </div>
+          </template>
+          <GradientGeneratorsList />
+        </n-collapse-item>
+      </n-card>
+    </n-collapse>
+
+    <!-- 
     <n-card class="categoryCard" :style="{ marginTop: '30px' }">
-      <!--card header template-->
       <template #header>
         <div class="d-flex" style="gap: 10px">
           <h4>SEO</h4>
@@ -49,7 +67,6 @@
     </n-card>
 
     <n-card class="categoryCard" :style="{ marginTop: '30px' }">
-      <!--card header template-->
       <template #header>
         <div class="d-flex" style="gap: 10px">
           <h4>Website Responsivity</h4>
@@ -57,31 +74,41 @@
         </div>
       </template>
       <ResponsivityList />
-    </n-card>
+    </n-card> -->
 
-    <n-card class="categoryCard" :style="{ marginTop: '30px' }">
-      <!--card header template-->
-      <template #header>
-        <div class="d-flex" style="gap: 10px">
-          <h4>Color Generators</h4>
-          <n-badge :value="1" color="grey" />
-        </div>
-      </template>
-      <ColorGeneratorsList />
-    </n-card>
+    <n-collapse>
+      <n-card class="categoryCard" :style="{ marginTop: '30px' }">
+        <!--card header template-->
+        <n-collapse-item :default-expanded-names="['3']">
+          <template #header>
+            <div class="d-flex" style="gap: 10px">
+              <h4>Color Generators</h4>
+              <n-badge :value="1" color="grey" />
+            </div>
+          </template>
+          <ColorGeneratorsList />
+        </n-collapse-item>
+      </n-card>
+    </n-collapse>
 
-    <n-card class="categoryCard" :style="{ marginTop: '30px' }">
-      <!--card header template-->
-      <template #header>
-        <div class="d-flex" style="gap: 10px">
-          <h4>Gradient Generators</h4>
-          <n-badge :value="2" color="grey" />
-        </div>
-      </template>
-      <HostingProvidersList />
-    </n-card>
+    <n-collapse>
+      <n-card class="categoryCard" :style="{ marginTop: '30px' }">
+        <!--card header template-->
+        <n-collapse-item :default-expanded-names="['4']">
+          <template #header>
+            <div class="d-flex" style="gap: 10px">
+              <h4>Hosting Providers</h4>
+              <n-badge
+                :value="$store.state.hostingproviders.length"
+                color="grey"
+              />
+            </div>
+          </template>
+          <HostingProvidersList />
+        </n-collapse-item>
+      </n-card>
+    </n-collapse>
   </n-config-provider>
-
 </template>
 
 <script>
@@ -89,9 +116,17 @@ import ColorGeneratorsList from "@/components/HomeViewComponents/ColorGenerators
 import ResponsivityList from "@/components/HomeViewComponents/Responsivity/ResponsivityList.vue";
 import GradientGeneratorsList from "@/components/HomeViewComponents/GradientGenerators/GradientGeneratorsList.vue";
 import GlobalFrontendToolsList from "@/components/HomeViewComponents/GlobalFrontendTools/GlobalFrontendToolsList.vue";
-import HostingProvidersList from '@/components/HomeViewComponents/HostingProviders/HostingProvidersList'
+import HostingProvidersList from "@/components/HomeViewComponents/HostingProviders/HostingProvidersList";
 import SEOList from "@/components/HomeViewComponents/SEO/SEOList.vue";
-import { NCard, NConfigProvider, darkTheme, NAvatar, NBadge } from "naive-ui";
+import {
+  NCard,
+  NConfigProvider,
+  darkTheme,
+  NAvatar,
+  NBadge,
+  NCollapse,
+  NCollapseItem,
+} from "naive-ui";
 export default {
   name: "HomeView",
   components: {
@@ -105,6 +140,8 @@ export default {
     GlobalFrontendToolsList,
     HostingProvidersList,
     SEOList,
+    NCollapse,
+    NCollapseItem,
   },
   setup() {
     return {
@@ -131,6 +168,9 @@ export default {
 
 
 <style lang="scss" scoped>
+h4 {
+  margin: 0;
+}
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;

@@ -47,10 +47,22 @@ export default {};
 
   p {
     font-size: 18px;
+    align-self: flex-end;
+    width: 100%;
+    margin-bottom: 0;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
   }
 
   &:hover {
     border: 2px solid white;
+    cursor: pointer;
   }
 }
 </style>

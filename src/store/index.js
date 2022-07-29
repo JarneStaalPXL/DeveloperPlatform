@@ -55,6 +55,257 @@ export default createStore({
       }
     },
     userSavedColorPallets: [],
+    globalFrontendTools: [
+      {
+        name: "Online Tools Toolbox",
+        link: "https://10015.io/",
+        websitePreviewImage: require("../assets/toolsio.png"),
+        textColor: "black",
+      },
+      {
+        name: "SVG Illustrations",
+        link: "https://undraw.co/illustrations",
+        websitePreviewImage: require("../assets/undraw.png"),
+        textColor: "black",
+      },
+      {
+        name: "Illustrations and Icons",
+        link: "https://iconscout.com/",
+        websitePreviewImage: require("../assets/iconscout.png"),
+        textColor: "black",
+      },
+      {
+        name: "SVG Blob Generator",
+        link: "https://www.blobmaker.app/",
+        websitePreviewImage: require("../assets/blobmaker.png"),
+        textColor: "black",
+      },
+      {
+        name: "Chart Library",
+        link: "https://apexcharts.com/",
+        websitePreviewImage: require("../assets/apexcharts.png"),
+        textColor: "black",
+      },
+      {
+        name: "Toast Alert Library",
+        link: "https://apvarun.github.io/toastify-js/",
+        websitePreviewImage: require("../assets/toastify.png"),
+        textColor: "black",
+      },
+      {
+        name: "Input auto-formatter",
+        link: "https://nosir.github.io/cleave.js/",
+        websitePreviewImage: require("../assets/cleave.png"),
+        textColor: "black",
+      },
+
+      {
+        name: "CSS Key Frame Creator",
+        link: "https://keyframes.app/",
+        websitePreviewImage: require("../assets/keyframescreator.png"),
+      },
+      {
+        name: "Retro Game Creator (JS Library)",
+        link: "https://kaboomjs.com/",
+        websitePreviewImage: require("../assets/kaboomjs.jpg"),
+      },
+      {
+        name: "Animation Library",
+        link: "https://greensock.com/gsap/",
+        websitePreviewImage: require("../assets/greensock.png"),
+      },
+      {
+        name: "Animated Backgrounds",
+        link: "https://animatedbackgrounds.me",
+        websitePreviewImage: require("../assets/animatedbackgrounds.gif"),
+        textColor: null,
+      },
+
+      {
+        name: "SVG Pattern Generator",
+        link: "https://patternpad.com/",
+        websitePreviewImage: require("../assets/patternpad.svg"),
+      },
+      {
+        name: "CSS Loaders",
+        link: "https://whirl.netlify.app/",
+        websitePreviewImage: require("../assets/whirl.png"),
+        textColor: "black",
+      },
+
+      {
+        name: "CSS Animated Backgrounds",
+        link: "https://alvarotrigo.com/blog/animated-backgrounds-css/",
+        websitePreviewImage: require("../assets/animatedbackgrounds.png"),
+      },
+      {
+        name: "Mesh Gradient Generator",
+        link: "https://csshero.org/mesher/",
+        websitePreviewImage: require("../assets/mesher.png"),
+      },
+
+      {
+        name: "Visual Effects Library",
+        link: "https://party.js.org/",
+        websitePreviewImage: require("../assets/party.png"),
+      },
+
+      {
+        name: "Glassmorphism Generator",
+        link: "https://hype4.academy/tools/glassmorphism-generator",
+        websitePreviewImage: require("../assets/glassmorphism.png"),
+      },
+      {
+        name: "SVG Waves Generator",
+        link: "https://getwaves.io/",
+        websitePreviewImage: require("../assets/wave.svg"),
+      },
+      {
+        name: "Date Functions Library",
+        link: "https://date-fns.org/",
+        websitePreviewImage: require("../assets/date-fns.png"),
+      },
+      {
+        name: "Mockup Creator",
+        link: "https://carrd.co/build",
+        websitePreviewImage: require("../assets/carrd.png"),
+        textColor: "black",
+      },
+      {
+        name: "Fully Customizable Chart Library",
+        link: "https://gionkunz.github.io/chartist-js/",
+        websitePreviewImage: require("../assets/chartist.png"),
+        textColor: "black",
+      },
+    ],
+    hostingproviders: [
+      {
+        name: "Github Pages",
+        link: "https://pages.github.com/",
+        websitePreviewImage: require("../assets/github-pages.webp"),
+        textColor: "black"
+      },
+      {
+        name: "Koyeb",
+        link: "https://koyeb.com/",
+        websitePreviewImage: require("../assets/kojeb.jpg"),
+        textColor: "black"
+      },
+      {
+        name: "Layer0",
+        link: "https://www.layer0.co/",
+        description:
+          "Layer0 allows you to deploy JAMStack websites very easily using technologies " +
+          "like Next.js, Nuxt.js, React and more.",
+        websitePreviewImage: require("../assets/layer0.webp"),
+        textColor: "black"
+      },
+      {
+        name: "W3Schools Spaces",
+        link: "https://www.w3schools.com/spaces/",
+        websitePreviewImage: require("../assets/w3schools.jpg"),
+        textColor: "black"
+      },
+      {
+        name: "Flatlogic",
+        link: "https://flatlogic.com/",
+        websitePreviewImage: require("../assets/flatlogic.png"),
+        textColor: "black"
+      },
+      {
+        name: "Firebase",
+        link: "https://firebase.com/",
+        websitePreviewImage: require("../assets/firebase.png"),
+        textColor: "black"
+      },
+      {
+        name: "Cloudflare Pages",
+        link: "https://pages.cloudflare.com/",
+        websitePreviewImage: require("../assets/cloudflare-pages.png"),
+        textColor: "black"
+      },
+      {
+        name: "Hostman",
+        link: "https://hostman.com/",
+        websitePreviewImage: require("../assets/hostman.png"),
+        textColor: "black"
+      },
+
+
+      {
+        name: "Heroku",
+        link: "https://www.heroku.com/",
+        description:
+          "Heroku is a hosting service for full stack applications" +
+          " in the cloud. They support Nodejs, Pyton, Ruby, Java apps and many more.",
+        websitePreviewImage: require("../assets/heroku.png"),
+      },
+      {
+        name: "Qovery",
+        link: "https://www.qovery.com/",
+        description:
+          "Qovery is another hosting service which provides hosting for full-stack" +
+          " web apps and built-in databases. They provide unlimited apps and databases.",
+        websitePreviewImage: require("../assets/qovery.jpg"),
+      },
+      {
+        name: "Fly.io",
+        link: "https://fly.io/",
+        websitePreviewImage: require("../assets/fly.png"),
+      },
+      {
+        name: "Stormkit",
+        link: "https://stormkit.io/",
+        websitePreviewImage: require("../assets/stormkit.jpg"),
+      },
+      {
+        name: "GitLab Pages",
+        link: "https://gitlab.com/pages/",
+        websitePreviewImage: require("../assets/gitlab-pages.jpg"),
+      },
+      {
+        name: "Railway",
+        link: "https://railway.app/",
+        websitePreviewImage: require("../assets/railway.png"),
+      },
+      {
+        name: "Vercel",
+        link: "https://vercel.com/",
+        description:
+          "Vercel is an amazing service. They allow you to " +
+          "easily develop applications, previewing them before setting it to production.",
+        websitePreviewImage: require("../assets/vercel.jpg"),
+      },
+      {
+        name: "Replit",
+        link: "https://repl.it/",
+        websitePreviewImage: require("../assets/replit.png"),
+      },
+      {
+        name: "Fleek",
+        link: "https://fleek.co/",
+        websitePreviewImage: require("../assets/fleek.jpg"),
+      },
+      {
+        name: "begin",
+        link: "https://begin.com/",
+        websitePreviewImage: require("../assets/begin-logo.svg"),
+      },
+      {
+        name: "Render",
+        link: "https://render.com/",
+        websitePreviewImage: require("../assets/render.png"),
+      },
+      {
+        name: "Netlify",
+        link: "https://www.netlify.com/",
+        description:
+          "Netlify is the go-to platform for deploying" +
+          " modern web projects. It comes with an integrated system to let you" +
+          " quickly deploy projects from GitHub and GitLab.",
+        websitePreviewImage: require("../assets/netlify.jpg"),
+      },
+    ],
   },
 
   getters: {
