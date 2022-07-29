@@ -6,17 +6,12 @@
           <p class="title">Frontend Platform</p>
 
           <Transition appear>
-            <n-avatar
-              v-if="$store.state.isLoggedIn"
-              size="large"
-              :style="{
-                color: 'white',
-                backgroundColor: '#A097E0',
-                marginTop: 'auto',
-                marginBottom: 'auto',
-              }"
-              >{{ userName ? userName.toUpperCase() : "" }}</n-avatar
-            >
+            <n-avatar v-if="$store.state.isLoggedIn" size="large" :style="{
+              color: 'white',
+              backgroundColor: '#A097E0',
+              marginTop: 'auto',
+              marginBottom: 'auto',
+            }">{{ userName ? userName.toUpperCase() : "" }}</n-avatar>
           </Transition>
         </div>
       </template>
@@ -74,7 +69,19 @@
       </template>
       <ColorGeneratorsList />
     </n-card>
+
+    <n-card class="categoryCard" :style="{ marginTop: '30px' }">
+      <!--card header template-->
+      <template #header>
+        <div class="d-flex" style="gap: 10px">
+          <h4>Gradient Generators</h4>
+          <n-badge :value="2" color="grey" />
+        </div>
+      </template>
+      <HostingProvidersList />
+    </n-card>
   </n-config-provider>
+
 </template>
 
 <script>
@@ -82,6 +89,7 @@ import ColorGeneratorsList from "@/components/HomeViewComponents/ColorGenerators
 import ResponsivityList from "@/components/HomeViewComponents/Responsivity/ResponsivityList.vue";
 import GradientGeneratorsList from "@/components/HomeViewComponents/GradientGenerators/GradientGeneratorsList.vue";
 import GlobalFrontendToolsList from "@/components/HomeViewComponents/GlobalFrontendTools/GlobalFrontendToolsList.vue";
+import HostingProvidersList from '@/components/HomeViewComponents/HostingProviders/HostingProvidersList'
 import SEOList from "@/components/HomeViewComponents/SEO/SEOList.vue";
 import { NCard, NConfigProvider, darkTheme, NAvatar, NBadge } from "naive-ui";
 export default {
@@ -95,6 +103,7 @@ export default {
     ResponsivityList,
     ColorGeneratorsList,
     GlobalFrontendToolsList,
+    HostingProvidersList,
     SEOList,
   },
   setup() {

@@ -15,7 +15,7 @@ export default {};
 <style lang="scss" scoped>
 .responsivityContainer {
   display: flex;
-  gap: 50px;
+  gap: 10px;
   flex-wrap: wrap;
   margin-top: 0 !important;
 }
@@ -30,6 +30,7 @@ export default {};
   justify-content: center;
   align-items: center;
   background: black;
+
   p {
     font-size: 18px;
   }

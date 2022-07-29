@@ -1,22 +1,16 @@
 <template>
-  <section class="colorGeneratorContainer">
+  <section>
     <a @click="openLink(tool.link)" v-for="tool of tools" :key="tool">
-      <div
-        class="item"
-        :style="{
-          backgroundImage:
-            'url(' +
-            (tool.websitePreviewImage
-              ? tool.websitePreviewImage
-              : websitePreviewImagePlaceholder) +
-            ')',
-          backgroundPosition: tool.websitePreviewImage ? '' : 'center',
-        }"
-      >
-        <p
-          v-if="tool.name"
-          :style="{ color: tool.textColor ? tool.textColor : 'white' }"
-        >
+      <div class="item" :style="{
+        backgroundImage:
+          'url(' +
+          (tool.websitePreviewImage
+            ? tool.websitePreviewImage
+            : websitePreviewImagePlaceholder) +
+          ')',
+        backgroundPosition: tool.websitePreviewImage ? '' : 'center',
+      }">
+        <p v-if="tool.name" :style="{ color: tool.textColor ? tool.textColor : 'white' }">
           {{ tool.name }}
         </p>
       </div>
@@ -182,7 +176,6 @@ export default {
     font-size: 18px;
     background: black;
     padding: 20px;
-    border-radius: 15px;
     transition: opacity 0.3s ease-in-out;
     margin: 0;
     width: 100%;
@@ -191,7 +184,8 @@ export default {
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
-    border-radius: 10px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
     border: 1px solid rgba(255, 255, 255, 0.18);
   }
 
@@ -199,6 +193,7 @@ export default {
     // border: 2px solid white;
     //set cursor to click
     cursor: pointer;
+
     p {
       transition: opacity 0.3s ease-in-out;
       opacity: 0;

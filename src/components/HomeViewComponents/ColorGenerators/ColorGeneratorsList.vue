@@ -26,9 +26,10 @@ export default {};
   background: url("../../../../src/assets/colorGradient.png");
   background-size: 100% 100%;
 }
+
 .colorGeneratorContainer {
   display: flex;
-  gap: 50px;
+  gap: 10px;
   flex-wrap: wrap;
   margin-top: 0 !important;
 }

@@ -15,7 +15,7 @@ export default {};
 <style lang="scss" scoped>
 .seoListContainer {
   display: flex;
-  gap: 50px;
+  gap: 10px;
   flex-wrap: wrap;
   margin-top: 0 !important;
 }
