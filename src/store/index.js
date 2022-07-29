@@ -183,13 +183,15 @@ export default createStore({
         name: "Github Pages",
         link: "https://pages.github.com/",
         websitePreviewImage: require("../assets/github-pages.webp"),
-        textColor: "black"
+        textColor: "black",
+        type: "hostingprovider",
       },
       {
         name: "Koyeb",
         link: "https://koyeb.com/",
         websitePreviewImage: require("../assets/kojeb.jpg"),
-        textColor: "black"
+        textColor: "black",
+        type: "hostingprovider",
       },
       {
         name: "Layer0",
@@ -198,37 +200,43 @@ export default createStore({
           "Layer0 allows you to deploy JAMStack websites very easily using technologies " +
           "like Next.js, Nuxt.js, React and more.",
         websitePreviewImage: require("../assets/layer0.webp"),
-        textColor: "black"
+        textColor: "black",
+        type: "hostingprovider",
       },
       {
         name: "W3Schools Spaces",
         link: "https://www.w3schools.com/spaces/",
         websitePreviewImage: require("../assets/w3schools.jpg"),
-        textColor: "black"
+        textColor: "black",
+        type: "hostingprovider",
       },
       {
         name: "Flatlogic",
         link: "https://flatlogic.com/",
         websitePreviewImage: require("../assets/flatlogic.png"),
-        textColor: "black"
+        textColor: "black",
+        type: "hostingprovider",
       },
       {
         name: "Firebase",
         link: "https://firebase.com/",
         websitePreviewImage: require("../assets/firebase.png"),
-        textColor: "black"
+        textColor: "black",
+        type: "hostingprovider",
       },
       {
         name: "Cloudflare Pages",
         link: "https://pages.cloudflare.com/",
         websitePreviewImage: require("../assets/cloudflare-pages.png"),
-        textColor: "black"
+        textColor: "black",
+        type: "hostingprovider",
       },
       {
         name: "Hostman",
         link: "https://hostman.com/",
         websitePreviewImage: require("../assets/hostman.png"),
-        textColor: "black"
+        textColor: "black",
+        type: "hostingprovider",
       },
 
 
@@ -239,6 +247,7 @@ export default createStore({
           "Heroku is a hosting service for full stack applications" +
           " in the cloud. They support Nodejs, Pyton, Ruby, Java apps and many more.",
         websitePreviewImage: require("../assets/heroku.png"),
+        type: "hostingprovider",
       },
       {
         name: "Qovery",
@@ -247,26 +256,31 @@ export default createStore({
           "Qovery is another hosting service which provides hosting for full-stack" +
           " web apps and built-in databases. They provide unlimited apps and databases.",
         websitePreviewImage: require("../assets/qovery.jpg"),
+        type: "hostingprovider",
       },
       {
         name: "Fly.io",
         link: "https://fly.io/",
         websitePreviewImage: require("../assets/fly.png"),
+        type: "hostingprovider",
       },
       {
         name: "Stormkit",
         link: "https://stormkit.io/",
         websitePreviewImage: require("../assets/stormkit.jpg"),
+        type: "hostingprovider",
       },
       {
         name: "GitLab Pages",
         link: "https://gitlab.com/pages/",
         websitePreviewImage: require("../assets/gitlab-pages.jpg"),
+
       },
       {
         name: "Railway",
         link: "https://railway.app/",
         websitePreviewImage: require("../assets/railway.png"),
+        type: "hostingprovider"
       },
       {
         name: "Vercel",
@@ -275,26 +289,31 @@ export default createStore({
           "Vercel is an amazing service. They allow you to " +
           "easily develop applications, previewing them before setting it to production.",
         websitePreviewImage: require("../assets/vercel.jpg"),
+        type: "hostingprovider"
       },
       {
         name: "Replit",
         link: "https://repl.it/",
         websitePreviewImage: require("../assets/replit.png"),
+        type: "hostingprovider"
       },
       {
         name: "Fleek",
         link: "https://fleek.co/",
         websitePreviewImage: require("../assets/fleek.jpg"),
+        type: "hostingprovider"
       },
       {
         name: "begin",
         link: "https://begin.com/",
         websitePreviewImage: require("../assets/begin-logo.svg"),
+        type: "hostingprovider"
       },
       {
         name: "Render",
         link: "https://render.com/",
         websitePreviewImage: require("../assets/render.png"),
+        type: "hostingprovider"
       },
       {
         name: "Netlify",
@@ -304,6 +323,7 @@ export default createStore({
           " modern web projects. It comes with an integrated system to let you" +
           " quickly deploy projects from GitHub and GitLab.",
         websitePreviewImage: require("../assets/netlify.jpg"),
+        type: "hostingprovider"
       },
     ],
   },
@@ -369,6 +389,21 @@ export default createStore({
     }
   },
   actions: {
+    async SEARCH_TOOLS({ commit, state }, payload) {
+      let allTools = [];
+      for (let tool of state.globalFrontendTools) {
+        allTools.push(tool);
+      }
+      for (let tool of state.hostingproviders) {
+        allTools.push(tool);
+      }
+
+
+      let filteredTools = allTools.filter(tool => {
+        return tool.name.toLowerCase().includes(payload.toLowerCase());
+      });
+      return filteredTools;
+    },
     async REMOVE_COLOR_FROM_SAVED_PALLETTE({ state, dispatch, commit }, user) {
       if (user === undefined) {
         return Promise.reject("user is undefined");

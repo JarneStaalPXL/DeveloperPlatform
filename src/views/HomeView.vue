@@ -20,7 +20,33 @@
           </Transition>
         </div>
       </template>
+      <div class="d-flex">
+        <n-input
+          class="w-75"
+          v-model:value="toolSearchString"
+          placeholder="Search tool"
+        >
+        </n-input>
+        <n-button class="w-25" @click="showResultsTools(toolSearchString)"
+          >Search</n-button
+        >
+      </div>
+
+      <n-card v-if="toolResults.length > 0">
+        <div v-for="tool of toolResults" :key="tool">
+          <a
+            @click="
+              $router.push($store.state.routings.colorLightenerDarker.path)
+            "
+          >
+            <div class="item" id="colorLightenerDarkerBox">
+              <p>{{ tool.name }}</p>
+            </div>
+          </a>
+        </div>
+      </n-card>
     </n-card>
+
     <n-collapse>
       <n-card class="categoryCard" :style="{ marginTop: '30px' }">
         <!--card header template-->
@@ -126,6 +152,8 @@ import {
   NBadge,
   NCollapse,
   NCollapseItem,
+  NInput,
+  NButton,
 } from "naive-ui";
 export default {
   name: "HomeView",
@@ -142,13 +170,30 @@ export default {
     SEOList,
     NCollapse,
     NCollapseItem,
+    NInput,
+    NButton,
+  },
+  data() {
+    return {
+      toolSearchString: "",
+      toolResults: [],
+    };
   },
   setup() {
     return {
       darkTheme,
     };
   },
-  methods: {},
+  mounted() {},
+  methods: {
+    async showResultsTools(toolSearchString) {
+      var tools = await this.$store.dispatch(
+        "SEARCH_TOOLS",
+        this.toolSearchString
+      );
+      this.toolResults = tools;
+    },
+  },
   computed: {
     userName() {
       let username = localStorage.getItem("userName");
