@@ -30,21 +30,25 @@
         <n-button class="w-25" @click="showResultsTools(toolSearchString)"
           >Search</n-button
         >
+        <n-button class="w-25" @click="showResultsTools('')" v-show="showAll">Show All Tools</n-button>
+        <n-button class="w-25" @click="clearResults()" v-show="!showAll">Hide All</n-button>
       </div>
 
       <n-card v-if="toolResults.length > 0">
-        <div v-for="tool of toolResults" :key="tool">
+        <div v-for="tool of toolResults" :key="tool" class="toolResultsContainer">
           <a
             @click="
-              $router.push($store.state.routings.colorLightenerDarker.path)
+              openLink(tool.link)
             "
+            class="tool"
           >
-            <div class="item" id="colorLightenerDarkerBox">
+            <div  id="colorLightenerDarkerBox">
               <p>{{ tool.name }}</p>
             </div>
           </a>
         </div>
       </n-card>
+      <p id="noresults" v-if="!hasToolResult">NO RESULTS</p>
     </n-card>
 
     <n-collapse>
@@ -175,8 +179,10 @@ export default {
   },
   data() {
     return {
-      toolSearchString: "",
+      toolSearchString: '',
       toolResults: [],
+      hasToolResult: true,
+      showAll: true,
     };
   },
   setup() {
@@ -185,14 +191,37 @@ export default {
     };
   },
   mounted() {},
+ 
   methods: {
+    clearResults() {
+      this.toolResults = [];
+
+       this.showAll = true;
+    },
     async showResultsTools(toolSearchString) {
       var tools = await this.$store.dispatch(
         "SEARCH_TOOLS",
-        this.toolSearchString
+        toolSearchString
       );
       this.toolResults = tools;
+      if(tools.length > 0){
+        this.hasToolResult = true;
+      }
+      else {
+        this.hasToolResult = false;
+      }
+  
+      if(this.showAll === false){
+        this.showAll = true;
+      }
+      else {
+        this.showAll = false;
+      }
+
     },
+     openLink(link) {
+    window.open(link, "_blank");
+  },
   },
   computed: {
     userName() {
@@ -247,7 +276,7 @@ h1 {
 a {
   text-decoration: none;
   border: 2px solid transparent;
-  border-radius: 30px;
+  // border-radius: 30px;
   transition: ease-in-out 0.3s;
 }
 
@@ -265,5 +294,37 @@ a {
   font-size: 30px;
   margin: 0;
   padding: 0;
+}
+
+.toolResultsContainer{
+  display:flex;
+}
+
+.tool {
+  p{
+    margin:0;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  padding:20px;
+  text-align: left;
+  background: white;
+  color:black;
+  margin: 5px;
+
+  width:100%;
+  border-radius:5px;
+  &:hover {
+    cursor: pointer;
+    background:#5ACEA7;
+    color:white;
+  }
+}
+
+#noresults {
+  padding: 10px;
+  font-size: 20px;
+  text-align: left;
+  margin:0;
 }
 </style>
