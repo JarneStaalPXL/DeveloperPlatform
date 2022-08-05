@@ -190,8 +190,10 @@ export default {
       darkTheme,
     };
   },
-  mounted() {},
- 
+  mounted() {
+    console.log("mounted");
+    this.$store.dispatch('ADD_PAGE_VISIT');
+  },
   methods: {
     clearResults() {
       this.toolResults = [];
