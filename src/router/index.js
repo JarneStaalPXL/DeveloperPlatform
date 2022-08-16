@@ -7,6 +7,7 @@ import DOMAnalyzerView from "../views/DOMAnalyzerView"
 import ResponsivityCheckerView from "../views/ResponsivityCheckerView"
 import ColorPalleteGeneratorView from '../views/ColorPalleteGeneratorView'
 import ColorLightenerDarkerView from '../views/ColorLightenerDarkerView'
+import store from '../store'
 
 const routes = [
   {
@@ -66,6 +67,11 @@ const router = createRouter({
   },
   history: createWebHistory(),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  store.dispatch("ADD_PAGE_VISIT_ROUTE", to.fullPath);
+  next();
 })
 
 export default router

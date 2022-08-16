@@ -427,6 +427,30 @@ export default createStore({
         const response = await rawResponse.json();
       }
     },
+    async ADD_PAGE_VISIT_ROUTE({ commit, state }, route) {
+      if (route === "/") {
+        route = "Homepage";
+      }
+      const rawResponse = await fetch(`${state.baseUrlStrapiApi}visit-logs`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+        body: JSON.stringify({
+          data: {
+            userid:
+              localStorage.getItem("uid") !== null
+                ? localStorage.getItem("uid")
+                : "Unknown user",
+            route: route,
+            name : localStorage.getItem("userName") !== null ? localStorage.getItem("userName") : "Unknown username",
+          },
+        }),
+      });
+      const response = await rawResponse.json();
+    },
     async SEARCH_TOOLS({ commit, state }, payload) {
       let allTools = [];
       for (let tool of state.globalFrontendTools) {
