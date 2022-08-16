@@ -1,150 +1,131 @@
 <template>
   <n-config-provider :theme="darkTheme">
-    <n-card class="titleCard">
-      <section v-if="this.$store.state.isAdmin">
-        <h1>Page Visits: {{ getPageVisits }}</h1>
-        <n-button>Reset PageVisits to 0</n-button>
-      </section>
-      <template #header>
-        <div class="d-flex justify-content-between">
-          <p class="title">Developer Platform</p>
+    <section :style="{ marginBottom: '100px' }">
+      <n-card class="titleCard">
+        <template #header>
+          <div class="d-flex justify-content-between">
+            <p class="title">Developer Platform</p>
 
-          <Transition appear>
-            <n-avatar
-              v-if="$store.state.isLoggedIn"
-              size="large"
-              :style="{
-                color: 'white',
-                backgroundColor: '#A097E0',
-                marginTop: 'auto',
-                marginBottom: 'auto',
-              }"
-              >{{ userName ? userName.toUpperCase() : "" }}</n-avatar
-            >
-          </Transition>
+            <Transition appear>
+              <n-avatar
+                v-if="$store.state.isLoggedIn"
+                size="large"
+                :style="{
+                  color: 'white',
+                  backgroundColor: '#A097E0',
+                  marginTop: 'auto',
+                  marginBottom: 'auto',
+                }"
+                >{{ userName ? userName.toUpperCase() : "" }}</n-avatar
+              >
+            </Transition>
+          </div>
+        </template>
+        <div class="d-flex searchToolsContainer">
+          <n-input
+            class="w-75"
+            v-model:value="toolSearchString"
+            placeholder="Search online tool"
+            @keyup.enter="showResultsTools(toolSearchString)"
+          >
+          </n-input>
+          <n-button class="w-25" @click="showResultsTools(toolSearchString)"
+            >Search</n-button
+          >
+          <n-button class="w-25" @click="showResultsTools('')" v-show="showAll"
+            >Show All Tools</n-button
+          >
+          <n-button class="w-25" @click="clearResults()" v-show="!showAll"
+            >Hide All</n-button
+          >
         </div>
-      </template>
-      <div class="d-flex">
-        <n-input
-          class="w-75"
-          v-model:value="toolSearchString"
-          placeholder="Search tool"
-        >
-        </n-input>
-        <n-button class="w-25" @click="showResultsTools(toolSearchString)"
-          >Search</n-button
-        >
-        <n-button class="w-25" @click="showResultsTools('')" v-show="showAll"
-          >Show All Tools</n-button
-        >
-        <n-button class="w-25" @click="clearResults()" v-show="!showAll"
-          >Hide All</n-button
-        >
-      </div>
 
-      <n-card v-if="toolResults.length > 0">
-        <div
-          v-for="tool of toolResults"
-          :key="tool"
-          class="toolResultsContainer"
-        >
-          <a @click="openLink(tool.link)" class="tool">
-            <div id="colorLightenerDarkerBox">
-              <p>{{ tool.name }}</p>
+        <n-card v-if="toolResults.length > 0">
+          <div class="toolResultsContainer">
+            <div v-for="tool of toolResults" :key="tool" class="toolResult">
+              <a @click="openLink(tool.link)" class="tool">
+                <div id="colorLightenerDarkerBox">
+                  <p>{{ tool.name }}</p>
+                </div>
+              </a>
             </div>
-          </a>
-        </div>
+          </div>
+        </n-card>
+        <p id="noresults" v-if="!hasToolResult">NO RESULTS</p>
       </n-card>
-      <p id="noresults" v-if="!hasToolResult">NO RESULTS</p>
-    </n-card>
 
-    <n-collapse>
-      <n-card class="categoryCard" :style="{ marginTop: '30px' }">
-        <!--card header template-->
-        <n-collapse-item :default-expanded-names="['1']">
-          <template #header>
-            <div class="d-flex" style="gap: 10px">
-              <h4>Global Frontend Tools</h4>
-              <n-badge
-                :value="$store.state.globalFrontendTools.length"
-                color="grey"
-              />
-            </div>
-          </template>
+      <n-collapse>
+        <n-card class="categoryCard" :style="{ marginTop: '30px' }">
+          <!--card header template-->
+          <n-collapse-item :default-expanded-names="['1']">
+            <template #header>
+              <div class="d-flex" style="gap: 10px">
+                <h4>Global Frontend Tools</h4>
+                <n-badge
+                  :value="$store.state.globalFrontendTools.length"
+                  color="grey"
+                />
+              </div>
+            </template>
 
-          <GlobalFrontendToolsList />
-        </n-collapse-item>
-      </n-card>
-    </n-collapse>
+            <GlobalFrontendToolsList />
+          </n-collapse-item>
+        </n-card>
+      </n-collapse>
 
-    <n-collapse>
-      <n-card class="categoryCard" :style="{ marginTop: '30px' }">
-        <!--card header template-->
-        <n-collapse-item :default-expanded-names="['2']">
-          <template #header>
-            <div class="d-flex" style="gap: 10px">
-              <h4>Gradient Generators</h4>
-              <n-badge :value="2" color="grey" />
-            </div>
-          </template>
-          <GradientGeneratorsList />
-        </n-collapse-item>
-      </n-card>
-    </n-collapse>
+      <n-collapse>
+        <n-card class="categoryCard" :style="{ marginTop: '30px' }">
+          <!--card header template-->
+          <n-collapse-item :default-expanded-names="['2']">
+            <template #header>
+              <div class="d-flex" style="gap: 10px">
+                <h4>Gradient Generators</h4>
+                <n-badge :value="2" color="grey" />
+              </div>
+            </template>
+            <GradientGeneratorsList />
+          </n-collapse-item>
+        </n-card>
+      </n-collapse>
 
-    <!-- 
-    <n-card class="categoryCard" :style="{ marginTop: '30px' }">
-      <template #header>
-        <div class="d-flex" style="gap: 10px">
-          <h4>SEO</h4>
-          <n-badge :value="1" color="grey" />
-        </div>
-      </template>
-      <SEOList />
-    </n-card>
+      <n-collapse>
+        <n-card class="categoryCard" :style="{ marginTop: '30px' }">
+          <!--card header template-->
+          <n-collapse-item :default-expanded-names="['3']">
+            <template #header>
+              <div class="d-flex" style="gap: 10px">
+                <h4>Color Generators</h4>
+                <n-badge :value="1" color="grey" />
+              </div>
+            </template>
+            <ColorGeneratorsList />
+          </n-collapse-item>
+        </n-card>
+      </n-collapse>
 
-    <n-card class="categoryCard" :style="{ marginTop: '30px' }">
-      <template #header>
-        <div class="d-flex" style="gap: 10px">
-          <h4>Website Responsivity</h4>
-          <n-badge :value="1" color="grey" />
-        </div>
-      </template>
-      <ResponsivityList />
-    </n-card> -->
+      <n-collapse>
+        <n-card class="categoryCard" :style="{ marginTop: '30px' }">
+          <!--card header template-->
+          <n-collapse-item :default-expanded-names="['4']">
+            <template #header>
+              <div class="d-flex" style="gap: 10px">
+                <h4>Hosting Providers</h4>
+                <n-badge
+                  :value="$store.state.hostingproviders.length"
+                  color="grey"
+                />
+              </div>
+            </template>
+            <HostingProvidersList />
+          </n-collapse-item>
+        </n-card>
+      </n-collapse>
 
-    <n-collapse>
-      <n-card class="categoryCard" :style="{ marginTop: '30px' }">
-        <!--card header template-->
-        <n-collapse-item :default-expanded-names="['3']">
-          <template #header>
-            <div class="d-flex" style="gap: 10px">
-              <h4>Color Generators</h4>
-              <n-badge :value="1" color="grey" />
-            </div>
-          </template>
-          <ColorGeneratorsList />
-        </n-collapse-item>
-      </n-card>
-    </n-collapse>
-
-    <n-collapse>
-      <n-card class="categoryCard" :style="{ marginTop: '30px' }">
-        <!--card header template-->
-        <n-collapse-item :default-expanded-names="['4']">
-          <template #header>
-            <div class="d-flex" style="gap: 10px">
-              <h4>Hosting Providers</h4>
-              <n-badge
-                :value="$store.state.hostingproviders.length"
-                color="grey"
-              />
-            </div>
-          </template>
-          <HostingProvidersList />
-        </n-collapse-item>
-      </n-card>
-    </n-collapse>
+      <footer class="stickyFooter">
+        <h1>{{ getPageVisits }} developers visited this site.</h1>
+        <!-- <n-button>Reset PageVisits to 0</n-button> -->
+      </footer>
+    </section>
   </n-config-provider>
 </template>
 
@@ -201,16 +182,18 @@ export default {
   async mounted() {
     this.$store.dispatch("GET_PAGE_VISITS");
     this.$store.dispatch("ADD_PAGE_VISIT");
-    console.log("mounted");
   },
   methods: {
     clearResults() {
       this.toolResults = [];
-
       this.showAll = true;
     },
     async showResultsTools(toolSearchString) {
       var tools = await this.$store.dispatch("SEARCH_TOOLS", toolSearchString);
+      //rank tools by string size
+      tools.sort((a, b) => {
+        return a.name.length - b.name.length;
+      });
       this.toolResults = tools;
       if (tools.length > 0) {
         this.hasToolResult = true;
@@ -249,6 +232,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.stickyFooter {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 10px;
+  background: #24242a;
+  z-index: 9999;
+  h1 {
+    font-size: 15px;
+  }
+}
 h4 {
   margin: 0;
 }
@@ -303,7 +297,7 @@ a {
   padding: 0;
 }
 
-.toolResultsContainer {
+.toolResult {
   display: flex;
 }
 
@@ -333,5 +327,30 @@ a {
   font-size: 20px;
   text-align: left;
   margin: 0;
+}
+
+.toolResultsContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media only screen and (max-width: 650px) {
+  .titleCard,
+  .categoryCard {
+    margin: 0;
+    width: 100vw;
+  }
+
+  .searchToolsContainer {
+    flex-direction: column;
+    div,
+    button {
+      width: 100% !important;
+    }
+  }
+
+  .toolResultsContainer {
+    flex-direction: column;
+  }
 }
 </style>

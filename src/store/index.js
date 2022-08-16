@@ -184,21 +184,21 @@ export default createStore({
     ],
     hostingproviders: [
       {
-        name: "Github Pages",
+        name: "Github Pages Hosting",
         link: "https://pages.github.com/",
         websitePreviewImage: require("../assets/github-pages.webp"),
         textColor: "black",
         type: "hostingprovider",
       },
       {
-        name: "Koyeb",
+        name: "Koyeb Hosting",
         link: "https://koyeb.com/",
         websitePreviewImage: require("../assets/kojeb.jpg"),
         textColor: "black",
         type: "hostingprovider",
       },
       {
-        name: "Layer0",
+        name: "Layer0 Hosting",
         link: "https://www.layer0.co/",
         description:
           "Layer0 allows you to deploy JAMStack websites very easily using technologies " +
@@ -208,35 +208,35 @@ export default createStore({
         type: "hostingprovider",
       },
       {
-        name: "W3Schools Spaces",
+        name: "W3Schools Spaces Hosting",
         link: "https://www.w3schools.com/spaces/",
         websitePreviewImage: require("../assets/w3schools.jpg"),
         textColor: "black",
         type: "hostingprovider",
       },
       {
-        name: "Flatlogic",
+        name: "Flatlogic Hosting",
         link: "https://flatlogic.com/",
         websitePreviewImage: require("../assets/flatlogic.png"),
         textColor: "black",
         type: "hostingprovider",
       },
       {
-        name: "Firebase",
+        name: "Firebase Hosting",
         link: "https://firebase.com/",
         websitePreviewImage: require("../assets/firebase.png"),
         textColor: "black",
         type: "hostingprovider",
       },
       {
-        name: "Cloudflare Pages",
+        name: "Cloudflare Pages Hosting",
         link: "https://pages.cloudflare.com/",
         websitePreviewImage: require("../assets/cloudflare-pages.png"),
         textColor: "black",
         type: "hostingprovider",
       },
       {
-        name: "Hostman",
+        name: "Hostman Hosting",
         link: "https://hostman.com/",
         websitePreviewImage: require("../assets/hostman.png"),
         textColor: "black",
@@ -244,7 +244,7 @@ export default createStore({
       },
 
       {
-        name: "Heroku",
+        name: "Heroku Hosting",
         link: "https://www.heroku.com/",
         description:
           "Heroku is a hosting service for full stack applications" +
@@ -253,7 +253,7 @@ export default createStore({
         type: "hostingprovider",
       },
       {
-        name: "Qovery",
+        name: "Qovery Hosting",
         link: "https://www.qovery.com/",
         description:
           "Qovery is another hosting service which provides hosting for full-stack" +
@@ -262,30 +262,30 @@ export default createStore({
         type: "hostingprovider",
       },
       {
-        name: "Fly.io",
+        name: "Fly.io Hosting",
         link: "https://fly.io/",
         websitePreviewImage: require("../assets/fly.png"),
         type: "hostingprovider",
       },
       {
-        name: "Stormkit",
+        name: "Stormkit Hosting",
         link: "https://stormkit.io/",
         websitePreviewImage: require("../assets/stormkit.jpg"),
         type: "hostingprovider",
       },
       {
-        name: "GitLab Pages",
+        name: "GitLab Pages Hosting",
         link: "https://gitlab.com/pages/",
         websitePreviewImage: require("../assets/gitlab-pages.jpg"),
       },
       {
-        name: "Railway",
+        name: "Railway Hosting",
         link: "https://railway.app/",
         websitePreviewImage: require("../assets/railway.png"),
         type: "hostingprovider",
       },
       {
-        name: "Vercel",
+        name: "Vercel Hosting",
         link: "https://vercel.com/",
         description:
           "Vercel is an amazing service. They allow you to " +
@@ -294,31 +294,31 @@ export default createStore({
         type: "hostingprovider",
       },
       {
-        name: "Replit",
+        name: "Replit Hosting",
         link: "https://repl.it/",
         websitePreviewImage: require("../assets/replit.png"),
         type: "hostingprovider",
       },
       {
-        name: "Fleek",
+        name: "Fleek Hosting",
         link: "https://fleek.co/",
         websitePreviewImage: require("../assets/fleek.jpg"),
         type: "hostingprovider",
       },
       {
-        name: "begin",
+        name: "begin Hosting",
         link: "https://begin.com/",
         websitePreviewImage: require("../assets/begin-logo.svg"),
         type: "hostingprovider",
       },
       {
-        name: "Render",
+        name: "Render Hosting",
         link: "https://render.com/",
         websitePreviewImage: require("../assets/render.png"),
         type: "hostingprovider",
       },
       {
-        name: "Netlify",
+        name: "Netlify Hosting",
         link: "https://www.netlify.com/",
         description:
           "Netlify is the go-to platform for deploying" +

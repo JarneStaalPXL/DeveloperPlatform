@@ -1,8 +1,6 @@
 <template>
   <section class="gradientGenerators">
-    <a
-      @click="$router.push($store.state.routings.lineargradientgenerator.path)"
-    >
+    <a @click="$router.push($store.state.routings.lineargradientgenerator.path)">
       <div
         class="gradientBox"
         style="background: linear-gradient(to right, #a6a4de, #6619f3)"
@@ -11,21 +9,28 @@
       </div>
     </a>
 
-    <a
-      @click="$router.push($store.state.routings.radialgradientgenerator.path)"
-    >
-      <div
-        class="gradientBox"
-        style="background: radial-gradient(#a6a4de, #6619f3)"
-      >
+    <a @click="$router.push($store.state.routings.radialgradientgenerator.path)">
+      <div class="gradientBox" style="background: radial-gradient(#a6a4de, #6619f3)">
         <p>Radial Gradient Generator</p>
+      </div>
+    </a>
+
+    <a @click="comingSoonAlert()">
+      <div class="gradientBox">
+        <p>Mesh Gradient Generator</p>
       </div>
     </a>
   </section>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    comingSoonAlert() {
+      alert("Coming soon!");
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
