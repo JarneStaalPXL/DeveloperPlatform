@@ -2,6 +2,8 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
+    isAdmin: false,
+    adminEmail: "jarne.staal9@gmail.com",
     pagevisits: 0,
     baseUrlStrapi: "https://frontendplatformbackend.herokuapp.com",
     baseUrlStrapiApi: "https://frontendplatformbackend.herokuapp.com" + "/api/",
@@ -330,6 +332,9 @@ export default createStore({
 
   getters: {},
   mutations: {
+    setIsAdmin(state, payload) {
+      state.isAdmin = payload;
+    },
     setPageVisits(state, payload) {
       state.pagevisits = payload;
     },
@@ -390,7 +395,6 @@ export default createStore({
   },
   actions: {
     async ADD_PAGE_VISIT({ commit, state }) {
- 
       if (window.location.hostname !== "localhost") {
         //get pagevisits
         const rawRes = await fetch(`${state.baseUrlStrapiApi}analytics/1`, {
@@ -566,6 +570,35 @@ export default createStore({
     },
     async LOAD_USER_SAVED_DATA({ dispatch }, uid) {
       dispatch("GET_USER_SAVED_COLOR_PALLETES", uid);
+    },
+    async GET_PAGE_VISITS({ state, commit, dispatch }) {
+      if (await dispatch("IS_ADMIN")) {
+        const dataResponse = await fetch(
+          `${state.baseUrlStrapiApi}analytics/1`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + state.strapiApiKey,
+            },
+          }
+        );
+        const content2 = await dataResponse.json();
+        commit("setPageVisits", content2.data.attributes.PageVisits);
+      }
+    },
+    IS_ADMIN({ state, commit }) {
+      let isAdmin = false;
+      if (localStorage.getItem("email") === null) {
+        isAdmin = false;
+      } else if (isAdmin === false) {
+        if (localStorage.getItem("email").includes(state.adminEmail)) {
+          isAdmin = true;
+        }
+      }
+      commit("setIsAdmin", isAdmin);
+      return isAdmin;
     },
   },
   modules: {},

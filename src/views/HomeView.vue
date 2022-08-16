@@ -1,6 +1,10 @@
 <template>
   <n-config-provider :theme="darkTheme">
     <n-card class="titleCard">
+      <section v-if="this.$store.state.isAdmin">
+        <h1>Page Visits: {{ getPageVisits }}</h1>
+        <n-button>Reset PageVisits to 0</n-button>
+      </section>
       <template #header>
         <div class="d-flex justify-content-between">
           <p class="title">Developer Platform</p>
@@ -30,19 +34,22 @@
         <n-button class="w-25" @click="showResultsTools(toolSearchString)"
           >Search</n-button
         >
-        <n-button class="w-25" @click="showResultsTools('')" v-show="showAll">Show All Tools</n-button>
-        <n-button class="w-25" @click="clearResults()" v-show="!showAll">Hide All</n-button>
+        <n-button class="w-25" @click="showResultsTools('')" v-show="showAll"
+          >Show All Tools</n-button
+        >
+        <n-button class="w-25" @click="clearResults()" v-show="!showAll"
+          >Hide All</n-button
+        >
       </div>
 
       <n-card v-if="toolResults.length > 0">
-        <div v-for="tool of toolResults" :key="tool" class="toolResultsContainer">
-          <a
-            @click="
-              openLink(tool.link)
-            "
-            class="tool"
-          >
-            <div  id="colorLightenerDarkerBox">
+        <div
+          v-for="tool of toolResults"
+          :key="tool"
+          class="toolResultsContainer"
+        >
+          <a @click="openLink(tool.link)" class="tool">
+            <div id="colorLightenerDarkerBox">
               <p>{{ tool.name }}</p>
             </div>
           </a>
@@ -159,6 +166,7 @@ import {
   NInput,
   NButton,
 } from "naive-ui";
+import { isAdmin } from "@firebase/util";
 export default {
   name: "HomeView",
   components: {
@@ -179,7 +187,7 @@ export default {
   },
   data() {
     return {
-      toolSearchString: '',
+      toolSearchString: "",
       toolResults: [],
       hasToolResult: true,
       showAll: true,
@@ -190,42 +198,40 @@ export default {
       darkTheme,
     };
   },
-  mounted() {
+  async mounted() {
+    this.$store.dispatch("GET_PAGE_VISITS");
+    this.$store.dispatch("ADD_PAGE_VISIT");
     console.log("mounted");
-    this.$store.dispatch('ADD_PAGE_VISIT');
   },
   methods: {
     clearResults() {
       this.toolResults = [];
 
-       this.showAll = true;
+      this.showAll = true;
     },
     async showResultsTools(toolSearchString) {
-      var tools = await this.$store.dispatch(
-        "SEARCH_TOOLS",
-        toolSearchString
-      );
+      var tools = await this.$store.dispatch("SEARCH_TOOLS", toolSearchString);
       this.toolResults = tools;
-      if(tools.length > 0){
+      if (tools.length > 0) {
         this.hasToolResult = true;
-      }
-      else {
+      } else {
         this.hasToolResult = false;
       }
-  
-      if(this.showAll === false){
+
+      if (this.showAll === false) {
         this.showAll = true;
-      }
-      else {
+      } else {
         this.showAll = false;
       }
-
     },
-     openLink(link) {
-    window.open(link, "_blank");
-  },
+    openLink(link) {
+      window.open(link, "_blank");
+    },
   },
   computed: {
+    getPageVisits() {
+      return this.$store.state.pagevisits;
+    },
     userName() {
       let username = localStorage.getItem("userName");
       if (username) {
@@ -241,7 +247,6 @@ export default {
   },
 };
 </script>
-
 
 <style lang="scss" scoped>
 h4 {
@@ -298,28 +303,28 @@ a {
   padding: 0;
 }
 
-.toolResultsContainer{
-  display:flex;
+.toolResultsContainer {
+  display: flex;
 }
 
 .tool {
-  p{
-    margin:0;
+  p {
+    margin: 0;
     font-weight: bold;
     font-size: 16px;
   }
-  padding:20px;
+  padding: 20px;
   text-align: left;
   background: white;
-  color:black;
+  color: black;
   margin: 5px;
 
-  width:100%;
-  border-radius:5px;
+  width: 100%;
+  border-radius: 5px;
   &:hover {
     cursor: pointer;
-    background:#5ACEA7;
-    color:white;
+    background: #5acea7;
+    color: white;
   }
 }
 
@@ -327,6 +332,6 @@ a {
   padding: 10px;
   font-size: 20px;
   text-align: left;
-  margin:0;
+  margin: 0;
 }
 </style>

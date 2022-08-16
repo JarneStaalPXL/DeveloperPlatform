@@ -37,7 +37,6 @@
   </div>
 </template>
 
-
 <script>
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import {
@@ -84,6 +83,7 @@ export default {
           const user = result.user;
           // ...
           this.$store.dispatch("CREATE_ACCOUNT", result.user);
+          this.$store.dispatch("GET_PAGE_VISITS");
         })
         .catch((error) => {
           // Handle Errors here.
@@ -117,7 +117,6 @@ export default {
 };
 </script>
 
-
 <script setup>
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { onMounted, ref } from "vue";
@@ -142,6 +141,8 @@ onMounted(() => {
 const handleSignout = () => {
   signOut(auth).then(() => {
     store.commit("removeUserData");
+    store.commit("setPageVisits", 0);
+    store.commit("setIsAdmin",false);
     router.push("/");
   });
 };
@@ -157,7 +158,6 @@ const handleSignout = () => {
   opacity: 0;
 }
 </style>
-
 
 <style lang="scss" scoped>
 #bottom-sticky-button {
