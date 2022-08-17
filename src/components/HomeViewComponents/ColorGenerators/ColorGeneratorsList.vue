@@ -65,4 +65,16 @@ export default {};
     cursor: pointer;
   }
 }
+
+@media only screen and (max-width: 790px) {
+  .colorGeneratorContainer {
+    a {
+      width: 100%;
+    }
+
+    .item {
+      width: 100%;
+    }
+  }
+}
 </style>

@@ -16,9 +16,7 @@
           backgroundSize: '100% 100%',
         }"
       >
-        <p
-          :style="{ color: provider.textColor ? provider.textColor : 'white' }"
-        >
+        <p :style="{ color: provider.textColor ? provider.textColor : 'white' }">
           {{ provider.name }}
         </p>
       </div>
@@ -83,6 +81,19 @@ export default {
   &:hover {
     border: 2px solid white;
     cursor: pointer;
+  }
+}
+
+@media only screen and (max-width: 790px) {
+  .providersContainer {
+    justify-content: center;
+
+    a {
+      width: 100%;
+    }
+    .item {
+      width: 100%;
+    }
   }
 }
 </style>

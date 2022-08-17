@@ -61,10 +61,7 @@
             <template #header>
               <div class="d-flex" style="gap: 10px">
                 <h4>Global Frontend Tools</h4>
-                <n-badge
-                  :value="$store.state.globalFrontendTools.length"
-                  color="grey"
-                />
+                <n-badge :value="$store.state.globalFrontendTools.length" color="grey" />
               </div>
             </template>
 
@@ -80,7 +77,10 @@
             <template #header>
               <div class="d-flex" style="gap: 10px">
                 <h4>Gradient Generators</h4>
-                <n-badge :value="2" color="grey" />
+                <n-badge
+                  :value="$store.state.gradientGeneratorsTools.length"
+                  color="grey"
+                />
               </div>
             </template>
             <GradientGeneratorsList />
@@ -110,10 +110,7 @@
             <template #header>
               <div class="d-flex" style="gap: 10px">
                 <h4>Hosting Providers</h4>
-                <n-badge
-                  :value="$store.state.hostingproviders.length"
-                  color="grey"
-                />
+                <n-badge :value="$store.state.hostingproviders.length" color="grey" />
               </div>
             </template>
             <HostingProvidersList />
@@ -122,7 +119,24 @@
       </n-collapse>
 
       <footer class="stickyFooter">
-        <h1 v-if="getPageVisits > 0">{{ getPageVisits }} developers visited this site.</h1>
+        <section class="pagevisitscontainer">
+          <h1 v-if="getPageVisits > 0">
+            {{ getPageVisits }} <i class="fa-solid fa-eyes"></i>
+          </h1>
+        </section>
+        <section class="timeContainer">
+          <div class="clock-border">
+            <div class="clock-inner">
+              <div class="hour">{{ hours }}</div>
+              <div class="dots">:</div>
+              <div class="min">{{ minutes }}</div>
+              <div class="dots">:</div>
+              <div class="secs">{{ seconds }}</div>
+              <div class="mode"></div>
+            </div>
+          </div>
+        </section>
+
         <!-- <n-button>Reset PageVisits to 0</n-button> -->
       </footer>
     </section>
@@ -172,6 +186,9 @@ export default {
       toolResults: [],
       hasToolResult: true,
       showAll: true,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
     };
   },
   setup() {
@@ -179,11 +196,25 @@ export default {
       darkTheme,
     };
   },
-  async mounted() {
-    this.$store.dispatch("GET_PAGE_VISITS");
-    this.$store.dispatch("ADD_PAGE_VISIT");
+  beforeMount() {
+    this.setTime();
   },
   methods: {
+    setTime() {
+      const date = new Date();
+      this.hours = date.getHours();
+      this.minutes = this.checkSingleDigit(date.getMinutes());
+      this.seconds = this.checkSingleDigit(date.getSeconds());
+      setInterval(() => {
+        const date = new Date();
+        this.hours = date.getHours();
+        this.minutes = this.checkSingleDigit(date.getMinutes());
+        this.seconds = this.checkSingleDigit(date.getSeconds());
+      }, 1000);
+    },
+    checkSingleDigit(digit) {
+      return ("0" + digit).slice(-2);
+    },
     clearResults() {
       this.toolResults = [];
       this.showAll = true;
@@ -239,8 +270,26 @@ export default {
   padding: 10px;
   background: #24242a;
   z-index: 9999;
-  h1 {
-    font-size: 15px;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+
+  .pagevisitscontainer {
+    display: flex;
+    justify-content: end;
+  }
+
+  .timeContainer {
+    .clock-inner {
+      display: flex;
+      color: white;
+      font-size: 25px;
+    }
+  }
+
+  h1,
+  i {
+    font-size: 25px;
   }
 }
 h4 {

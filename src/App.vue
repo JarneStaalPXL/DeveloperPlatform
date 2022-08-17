@@ -104,7 +104,7 @@ export default {
       if (window.scrollY < this.lastScrollY) {
         this.isScrollingUp = false;
       } else {
-        this.isScrollingUp = true;
+          this.isScrollingUp = true;
       }
       this.lastScrollY = window.scrollY;
     });
@@ -141,7 +141,6 @@ onMounted(() => {
 const handleSignout = () => {
   signOut(auth).then(() => {
     store.commit("removeUserData");
-    store.commit("setPageVisits", 0);
     store.commit("setIsAdmin",false);
     router.push("/");
   });

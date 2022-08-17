@@ -71,6 +71,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   store.dispatch("ADD_PAGE_VISIT_ROUTE", to.fullPath);
+  store.dispatch("GET_PAGE_VISITS");
   next();
 })
 

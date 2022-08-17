@@ -1,23 +1,16 @@
 <template>
   <section class="gradientGenerators">
-    <a @click="$router.push($store.state.routings.lineargradientgenerator.path)">
-      <div
-        class="gradientBox"
-        style="background: linear-gradient(to right, #a6a4de, #6619f3)"
-      >
-        <p>Linear Gradient Generator</p>
-      </div>
-    </a>
-
-    <a @click="$router.push($store.state.routings.radialgradientgenerator.path)">
-      <div class="gradientBox" style="background: radial-gradient(#a6a4de, #6619f3)">
-        <p>Radial Gradient Generator</p>
-      </div>
-    </a>
-
-    <a @click="comingSoonAlert()">
-      <div class="gradientBox">
-        <p>Mesh Gradient Generator</p>
+    <a
+      v-for="gradientGenerator of $store.state.gradientGeneratorsTools"
+      :key="gradientGenerator"
+      @click="
+        gradientGenerator.available === true
+          ? $router.push(gradientGenerator.link)
+          : comingSoonAlert()
+      "
+    >
+      <div class="gradientBox" :style="gradientGenerator.css">
+        <p>{{ gradientGenerator.name }}</p>
       </div>
     </a>
   </section>
@@ -71,6 +64,17 @@ export default {
   &:hover {
     border: 2px solid white;
     cursor: pointer;
+  }
+}
+
+@media only screen and (max-width: 790px) {
+  .gradientGenerators {
+    a {
+      width: 100%;
+    }
+    .gradientBox {
+      width: inherit;
+    }
   }
 }
 </style>
