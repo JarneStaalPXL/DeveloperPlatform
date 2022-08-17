@@ -394,19 +394,10 @@ export default createStore({
     },
   },
   actions: {
-    async ADD_PAGE_VISIT({ commit, state }) {
+    async ADD_PAGE_VISIT({ dispatch,state }) {
       if (window.location.hostname !== "localhost") {
         //get pagevisits
-        const rawRes = await fetch(`${state.baseUrlStrapiApi}analytics/1`, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + state.strapiApiKey,
-          },
-        });
-        const res = await rawRes.json();
-        commit("setPageVisits", res.data.attributes.PageVisits + 1);
+        await dispatch("GET_PAGE_VISITS");
 
         const rawResponse = await fetch(
           `${state.baseUrlStrapiApi}analytics/1`,
@@ -596,9 +587,8 @@ export default createStore({
       dispatch("GET_USER_SAVED_COLOR_PALLETES", uid);
     },
     async GET_PAGE_VISITS({ state, commit, dispatch }) {
-      if (await dispatch("IS_ADMIN")) {
         const dataResponse = await fetch(
-          `${state.baseUrlStrapiApi}analytics/1`,
+          `${state.baseUrlStrapiApi}analytics`,
           {
             method: "GET",
             headers: {
@@ -609,8 +599,30 @@ export default createStore({
           }
         );
         const content2 = await dataResponse.json();
-        commit("setPageVisits", content2.data.attributes.PageVisits);
-      }
+        if(content2.data.length === 0){
+          //create new page visit
+          const rawResponse = await fetch(
+            `${state.baseUrlStrapiApi}analytics`,
+            {
+              method: "POST",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + state.strapiApiKey,
+              },
+              body: JSON.stringify({
+                data: {
+                  PageVisits: 1,
+                  isCreated: true,
+                },
+              }),
+            }
+          );
+          const content = await rawResponse.json();
+          commit("setPageVisits", content.data.attributes.PageVisits);
+          return;
+        }
+        commit("setPageVisits", content2.data[0].attributes.PageVisits);
     },
     IS_ADMIN({ state, commit }) {
       let isAdmin = false;

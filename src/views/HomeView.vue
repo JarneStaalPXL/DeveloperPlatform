@@ -122,7 +122,7 @@
       </n-collapse>
 
       <footer class="stickyFooter">
-        <h1>{{ getPageVisits }} developers visited this site.</h1>
+        <h1 v-if="getPageVisits > 0">{{ getPageVisits }} developers visited this site.</h1>
         <!-- <n-button>Reset PageVisits to 0</n-button> -->
       </footer>
     </section>
