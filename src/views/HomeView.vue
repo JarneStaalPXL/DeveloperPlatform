@@ -6,9 +6,27 @@
           <div class="d-flex justify-content-between">
             <p class="title">Developer Platform</p>
 
+            <a
+              @click="$router.push($store.state.routings.adminPanel.path)"
+              v-if="isAdmin()"
+            >
+              <Transition appear>
+                <n-avatar
+                  size="large"
+                  :style="{
+                    color: 'white',
+                    backgroundColor: '#A097E0',
+                    marginTop: 'auto',
+                    marginBottom: 'auto',
+                  }"
+                  >{{ userName ? userName.toUpperCase() : "" }}</n-avatar
+                >
+              </Transition>
+            </a>
+
             <Transition appear>
               <n-avatar
-                v-if="$store.state.isLoggedIn"
+                v-if="$store.state.isLoggedIn && !isAdmin()"
                 size="large"
                 :style="{
                   color: 'white',
@@ -161,7 +179,6 @@ import {
   NInput,
   NButton,
 } from "naive-ui";
-import { isAdmin } from "@firebase/util";
 export default {
   name: "HomeView",
   components: {
@@ -200,6 +217,12 @@ export default {
     this.setTime();
   },
   methods: {
+    isAdmin() {
+      return (
+        localStorage["email"] !== undefined &&
+        localStorage["email"].includes("jarne.staal9@gmail.com")
+      );
+    },
     setTime() {
       const date = new Date();
       this.hours = date.getHours();
@@ -276,7 +299,7 @@ export default {
 
   .pagevisitscontainer {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
   }
 
   .timeContainer {
@@ -321,6 +344,9 @@ h1 {
 
 .titleCard {
   margin-top: 30px;
+  a:hover {
+    cursor: pointer;
+  }
 }
 
 a {

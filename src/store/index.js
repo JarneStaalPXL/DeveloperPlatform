@@ -57,6 +57,11 @@ export default createStore({
         name: "colorlightenerdarker",
         component: "ColorLightenerDarkerView",
       },
+      adminPanel: {
+        path: "/adminpanel",
+        name: "adminpanel",
+        component: "AdminPanelView",
+      },
     },
     userSavedColorPallets: [],
     globalFrontendTools: [
@@ -328,7 +333,7 @@ export default createStore({
         type: "hostingprovider",
       },
     ],
-    gradientGeneratorsTools : [
+    gradientGeneratorsTools: [
       {
         name: "Linear Gradient Generator",
         link: "/LinearGradientGenerator",
@@ -340,14 +345,15 @@ export default createStore({
         link: "/RadialGradientGenerator",
         css: "background: radial-gradient(#a6a4de, #6619f3)",
         available: true,
-      }, 
+      },
       {
         name: "Mesh Gradient Generator",
         link: "/MeshGradientGenerator",
         css: "background: mesh-gradient(#a6a4de, #6619f3)",
-        available: false
-      }
+        available: false,
+      },
     ],
+    allUserActivities: [],
   },
 
   getters: {},
@@ -412,8 +418,70 @@ export default createStore({
         return;
       }
     },
+    setAllUserActivities(state, payload) {
+      state.allUserActivities = payload;
+    },
   },
   actions: {
+    async DELETE_USER_ACTIVITIES({ state }, payload) {
+      for (let activity of payload) {
+        console.log(activity);
+        try {
+          const rawResponse = await fetch(
+            `${state.baseUrlStrapiApi}visit-logs/${activity}`,
+            {
+              method: "DELETE",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + state.strapiApiKey,
+              },
+            }
+          );
+          console.log(await rawResponse.json());
+        } catch (err) {
+          alert(err);
+        }
+      }
+    },
+    async GET_USER_ACTIVTIES({ state, commit }, payload) {
+      const rawResponse = await fetch(`${state.baseUrlStrapiApi}visit-logs`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+      });
+      const response = await rawResponse.json();
+      let tempArr = [];
+      let index = 0;
+      for (let act of response.data) {
+        //show time of act.attributes.createdAt in a readable format
+        let date = new Date(act.attributes.createdAt);
+        tempArr.push({
+          key: act.id,
+          userid: act.attributes.userid,
+          username: act.attributes.name,
+          route: act.attributes.route,
+          createdat: date,
+        });
+        index++;
+      }
+      //sort array by createdat
+      tempArr
+        .sort((a, b) => {
+          return a.createdat - b.createdat;
+        })
+        .reverse();
+
+      index = 0;
+      for (let act of tempArr) {
+        act.createdat = act.createdat.toString();
+      }
+
+      commit("setAllUserActivities", tempArr);
+    },
     async ADD_PAGE_VISIT_ROUTE({ commit, state }, route) {
       if (route === "/") {
         route = "Homepage";
@@ -432,7 +500,10 @@ export default createStore({
                 ? localStorage.getItem("uid")
                 : "Unknown user",
             route: route,
-            name : localStorage.getItem("userName") !== null ? localStorage.getItem("userName") : "Unknown username",
+            name:
+              localStorage.getItem("userName") !== null
+                ? localStorage.getItem("userName")
+                : "Unknown username",
           },
         }),
       });
