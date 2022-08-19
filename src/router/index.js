@@ -81,6 +81,8 @@ router.beforeEach((to, from, next) => {
       next("/");
       return;
     }
+    
+    //TODO: CHECK IF USER IS ADMIN
     if (!localStorage.getItem("email").includes("jarne.staal9@gmail.com")) {
       //TODO: REDIRECT TO ACCES DENIED PAGE
       next("/");
