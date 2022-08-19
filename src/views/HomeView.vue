@@ -3,27 +3,7 @@
     <section :style="{ marginBottom: '100px' }">
       <n-card class="titleCard">
         <template #header>
-          <div class="d-flex flex-column justify-content-between">
-            <div class="w-100">
-              <component
-                :is="'script'"
-                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6265128065602433"
-                crossorigin="anonymous"
-                async
-              ></component>
-              <ins
-                class="adsbygoogle"
-                style="display: block"
-                data-ad-client="ca-pub-6265128065602433"
-                data-ad-slot="2171576343"
-                data-ad-format="auto"
-                data-full-width-responsive="true"
-              ></ins>
-              <component :is="'script'" crossorigin="anonymous" async
-                >(adsbygoogle = window.adsbygoogle || []).push({});</component
-              >
-            </div>
-
+          <div class="d-flex justify-content-between">
             <p class="title">Developer Platform</p>
 
             <a
@@ -178,6 +158,25 @@
         <!-- <n-button>Reset PageVisits to 0</n-button> -->
       </footer>
     </section>
+    <div class="w-100">
+      <component
+        :is="'script'"
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6265128065602433"
+        crossorigin="anonymous"
+        async
+      ></component>
+      <ins
+        class="adsbygoogle"
+        style="display: block"
+        data-ad-client="ca-pub-6265128065602433"
+        data-ad-slot="2171576343"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      ></ins>
+      <component :is="'script'" crossorigin="anonymous" async
+        >(adsbygoogle = window.adsbygoogle || []).push({});</component
+      >
+    </div>
   </n-config-provider>
 </template>
 
