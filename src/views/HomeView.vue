@@ -159,9 +159,36 @@
       </footer>
     </section>
   </n-config-provider>
+  <component
+    :is="'script'"
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6265128065602433"
+    crossorigin="anonymous"
+    async
+  ></component>
+  <ins
+    class="adsbygoogle"
+    style="display: block"
+    data-ad-client="ca-pub-6265128065602433"
+    data-ad-slot="2171576343"
+    data-ad-format="auto"
+    data-full-width-responsive="true"
+  ></ins>
+  <component :is="'script'" crossorigin="anonymous" async
+    >(adsbygoogle = window.adsbygoogle || []).push({});</component
+  >
 </template>
 
 <script>
+import { useScriptTag } from "@vueuse/core";
+
+useScriptTag(
+  "https://player.twitch.tv/js/embed/v1.js",
+  // on script tag loaded.
+  (el) => {
+    // do something
+  }
+);
+
 import ColorGeneratorsList from "@/components/HomeViewComponents/ColorGenerators/ColorGeneratorsList.vue";
 import ResponsivityList from "@/components/HomeViewComponents/Responsivity/ResponsivityList.vue";
 import GradientGeneratorsList from "@/components/HomeViewComponents/GradientGenerators/GradientGeneratorsList.vue";
