@@ -1,33 +1,35 @@
 <template>
-  <n-card title="Activity">
-    <n-space vertical>
-      <section class="d-flex">
-        <n-p class="w-50">Page Size</n-p>
-        <n-input-number
-          class="w-50"
-          :min="0"
-          :max="50"
-          placeholder="Enter pagesize"
-          v-model:value="pagination.pageSize"
-        ></n-input-number>
-      </section>
+  <n-card>
+    <n-card title="Activity">
+      <n-space vertical>
+        <section class="d-flex">
+          <n-p class="w-50">Page Size</n-p>
+          <n-input-number
+            class="w-50"
+            :min="0"
+            :max="50"
+            placeholder="Enter pagesize"
+            v-model:value="pagination.pageSize"
+          ></n-input-number>
+        </section>
 
-      <n-data-table
-        ref="table"
-        :columns="columns"
-        :data="$store.state.allUserActivities"
-        :pagination="pagination"
-        :row-key="rowKey"
-        @update:checked-row-keys="handleCheck"
-      />
-      <n-button
-        v-if="checkedRowKeys.length > 0"
-        @click="deleteSelectedRows(checkedRowKeys)"
-        >Delete selected rows</n-button
-      >
-    </n-space>
+        <n-data-table
+          ref="table"
+          :columns="columns"
+          :data="$store.state.allUserActivities"
+          :pagination="pagination"
+          :row-key="rowKey"
+          @update:checked-row-keys="handleCheck"
+        />
+        <n-button
+          v-if="checkedRowKeys.length > 0"
+          @click="deleteSelectedRows(checkedRowKeys)"
+          >Delete selected rows</n-button
+        >
+      </n-space>
+    </n-card>
+    <h1>STRAPI MAKE ANOTHER COLUMN FOR ADMIN AND ABILITY TO ADD ADMINS</h1>
   </n-card>
-  <h1>STRAPI MAKE ANOTHER COLUMN FOR ADMIN AND ABILITY TO ADD ADMINS</h1>
 </template>
 
 <script>
