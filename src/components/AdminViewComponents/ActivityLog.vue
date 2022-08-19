@@ -1,14 +1,6 @@
 <template>
   <n-card title="Activity">
     <n-space vertical>
-      <n-select
-        placeholder="Choose Refresh interval"
-        :on-update:value="getAllActivity"
-        :options="[
-          { label: 'Every second', value: 1 },
-          { label: 'Every 5 seconds', value: 5 },
-        ]"
-      ></n-select>
       <section class="d-flex">
         <n-p class="w-50">Page Size</n-p>
         <n-input-number
@@ -48,8 +40,9 @@ import {
   NInputNumber,
   NSpace,
   NP,
+  NTag,
 } from "naive-ui";
-import { ref } from "vue";
+import { h, ref } from "vue";
 
 const columns = [
   {
@@ -60,6 +53,10 @@ const columns = [
   {
     title: "Key",
     key: "key",
+  },
+  {
+    title: "IP Adress",
+    key: "ip",
   },
   {
     title: "Name",
@@ -75,6 +72,29 @@ const columns = [
     // defaultSortOrder: "ascend",
     // sorter: "default",
     sorter: (row1, row2) => row1.createdat - row2.createdat,
+    renderSorter: () => null,
+  },
+  {
+    title: "Role",
+    key: "isadmin",
+    render(row) {
+      const tags = row.isadmin.map((tagKey) => {
+        return h(
+          NTag,
+          {
+            style: {
+              marginRight: "6px",
+            },
+            type: "success",
+            bordered: false,
+          },
+          {
+            default: () => tagKey,
+          }
+        );
+      });
+      return tags;
+    },
   },
 ];
 
@@ -88,6 +108,7 @@ export default {
     NInputNumber,
     NP,
     NSpace,
+    NTag,
   },
   mounted() {
     this.getAllActivity(5);

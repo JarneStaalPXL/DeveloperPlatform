@@ -457,14 +457,24 @@ export default createStore({
       let tempArr = [];
       let index = 0;
       for (let act of response.data) {
-        //show time of act.attributes.createdAt in a readable format
         let date = new Date(act.attributes.createdAt);
+        let isAdmin = false;
+        if(act.attributes.isadmin !== null){
+          if(act.attributes.isadmin){
+            isAdmin = "Admin"
+          }
+        }
+        else {
+          isAdmin = "User";
+        }
         tempArr.push({
           key: act.id,
           userid: act.attributes.userid,
           username: act.attributes.name,
           route: act.attributes.route,
           createdat: date,
+          ip: act.attributes.ip,
+          isadmin: [isAdmin]
         });
         index++;
       }
@@ -479,13 +489,25 @@ export default createStore({
       for (let act of tempArr) {
         act.createdat = act.createdat.toString();
       }
-
       commit("setAllUserActivities", tempArr);
     },
-    async ADD_PAGE_VISIT_ROUTE({ commit, state }, route) {
+    async ADD_PAGE_VISIT_ROUTE({ commit, state, dispatch }, route) {
       if (route === "/") {
         route = "Homepage";
       }
+      //get ip adress
+      const res = await fetch(`https://api.ipify.org/?format=json`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+
+      const ip = await res.json();
+      
+
+      let isAdmin = await dispatch('IS_ADMIN',localStorage.getItem("uid"));
       const rawResponse = await fetch(`${state.baseUrlStrapiApi}visit-logs`, {
         method: "POST",
         headers: {
@@ -504,6 +526,8 @@ export default createStore({
               localStorage.getItem("userName") !== null
                 ? localStorage.getItem("userName")
                 : "Unknown username",
+            ip: ip.ip,
+            isadmin : isAdmin
           },
         }),
       });
@@ -665,15 +689,36 @@ export default createStore({
       const response = await rawResponse.json();
       commit("setPageVisits", response.data.length);
     },
-    IS_ADMIN({ state, commit }) {
+    async IS_ADMIN({ state, commit }, uid) {
       let isAdmin = false;
-      if (localStorage.getItem("email") === null) {
-        isAdmin = false;
-      } else if (isAdmin === false) {
-        if (localStorage.getItem("email").includes(state.adminEmail)) {
+      //get admins from strapi
+      const rawResponse = await fetch(
+        `${state.baseUrlStrapiApi}admins`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+        }
+      );
+      const admins = await rawResponse.json();
+      for (let admin of admins.data){
+        if (admin.attributes.uid === uid){
           isAdmin = true;
+          break;
         }
       }
+
+      // if (localStorage.getItem("email") === null) {
+      //   isAdmin = false;
+      // } else if (isAdmin === false) {
+      //   if (localStorage.getItem("email").includes(state.adminEmail)) {
+      //     isAdmin = true;
+      //   }
+      // }
+
       commit("setIsAdmin", isAdmin);
       return isAdmin;
     },

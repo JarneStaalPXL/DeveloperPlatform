@@ -104,7 +104,7 @@ export default {
       if (window.scrollY < this.lastScrollY) {
         this.isScrollingUp = false;
       } else {
-          this.isScrollingUp = true;
+        this.isScrollingUp = true;
       }
       this.lastScrollY = window.scrollY;
     });
@@ -141,7 +141,7 @@ onMounted(() => {
 const handleSignout = () => {
   signOut(auth).then(() => {
     store.commit("removeUserData");
-    store.commit("setIsAdmin",false);
+    store.commit("setIsAdmin", false);
     router.push("/");
   });
 };
@@ -211,7 +211,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: white;
 }
 
 nav {
