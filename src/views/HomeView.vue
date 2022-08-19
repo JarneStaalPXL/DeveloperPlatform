@@ -3,8 +3,8 @@
     <section :style="{ marginBottom: '100px' }">
       <n-card class="titleCard">
         <template #header>
-          <div class="d-flex justify-content-between">
-            <div class="w-100 d-flex flex-column">
+          <div class="d-flex flex-column justify-content-between">
+            <div class="w-100">
               <component
                 :is="'script'"
                 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6265128065602433"
