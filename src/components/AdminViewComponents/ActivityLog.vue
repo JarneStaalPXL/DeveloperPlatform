@@ -44,6 +44,7 @@ import {
   useLoadingBar,
 } from "naive-ui";
 import { h, ref } from "vue";
+import UniqueUserLog from "./UniqueUserLog.vue";
 
 const columns = [
   {
@@ -112,6 +113,7 @@ export default {
     NP,
     NSpace,
     NTag,
+    UniqueUserLog,
   },
   mounted() {
     this.getAllActivity(5);

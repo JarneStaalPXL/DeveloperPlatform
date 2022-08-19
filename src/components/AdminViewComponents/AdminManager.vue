@@ -1,20 +1,24 @@
 <template>
-  <section class="adminManagerContainer">
-    <n-space vertical class="w-50">
-      <n-card class="w-100">
-        <n-input placeholder="Enter email" v-model:value="addAdminEmail"></n-input>
-        <n-button class="w-100" @click="makeAdmin(addAdminEmail)">CREATE ADMIN</n-button>
-      </n-card>
-    </n-space>
-    <n-space vertical class="w-50">
-      <n-card class="w-100">
-        <n-input placeholder="Enter email" v-model:value="removeAdminEmail"></n-input>
-        <n-button class="w-100" @click="removeAdmin(removeAdminEmail)"
-          >REMOVE ADMIN</n-button
-        >
-      </n-card>
-    </n-space>
-  </section>
+  <n-card title="Admin Manager">
+    <section class="adminManagerContainer">
+      <n-space vertical class="w-50">
+        <n-card class="w-100">
+          <n-input placeholder="Enter email" v-model:value="addAdminEmail"></n-input>
+          <n-button class="w-100" @click="makeAdmin(addAdminEmail)"
+            >CREATE ADMIN</n-button
+          >
+        </n-card>
+      </n-space>
+      <n-space vertical class="w-50">
+        <n-card class="w-100">
+          <n-input placeholder="Enter email" v-model:value="removeAdminEmail"></n-input>
+          <n-button class="w-100" @click="removeAdmin(removeAdminEmail)"
+            >REMOVE ADMIN</n-button
+          >
+        </n-card>
+      </n-space>
+    </section>
+  </n-card>
 </template>
 
 <script>

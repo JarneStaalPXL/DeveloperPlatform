@@ -3,6 +3,7 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     isAdmin: false,
+    uniqueVisitors: [],
     adminEmail: "jarne.staal9@gmail.com",
     pagevisits: 0,
     baseUrlStrapi: "https://frontendplatformbackend.herokuapp.com",
@@ -421,6 +422,9 @@ export default createStore({
     setAllUserActivities(state, payload) {
       state.allUserActivities = payload;
     },
+    setUniqueVisitors(state, payload) {
+      state.uniqueVisitors = payload;
+    }
   },
   actions: {
     async REMOVE_ADMIN({state,dispatch}, payload){
@@ -452,7 +456,6 @@ export default createStore({
         else {
           //get user id 
           await dispatch("GET_ADMIN_ID",userid).then(async(userID)=> {
-            console.log(userID);
              //remove user from admins
           const res = await fetch(`${state.baseUrlStrapiApi}admins/${userID}`, {
             method: "DELETE",
@@ -463,7 +466,6 @@ export default createStore({
             },
           })
           const data = await res.json();
-          console.log(data);
           });
         }
     },
@@ -484,11 +486,9 @@ export default createStore({
         if(user.attributes.email !== null){
           if(user.attributes.email === payload){
             userid = user.attributes.userid;
-            console.log(user.attributes);
             break;
           }
         }
-        
       }
       
       //check if userid is already in admins
@@ -827,6 +827,32 @@ export default createStore({
       commit("setIsAdmin", isAdmin);
       return isAdmin;
     },
+    async GET_UNIQUE_VISITORS({ state, commit }) {
+      const rawResponse = await fetch(`${state.baseUrlStrapiApi}visit-logs`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+      });
+      const response = await rawResponse.json();
+
+      //create unique array of visitors checking by ip
+      let finalArr = [];
+      let uniqueVisitors = [];
+      for (let visit of response.data) {
+        if (!uniqueVisitors.includes(visit.attributes.ip)) {
+          uniqueVisitors.push(visit.attributes.ip);
+          finalArr.push({
+            ip: visit.attributes.ip,
+            name: visit.attributes.name
+          });
+        }
+      }
+      console.log(finalArr);
+      commit("setUniqueVisitors", finalArr);    
+    }
   },
   modules: {},
 });
