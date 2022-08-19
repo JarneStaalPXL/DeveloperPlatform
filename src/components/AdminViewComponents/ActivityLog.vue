@@ -1,5 +1,5 @@
 <template>
-  <n-card>
+  <n-card class="w-100 m-auto">
     <n-card title="Activity">
       <n-space vertical>
         <section class="d-flex">
@@ -12,7 +12,11 @@
             v-model:value="pagination.pageSize"
           ></n-input-number>
         </section>
-
+        <n-button
+          v-if="checkedRowKeys.length > 0 && $store.state.allUserActivities.length > 0"
+          @click="deleteSelectedRows(checkedRowKeys)"
+          >Delete selected rows</n-button
+        >
         <n-data-table
           ref="table"
           :columns="columns"
@@ -21,14 +25,8 @@
           :row-key="rowKey"
           @update:checked-row-keys="handleCheck"
         />
-        <n-button
-          v-if="checkedRowKeys.length > 0"
-          @click="deleteSelectedRows(checkedRowKeys)"
-          >Delete selected rows</n-button
-        >
       </n-space>
     </n-card>
-    <h1>STRAPI MAKE ANOTHER COLUMN FOR ADMIN AND ABILITY TO ADD ADMINS</h1>
   </n-card>
 </template>
 
@@ -43,6 +41,7 @@ import {
   NSpace,
   NP,
   NTag,
+  useLoadingBar,
 } from "naive-ui";
 import { h, ref } from "vue";
 
@@ -81,19 +80,21 @@ const columns = [
     key: "isadmin",
     render(row) {
       const tags = row.isadmin.map((tagKey) => {
-        return h(
-          NTag,
-          {
-            style: {
-              marginRight: "6px",
+        if (tagKey === "Admin") {
+          return h(
+            NTag,
+            {
+              style: {
+                marginRight: "6px",
+              },
+              type: "success",
+              bordered: false,
             },
-            type: "success",
-            bordered: false,
-          },
-          {
-            default: () => tagKey,
-          }
-        );
+            {
+              default: () => tagKey,
+            }
+          );
+        }
       });
       return tags;
     },
@@ -114,6 +115,7 @@ export default {
   },
   mounted() {
     this.getAllActivity(5);
+    window.$loadingbar = useLoadingBar();
   },
   methods: {
     getAllActivity(value) {
@@ -127,7 +129,13 @@ export default {
       }, value * 1000);
     },
     deleteSelectedRows(rows) {
-      this.$store.dispatch("DELETE_USER_ACTIVITIES", rows);
+      window.$loadingbar.start();
+      //wait till dispatch is finished
+      this.$store.dispatch("DELETE_USER_ACTIVITIES", rows).then(() => {
+        setTimeout(() => {
+          window.$loadingbar.finish();
+        }, 2500);
+      });
     },
   },
   data() {

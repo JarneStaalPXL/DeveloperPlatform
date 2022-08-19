@@ -1,16 +1,22 @@
 <template>
   <n-config-provider :theme="darkTheme">
-    <section>
-      <ActivityLog />
-    </section>
+    <n-space vertical>
+      <section>
+        <ActivityLog />
+      </section>
+      <section>
+        <AdminManager />
+      </section>
+    </n-space>
   </n-config-provider>
 </template>
 
 <script>
-import { darkTheme, NConfigProvider } from "naive-ui";
+import { darkTheme, NConfigProvider, NSpace } from "naive-ui";
 import ActivityLog from "@/components/AdminViewComponents/ActivityLog.vue";
+import AdminManager from "@/components/AdminViewComponents/AdminManager.vue";
 export default {
-  components: { ActivityLog, NConfigProvider },
+  components: { ActivityLog, NConfigProvider, AdminManager, NSpace },
   setup() {
     return {
       darkTheme,

@@ -24,16 +24,20 @@
     <router-link to="/" v-if="$route.path !== '/'" class="float">
       <i class="fa-solid fa-house my-float"></i>
     </router-link>
-    <n-notification-provider>
-      <router-view v-slot="{ Component, route }">
-        <transition name="fade" mode="out-in">
-          <component
-            :is="Component"
-            :key="route.meta.usePathKey ? route.path : undefined"
-          />
-        </transition>
-      </router-view>
-    </n-notification-provider>
+    <n-loading-bar-provider>
+      <n-notification-provider>
+        <n-message-provider>
+          <router-view v-slot="{ Component, route }">
+            <transition name="fade" mode="out-in">
+              <component
+                :is="Component"
+                :key="route.meta.usePathKey ? route.path : undefined"
+              />
+            </transition>
+          </router-view>
+        </n-message-provider>
+      </n-notification-provider>
+    </n-loading-bar-provider>
   </div>
 </template>
 
@@ -46,6 +50,8 @@ import {
   darkTheme,
   NCard,
   NNotificationProvider,
+  NLoadingBarProvider,
+  NMessageProvider,
 } from "naive-ui";
 export default {
   name: "TemplateDesigner",
@@ -63,6 +69,8 @@ export default {
     NConfigProvider,
     NCard,
     NNotificationProvider,
+    NLoadingBarProvider,
+    NMessageProvider,
   },
   methods: {
     scrollToTop() {

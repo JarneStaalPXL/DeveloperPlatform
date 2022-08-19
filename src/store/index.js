@@ -423,9 +423,95 @@ export default createStore({
     },
   },
   actions: {
+    async REMOVE_ADMIN({state,dispatch}, payload){
+        //Find user with email
+
+        const resUser = await fetch(`${state.baseUrlStrapiApi}visit-logs`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+        })
+        const users = await resUser.json();
+        let userid;
+        for (let user of users.data){
+          if(user.attributes.email !== null){
+            if(user.attributes.email === payload){
+              userid = user.attributes.userid;
+              break;
+            }
+          }
+        }
+        
+        //check if userid is already in admins
+        if(!await dispatch('IS_ADMIN',userid)){
+          return Promise.reject('User '+userid+' is not an admin');
+        }
+        else {
+          //get user id 
+          await dispatch("GET_ADMIN_ID",userid).then(async(userID)=> {
+            console.log(userID);
+             //remove user from admins
+          const res = await fetch(`${state.baseUrlStrapiApi}admins/${userID}`, {
+            method: "DELETE",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + state.strapiApiKey,
+            },
+          })
+          const data = await res.json();
+          console.log(data);
+          });
+        }
+    },
+    async CREATE_ADMIN({state, dispatch},payload){
+      //Find user with email
+
+      const resUser = await fetch(`${state.baseUrlStrapiApi}visit-logs`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+      })
+      const users = await resUser.json();
+      let userid;
+      for (let user of users.data){
+        if(user.attributes.email !== null){
+          if(user.attributes.email === payload){
+            userid = user.attributes.userid;
+            console.log(user.attributes);
+            break;
+          }
+        }
+        
+      }
+      
+      //check if userid is already in admins
+      if(await dispatch('IS_ADMIN',userid)){
+        return Promise.reject('User '+userid+' is already an admin');
+      }
+      const response = await fetch(`${state.baseUrlStrapiApi}admins`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+        body: JSON.stringify({data: {
+          uid :userid,
+        }
+        }),
+      });
+      const data = await response.json();
+      return Promise.resolve(data);
+    },
     async DELETE_USER_ACTIVITIES({ state }, payload) {
       for (let activity of payload) {
-        console.log(activity);
         try {
           const rawResponse = await fetch(
             `${state.baseUrlStrapiApi}visit-logs/${activity}`,
@@ -438,7 +524,6 @@ export default createStore({
               },
             }
           );
-          console.log(await rawResponse.json());
         } catch (err) {
           alert(err);
         }
@@ -471,6 +556,7 @@ export default createStore({
           key: act.id,
           userid: act.attributes.userid,
           username: act.attributes.name,
+          email: act.attributes.email,
           route: act.attributes.route,
           createdat: date,
           ip: act.attributes.ip,
@@ -522,6 +608,7 @@ export default createStore({
                 ? localStorage.getItem("uid")
                 : "Unknown user",
             route: route,
+            email : localStorage.getItem("email") !== null ? localStorage.getItem("email") : "Unknown email",
             name:
               localStorage.getItem("userName") !== null
                 ? localStorage.getItem("userName")
@@ -636,6 +723,24 @@ export default createStore({
       );
       const content2 = await dataResponse.json();
       return content2.data.length > 0;
+    },
+    async GET_ADMIN_ID({state}, useruid){
+      const dataResponse = await fetch(
+        `${state.baseUrlStrapiApi}admins?UID=${useruid}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+        }
+      );
+      const content2 = await dataResponse.json();
+      if (content2.data.length === 0) {
+        return Promise.reject("Admin does not exist");
+      }
+      return content2.data[0].id;
     },
     async GET_USER_ID({ state }, userUid) {
       const dataResponse = await fetch(
