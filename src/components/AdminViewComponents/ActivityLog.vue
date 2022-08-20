@@ -168,4 +168,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped lang="scss">
+td {
+  word-break: keep-all;
+}
+</style>
