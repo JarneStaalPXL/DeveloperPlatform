@@ -47,7 +47,6 @@ export default {
 
   p {
     font-size: 18px;
-
     align-self: flex-end;
     width: 100%;
     margin-bottom: 0;

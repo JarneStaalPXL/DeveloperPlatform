@@ -1,7 +1,10 @@
 <template>
-  <section class="globalFrontendtoolsContainer" v-if="!dataIsLoading">
+  <section
+    class="globalFrontendtoolsContainer"
+    v-if="$store.state.favoritetools.length > 0"
+  >
     <div
-      v-for="tool of $store.state.globalFrontendTools"
+      v-for="tool of $store.state.favoritetools"
       :key="tool"
       class="item"
       :style="{
@@ -20,87 +23,54 @@
         </p>
         <div>
           <n-button @click="openLink(tool.link)">Open website</n-button>
-          <n-button
-            class="pl-5"
-            @click="addToolToFavorites(tool)"
-            v-if="!tool.isFavorited"
-            ><i :style="{ color: 'black' }" class="fa-solid fa-heart"></i
-          ></n-button>
-          <n-button
-            class="pl-5"
-            @click="removeToolFromFavorites(tool)"
-            v-if="tool.isFavorited"
-            ><i :style="{ color: 'red' }" class="fa-solid fa-heart"></i
-          ></n-button>
+
+          <n-popconfirm
+            @positive-click="removeToolFromFavorites(tool)"
+            @negative-click="abortRemovalTool()"
+          >
+            <template #trigger>
+              <n-button class="pl-5"
+                ><i :style="{ color: 'red' }" class="fa-solid fa-heart"></i
+              ></n-button>
+            </template>
+            Are you sure you want to remove this tool from your favorites?
+          </n-popconfirm>
         </div>
       </section>
     </div>
   </section>
-  <section class="h-100" v-else>
-    <n-spin size="large" stroke="blue">
-      <template #icon>
-        <n-icon>
-          <Reload />
-        </n-icon>
-      </template>
-    </n-spin>
+  <section class="h-100 noFavorites" v-else>
+    <h6>You haven't added any favorites yet.</h6>
+    <h6>
+      Currently only
+      <a @click="$router.push('/globalfrontendtools')">Global Frontend Tools</a> can be
+      added as favorite.
+    </h6>
   </section>
 </template>
 
 <script>
-import { NButton, useLoadingBar, useMessage, NSpin, NIcon } from "naive-ui";
-import { Reload } from "@vicons/ionicons5";
+import { NButton, NPopconfirm, useLoadingBar, useMessage } from "naive-ui";
 export default {
   components: {
     NButton,
-    NSpin,
-    Reload,
-    NIcon,
-  },
-  async mounted() {
-    window.$message = useMessage();
-    window.$loadingbar = useLoadingBar();
+    NPopconfirm,
   },
   data() {
     return {
-      websitePreviewImagePlaceholder: require("../../../assets/coming-soon.jpg"),
-      manipulatedTools: [],
       dataIsLoading: false,
-      showFavoriteBtn: false,
     };
   },
+  mounted() {
+    window.$message = useMessage();
+    window.$loadingbar = useLoadingBar();
+  },
   methods: {
-    async updateGlobalTools() {
-      window.$loadingbar.start();
-      this.showFavoriteBtn = true;
-      this.$store.dispatch("UPDATE_GLOBAL_FRONTEND_TOOLS");
-      window.$loadingbar.finish();
-      this.showFavoriteBtn = false;
-    },
-    async addToolToFavorites(tool) {
-      window.$loadingbar.start();
-      await this.$store
-        .dispatch("ADD_TOOL_TO_FAVORITES", tool)
-        .then(async () => {
-          //find tool in globalFrontendTools and set isFavorited to false
-          const dataTools = JSON.parse(
-            JSON.stringify(this.$store.state.globalFrontendTools)
-          );
-          for (const tl of dataTools) {
-            if (tl.name === tool.name) {
-              tl.isFavorited = true;
-              break;
-            }
-          }
-          this.$store.commit("setGlobalFrontendTools", dataTools);
-
-          window.$message.success('"' + tool.name + '"' + " added to favorites");
-          window.$loadingbar.finish();
-        })
-        .catch((err) => {
-          window.$loadingbar.error();
-          window.$message.error(err);
-        });
+    openLink(url) {
+      if (url === "" || url === undefined) {
+        return;
+      }
+      window.open(url, "_blank");
     },
     async removeToolFromFavorites(tool) {
       window.$loadingbar.start();
@@ -125,17 +95,22 @@ export default {
           window.$message.error(err);
         });
     },
-    openLink(url) {
-      if (url === "" || url === undefined) {
-        return;
-      }
-      window.open(url, "_blank");
+    abortRemovalTool() {
+      window.$message.info("Tool has NOT been removed");
     },
   },
 };
 </script>
-
 <style lang="scss" scoped>
+.noFavorites {
+  a {
+    color: lightcoral;
+    &:hover {
+      cursor: pointer;
+      color: red;
+    }
+  }
+}
 .globalFrontendtoolsContainer {
   display: flex;
   /* flex-direction: column; */
@@ -201,20 +176,6 @@ export default {
       // opacity: 0;
       //disable selection
       user-select: none;
-    }
-  }
-}
-
-@media only screen and (max-width: 890px) {
-  .item {
-    min-width: 100% !important;
-    section {
-      flex-direction: column;
-      div {
-        width: 100%;
-        justify-content: center;
-        padding-top: 10px;
-      }
     }
   }
 }

@@ -1,29 +1,68 @@
 <template>
-  <a
-    @click="scrollToTop()"
-    v-if="$route.path !== '/' && isScrollingUp === false"
-    class="float2"
+  <n-tooltip trigger="hover" v-if="$route.path !== '/' && isScrollingUp === false">
+    <template #trigger>
+      <a
+        @click="scrollToTop()"
+        v-if="$route.path !== '/' && isScrollingUp === false"
+        class="float2"
+      >
+        <i class="fa-solid fa-arrow-up my-float"></i>
+      </a>
+    </template>
+    Scroll to top
+  </n-tooltip>
+  <n-tooltip trigger="hover" v-if="$route.path !== '/' && isScrollingUp === true">
+    <template #trigger>
+      <a
+        @click="scrollToBottom()"
+        v-if="$route.path !== '/' && isScrollingUp === true"
+        class="float2"
+      >
+        <i class="fa-solid fa-arrow-down my-float"></i>
+      </a>
+    </template>
+    Scroll to bottom
+  </n-tooltip>
+
+  <n-tooltip trigger="hover" v-if="!$store.state.isLoggedIn">
+    <template #trigger>
+      <a @click="googleSignin()" class="float3">
+        <i class="fa-brands fa-google my-float"></i>
+      </a>
+    </template>
+    Log in with Google
+  </n-tooltip>
+
+  <n-tooltip trigger="hover" v-if="$store.state.isLoggedIn && $route.path === '/'">
+    <template #trigger>
+      <a @click="handleSignout()" class="float3">
+        <i class="fa-solid fa-right-from-bracket my-float"></i>
+      </a>
+    </template>
+    Log out
+  </n-tooltip>
+
+  <n-tooltip
+    trigger="hover"
+    v-if="$store.state.isLoggedIn && $route.path !== '/favorites'"
   >
-    <i class="fa-solid fa-arrow-up my-float"></i>
-  </a>
-  <a
-    @click="scrollToBottom()"
-    v-if="$route.path !== '/' && isScrollingUp === true"
-    class="float2"
-  >
-    <i class="fa-solid fa-arrow-down my-float"></i>
-  </a>
-  <a v-if="!$store.state.isLoggedIn" @click="googleSignin()" class="float3">
-    <i class="fa-brands fa-google my-float"></i>
-  </a>
-  <a @click="handleSignout()" class="float3" v-else>
-    <i class="fa-solid fa-right-from-bracket my-float"></i>
-  </a>
+    <template #trigger>
+      <a @click="$router.push('/favorites')" class="float4"
+        ><i class="fa-solid fa-heart my-float"></i
+      ></a>
+    </template>
+    Go to favorites
+  </n-tooltip>
 
   <div class="content">
-    <router-link to="/" v-if="$route.path !== '/'" class="float">
-      <i class="fa-solid fa-house my-float"></i>
-    </router-link>
+    <n-tooltip trigger="hover" v-if="$route.path !== '/'">
+      <template #trigger>
+        <router-link to="/" class="float">
+          <i class="fa-solid fa-house my-float"></i>
+        </router-link>
+      </template>
+      Go back to homepage
+    </n-tooltip>
     <n-loading-bar-provider>
       <n-notification-provider>
         <n-message-provider>
@@ -52,6 +91,7 @@ import {
   NNotificationProvider,
   NLoadingBarProvider,
   NMessageProvider,
+  NTooltip,
 } from "naive-ui";
 export default {
   name: "TemplateDesigner",
@@ -71,6 +111,7 @@ export default {
     NNotificationProvider,
     NLoadingBarProvider,
     NMessageProvider,
+    NTooltip,
   },
   methods: {
     scrollToTop() {
@@ -79,6 +120,7 @@ export default {
     scrollToBottom() {
       window.scrollTo(0, document.body.scrollHeight);
     },
+
     async googleSignin() {
       const provider = new GoogleAuthProvider();
       const auth = getAuth();
@@ -92,6 +134,7 @@ export default {
           // ...
           this.$store.dispatch("CREATE_ACCOUNT", result.user);
           this.$store.dispatch("GET_PAGE_VISITS");
+          this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
         })
         .catch((error) => {
           // Handle Errors here.
@@ -107,6 +150,11 @@ export default {
     if (localStorage.getItem("uid") !== null) {
       this.$store.dispatch("LOAD_USER_SAVED_DATA", localStorage.getItem("uid"));
     }
+    if (localStorage.getItem("favTools") === null) {
+      localStorage.setItem("favTools", JSON.stringify([]));
+    }
+    //get user favorite tools
+    this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
     document.addEventListener("scroll", () => {
       //Check if scrollY is decreasing
       if (window.scrollY < this.lastScrollY) {
@@ -177,7 +225,8 @@ const handleSignout = () => {
 
 .float,
 .float2,
-.float3 {
+.float3,
+.float4 {
   position: fixed;
   width: 60px;
   height: 60px;
@@ -191,6 +240,10 @@ const handleSignout = () => {
   z-index: 2000;
 }
 
+.float4 {
+  bottom: 169px;
+}
+
 .float2 {
   bottom: 20px;
 }
@@ -201,7 +254,7 @@ const handleSignout = () => {
 }
 
 .float3 {
-  bottom: 170px;
+  bottom: 245px;
 }
 
 a:hover {
@@ -219,7 +272,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: white;
+  // color: white;
 }
 
 nav {
@@ -235,12 +288,13 @@ nav {
   }
 }
 
-body {
-  background-color: #18181c;
-}
+// body {
+//   background-color: #18181c;
+// }
 
 * {
-  font-family: "Poppins", sans-serif;
+  // font-family: "Poppins", sans-serif;
+  font-family: "DynaPuff", cursive;
   //Set cursor image
   // cursor: url("./assets/cursor.svg"), default;
 }

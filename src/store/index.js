@@ -3,6 +3,7 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     isAdmin: false,
+    favoritetools: [],
     uniqueVisitors: [],
     adminEmail: "jarne.staal9@gmail.com",
     pagevisits: 0,
@@ -140,7 +141,6 @@ export default createStore({
         name: "CSS Loaders",
         link: "https://whirl.netlify.app/",
         websitePreviewImage: require("../assets/whirl.png"),
-        textColor: "black",
       },
 
       {
@@ -179,7 +179,6 @@ export default createStore({
         name: "Mockup Creator",
         link: "https://carrd.co/build",
         websitePreviewImage: require("../assets/carrd.png"),
-        textColor: "black",
       },
       {
         name: "Fully Customizable Chart Library",
@@ -347,12 +346,12 @@ export default createStore({
         css: "background: radial-gradient(#a6a4de, #6619f3)",
         available: true,
       },
-      {
-        name: "Mesh Gradient Generator",
-        link: "/MeshGradientGenerator",
-        css: "background: mesh-gradient(#a6a4de, #6619f3)",
-        available: false,
-      },
+      // {
+      //   name: "Mesh Gradient Generator",
+      //   link: "/MeshGradientGenerator",
+      //   css: "background: mesh-gradient(#a6a4de, #6619f3)",
+      //   available: false,
+      // },
     ],
     allUserActivities: [],
   },
@@ -404,6 +403,11 @@ export default createStore({
       state.favoriteTools = [];
       state.userSavedColorPallets = [];
 
+      for (let tool of state.globalFrontendTools) {
+        tool.isFavorited = false;
+      }
+      state.favoritetools = [];
+
       localStorage.removeItem("userName");
       localStorage.removeItem("profilePic");
       localStorage.removeItem("email");
@@ -424,52 +428,259 @@ export default createStore({
     },
     setUniqueVisitors(state, payload) {
       state.uniqueVisitors = payload;
-    }
+    },
+    setFavoriteTools(state, payload) {
+      state.favoritetools = payload;
+    },
+    setGlobalFrontendTools(state, payload) {
+      state.globalFrontendTools = payload;
+    },
   },
   actions: {
-    async REMOVE_ADMIN({state,dispatch}, payload){
-        //Find user with email
+    async GET_USER_FAVORITE_TOOLS({ dispatch, commit, state }) {
+      if (localStorage.getItem("uid") !== null) {
+        //getting user favorite tools from strapi
 
-        const resUser = await fetch(`${state.baseUrlStrapiApi}visit-logs`, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + state.strapiApiKey,
-          },
-        })
-        const users = await resUser.json();
-        let userid;
-        for (let user of users.data){
-          if(user.attributes.email !== null){
-            if(user.attributes.email === payload){
-              userid = user.attributes.userid;
-              break;
-            }
-          }
-        }
-        
-        //check if userid is already in admins
-        if(!await dispatch('IS_ADMIN',userid)){
-          return Promise.reject('User '+userid+' is not an admin');
-        }
-        else {
-          //get user id 
-          await dispatch("GET_ADMIN_ID",userid).then(async(userID)=> {
-             //remove user from admins
-          const res = await fetch(`${state.baseUrlStrapiApi}admins/${userID}`, {
-            method: "DELETE",
+        let userid = await dispatch("GET_USER_ID", localStorage.getItem("uid"));
+        const response = await fetch(
+          `${state.baseUrlStrapiApi}user-details/${userid}`,
+          {
+            method: "GET",
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json",
               Authorization: "Bearer " + state.strapiApiKey,
             },
-          })
-          const data = await res.json();
-          });
+          }
+        );
+        const res = await response.json();
+        commit("setFavoriteTools", res.data.attributes.favoritetools);
+
+        //globalfrontendtools manipulation favorites
+        if (state.favoritetools !== null) {
+          const dataTools = JSON.parse(
+            JSON.stringify(state.globalFrontendTools)
+          );
+          for (const tool of dataTools) {
+            tool.isFavorited = state.favoritetools.some(
+              (t) => t.name === tool.name
+            );
+          }
+          commit("setGlobalFrontendTools", dataTools);
         }
+
+        //returning favorite tools
+        return res.data.attributes.favoritetools;
+      } else {
+        //getting user favorite tools from localStorage
+        let toolsString = localStorage.getItem("favTools");
+        if (toolsString !== null) {
+          let tools = JSON.parse(toolsString);
+          commit("setFavoriteTools", tools);
+        }
+      }
     },
-    async CREATE_ADMIN({state, dispatch},payload){
+    async REMOVE_TOOL_FROM_FAVORITES({ dispatch, commit, state }, tool) {
+      if (localStorage.getItem("uid") !== null) {
+        let userid = await dispatch("GET_USER_ID", localStorage.getItem("uid"));
+        let newFavTools = JSON.parse(
+          JSON.stringify(state.favoritetools)
+        ).filter((t) => {
+          return t.name !== tool.name;
+        });
+        const response = await fetch(
+          `${state.baseUrlStrapiApi}user-details/${userid}`,
+          {
+            method: "PUT",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + state.strapiApiKey,
+            },
+            body: JSON.stringify({
+              data: {
+                favoritetools: newFavTools,
+              },
+            }),
+          }
+        );
+        const res = await response.json();
+        commit("setFavoriteTools", res.data.attributes.favoritetools);
+
+        return Promise.resolve(true);
+      } else {
+        let toolsString = localStorage.getItem("favTools");
+        if (toolsString !== null) {
+          let tools = JSON.parse(toolsString);
+          for (let tl of tools) {
+            if (tl.name === tool.name) {
+              tools.splice(tools.indexOf(tl), 1);
+            }
+          }
+          localStorage.setItem("favTools", JSON.stringify(tools));
+          commit("setFavoriteTools", tools);
+
+          //find tool in globalFrontendTools and set isFavorited to false
+          const dataTools = JSON.parse(
+            JSON.stringify(state.globalFrontendTools)
+          );
+          for (const tl of dataTools) {
+            if (tl.name === tool.name) {
+              tl.isFavorited = false;
+              break;
+            }
+          }
+          commit("setGlobalFrontendTools", dataTools);
+
+          return Promise.resolve(true);
+        }
+      }
+    },
+    async ADD_TOOL_TO_FAVORITES({ dispatch, commit, state }, tool) {
+      let succeeded = false;
+      let errorText;
+
+      tool = JSON.parse(JSON.stringify(tool));
+      //get fav tools of user
+      let favTools = [];
+      //get userid from uid
+
+      await dispatch("GET_USER_ID", localStorage.getItem("uid"))
+        .then(async (userid) => {
+          if (localStorage.getItem("uid") !== null) {
+            //getting users favorite tools
+            const tools = await fetch(
+              `${state.baseUrlStrapiApi}user-details/${userid}`,
+              {
+                method: "GET",
+                headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + state.strapiApiKey,
+                },
+              }
+            );
+            const res = await tools.json();
+            favTools = res.data.attributes.favoritetools;
+            if (favTools === null) {
+              const tools = await fetch(
+                `${state.baseUrlStrapiApi}user-details/${userid}`,
+                {
+                  method: "PUT",
+                  headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + state.strapiApiKey,
+                  },
+                  body: JSON.stringify({
+                    data: {
+                      favoritetools: [tool],
+                    },
+                  }),
+                }
+              );
+              const res = await tools.json();
+
+              commit("setFavoriteTools", [tool]);
+
+              succeeded = true;
+            } else {
+              let array = [];
+              if (
+                (await dispatch("CHECK_TOOL_PRESENT_STRAPI", tool.name)) ===
+                false
+              ) {
+                for (let toole of favTools) {
+                  array.push(toole);
+                }
+                array.push(tool);
+
+                const res = await fetch(
+                  `${state.baseUrlStrapiApi}user-details/${userid}`,
+                  {
+                    method: "PUT",
+                    headers: {
+                      Accept: "application/json",
+                      "Content-Type": "application/json",
+                      Authorization: "Bearer " + state.strapiApiKey,
+                    },
+                    body: JSON.stringify({
+                      data: {
+                        favoritetools: array,
+                      },
+                    }),
+                  }
+                );
+                const resp = await res.json();
+                commit("setFavoriteTools", array);
+
+                succeeded = true;
+              } else {
+                errorText = '"' + tool.name + '"' + " is already in favorites";
+                succeeded = false;
+              }
+            }
+          } else {
+            if (localStorage.getItem("favTools") === null) {
+              localStorage.setItem("favTools", JSON.stringify([]));
+            } else {
+              //check if tool is already in localstorage
+              if (
+                (await dispatch("CHECK_TOOL_PRESENT_LST", tool.name)) === false
+              ) {
+                favTools = localStorage.getItem("favTools");
+                favTools = JSON.parse(favTools);
+                favTools.push(tool);
+                localStorage.setItem("favTools", JSON.stringify(favTools));
+                succeeded = true;
+                await dispatch("UPDATE_GLOBAL_FRONTEND_TOOLS");
+              } else {
+                errorText = '"' + tool.name + '"' + " is already in favorites";
+                succeeded = false;
+              }
+
+              return succeeded;
+            }
+          }
+        })
+        .catch((err) => {
+          errorText = err;
+          succeeded = false;
+        });
+
+      if (succeeded) {
+        return Promise.resolve(true);
+      } else {
+        return Promise.reject(errorText);
+      }
+    },
+    async CHECK_TOOL_PRESENT_STRAPI({ dispatch, commit, state }, toolname) {
+      let found = false;
+      let tools = await dispatch("GET_USER_FAVORITE_TOOLS");
+
+      //check if tools is iterable
+      if (tools.length > 0) {
+        for (let tool of tools) {
+          if (tool.name === toolname) {
+            found = true;
+            break;
+          }
+        }
+      }
+      return found;
+    },
+    async CHECK_TOOL_PRESENT_LST({ dispatch, commit, state }, toolname) {
+      let favTools = JSON.parse(localStorage.getItem("favTools"));
+      let found = false;
+      for (let tol of favTools) {
+        if (tol.name === toolname) {
+          found = true;
+          break;
+        }
+      }
+      return found;
+    },
+    async REMOVE_ADMIN({ state, dispatch }, payload) {
       //Find user with email
 
       const resUser = await fetch(`${state.baseUrlStrapiApi}visit-logs`, {
@@ -479,21 +690,62 @@ export default createStore({
           "Content-Type": "application/json",
           Authorization: "Bearer " + state.strapiApiKey,
         },
-      })
+      });
       const users = await resUser.json();
       let userid;
-      for (let user of users.data){
-        if(user.attributes.email !== null){
-          if(user.attributes.email === payload){
+      for (let user of users.data) {
+        if (user.attributes.email !== null) {
+          if (user.attributes.email === payload) {
             userid = user.attributes.userid;
             break;
           }
         }
       }
-      
+
       //check if userid is already in admins
-      if(await dispatch('IS_ADMIN',userid)){
-        return Promise.reject('User '+userid+' is already an admin');
+      if (!(await dispatch("IS_ADMIN", userid))) {
+        return Promise.reject("User " + userid + " is not an admin");
+      } else {
+        //get user id
+        await dispatch("GET_ADMIN_ID", userid).then(async (userID) => {
+          //remove user from admins
+          const res = await fetch(`${state.baseUrlStrapiApi}admins/${userID}`, {
+            method: "DELETE",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + state.strapiApiKey,
+            },
+          });
+          const data = await res.json();
+        });
+      }
+    },
+    async CREATE_ADMIN({ state, dispatch }, payload) {
+      //Find user with email
+
+      const resUser = await fetch(`${state.baseUrlStrapiApi}visit-logs`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+      });
+      const users = await resUser.json();
+      let userid;
+      for (let user of users.data) {
+        if (user.attributes.email !== null) {
+          if (user.attributes.email === payload) {
+            userid = user.attributes.userid;
+            break;
+          }
+        }
+      }
+
+      //check if userid is already in admins
+      if (await dispatch("IS_ADMIN", userid)) {
+        return Promise.reject("User " + userid + " is already an admin");
       }
       const response = await fetch(`${state.baseUrlStrapiApi}admins`, {
         method: "POST",
@@ -502,9 +754,10 @@ export default createStore({
           "Content-Type": "application/json",
           Authorization: "Bearer " + state.strapiApiKey,
         },
-        body: JSON.stringify({data: {
-          uid :userid,
-        }
+        body: JSON.stringify({
+          data: {
+            uid: userid,
+          },
         }),
       });
       const data = await response.json();
@@ -544,12 +797,11 @@ export default createStore({
       for (let act of response.data) {
         let date = new Date(act.attributes.createdAt);
         let isAdmin = false;
-        if(act.attributes.isadmin !== null){
-          if(act.attributes.isadmin){
-            isAdmin = "Admin"
+        if (act.attributes.isadmin !== null) {
+          if (act.attributes.isadmin) {
+            isAdmin = "Admin";
           }
-        }
-        else {
+        } else {
           isAdmin = "User";
         }
         tempArr.push({
@@ -560,7 +812,7 @@ export default createStore({
           route: act.attributes.route,
           createdat: date,
           ip: act.attributes.ip,
-          isadmin: [isAdmin]
+          isadmin: [isAdmin],
         });
         index++;
       }
@@ -591,9 +843,8 @@ export default createStore({
       });
 
       const ip = await res.json();
-      
 
-      let isAdmin = await dispatch('IS_ADMIN',localStorage.getItem("uid"));
+      let isAdmin = await dispatch("IS_ADMIN", localStorage.getItem("uid"));
       const rawResponse = await fetch(`${state.baseUrlStrapiApi}visit-logs`, {
         method: "POST",
         headers: {
@@ -608,13 +859,16 @@ export default createStore({
                 ? localStorage.getItem("uid")
                 : "Unknown user",
             route: route,
-            email : localStorage.getItem("email") !== null ? localStorage.getItem("email") : "Unknown email",
+            email:
+              localStorage.getItem("email") !== null
+                ? localStorage.getItem("email")
+                : "Unknown email",
             name:
               localStorage.getItem("userName") !== null
                 ? localStorage.getItem("userName")
                 : "Unknown username",
             ip: ip.ip,
-            isadmin : isAdmin
+            isadmin: isAdmin,
           },
         }),
       });
@@ -724,7 +978,7 @@ export default createStore({
       const content2 = await dataResponse.json();
       return content2.data.length > 0;
     },
-    async GET_ADMIN_ID({state}, useruid){
+    async GET_ADMIN_ID({ state }, useruid) {
       const dataResponse = await fetch(
         `${state.baseUrlStrapiApi}admins?UID=${useruid}`,
         {
@@ -797,20 +1051,17 @@ export default createStore({
     async IS_ADMIN({ state, commit }, uid) {
       let isAdmin = false;
       //get admins from strapi
-      const rawResponse = await fetch(
-        `${state.baseUrlStrapiApi}admins`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + state.strapiApiKey,
-          },
-        }
-      );
+      const rawResponse = await fetch(`${state.baseUrlStrapiApi}admins`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+      });
       const admins = await rawResponse.json();
-      for (let admin of admins.data){
-        if (admin.attributes.uid === uid){
+      for (let admin of admins.data) {
+        if (admin.attributes.uid === uid) {
           isAdmin = true;
           break;
         }
@@ -846,13 +1097,12 @@ export default createStore({
           uniqueVisitors.push(visit.attributes.ip);
           finalArr.push({
             ip: visit.attributes.ip,
-            name: visit.attributes.name
+            name: visit.attributes.name,
           });
         }
       }
-      console.log(finalArr);
-      commit("setUniqueVisitors", finalArr);    
-    }
+      commit("setUniqueVisitors", finalArr);
+    },
   },
   modules: {},
 });

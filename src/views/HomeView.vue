@@ -1,147 +1,71 @@
 <template>
-  <n-config-provider :theme="darkTheme">
-    <section :style="{ marginBottom: '100px' }">
-      <n-card class="titleCard">
-        <template #header>
-          <div class="d-flex justify-content-between">
-            <p class="title">Developer Platform</p>
+  <section class="fullContainer">
+    <section class="explanationContainer">
+      <h1>Developer Platform</h1>
+      <p>Usefull tools you can use for your website and design.<br /></p>
+    </section>
+    <n-auto-complete
+      class="autoCompleteInput"
+      :on-update:value="showResultsTools"
+      :input-props="{
+        autocomplete: 'disabled',
+      }"
+      :options="toolResults"
+      placeholder="Search (press space for all tools)"
+      :on-select="openTool"
+    />
 
-            <a
-              @click="$router.push($store.state.routings.adminPanel.path)"
-              v-if="isAdmin()"
-            >
-              <Transition appear>
-                <n-avatar
-                  size="large"
-                  :style="{
-                    color: 'white',
-                    backgroundColor: '#A097E0',
-                    marginTop: 'auto',
-                    marginBottom: 'auto',
-                  }"
-                  >{{ userName ? userName.toUpperCase() : "" }}</n-avatar
-                >
-              </Transition>
-            </a>
+    <section class="toolCategoriesContainer">
+      <div>
+        <n-button @click="$router.push('/globalfrontendtools')"
+          >Global Frontend Tools
+          <n-badge
+            class="ml-1 pl-1 pr-1"
+            :value="$store.state.globalFrontendTools.length"
+            color="grey"
+        /></n-button>
+      </div>
 
-            <Transition appear>
-              <n-avatar
-                v-if="$store.state.isLoggedIn && !isAdmin()"
-                size="large"
-                :style="{
-                  color: 'white',
-                  backgroundColor: '#A097E0',
-                  marginTop: 'auto',
-                  marginBottom: 'auto',
-                }"
-                >{{ userName ? userName.toUpperCase() : "" }}</n-avatar
-              >
-            </Transition>
-          </div>
-        </template>
-        <div class="d-flex searchToolsContainer">
-          <n-input
-            class="w-75"
-            v-model:value="toolSearchString"
-            placeholder="Search online tool"
-            @keyup.enter="showResultsTools(toolSearchString)"
-          >
-          </n-input>
-          <n-button class="w-25" @click="showResultsTools(toolSearchString)"
-            >Search</n-button
-          >
-          <n-button class="w-25" @click="showResultsTools('')" v-show="showAll"
-            >Show All Tools</n-button
-          >
-          <n-button class="w-25" @click="clearResults()" v-show="!showAll"
-            >Hide All</n-button
-          >
-        </div>
-
-        <n-card v-if="toolResults.length > 0">
-          <div class="toolResultsContainer">
-            <div v-for="tool of toolResults" :key="tool" class="toolResult">
-              <a @click="openLink(tool.link)" class="tool">
-                <div id="colorLightenerDarkerBox">
-                  <p>{{ tool.name }}</p>
-                </div>
-              </a>
-            </div>
-          </div>
-        </n-card>
-        <p id="noresults" v-if="!hasToolResult">NO RESULTS</p>
-      </n-card>
-
-      <n-collapse>
-        <n-card class="categoryCard" :style="{ marginTop: '30px' }">
-          <!--card header template-->
-          <n-collapse-item :default-expanded-names="['1']">
-            <template #header>
-              <div class="d-flex" style="gap: 10px">
-                <h4>Global Frontend Tools</h4>
-                <n-badge :value="$store.state.globalFrontendTools.length" color="grey" />
-              </div>
-            </template>
-
-            <GlobalFrontendToolsList />
-          </n-collapse-item>
-        </n-card>
-      </n-collapse>
-
-      <n-collapse>
-        <n-card class="categoryCard" :style="{ marginTop: '30px' }">
-          <!--card header template-->
-          <n-collapse-item :default-expanded-names="['2']">
-            <template #header>
-              <div class="d-flex" style="gap: 10px">
-                <h4>Gradient Generators</h4>
-                <n-badge
-                  :value="$store.state.gradientGeneratorsTools.length"
-                  color="grey"
-                />
-              </div>
-            </template>
-            <GradientGeneratorsList />
-          </n-collapse-item>
-        </n-card>
-      </n-collapse>
-
-      <n-collapse>
-        <n-card class="categoryCard" :style="{ marginTop: '30px' }">
-          <!--card header template-->
-          <n-collapse-item :default-expanded-names="['3']">
-            <template #header>
-              <div class="d-flex" style="gap: 10px">
-                <h4>Color Generators</h4>
-                <n-badge :value="1" color="grey" />
-              </div>
-            </template>
-            <ColorGeneratorsList />
-          </n-collapse-item>
-        </n-card>
-      </n-collapse>
-
-      <n-collapse>
-        <n-card class="categoryCard" :style="{ marginTop: '30px' }">
-          <!--card header template-->
-          <n-collapse-item :default-expanded-names="['4']">
-            <template #header>
-              <div class="d-flex" style="gap: 10px">
-                <h4>Hosting Providers</h4>
-                <n-badge :value="$store.state.hostingproviders.length" color="grey" />
-              </div>
-            </template>
-            <HostingProvidersList />
-          </n-collapse-item>
-        </n-card>
-      </n-collapse>
-
-      <footer class="stickyFooter">
+      <div>
+        <n-button @click="$router.push('/gradientgenerators')"
+          >Gradient Generators
+          <n-badge :value="$store.state.gradientGeneratorsTools.length" color="grey"
+        /></n-button>
+      </div>
+      <div>
+        <n-button @click="$router.push('/colorgenerators')"
+          >Color Generators <n-badge :value="2" color="grey"
+        /></n-button>
+      </div>
+      <div>
+        <n-button @click="$router.push('/hostingproviders')"
+          >Hosting Providers
+          <n-badge :value="$store.state.hostingproviders.length" color="grey"
+        /></n-button>
+      </div>
+    </section>
+    <section class="mt-5 developmentSection">
+      <h6>
+        Developer Platform is still in development and we appreciate all the feedback.
+      </h6>
+      <h6>Visit our <a @click="openLink('https://discord.gg/3nfeEgcYgh')">Discord</a></h6>
+    </section>
+    <footer class="stickyFooter">
+      <section class="allItemsFooter">
         <section class="pagevisitscontainer">
           <h1 v-if="getPageVisits > 0">
             {{ getPageVisits }} <i class="fa-solid fa-eyes"></i>
           </h1>
         </section>
+        <h5 id="welcomeMsg" v-if="$store.state.isLoggedIn && userName() !== undefined">
+          Welcome
+          <a
+            id="adminClickPointer"
+            @click="$router.push($store.state.routings.adminPanel.path)"
+            v-if="isAdmin()"
+            >{{ userName() }}</a
+          >
+        </h5>
         <section class="timeContainer">
           <div class="clock-border">
             <div class="clock-inner">
@@ -154,10 +78,8 @@
             </div>
           </div>
         </section>
-
-        <!-- <n-button>Reset PageVisits to 0</n-button> -->
-      </footer>
-    </section>
+      </section>
+    </footer>
     <div class="w-100">
       <component
         :is="'script'"
@@ -177,20 +99,10 @@
         >(adsbygoogle = window.adsbygoogle || []).push({});</component
       >
     </div>
-  </n-config-provider>
+  </section>
 </template>
 
 <script>
-import { useScriptTag } from "@vueuse/core";
-
-useScriptTag(
-  "https://player.twitch.tv/js/embed/v1.js",
-  // on script tag loaded.
-  (el) => {
-    // do something
-  }
-);
-
 import ColorGeneratorsList from "@/components/HomeViewComponents/ColorGenerators/ColorGeneratorsList.vue";
 import ResponsivityList from "@/components/HomeViewComponents/Responsivity/ResponsivityList.vue";
 import GradientGeneratorsList from "@/components/HomeViewComponents/GradientGenerators/GradientGeneratorsList.vue";
@@ -207,6 +119,7 @@ import {
   NCollapseItem,
   NInput,
   NButton,
+  NAutoComplete,
 } from "naive-ui";
 export default {
   name: "HomeView",
@@ -225,6 +138,7 @@ export default {
     NCollapseItem,
     NInput,
     NButton,
+    NAutoComplete,
   },
   data() {
     return {
@@ -246,6 +160,9 @@ export default {
     this.setTime();
   },
   methods: {
+    openTool(link) {
+      window.open(link, "_blank");
+    },
     isAdmin() {
       return (
         localStorage["email"] !== undefined &&
@@ -271,18 +188,22 @@ export default {
       this.toolResults = [];
       this.showAll = true;
     },
-    async showResultsTools(toolSearchString) {
-      var tools = await this.$store.dispatch("SEARCH_TOOLS", toolSearchString);
+    async showResultsTools(value) {
+      var tools = await this.$store.dispatch("SEARCH_TOOLS", value);
       //rank tools by string size
       tools.sort((a, b) => {
         return a.name.length - b.name.length;
       });
-      this.toolResults = tools;
-      if (tools.length > 0) {
-        this.hasToolResult = true;
-      } else {
-        this.hasToolResult = false;
+
+      let optionsArr = [];
+      for (let tool of tools) {
+        optionsArr.push({
+          label: tool.name,
+          value: tool.link,
+        });
       }
+
+      this.toolResults = optionsArr;
 
       if (this.showAll === false) {
         this.showAll = true;
@@ -293,12 +214,17 @@ export default {
     openLink(link) {
       window.open(link, "_blank");
     },
+    userName() {
+      return localStorage.getItem("userName")
+        ? localStorage.getItem("userName")
+        : undefined;
+    },
   },
   computed: {
     getPageVisits() {
       return this.$store.state.pagevisits;
     },
-    userName() {
+    shortUserName() {
       let username = localStorage.getItem("userName");
       if (username) {
         return username.split(" ")[0][0] + username.split(" ")[1][0];
@@ -315,6 +241,29 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.developmentSection {
+  a {
+    color: #2bd48c;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+#adminClickPointer {
+  cursor: pointer;
+}
+.optionContainer {
+  width: 300px;
+  height: 300px;
+  background: lightblue;
+  border-radius: 10px;
+}
+.allItemsFooter {
+  display: flex;
+  margin: auto;
+  justify-content: space-between;
+  width: 85vw;
+}
 .stickyFooter {
   position: fixed;
   bottom: 0;
@@ -329,6 +278,9 @@ export default {
   .pagevisitscontainer {
     display: flex;
     justify-content: flex-end;
+    color: white;
+    margin-top: auto;
+    margin-bottom: auto;
   }
 
   .timeContainer {
@@ -361,18 +313,16 @@ h4 {
   margin-top: auto;
 }
 
-h1 {
-  color: white;
-}
+// h1 {
+//   color: white;
+// }
 
-.titleCard,
 .categoryCard {
   margin: auto;
   width: 85vw;
 }
 
 .titleCard {
-  margin-top: 30px;
   a:hover {
     cursor: pointer;
   }
@@ -438,7 +388,65 @@ a {
   flex-wrap: wrap;
 }
 
-@media only screen and (max-width: 650px) {
+//new css
+.toolCategoriesContainer {
+  padding: 20px;
+  border: 10px solid;
+  border-image-slice: 1 !important;
+  border-width: 5px;
+  border-image: linear-gradient(to right, #1ea4e9, #36fd3c);
+
+  display: flex;
+  flex-wrap: wrap;
+  width: fit-content;
+  margin: 35px auto;
+  gap: 10px;
+  div {
+    padding-left: 9px;
+    * {
+      width: auto;
+    }
+  }
+}
+.autoCompleteInput {
+  width: 450px;
+}
+.navbarContent {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+}
+#welcomeMsg {
+  margin-top: auto;
+  margin-bottom: auto;
+  color: white;
+}
+
+.explanationContainer {
+  padding-top: 10em;
+  background: linear-gradient(to right, #1ea4e9, #36fd3c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+//
+
+.optionsRow1Container {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  gap: 20px;
+
+  p {
+    font-size: 20px;
+  }
+  .optionContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media only screen and (max-width: 980px) {
   .titleCard,
   .categoryCard {
     margin: 0;
@@ -455,6 +463,41 @@ a {
 
   .toolResultsContainer {
     flex-direction: column;
+  }
+
+  .toolCategoriesContainer {
+    width: 75vw;
+
+    div {
+      width: 100%;
+      padding-left: 0;
+      * {
+        padding-left: 20px;
+        width: 100%;
+      }
+    }
+  }
+  .autoCompleteInput {
+    width: 75vw;
+  }
+  .explanationContainer p {
+    font-size: 15;
+    width: 75vw;
+    margin: auto;
+    margin-bottom: 25px;
+  }
+
+  .allItemsFooter {
+    #welcomeMsg {
+      font-size: 15px;
+    }
+    .pagevisitscontainer *,
+    .timeContainer * {
+      font-size: 20px;
+    }
+    .pagevisitscontainer h1 {
+      margin: 0;
+    }
   }
 }
 </style>

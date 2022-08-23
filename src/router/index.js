@@ -8,6 +8,12 @@ import ResponsivityCheckerView from "../views/ResponsivityCheckerView";
 import ColorPalleteGeneratorView from "../views/ColorPalleteGeneratorView";
 import ColorLightenerDarkerView from "../views/ColorLightenerDarkerView";
 import AdminView from "../views/AdminView";
+import ColorGeneratorsToolsPageView from '@/views/ColorGeneratorsToolsPageView'
+import GradientGeneratorsToolsPageView from '@/views/GradientGeneratorsToolsPageView'
+import HostingProvidersPageView from '@/views/HostingProvidersPageView'
+import GlobalFrontendToolsPageView from '@/views/GlobalFrontendToolsPageView'
+import FavoriteToolsPageView from '@/views/FavoriteToolsPageView'
+
 import store from "../store";
 
 const routes = [
@@ -56,6 +62,30 @@ const routes = [
     name: "adminpanel",
     component: AdminView,
   },
+  {
+    path: "/globalfrontendtools",
+    name: "globalfrontendtools",
+    component: GlobalFrontendToolsPageView,
+  },
+  {
+    path:"/gradientgenerators",
+    name:"gradientgenerators",
+    component:GradientGeneratorsToolsPageView,
+  }, {
+    path: "/colorgenerators",
+    name: "colorgenerators",
+    component: ColorGeneratorsToolsPageView,
+  },
+  {
+    path: "/hostingproviders",
+    name: "hostingproviders",
+    component: HostingProvidersPageView,
+  }, 
+  {
+    path: "/favorites",
+    name: "favorites",
+    component: FavoriteToolsPageView
+  }
 ];
 
 const router = createRouter({
