@@ -1,5 +1,5 @@
 <template>
-  <n-tooltip trigger="hover" v-if="$route.path !== '/' && isScrollingUp === false">
+  <!-- <n-tooltip trigger="hover" v-if="$route.path !== '/' && isScrollingUp === false">
     <template #trigger>
       <a
         @click="scrollToTop()"
@@ -23,8 +23,8 @@
     </template>
     Scroll to bottom
   </n-tooltip>
-
-  <n-tooltip trigger="hover" v-if="!$store.state.isLoggedIn">
+-->
+  <n-tooltip trigger="hover" v-if="!$store.state.isLoggedIn && $route.path === '/'">
     <template #trigger>
       <a @click="googleSignin()" class="float3">
         <i class="fa-brands fa-google my-float"></i>
@@ -42,10 +42,7 @@
     Log out
   </n-tooltip>
 
-  <n-tooltip
-    trigger="hover"
-    v-if="$store.state.isLoggedIn && $route.path !== '/favorites'"
-  >
+  <n-tooltip trigger="hover" v-if="$store.state.isLoggedIn && $route.path === '/'">
     <template #trigger>
       <a @click="$router.push('/favorites')" class="float4"
         ><i class="fa-solid fa-heart my-float"></i
@@ -53,22 +50,34 @@
     </template>
     Go to favorites
   </n-tooltip>
+  <footer class="stickyFooter">
+    <n-button
+      @click="$router.push('/favorites')"
+      v-if="$store.state.isLoggedIn && $route.path !== '/favorites'"
+      >Go to favorites</n-button
+    >
+    <n-button @click="$router.push('/')" v-if="$route.path !== '/'"
+      >Go back to homepage</n-button
+    >
+    <n-button @click="handleSignout()" v-if="$store.state.isLoggedIn">Log out</n-button>
+  </footer>
 
   <div class="content">
-    <n-tooltip trigger="hover" v-if="$route.path !== '/'">
+    <!-- <n-tooltip trigger="hover" v-if="$route.path !== '/'">
       <template #trigger>
         <router-link to="/" class="float">
           <i class="fa-solid fa-house my-float"></i>
         </router-link>
       </template>
       Go back to homepage
-    </n-tooltip>
+    </n-tooltip> -->
     <n-loading-bar-provider>
       <n-notification-provider>
         <n-message-provider>
           <router-view v-slot="{ Component, route }">
             <transition name="fade" mode="out-in">
               <component
+                :style="{ marginBottom: '5rem' }"
                 :is="Component"
                 :key="route.meta.usePathKey ? route.path : undefined"
               />
@@ -215,6 +224,20 @@ const handleSignout = () => {
 </style>
 
 <style lang="scss" scoped>
+.stickyFooter {
+  display: flex;
+  gap: 25px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: black;
+  text-align: center;
+  padding: 20px;
+  z-index: 999;
+  button {
+    color: white;
+  }
+}
 #bottom-sticky-button {
   position: fixed;
   bottom: 0;

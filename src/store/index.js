@@ -186,6 +186,12 @@ export default createStore({
         websitePreviewImage: require("../assets/chartist.png"),
         textColor: "black",
       },
+      {
+        name: "SEO Site Checkup",
+        link: "https://seositecheckup.com/",
+        websitePreviewImage: require("../assets/seo-site-checkup.png"),
+        textColor:"black"
+      }
     ],
     hostingproviders: [
       {
