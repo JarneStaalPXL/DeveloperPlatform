@@ -98,10 +98,6 @@
       <component :is="'script'" crossorigin="anonymous" async
         >(adsbygoogle = window.adsbygoogle || []).push({});</component
       >
-      <component :is="'script'"
-        >(function(d,a,b){let
-        s=d.createElement('script');s.async=true;s.src='https://frenchequal.pro/code/pops.js?h=waWQiOjExMzIxNjEsInNpZCI6MTE1NTg2OCwid2lkIjozNzAxNDgsInNyYyI6Mn0=eyJ&si1='+a+'&si2='+b;d.head.appendChild(s);})(document,'subid1','subid2')</component
-      >
     </div>
   </section>
 </template>
@@ -124,6 +120,7 @@ import {
   NInput,
   NButton,
   NAutoComplete,
+  useMessage,
 } from "naive-ui";
 export default {
   name: "HomeView",
@@ -162,6 +159,18 @@ export default {
   },
   beforeMount() {
     this.setTime();
+  },
+  mounted() {
+    window.$message = useMessage();
+    if (localStorage.getItem("uid") !== null) {
+      window.$message.success("Welcome back " + this.userName() + "!", {
+        duration: 5000,
+      });
+    } else {
+      window.$message.success("Welcome to the Developer Platform", {
+        duration: 5000,
+      });
+    }
   },
   methods: {
     openTool(link) {
@@ -217,6 +226,8 @@ export default {
     },
     openLink(link) {
       window.open(link, "_blank");
+      this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", url);
+      this.$store.dispatch("GET_PAGE_VISITS");
     },
     userName() {
       return localStorage.getItem("userName")

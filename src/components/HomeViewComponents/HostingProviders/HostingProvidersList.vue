@@ -35,6 +35,8 @@ export default {
         return;
       }
       window.open(url, "_blank");
+      this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", url);
+      this.$store.dispatch("GET_PAGE_VISITS");
     },
   },
 };

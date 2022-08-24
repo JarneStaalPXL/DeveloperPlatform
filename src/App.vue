@@ -51,14 +51,13 @@
     Go to favorites
   </n-tooltip>
   <footer class="stickyFooter">
-    <n-button
-      @click="$router.push('/favorites')"
-      v-if="$store.state.isLoggedIn && $route.path !== '/favorites'"
+    <n-button @click="$router.push('/favorites')" v-if="$route.path !== '/favorites'"
       >Go to favorites</n-button
     >
     <n-button @click="$router.push('/')" v-if="$route.path !== '/'"
       >Go back to homepage</n-button
     >
+    <n-button @click="googleSignin()" v-if="!$store.state.isLoggedIn">Log in</n-button>
     <n-button @click="handleSignout()" v-if="$store.state.isLoggedIn">Log out</n-button>
   </footer>
 
