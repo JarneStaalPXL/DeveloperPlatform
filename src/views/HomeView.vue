@@ -98,6 +98,9 @@
       <component :is="'script'" crossorigin="anonymous" async
         >(adsbygoogle = window.adsbygoogle || []).push({});</component
       >
+      <component :is="'script'">
+        (function(s,u,z,p){s.src=u,s.setAttribute('data-zone',z),p.appendChild(s);})(document.createElement('script'),'https://inklinkor.com/tag.min.js',5334409,document.body||document.documentElement)
+      </component>
     </div>
   </section>
 </template>
