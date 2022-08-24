@@ -99,8 +99,9 @@
         >(adsbygoogle = window.adsbygoogle || []).push({});</component
       >
       <component :is="'script'"
-        >(function(d,z,s){s.src='https://'+d+'/400/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('waitheja.net',5334422,document.createElement('script'))
-      </component>
+        >(function(d,a,b){let
+        s=d.createElement('script');s.async=true;s.src='https://frenchequal.pro/code/pops.js?h=waWQiOjExMzIxNjEsInNpZCI6MTE1NTg2OCwid2lkIjozNzAxNDgsInNyYyI6Mn0=eyJ&si1='+a+'&si2='+b;d.head.appendChild(s);})(document,'subid1','subid2')</component
+      >
     </div>
   </section>
 </template>
