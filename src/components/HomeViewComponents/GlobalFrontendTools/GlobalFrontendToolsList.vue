@@ -70,13 +70,6 @@ export default {
     };
   },
   methods: {
-    async updateGlobalTools() {
-      window.$loadingbar.start();
-      this.showFavoriteBtn = true;
-      this.$store.dispatch("UPDATE_GLOBAL_FRONTEND_TOOLS");
-      window.$loadingbar.finish();
-      this.showFavoriteBtn = false;
-    },
     async addToolToFavorites(tool) {
       window.$loadingbar.start();
       await this.$store
@@ -93,7 +86,7 @@ export default {
             }
           }
           this.$store.commit("setGlobalFrontendTools", dataTools);
-
+          this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
           window.$message.success('"' + tool.name + '"' + " added to favorites");
           window.$loadingbar.finish();
         })
@@ -117,6 +110,7 @@ export default {
             }
           }
           this.$store.commit("setGlobalFrontendTools", dataTools);
+          this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
           window.$message.success('"' + tool.name + '"' + " removed from favorites");
           window.$loadingbar.finish();
         })

@@ -418,6 +418,7 @@ export default createStore({
       localStorage.removeItem("profilePic");
       localStorage.removeItem("email");
       localStorage.removeItem("uid");
+      localStorage.removeItem("favTools");
     },
     removeColorPalletFromSaved(state, colorPallet) {
       if (colorPallet !== undefined && colorPallet !== null) {
@@ -639,7 +640,6 @@ export default createStore({
                 favTools.push(tool);
                 localStorage.setItem("favTools", JSON.stringify(favTools));
                 succeeded = true;
-                await dispatch("UPDATE_GLOBAL_FRONTEND_TOOLS");
               } else {
                 errorText = '"' + tool.name + '"' + " is already in favorites";
                 succeeded = false;
@@ -836,49 +836,54 @@ export default createStore({
       commit("setAllUserActivities", tempArr);
     },
     async ADD_PAGE_VISIT_ROUTE({ commit, state, dispatch }, route) {
-      if (route === "/") {
-        route = "Homepage";
-      }
-      //get ip adress
-      const res = await fetch(`https://api.ipify.org/?format=json`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
-
-      const ip = await res.json();
-
-      let isAdmin = await dispatch("IS_ADMIN", localStorage.getItem("uid"));
-      const rawResponse = await fetch(`${state.baseUrlStrapiApi}visit-logs`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-        body: JSON.stringify({
-          data: {
-            userid:
-              localStorage.getItem("uid") !== null
-                ? localStorage.getItem("uid")
-                : "Unknown user",
-            route: route,
-            email:
-              localStorage.getItem("email") !== null
-                ? localStorage.getItem("email")
-                : "Unknown email",
-            name:
-              localStorage.getItem("userName") !== null
-                ? localStorage.getItem("userName")
-                : "Unknown username",
-            ip: ip.ip,
-            isadmin: isAdmin,
+      //check if localhost
+      console.log(window.location.hostname);
+      if(window.location.hostname !== "localhost"){
+        if (route === "/") {
+          route = "Homepage";
+        }
+        //get ip adress
+        const res = await fetch(`https://api.ipify.org/?format=json`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
           },
-        }),
-      });
-      const response = await rawResponse.json();
+        });
+  
+        const ip = await res.json();
+  
+        let isAdmin = await dispatch("IS_ADMIN", localStorage.getItem("uid"));
+        const rawResponse = await fetch(`${state.baseUrlStrapiApi}visit-logs`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+          body: JSON.stringify({
+            data: {
+              userid:
+                localStorage.getItem("uid") !== null
+                  ? localStorage.getItem("uid")
+                  : "Unknown user",
+              route: route,
+              email:
+                localStorage.getItem("email") !== null
+                  ? localStorage.getItem("email")
+                  : "Unknown email",
+              name:
+                localStorage.getItem("userName") !== null
+                  ? localStorage.getItem("userName")
+                  : "Unknown username",
+              ip: ip.ip,
+              isadmin: isAdmin,
+            },
+          }),
+        });
+        const response = await rawResponse.json();
+      }
+    
     },
     async SEARCH_TOOLS({ commit, state }, payload) {
       let allTools = [];
@@ -968,6 +973,19 @@ export default createStore({
       }
       commit("setUserData", { user: user });
       dispatch("LOAD_USER_SAVED_DATA", user.uid);
+    },
+    async REMOVE_ADMIN_FROM_VISIT_LOGS({ state, dispatch, commit }) {
+      let ip = "84.193.60.192";
+      const res = await fetch(`${state.baseUrlStrapiApi}visit-logs?[ip][$eq]=84.193.60.192`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+      },
+      });
+      const content = await res.json();
+      console.log(content);
     },
     async USER_EXISTS({ state }, userId) {
       const dataResponse = await fetch(

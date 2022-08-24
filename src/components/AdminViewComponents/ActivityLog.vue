@@ -25,6 +25,7 @@
           :row-key="rowKey"
           @update:checked-row-keys="handleCheck"
         />
+        <n-button @click="remove()">REMOVE_ADMIN_FROM_VISIT_LOGS</n-button>
       </n-space>
     </n-card>
   </n-card>
@@ -120,6 +121,9 @@ export default {
     window.$loadingbar = useLoadingBar();
   },
   methods: {
+    remove() {
+      this.$store.dispatch("REMOVE_ADMIN_FROM_VISIT_LOGS");
+    },
     getAllActivity(value) {
       if (value === undefined) {
         return;
