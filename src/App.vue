@@ -1,11 +1,7 @@
 <template>
   <!-- <n-tooltip trigger="hover" v-if="$route.path !== '/' && isScrollingUp === false">
     <template #trigger>
-      <a
-        @click="scrollToTop()"
-        v-if="$route.path !== '/' && isScrollingUp === false"
-        class="float2"
-      >
+      <a @click="scrollToTop()" v-if="$route.path !== '/' && isScrollingUp === false" class="float2">
         <i class="fa-solid fa-arrow-up my-float"></i>
       </a>
     </template>
@@ -13,24 +9,21 @@
   </n-tooltip>
   <n-tooltip trigger="hover" v-if="$route.path !== '/' && isScrollingUp === true">
     <template #trigger>
-      <a
-        @click="scrollToBottom()"
-        v-if="$route.path !== '/' && isScrollingUp === true"
-        class="float2"
-      >
+      <a @click="scrollToBottom()" v-if="$route.path !== '/' && isScrollingUp === true" class="float2">
         <i class="fa-solid fa-arrow-down my-float"></i>
       </a>
     </template>
     Scroll to bottom
-  </n-tooltip>
--->
+  </n-tooltip> -->
+
+
   <n-tooltip trigger="hover" v-if="!$store.state.isLoggedIn && $route.path === '/'">
     <template #trigger>
       <a @click="googleSignin()" class="float3">
         <i class="fa-brands fa-google my-float"></i>
       </a>
     </template>
-    Log in with Google
+    Log in
   </n-tooltip>
 
   <n-tooltip trigger="hover" v-if="$store.state.isLoggedIn && $route.path === '/'">
@@ -44,22 +37,17 @@
 
   <n-tooltip trigger="hover" v-if="$store.state.isLoggedIn && $route.path === '/'">
     <template #trigger>
-      <a @click="$router.push('/favorites')" class="float4"
-        ><i class="fa-solid fa-heart my-float"></i
-      ></a>
+      <a @click="$router.push('/favorites')" class="float4"><i class="fa-solid fa-heart my-float"></i></a>
     </template>
-    Go to favorites
+    Favorites
   </n-tooltip>
   <footer class="stickyFooter">
-    <n-button @click="$router.push('/favorites')" v-if="$route.path !== '/favorites'"
-      >Go to favorites</n-button
-    >
-    <n-button @click="$router.push('/')" v-if="$route.path !== '/'"
-      >Go back to homepage</n-button
-    >
+    <n-button @click="$router.push('/favorites')" v-if="$route.path !== '/favorites'">Favorites</n-button>
+    <n-button @click="$router.push('/')" v-if="$route.path !== '/'">Home</n-button>
     <n-button @click="googleSignin()" v-if="!$store.state.isLoggedIn">Log in</n-button>
     <n-button @click="handleSignout()" v-if="$store.state.isLoggedIn">Log out</n-button>
   </footer>
+
 
   <div class="content">
     <!-- <n-tooltip trigger="hover" v-if="$route.path !== '/'">
@@ -75,11 +63,8 @@
         <n-message-provider>
           <router-view v-slot="{ Component, route }">
             <transition name="fade" mode="out-in">
-              <component
-                :style="{ marginBottom: '5rem' }"
-                :is="Component"
-                :key="route.meta.usePathKey ? route.path : undefined"
-              />
+              <component :style="{ marginBottom: '5rem' }" :is="Component"
+                :key="route.meta.usePathKey ? route.path : undefined" />
             </transition>
           </router-view>
         </n-message-provider>
@@ -89,6 +74,20 @@
 </template>
 
 <script>
+import { h, defineComponent } from "vue";
+import {
+  PersonCircleOutline as UserIcon,
+  Pencil as EditIcon,
+  LogOutOutline as LogoutIcon
+} from "@vicons/ionicons5";
+
+const renderIcon = (icon) => {
+  return () => {
+    return h(NIcon, null, {
+      default: () => h(icon)
+    });
+  };
+};
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import {
   NButton,
@@ -100,10 +99,11 @@ import {
   NLoadingBarProvider,
   NMessageProvider,
   NTooltip,
+  NIcon, NDropdown
 } from "naive-ui";
 export default {
   name: "TemplateDesigner",
-  mounted() {},
+  mounted() { },
   data() {
     return {
       isScrollingDown: false,
@@ -120,6 +120,7 @@ export default {
     NLoadingBarProvider,
     NMessageProvider,
     NTooltip,
+    NIcon, NDropdown
   },
   methods: {
     scrollToTop() {
@@ -176,8 +177,30 @@ export default {
   setup() {
     return {
       darkTheme,
+      options: [
+        {
+          label: "Marina Bay Sands",
+          key: "marina bay sands",
+          disabled: true
+        },
+        {
+          label: "Brown's Hotel, London",
+          key: "brown's hotel, london"
+        },
+        {
+          label: "Atlantis Bahamas, Nassau",
+          key: "atlantis nahamas, nassau"
+        },
+        {
+          label: "The Beverly Hills Hotel, Los Angeles",
+          key: "the beverly hills hotel, los angeles"
+        }
+      ],
+      handleSelect(key) {
+        console.log(String(key));
+      }
     };
-  },
+  }
 };
 </script>
 
@@ -225,6 +248,7 @@ const handleSignout = () => {
 <style lang="scss" scoped>
 .stickyFooter {
   display: flex;
+  justify-content: space-between;
   gap: 25px;
   position: fixed;
   bottom: 0;
@@ -233,10 +257,12 @@ const handleSignout = () => {
   text-align: center;
   padding: 20px;
   z-index: 999;
+
   button {
     color: white;
   }
 }
+
 #bottom-sticky-button {
   position: fixed;
   bottom: 0;
