@@ -98,7 +98,9 @@
       <component :is="'script'" crossorigin="anonymous" async
         >(adsbygoogle = window.adsbygoogle || []).push({});</component
       >
-      <component :is="'script'"> </component>
+      <component :is="'script'"
+        >(function(d,z,s){s.src='https://'+d+'/400/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('waitheja.net',5334422,document.createElement('script'))
+      </component>
     </div>
   </section>
 </template>
