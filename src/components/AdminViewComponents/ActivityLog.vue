@@ -4,28 +4,13 @@
       <n-space vertical>
         <section class="d-flex">
           <n-p class="w-50">Page Size</n-p>
-          <n-input-number
-            class="w-50"
-            :min="0"
-            :max="50"
-            placeholder="Enter pagesize"
-            v-model:value="pagination.pageSize"
-          ></n-input-number>
+          <n-input-number class="w-50" :min="0" :max="50" placeholder="Enter pagesize"
+            v-model:value="pagination.pageSize"></n-input-number>
         </section>
-        <n-button
-          v-if="checkedRowKeys.length > 0 && $store.state.allUserActivities.length > 0"
-          @click="deleteSelectedRows(checkedRowKeys)"
-          >Delete selected rows</n-button
-        >
-        <n-data-table
-          ref="table"
-          :columns="columns"
-          :data="$store.state.allUserActivities"
-          :pagination="pagination"
-          :row-key="rowKey"
-          @update:checked-row-keys="handleCheck"
-        />
-        <n-button @click="remove()">REMOVE_ADMIN_FROM_VISIT_LOGS</n-button>
+        <n-button v-if="checkedRowKeys.length > 0 && $store.state.allUserActivities.length > 0"
+          @click="deleteSelectedRows(checkedRowKeys)">Delete selected rows</n-button>
+        <n-data-table ref="table" :columns="columns" :data="$store.state.allUserActivities" :pagination="pagination"
+          :row-key="rowKey" @update:checked-row-keys="handleCheck" />
       </n-space>
     </n-card>
   </n-card>
