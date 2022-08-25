@@ -4,44 +4,31 @@
       <h1>Developer Platform</h1>
       <p>Usefull tools you can use for your website and design.<br /></p>
     </section>
-    <n-auto-complete
-      class="autoCompleteInput"
-      :on-update:value="showResultsTools"
-      :input-props="{
-        autocomplete: 'disabled',
-      }"
-      :options="toolResults"
-      placeholder="Search (press space for all tools)"
-      :on-select="openTool"
-    />
+    <n-auto-complete class="autoCompleteInput" :on-update:value="showResultsTools" :input-props="{
+      autocomplete: 'disabled',
+    }" :options="toolResults" placeholder="Search (press space for all tools)" :on-select="openTool" />
 
     <section class="toolCategoriesContainer">
       <div>
-        <n-button @click="$router.push('/globalfrontendtools')"
-          >Global Frontend Tools
-          <n-badge
-            class="ml-1 pl-1 pr-1"
-            :value="$store.state.globalFrontendTools.length"
-            color="grey"
-        /></n-button>
+        <n-button @click="$router.push('/globalfrontendtools')">Global Frontend Tools
+          <n-badge class="ml-1 pl-1 pr-1" :value="$store.state.globalFrontendTools.length" color="grey" />
+        </n-button>
       </div>
 
       <div>
-        <n-button @click="$router.push('/gradientgenerators')"
-          >Gradient Generators
-          <n-badge :value="$store.state.gradientGeneratorsTools.length" color="grey"
-        /></n-button>
+        <n-button @click="$router.push('/gradientgenerators')">Gradient Generators
+          <n-badge :value="$store.state.gradientGeneratorsTools.length" color="grey" />
+        </n-button>
       </div>
       <div>
-        <n-button @click="$router.push('/colorgenerators')"
-          >Color Generators <n-badge :value="2" color="grey"
-        /></n-button>
+        <n-button @click="$router.push('/colorgenerators')">Color Generators
+          <n-badge :value="2" color="grey" />
+        </n-button>
       </div>
       <div>
-        <n-button @click="$router.push('/hostingproviders')"
-          >Hosting Providers
-          <n-badge :value="$store.state.hostingproviders.length" color="grey"
-        /></n-button>
+        <n-button @click="$router.push('/hostingproviders')">Hosting Providers
+          <n-badge :value="$store.state.hostingproviders.length" color="grey" />
+        </n-button>
       </div>
     </section>
     <section class="mt-5 developmentSection">
@@ -59,12 +46,9 @@
         </section>
         <h5 id="welcomeMsg" v-if="$store.state.isLoggedIn && userName() !== undefined">
           Welcome
-          <a
-            id="adminClickPointer"
-            @click="$router.push($store.state.routings.adminPanel.path)"
-            v-if="isAdmin()"
-            >{{ userName() }}</a
-          >
+          <a id="adminClickPointer" @click="$router.push($store.state.routings.adminPanel.path)" v-if="isAdmin()">{{
+              userName()
+          }}</a>
         </h5>
         <section class="timeContainer">
           <div class="clock-border">
@@ -81,23 +65,13 @@
       </section>
     </footer>
     <div class="w-100">
-      <component
-        :is="'script'"
+      <component :is="'script'"
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6265128065602433"
-        crossorigin="anonymous"
-        async
-      ></component>
-      <ins
-        class="adsbygoogle"
-        style="display: block"
-        data-ad-client="ca-pub-6265128065602433"
-        data-ad-slot="2171576343"
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      ></ins>
-      <component :is="'script'" crossorigin="anonymous" async
-        >(adsbygoogle = window.adsbygoogle || []).push({});</component
-      >
+        crossorigin="anonymous" async></component>
+      <ins class="adsbygoogle" style="display: block" data-ad-client="ca-pub-6265128065602433" data-ad-slot="2171576343"
+        data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <component :is="'script'" crossorigin="anonymous" async>(adsbygoogle = window.adsbygoogle || []).push({});
+      </component>
     </div>
   </section>
 </template>
@@ -257,28 +231,36 @@ export default {
 
 <style lang="scss" scoped>
 .developmentSection {
+  width: 75%;
+  margin: auto;
+
   a {
     color: #2bd48c;
+
     &:hover {
       cursor: pointer;
     }
   }
 }
+
 #adminClickPointer {
   cursor: pointer;
 }
+
 .optionContainer {
   width: 300px;
   height: 300px;
   background: lightblue;
   border-radius: 10px;
 }
+
 .allItemsFooter {
   display: flex;
   margin: auto;
   justify-content: space-between;
   width: 85vw;
 }
+
 .stickyFooter {
   position: fixed;
   bottom: 0;
@@ -311,9 +293,11 @@ export default {
     font-size: 25px;
   }
 }
+
 h4 {
   margin: 0;
 }
+
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
@@ -376,6 +360,7 @@ a {
     font-weight: bold;
     font-size: 16px;
   }
+
   padding: 20px;
   text-align: left;
   background: white;
@@ -384,6 +369,7 @@ a {
 
   width: 100%;
   border-radius: 5px;
+
   &:hover {
     cursor: pointer;
     background: #5acea7;
@@ -416,21 +402,26 @@ a {
   width: fit-content;
   margin: 35px auto;
   gap: 10px;
+
   div {
     padding-left: 9px;
+
     * {
       width: auto;
     }
   }
 }
+
 .autoCompleteInput {
   width: 450px;
 }
+
 .navbarContent {
   display: flex;
   justify-content: space-between;
   padding-top: 20px;
 }
+
 #welcomeMsg {
   margin-top: auto;
   margin-bottom: auto;
@@ -443,6 +434,7 @@ a {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
 //
 
 .optionsRow1Container {
@@ -454,6 +446,7 @@ a {
   p {
     font-size: 20px;
   }
+
   .optionContainer {
     display: flex;
     justify-content: center;
@@ -462,6 +455,7 @@ a {
 }
 
 @media only screen and (max-width: 980px) {
+
   .titleCard,
   .categoryCard {
     margin: 0;
@@ -470,6 +464,7 @@ a {
 
   .searchToolsContainer {
     flex-direction: column;
+
     div,
     button {
       width: 100% !important;
@@ -486,30 +481,40 @@ a {
     div {
       width: 100%;
       padding-left: 0;
+
       * {
         padding-left: 20px;
         width: 100%;
       }
     }
   }
+
   .autoCompleteInput {
     width: 75vw;
   }
+
+  .explanationContainer {
+    padding-top: 4em;
+  }
+
   .explanationContainer p {
     font-size: 15;
     width: 75vw;
     margin: auto;
     margin-bottom: 25px;
+
   }
 
   .allItemsFooter {
     #welcomeMsg {
       font-size: 15px;
     }
+
     .pagevisitscontainer *,
     .timeContainer * {
       font-size: 20px;
     }
+
     .pagevisitscontainer h1 {
       margin: 0;
     }

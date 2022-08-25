@@ -190,7 +190,7 @@ export default createStore({
         name: "SEO Site Checkup",
         link: "https://seositecheckup.com/",
         websitePreviewImage: require("../assets/seo-site-checkup.png"),
-        textColor:"black"
+        textColor: "black"
       }
     ],
     hostingproviders: [
@@ -837,8 +837,7 @@ export default createStore({
     },
     async ADD_PAGE_VISIT_ROUTE({ commit, state, dispatch }, route) {
       //check if localhost
-      console.log(window.location.hostname);
-      if(window.location.hostname !== "localhost"){
+      if (window.location.hostname !== "localhost") {
         if (route === "/") {
           route = "Homepage";
         }
@@ -850,9 +849,9 @@ export default createStore({
             "Content-Type": "application/json",
           },
         });
-  
+
         const ip = await res.json();
-  
+
         let isAdmin = await dispatch("IS_ADMIN", localStorage.getItem("uid"));
         const rawResponse = await fetch(`${state.baseUrlStrapiApi}visit-logs`, {
           method: "POST",
@@ -883,7 +882,7 @@ export default createStore({
         });
         const response = await rawResponse.json();
       }
-    
+
     },
     async SEARCH_TOOLS({ commit, state }, payload) {
       let allTools = [];
@@ -973,19 +972,6 @@ export default createStore({
       }
       commit("setUserData", { user: user });
       dispatch("LOAD_USER_SAVED_DATA", user.uid);
-    },
-    async REMOVE_ADMIN_FROM_VISIT_LOGS({ state, dispatch, commit }) {
-      let ip = "84.193.60.192";
-      const res = await fetch(`${state.baseUrlStrapiApi}visit-logs?[ip][$eq]=84.193.60.192`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-      },
-      });
-      const content = await res.json();
-      console.log(content);
     },
     async USER_EXISTS({ state }, userId) {
       const dataResponse = await fetch(
