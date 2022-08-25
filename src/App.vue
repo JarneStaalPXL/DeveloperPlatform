@@ -316,7 +316,9 @@ nav {
 
 * {
   // font-family: "Poppins", sans-serif;
+
   font-family: "DynaPuff", cursive;
+  font-family: "Titillium Web", sans-serif;
   //Set cursor image
   // cursor: url("./assets/cursor.svg"), default;
 }
