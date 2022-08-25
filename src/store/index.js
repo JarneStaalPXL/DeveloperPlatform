@@ -7,10 +7,10 @@ export default createStore({
     uniqueVisitors: [],
     adminEmail: "jarne.staal9@gmail.com",
     pagevisits: 0,
-    baseUrlStrapi: "https://frontendplatformbackend.herokuapp.com",
-    baseUrlStrapiApi: "https://frontendplatformbackend.herokuapp.com" + "/api/",
+    baseUrlStrapi: "https://developerplatformbackend.up.railway.app",
+    baseUrlStrapiApi: "https://developerplatformbackend.up.railway.app" + "/api/",
     strapiApiKey:
-      "1bad8621f0c81dc23565fd6f813668bfb5f9b32eb678b6f9db74439ac6849d30ac8b5ee03ba74b66c73892a6a291aac2cb6c5899d85aa3851be2ce20cbf8a8bb1c12aed7b1c9a61b2731d5e4e4a86e20b0fe3c6c96c5cd0bf928236d3eda0f609fe998f20b9e95b3f3ed5431ec43dc1c98369f4ef3c713d3bc70d07ab80011b8",
+      "74b1b6bd688a26cfc4d0bef366129a3da6ec0fbb22d9d4538942839cf229d6c66acbe12482dcfae4cab6b0a518349c47b411a2d138328eb1ea94f9ad1c15ae502bf43f41cb83480c8590b40dea0fba378361ee595ac9a893cf15a254eb9e2c148e7c34aaf72969fe32e9edadd4eba7c6e45aff7939d887ef2c29c2eb0e0613ac",
     selectedLinearGradient: {},
     name: "",
     profilepic: "",
