@@ -4,29 +4,44 @@
       <h1>Developer Platform</h1>
       <p>Usefull tools you can use for your website and design.<br /></p>
     </section>
-    <n-auto-complete class="autoCompleteInput" :on-update:value="showResultsTools" :input-props="{
-      autocomplete: 'disabled',
-    }" :options="toolResults" placeholder="Search (press space for all tools)" :on-select="openTool" />
+    <n-auto-complete
+      class="autoCompleteInput"
+      :on-update:value="showResultsTools"
+      :input-props="{
+        autocomplete: 'disabled',
+      }"
+      :options="toolResults"
+      placeholder="Search (press space for all tools)"
+      :on-select="openTool"
+    />
 
     <section class="toolCategoriesContainer">
       <div>
-        <n-button @click="$router.push('/globalfrontendtools')">Global Frontend Tools
-          <n-badge class="ml-1 pl-1 pr-1" :value="$store.state.globalFrontendTools.length" color="grey" />
+        <n-button @click="$router.push('/globalfrontendtools')"
+          >Global Frontend Tools
+          <n-badge
+            class="ml-1 pl-1 pr-1"
+            :value="$store.state.globalFrontendTools.length"
+            color="grey"
+          />
         </n-button>
       </div>
 
       <div>
-        <n-button @click="$router.push('/gradientgenerators')">Gradient Generators
+        <n-button @click="$router.push('/gradientgenerators')"
+          >Gradient Generators
           <n-badge :value="$store.state.gradientGeneratorsTools.length" color="grey" />
         </n-button>
       </div>
       <div>
-        <n-button @click="$router.push('/colorgenerators')">Color Generators
+        <n-button @click="$router.push('/colorgenerators')"
+          >Color Generators
           <n-badge :value="2" color="grey" />
         </n-button>
       </div>
       <div>
-        <n-button @click="$router.push('/hostingproviders')">Hosting Providers
+        <n-button @click="$router.push('/hostingproviders')"
+          >Hosting Providers
           <n-badge :value="$store.state.hostingproviders.length" color="grey" />
         </n-button>
       </div>
@@ -46,9 +61,13 @@
         </section>
         <h5 id="welcomeMsg" v-if="$store.state.isLoggedIn && userName() !== undefined">
           Welcome
-          <a id="adminClickPointer" @click="$router.push($store.state.routings.adminPanel.path)" v-if="isAdmin()">{{
-              userName()
-          }}</a>
+          <a
+            id="adminClickPointer"
+            @click="$router.push($store.state.routings.adminPanel.path)"
+            v-if="isAdmin()"
+            >{{ userName() }}</a
+          >
+          <a v-else id="adminClickPointer">{{ userName() }}</a>
         </h5>
         <section class="timeContainer">
           <div class="clock-border">
@@ -65,12 +84,22 @@
       </section>
     </footer>
     <div class="w-100">
-      <component :is="'script'"
+      <component
+        :is="'script'"
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6265128065602433"
-        crossorigin="anonymous" async></component>
-      <ins class="adsbygoogle" style="display: block" data-ad-client="ca-pub-6265128065602433" data-ad-slot="2171576343"
-        data-ad-format="auto" data-full-width-responsive="true"></ins>
-      <component :is="'script'" crossorigin="anonymous" async>(adsbygoogle = window.adsbygoogle || []).push({});
+        crossorigin="anonymous"
+        async
+      ></component>
+      <ins
+        class="adsbygoogle"
+        style="display: block"
+        data-ad-client="ca-pub-6265128065602433"
+        data-ad-slot="2171576343"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      ></ins>
+      <component :is="'script'" crossorigin="anonymous" async
+        >(adsbygoogle = window.adsbygoogle || []).push({});
       </component>
     </div>
   </section>
@@ -150,11 +179,9 @@ export default {
     openTool(link) {
       window.open(link, "_blank");
     },
-    isAdmin() {
-      return (
-        localStorage["email"] !== undefined &&
-        localStorage["email"].includes("jarne.staal9@gmail.com")
-      );
+    async isAdmin() {
+      let isAdmin = await this.$store.dispatch("IS_ADMIN", localStorage.getItem("uid"));
+      return isAdmin;
     },
     setTime() {
       const date = new Date();
@@ -455,7 +482,6 @@ a {
 }
 
 @media only screen and (max-width: 980px) {
-
   .titleCard,
   .categoryCard {
     margin: 0;
@@ -502,7 +528,6 @@ a {
     width: 75vw;
     margin: auto;
     margin-bottom: 25px;
-
   }
 
   .allItemsFooter {

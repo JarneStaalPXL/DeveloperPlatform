@@ -1077,14 +1077,6 @@ export default createStore({
         }
       }
 
-      // if (localStorage.getItem("email") === null) {
-      //   isAdmin = false;
-      // } else if (isAdmin === false) {
-      //   if (localStorage.getItem("email").includes(state.adminEmail)) {
-      //     isAdmin = true;
-      //   }
-      // }
-
       commit("setIsAdmin", isAdmin);
       return isAdmin;
     },
