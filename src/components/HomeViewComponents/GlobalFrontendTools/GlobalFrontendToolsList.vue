@@ -196,7 +196,7 @@ export default {
       // transition: opacity 0.3s ease-in-out;
       // opacity: 0;
       //disable selection
-      user-select: none;
+      // user-select: none;
     }
   }
 }

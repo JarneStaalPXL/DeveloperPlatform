@@ -114,20 +114,6 @@
 </template>
 
 <script>
-import { h, defineComponent } from "vue";
-import {
-  PersonCircleOutline as UserIcon,
-  Pencil as EditIcon,
-  LogOutOutline as LogoutIcon,
-} from "@vicons/ionicons5";
-
-const renderIcon = (icon) => {
-  return () => {
-    return h(NIcon, null, {
-      default: () => h(icon),
-    });
-  };
-};
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import {
   NButton,
@@ -332,6 +318,60 @@ const handleSignout = () => {
 .fade-leave-to {
   opacity: 0;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  // color: white;
+}
+
+nav {
+  padding: 30px;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
+}
+
+// body {
+//   background-color: #18181c;
+// }
+
+* {
+  // font-family: "Poppins", sans-serif;
+
+  // font-family: "DynaPuff", cursive;
+  font-family: "Titillium Web", sans-serif;
+  //Set cursor image
+  // cursor: url("./assets/cursor.svg"), default;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  &:hover {
+    cursor: text;
+  }
+}
+::selection {
+  background: rgba(130, 250, 108, 0.3);
+  color: black;
+  cursor: text;
+}
 </style>
 
 <style lang="scss" scoped>
@@ -473,45 +513,5 @@ const handleSignout = () => {
 
 a:hover {
   cursor: pointer;
-}
-</style>
-
-<style lang="scss">
-html {
-  scroll-behavior: smooth;
-}
-
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  // color: white;
-}
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-
-// body {
-//   background-color: #18181c;
-// }
-
-* {
-  // font-family: "Poppins", sans-serif;
-
-  font-family: "DynaPuff", cursive;
-  font-family: "Titillium Web", sans-serif;
-  //Set cursor image
-  // cursor: url("./assets/cursor.svg"), default;
 }
 </style>
