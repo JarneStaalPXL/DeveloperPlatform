@@ -1,5 +1,5 @@
 <template>
-  <section style="background: #18181c; height: 102vh">
+  <section class="fullSectionLinear">
     <n-space vertical>
       <n-card>
         <header class="d-flex justify-content-between flex-wrap" style="gap: 50px">
@@ -299,17 +299,13 @@
                   >
                 </template>
                 <template #trigger>
-                  <n-button :style="{ color: 'white' }" class="w-50">Copy CSS</n-button>
+                  <n-button class="w-50">Copy CSS</n-button>
                 </template>
                 What CSS do you want to copy?
               </n-popconfirm>
 
-              <n-button
-                :style="{ color: 'white' }"
-                class="w-50"
-                @click="createCanvasWithGradientAndDownload()"
-              >
-                Download as background
+              <n-button class="w-50" @click="createCanvasWithGradientAndDownload()">
+                Download background
               </n-button>
             </div>
           </template>
@@ -626,6 +622,14 @@ export default {
 };
 </script>
 
+<style lang="scss">
+@media only screen and (max-width: 670px) {
+  .n-card__content {
+    padding: 7px !important;
+  }
+}
+</style>
+
 <style lang="scss" scoped>
 nav {
   h1 {
@@ -669,7 +673,7 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: black;
 }
 
 #generatedBGContainer {

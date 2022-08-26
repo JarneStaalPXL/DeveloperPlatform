@@ -1,6 +1,6 @@
 <template>
   <div>
-    <n-config-provider :hljs="hljs" :theme="darkTheme">
+    <n-config-provider :hljs="hljs" :theme="null">
       <n-loading-bar-provider>
         <n-message-provider>
           <n-notification-provider :max="3">
@@ -40,7 +40,7 @@ export default {
     NNotificationProvider,
   },
   mounted() {
-    document.addEventListener("contextmenu", (e) => { });
+    document.addEventListener("contextmenu", (e) => {});
   },
   setup() {
     return {

@@ -474,6 +474,7 @@ export default createStore({
             );
           }
           commit("setGlobalFrontendTools", dataTools);
+          console.log(dataTools);
         }
 
         //returning favorite tools

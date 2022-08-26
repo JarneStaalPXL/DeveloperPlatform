@@ -4,15 +4,8 @@
       <!-- <nav class="nav justify-content-center">
         <h1>Gradient Background Generator</h1>
       </nav> -->
-      <header
-        class="d-flex justify-content-between flex-wrap"
-        style="gap: 50px"
-      >
-        <n-card
-          class="naiveUICard"
-          title="Random Gradient Generator"
-          style="width: 33%"
-        >
+      <header class="d-flex justify-content-between flex-wrap" style="gap: 50px">
+        <n-card class="naiveUICard" title="Random Gradient Generator" style="width: 33%">
           <n-space vertical>
             <div class="d-flex flex-column justify-content-end">
               <n-space vertical>
@@ -42,12 +35,8 @@
                       <n-button class="w-100">
                         {{
                           currentFileAmountZipped <= 0
-                            ? "Download " +
-                              generatedGradientBGS.length +
-                              " gradients"
-                            : "Downloaded " +
-                              currentFileAmountZipped +
-                              " gradients"
+                            ? "Download " + generatedGradientBGS.length + " gradients"
+                            : "Downloaded " + currentFileAmountZipped + " gradients"
                         }}
                       </n-button>
                     </template>
@@ -191,9 +180,7 @@
               negative-text="Text gradient"
             >
               <template #action>
-                <n-button
-                  type="success"
-                  @click="copyToClipboard(getGradientCSSForText())"
+                <n-button type="success" @click="copyToClipboard(getGradientCSSForText())"
                   >Text Gradient</n-button
                 >
                 <n-button
@@ -218,11 +205,8 @@
               What CSS do you want to copy?
             </n-popconfirm>
 
-            <n-button
-              class="w-50"
-              @click="createCanvasWithGradientAndDownload()"
-            >
-              Download as background
+            <n-button class="w-50" @click="createCanvasWithGradientAndDownload()">
+              Download background
             </n-button>
           </div>
         </template>
@@ -289,14 +273,12 @@ export default {
   },
   mounted() {
     this.GetGeneratedGradientBackgrounds(this.amountBG);
-    document
-      .getElementById("amountInput")
-      .addEventListener("keypress", (event) => {
-        if (event.key === "Enter") {
-          event.preventDefault();
-          document.getElementById("getBGBtn").click();
-        }
-      });
+    document.getElementById("amountInput").addEventListener("keypress", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("getBGBtn").click();
+      }
+    });
   },
   methods: {
     abortedDownloadGradients() {
@@ -461,10 +443,7 @@ export default {
       this.generatedGradientBGS = arr;
     },
     GetGeneratedGradientBackgroundsFromSelectedColor() {
-      if (
-        this.selectedFirstColor === null ||
-        this.selectedSecondColor === null
-      ) {
+      if (this.selectedFirstColor === null || this.selectedSecondColor === null) {
         window.$message.error("Please select colors.");
         return;
       }

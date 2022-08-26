@@ -1,6 +1,6 @@
 <template>
   <div>
-    <n-config-provider :theme="darkTheme">
+    <n-config-provider :theme="null">
       <n-message-provider>
         <WebsiteBuilder />
       </n-message-provider>
@@ -25,5 +25,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

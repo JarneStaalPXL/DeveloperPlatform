@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider :theme="darkTheme">
+  <n-config-provider :theme="null">
     <n-space vertical>
       <section>
         <ActivityLog />

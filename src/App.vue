@@ -16,15 +16,14 @@
     Scroll to bottom
   </n-tooltip> -->
 
-
-  <n-tooltip trigger="hover" v-if="!$store.state.isLoggedIn && $route.path === '/'">
+  <!-- <n-tooltip trigger="hover" v-if="!$store.state.isLoggedIn && $route.path === '/'">
     <template #trigger>
       <a @click="googleSignin()" class="float3">
         <i class="fa-brands fa-google my-float"></i>
       </a>
     </template>
     Log in
-  </n-tooltip>
+  </n-tooltip> -->
 
   <n-tooltip trigger="hover" v-if="$store.state.isLoggedIn && $route.path === '/'">
     <template #trigger>
@@ -35,19 +34,57 @@
     Log out
   </n-tooltip>
 
-  <n-tooltip trigger="hover" v-if="$store.state.isLoggedIn && $route.path === '/'">
+  <n-tooltip trigger="hover" v-if="$route.path === '/'">
     <template #trigger>
-      <a @click="$router.push('/favorites')" class="float4"><i class="fa-solid fa-heart my-float"></i></a>
+      <a @click="$router.push('/favorites')" class="float4"
+        ><i class="fa-solid fa-heart my-float"></i
+      ></a>
     </template>
     Favorites
   </n-tooltip>
-  <footer class="stickyFooter">
-    <n-button @click="$router.push('/favorites')" v-if="$route.path !== '/favorites'">Favorites</n-button>
+
+  <footer v-if="$route.path === '/'" class="stickyFooter">
+    <section class="allItemsFooter">
+      <section class="pagevisitscontainer">
+        <h1 v-if="getPageVisits > 0">
+          {{ getPageVisits }} <i class="fa-solid fa-eyes"></i>
+        </h1>
+      </section>
+      <h5 id="welcomeMsg" v-if="$store.state.isLoggedIn">
+        Welcome
+        <a
+          id="adminClickPointer"
+          @click="$router.push($store.state.routings.adminPanel.path)"
+          v-if="isAdmin()"
+          >{{ userName() }}</a
+        >
+        <a v-else id="adminClickPointer">{{ userName() }}</a>
+      </h5>
+      <n-config-provider :theme="darkTheme" v-else>
+        <n-button @click="googleSignin()">Log in</n-button>
+      </n-config-provider>
+      <section class="timeContainer">
+        <div class="clock-border">
+          <div class="clock-inner">
+            <div class="hour">{{ hours }}</div>
+            <div class="dots">:</div>
+            <div class="min">{{ minutes }}</div>
+            <div class="dots">:</div>
+            <div class="secs">{{ seconds }}</div>
+            <div class="mode"></div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </footer>
+  <n-config-provider :theme="darkTheme" v-else class="stickyFooter actionButtonContainer">
+    <n-button @click="$router.push('/favorites')" v-if="$route.path !== '/favorites'"
+      >Favorites</n-button
+    >
     <n-button @click="$router.push('/')" v-if="$route.path !== '/'">Home</n-button>
     <n-button @click="googleSignin()" v-if="!$store.state.isLoggedIn">Log in</n-button>
     <n-button @click="handleSignout()" v-if="$store.state.isLoggedIn">Log out</n-button>
-  </footer>
-
+  </n-config-provider>
 
   <div class="content">
     <!-- <n-tooltip trigger="hover" v-if="$route.path !== '/'">
@@ -63,8 +100,11 @@
         <n-message-provider>
           <router-view v-slot="{ Component, route }">
             <transition name="fade" mode="out-in">
-              <component :style="{ marginBottom: '5rem' }" :is="Component"
-                :key="route.meta.usePathKey ? route.path : undefined" />
+              <component
+                :style="{ marginBottom: '5rem' }"
+                :is="Component"
+                :key="route.meta.usePathKey ? route.path : undefined"
+              />
             </transition>
           </router-view>
         </n-message-provider>
@@ -78,13 +118,13 @@ import { h, defineComponent } from "vue";
 import {
   PersonCircleOutline as UserIcon,
   Pencil as EditIcon,
-  LogOutOutline as LogoutIcon
+  LogOutOutline as LogoutIcon,
 } from "@vicons/ionicons5";
 
 const renderIcon = (icon) => {
   return () => {
     return h(NIcon, null, {
-      default: () => h(icon)
+      default: () => h(icon),
     });
   };
 };
@@ -99,11 +139,15 @@ import {
   NLoadingBarProvider,
   NMessageProvider,
   NTooltip,
-  NIcon, NDropdown
+  NIcon,
+  NDropdown,
 } from "naive-ui";
 export default {
   name: "TemplateDesigner",
-  mounted() { },
+  beforeMount() {
+    this.setTime();
+  },
+  mounted() {},
   data() {
     return {
       isScrollingDown: false,
@@ -120,9 +164,15 @@ export default {
     NLoadingBarProvider,
     NMessageProvider,
     NTooltip,
-    NIcon, NDropdown
+    NIcon,
+    NDropdown,
   },
   methods: {
+    userName() {
+      return localStorage.getItem("userName")
+        ? localStorage.getItem("userName")
+        : undefined;
+    },
     scrollToTop() {
       window.scrollTo(0, 0);
     },
@@ -130,6 +180,25 @@ export default {
       window.scrollTo(0, document.body.scrollHeight);
     },
 
+    checkSingleDigit(digit) {
+      return ("0" + digit).slice(-2);
+    },
+    async isAdmin() {
+      let isAdmin = await this.$store.dispatch("IS_ADMIN", localStorage.getItem("uid"));
+      return isAdmin;
+    },
+    setTime() {
+      const date = new Date();
+      this.hours = date.getHours();
+      this.minutes = this.checkSingleDigit(date.getMinutes());
+      this.seconds = this.checkSingleDigit(date.getSeconds());
+      setInterval(() => {
+        const date = new Date();
+        this.hours = date.getHours();
+        this.minutes = this.checkSingleDigit(date.getMinutes());
+        this.seconds = this.checkSingleDigit(date.getSeconds());
+      }, 1000);
+    },
     async googleSignin() {
       const provider = new GoogleAuthProvider();
       const auth = getAuth();
@@ -141,9 +210,9 @@ export default {
           // The signed-in user info.
           const user = result.user;
           // ...
-          this.$store.dispatch("CREATE_ACCOUNT", result.user);
-          this.$store.dispatch("GET_PAGE_VISITS");
-          this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
+          await this.$store.dispatch("CREATE_ACCOUNT", result.user);
+          await this.$store.dispatch("GET_PAGE_VISITS");
+          await this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
         })
         .catch((error) => {
           // Handle Errors here.
@@ -153,6 +222,23 @@ export default {
           const credential = GoogleAuthProvider.credentialFromError(error);
           // ...
         });
+    },
+  },
+  computed: {
+    getPageVisits() {
+      return this.$store.state.pagevisits;
+    },
+    shortUserName() {
+      let username = localStorage.getItem("userName");
+      if (username) {
+        return username.split(" ")[0][0] + username.split(" ")[1][0];
+      } else if (this.$store.state.name) {
+        return (
+          this.$store.state.name.split(" ")[0][0] +
+          this.$store.state.name.split(" ")[1][0]
+        );
+      }
+      return null;
     },
   },
   mounted() {
@@ -181,26 +267,26 @@ export default {
         {
           label: "Marina Bay Sands",
           key: "marina bay sands",
-          disabled: true
+          disabled: true,
         },
         {
           label: "Brown's Hotel, London",
-          key: "brown's hotel, london"
+          key: "brown's hotel, london",
         },
         {
           label: "Atlantis Bahamas, Nassau",
-          key: "atlantis nahamas, nassau"
+          key: "atlantis nahamas, nassau",
         },
         {
           label: "The Beverly Hills Hotel, Los Angeles",
-          key: "the beverly hills hotel, los angeles"
-        }
+          key: "the beverly hills hotel, los angeles",
+        },
       ],
       handleSelect(key) {
         console.log(String(key));
-      }
+      },
     };
-  }
+  },
 };
 </script>
 
@@ -234,6 +320,9 @@ const handleSignout = () => {
 };
 </script>
 <style lang="scss">
+// .content {
+//   height: 100vh;
+// }
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s ease;
@@ -246,22 +335,99 @@ const handleSignout = () => {
 </style>
 
 <style lang="scss" scoped>
-.stickyFooter {
-  display: flex;
-  justify-content: space-between;
-  gap: 25px;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: black;
-  text-align: center;
-  padding: 20px;
-  z-index: 999;
-
+.actionButtonContainer {
   button {
     color: white;
   }
 }
+@media only screen and (max-width: 980px) {
+  .allItemsFooter {
+    #welcomeMsg {
+      font-size: 15px;
+    }
+
+    .pagevisitscontainer *,
+    .timeContainer * {
+      font-size: 20px;
+    }
+
+    .pagevisitscontainer h1 {
+      margin: 0;
+    }
+  }
+}
+
+@media only screen and (min-width: 650px) {
+  .allItemsFooter {
+    button {
+      width: 200px !important;
+    }
+  }
+}
+#welcomeMsg {
+  margin-top: auto;
+  margin-bottom: auto;
+  color: white;
+}
+.allItemsFooter {
+  display: flex;
+  margin: auto;
+  justify-content: space-between;
+  width: 85vw;
+  button {
+    color: white;
+    width: inherit;
+  }
+}
+.stickyFooter {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 10px;
+  background: #24242a;
+  z-index: 9999;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+
+  .pagevisitscontainer {
+    display: flex;
+    justify-content: flex-end;
+    color: white;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .timeContainer {
+    .clock-inner {
+      display: flex;
+      color: white;
+      font-size: 25px;
+    }
+  }
+
+  h1,
+  i {
+    font-size: 25px;
+  }
+}
+
+// .stickyFooter {
+//   display: flex;
+//   justify-content: space-between;
+//   gap: 25px;
+//   position: fixed;
+//   bottom: 0;
+//   width: 100%;
+//   background: #24242a;
+//   text-align: center;
+//   padding: 20px;
+//   z-index: 999;
+
+//   button {
+//     color: white;
+//   }
+// }
 
 #bottom-sticky-button {
   position: fixed;

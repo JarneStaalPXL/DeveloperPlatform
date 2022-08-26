@@ -12,77 +12,71 @@
       }"
       :options="toolResults"
       placeholder="Search (press space for all tools)"
-      :on-select="openTool"
+      :on-select="openLink"
     />
 
     <section class="toolCategoriesContainer">
-      <div>
-        <n-button @click="$router.push('/globalfrontendtools')"
-          >Global Frontend Tools
-          <n-badge
-            class="ml-1 pl-1 pr-1"
-            :value="$store.state.globalFrontendTools.length"
-            color="grey"
-          />
-        </n-button>
-      </div>
+      <section class="categories">
+        <h4>Categories</h4>
+        <section>
+          <div>
+            <n-button @click="$router.push('/globalfrontendtools')"
+              >Global Frontend Tools
+              <n-badge
+                class="ml-1 pl-1 pr-1"
+                :value="$store.state.globalFrontendTools.length"
+                color="grey"
+              />
+            </n-button>
+          </div>
 
-      <div>
-        <n-button @click="$router.push('/gradientgenerators')"
-          >Gradient Generators
-          <n-badge :value="$store.state.gradientGeneratorsTools.length" color="grey" />
-        </n-button>
-      </div>
-      <div>
-        <n-button @click="$router.push('/colorgenerators')"
-          >Color Generators
-          <n-badge :value="2" color="grey" />
-        </n-button>
-      </div>
-      <div>
-        <n-button @click="$router.push('/hostingproviders')"
-          >Hosting Providers
-          <n-badge :value="$store.state.hostingproviders.length" color="grey" />
-        </n-button>
-      </div>
+          <div>
+            <n-button @click="$router.push('/gradientgenerators')"
+              >Gradient Generators
+              <n-badge
+                :value="$store.state.gradientGeneratorsTools.length"
+                color="grey"
+              />
+            </n-button>
+          </div>
+          <div>
+            <n-button @click="$router.push('/colorgenerators')"
+              >Color Generators
+              <n-badge :value="2" color="grey" />
+            </n-button>
+          </div>
+          <div>
+            <n-button @click="$router.push('/hostingproviders')"
+              >Hosting Providers
+              <n-badge :value="$store.state.hostingproviders.length" color="grey" />
+            </n-button>
+          </div>
+        </section>
+      </section>
+
+      <section class="someFavorites" v-if="$store.state.favoritetools.length > 0">
+        <h4>Some of your favorites</h4>
+        <div class="favorites">
+          <n-button
+            v-for="tool of $store.state.favoritetools.slice(0, 5)"
+            :key="tool"
+            @click="openLink(tool.link)"
+          >
+            {{ tool.name }}
+          </n-button>
+        </div>
+      </section>
     </section>
+
     <section class="mt-5 developmentSection">
       <h6>
         Developer Platform is still in development and we appreciate all the feedback.
       </h6>
-      <h6>Visit our <a @click="openLink('https://discord.gg/3nfeEgcYgh')">Discord</a></h6>
+      <h6>
+        Visit our <a @click="openLink('https://discord.gg/3nfeEgcYgh')">Discord</a> .
+      </h6>
     </section>
-    <footer class="stickyFooter">
-      <section class="allItemsFooter">
-        <section class="pagevisitscontainer">
-          <h1 v-if="getPageVisits > 0">
-            {{ getPageVisits }} <i class="fa-solid fa-eyes"></i>
-          </h1>
-        </section>
-        <h5 id="welcomeMsg" v-if="$store.state.isLoggedIn && userName() !== undefined">
-          Welcome
-          <a
-            id="adminClickPointer"
-            @click="$router.push($store.state.routings.adminPanel.path)"
-            v-if="isAdmin()"
-            >{{ userName() }}</a
-          >
-          <a v-else id="adminClickPointer">{{ userName() }}</a>
-        </h5>
-        <section class="timeContainer">
-          <div class="clock-border">
-            <div class="clock-inner">
-              <div class="hour">{{ hours }}</div>
-              <div class="dots">:</div>
-              <div class="min">{{ minutes }}</div>
-              <div class="dots">:</div>
-              <div class="secs">{{ seconds }}</div>
-              <div class="mode"></div>
-            </div>
-          </div>
-        </section>
-      </section>
-    </footer>
+
     <div class="w-100">
       <component
         :is="'script'"
@@ -160,9 +154,7 @@ export default {
       darkTheme,
     };
   },
-  beforeMount() {
-    this.setTime();
-  },
+
   mounted() {
     window.$message = useMessage();
     if (localStorage.getItem("uid") !== null) {
@@ -176,28 +168,6 @@ export default {
     }
   },
   methods: {
-    openTool(link) {
-      window.open(link, "_blank");
-    },
-    async isAdmin() {
-      let isAdmin = await this.$store.dispatch("IS_ADMIN", localStorage.getItem("uid"));
-      return isAdmin;
-    },
-    setTime() {
-      const date = new Date();
-      this.hours = date.getHours();
-      this.minutes = this.checkSingleDigit(date.getMinutes());
-      this.seconds = this.checkSingleDigit(date.getSeconds());
-      setInterval(() => {
-        const date = new Date();
-        this.hours = date.getHours();
-        this.minutes = this.checkSingleDigit(date.getMinutes());
-        this.seconds = this.checkSingleDigit(date.getSeconds());
-      }, 1000);
-    },
-    checkSingleDigit(digit) {
-      return ("0" + digit).slice(-2);
-    },
     clearResults() {
       this.toolResults = [];
       this.showAll = true;
@@ -236,23 +206,7 @@ export default {
         : undefined;
     },
   },
-  computed: {
-    getPageVisits() {
-      return this.$store.state.pagevisits;
-    },
-    shortUserName() {
-      let username = localStorage.getItem("userName");
-      if (username) {
-        return username.split(" ")[0][0] + username.split(" ")[1][0];
-      } else if (this.$store.state.name) {
-        return (
-          this.$store.state.name.split(" ")[0][0] +
-          this.$store.state.name.split(" ")[1][0]
-        );
-      }
-      return null;
-    },
-  },
+  computed: {},
 };
 </script>
 
@@ -279,13 +233,6 @@ export default {
   height: 300px;
   background: lightblue;
   border-radius: 10px;
-}
-
-.allItemsFooter {
-  display: flex;
-  margin: auto;
-  justify-content: space-between;
-  width: 85vw;
 }
 
 .stickyFooter {
@@ -424,11 +371,35 @@ a {
   border-width: 5px;
   border-image: linear-gradient(to right, #1ea4e9, #36fd3c);
 
-  display: flex;
-  flex-wrap: wrap;
   width: fit-content;
   margin: 35px auto;
-  gap: 10px;
+
+  gap: 30px;
+  display: flex;
+  flex-direction: column;
+
+  .categories {
+    gap: 20px;
+    width: 100%;
+    justify-content: space-between;
+    section {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+  }
+
+  .someFavorites {
+    h4 {
+      margin-bottom: 20px;
+    }
+    .favorites {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+  }
 
   div {
     padding-left: 9px;
@@ -447,12 +418,6 @@ a {
   display: flex;
   justify-content: space-between;
   padding-top: 20px;
-}
-
-#welcomeMsg {
-  margin-top: auto;
-  margin-bottom: auto;
-  color: white;
 }
 
 .explanationContainer {

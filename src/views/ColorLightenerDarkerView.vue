@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider :theme="darkTheme">
+  <n-config-provider :theme="null">
     <n-message-provider>
       <ColorLightenerDarker />
     </n-message-provider>
@@ -23,5 +23,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -13,10 +13,15 @@ import GradientGeneratorsToolsPageView from '@/views/GradientGeneratorsToolsPage
 import HostingProvidersPageView from '@/views/HostingProvidersPageView'
 import GlobalFrontendToolsPageView from '@/views/GlobalFrontendToolsPageView'
 import FavoriteToolsPageView from '@/views/FavoriteToolsPageView'
-
+import NotFoundView from '@/views/NotFoundView'
 import store from "../store";
 
 const routes = [
+  {
+    path: "/:catchAll(.*)",
+    name: "NotFound",
+    component: NotFoundView,
+},
   {
     path: "/",
     name: "home",
@@ -119,6 +124,7 @@ router.beforeEach((to, from, next) => {
       return;
     }
   }
+
   store.dispatch("ADD_PAGE_VISIT_ROUTE", to.fullPath);
   store.dispatch("GET_PAGE_VISITS");
   next();
