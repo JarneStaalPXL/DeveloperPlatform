@@ -197,7 +197,7 @@ export default {
     },
     openLink(link) {
       window.open(link, "_blank");
-      this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", url);
+      this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", link);
       this.$store.dispatch("GET_PAGE_VISITS");
     },
     userName() {
@@ -387,6 +387,7 @@ a {
       gap: 10px;
       margin-top: 20px;
       flex-wrap: wrap;
+      justify-content: center;
     }
   }
 

@@ -291,7 +291,7 @@ export default createStore({
       },
       {
         name: "Railway Hosting",
-        link: "https://railway.app/",
+        link: "https://railway.app?referralCode=Hy5cpA",
         websitePreviewImage: require("../assets/railway.png"),
         type: "hostingprovider",
       },
