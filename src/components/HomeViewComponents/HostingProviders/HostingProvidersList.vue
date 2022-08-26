@@ -1,33 +1,67 @@
 <template>
-  <section class="providersContainer">
-    <a
+  <section class="globalFrontendtoolsContainer">
+    <div
       v-for="provider of $store.state.hostingproviders"
       :key="provider"
-      @click="openLink(provider.link)"
+      class="item"
+      :style="{
+        backgroundImage:
+          'url(' +
+          (provider.websitePreviewImage
+            ? provider.websitePreviewImage
+            : websitePreviewImagePlaceholder) +
+          ')',
+        backgroundPosition: provider.websitePreviewImage ? '' : 'center',
+      }"
     >
-      <div
-        class="item"
-        :style="{
-          backgroundImage:
-            'url(' +
-            (provider.websitePreviewImage ? provider.websitePreviewImage : '') +
-            ')',
-          backgroundPosition: provider.websitePreviewImage ? '' : 'center',
-          backgroundSize: '100% 100%',
-        }"
-      >
-        <p :style="{ color: provider.textColor ? provider.textColor : 'white' }">
-          {{ provider.name }}
-        </p>
-      </div>
-    </a>
+      <section class="itemSection">
+        <div class="itemContent">
+          <p
+            v-if="provider.name"
+            :style="{ color: provider.textColor ? provider.textColor : 'white' }"
+          >
+            {{ provider.name }}
+          </p>
+
+          <div>
+            <n-button @click="openLink(provider.link)">Open website</n-button>
+            <!-- <n-button
+              class="pl-5"
+              @click="addToolToFavorites(provider)"
+              v-if="!provider.isFavorited"
+              ><i :style="{ color: 'black' }" class="fa-solid fa-heart"></i
+            ></n-button>
+            <n-button
+              class="pl-5"
+              @click="removeToolFromFavorites(provider)"
+              v-if="provider.isFavorited"
+              ><i :style="{ color: 'red' }" class="fa-solid fa-heart"></i
+            ></n-button> -->
+          </div>
+        </div>
+        <div class="pt-3 descriptionContainer" v-if="provider.description">
+          <p>{{ provider.description }}</p>
+          <div>
+            <n-tag type="success" v-if="provider.isRecommended">RECOMMENDED</n-tag>
+            <n-tag type="info" v-if="provider.isUsed">USED BY DEVELOPER PLATFORM</n-tag>
+          </div>
+        </div>
+      </section>
+    </div>
   </section>
 </template>
 
 <script>
+import { NButton, useLoadingBar, useMessage, NSpin, NIcon, NTag } from "naive-ui";
 export default {
   data() {
     return {};
+  },
+  components: {
+    NButton,
+    NSpin,
+    NIcon,
+    NTag,
   },
   methods: {
     openLink(url) {
@@ -43,58 +77,123 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.providersContainer {
+.itemSection {
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 0 !important;
+  flex-direction: column;
+  .itemContent {
+    justify-content: space-between;
+    p {
+      font-weight: bold;
+    }
+  }
+  .descriptionContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    div {
+      gap: 10px;
+      justify-content: center;
+    }
+  }
 }
-
+//from globalfrontendtools
+.globalFrontendtoolsContainer {
+  display: flex;
+  /* flex-direction: column; */
+  flex-wrap: wrap;
+  gap: 75px;
+  justify-content: space-between;
+  .item {
+    min-width: 43vw;
+    max-width: 43vw;
+  }
+}
 .item {
-  width: 300px;
-  height: 300px;
+  height: 500px;
   border-radius: 15px;
-
-  border: 0;
+  margin-bottom: 20px;
+  // border: 2px solid transparent;
   display: flex;
   justify-content: center;
-  align-items: center;
-  background: black;
+  align-items: flex-end;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 
-  p {
+  section {
+    display: flex;
+    justify-content: space-between;
     font-size: 18px;
-    color: white;
     background: black;
-    padding: 13px;
+    transition: opacity 0.3s ease-in-out;
+    margin: 0;
     width: 100%;
-    align-self: flex-end;
-    margin-bottom: 0;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    background: rgba(255, 255, 255, 0.45);
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    background: white;
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
     border: 1px solid rgba(255, 255, 255, 0.18);
+
+    p {
+      padding-left: 15px;
+      margin-top: auto;
+      margin-bottom: auto;
+      word-break: break-word;
+    }
+    div {
+      display: flex;
+      gap: 5px;
+      padding-right: 15px;
+    }
   }
 
   &:hover {
-    border: 2px solid white;
-    cursor: pointer;
+    p {
+      // transition: opacity 0.3s ease-in-out;
+      // opacity: 0;
+      //disable selection
+      // user-select: none;
+    }
   }
 }
 
-@media only screen and (max-width: 790px) {
-  .providersContainer {
-    justify-content: center;
-
-    a {
-      width: 100%;
+@media only screen and (max-width: 890px) {
+  .item {
+    min-width: 100% !important;
+    section {
+      flex-direction: column;
+      div {
+        padding-top: 10px;
+        padding-left: 8px;
+        padding-right: 8px;
+      }
     }
-    .item {
+  }
+  .itemSection {
+    .itemContent {
+      display: flex;
+      flex-direction: column;
       width: 100%;
+      div {
+        justify-content: center;
+        * {
+          width: 50%;
+        }
+      }
+    }
+    .descriptionContainer {
+      p {
+        padding-left: 0;
+      }
+      div {
+        width: 100%;
+        flex-wrap: wrap;
+      }
     }
   }
 }

@@ -8,7 +8,8 @@ export default createStore({
     adminEmail: "jarne.staal9@gmail.com",
     pagevisits: 0,
     baseUrlStrapi: "https://developerplatformbackend.up.railway.app",
-    baseUrlStrapiApi: "https://developerplatformbackend.up.railway.app" + "/api/",
+    baseUrlStrapiApi:
+      "https://developerplatformbackend.up.railway.app" + "/api/",
     strapiApiKey:
       "74b1b6bd688a26cfc4d0bef366129a3da6ec0fbb22d9d4538942839cf229d6c66acbe12482dcfae4cab6b0a518349c47b411a2d138328eb1ea94f9ad1c15ae502bf43f41cb83480c8590b40dea0fba378361ee595ac9a893cf15a254eb9e2c148e7c34aaf72969fe32e9edadd4eba7c6e45aff7939d887ef2c29c2eb0e0613ac",
     selectedLinearGradient: {},
@@ -190,47 +191,55 @@ export default createStore({
         name: "SEO Site Checkup",
         link: "https://seositecheckup.com/",
         websitePreviewImage: require("../assets/seo-site-checkup.png"),
-        textColor: "black"
-      }
+        textColor: "black",
+      },
     ],
     hostingproviders: [
       {
         name: "Github Pages Hosting",
         link: "https://pages.github.com/",
-        websitePreviewImage: require("../assets/github-pages.webp"),
+        description:
+          "GitHub Pages is a static site hosting service that takes HTML, " +
+          "CSS, and JavaScript files straight from a repository on GitHub, optionally runs the files through a build process, and publishes a website",
+        websitePreviewImage: require("../assets/github-pages.png"),
         textColor: "black",
         type: "hostingprovider",
+        isRecommended: true,
       },
       {
         name: "Koyeb Hosting",
         link: "https://koyeb.com/",
-        websitePreviewImage: require("../assets/kojeb.jpg"),
+        description:
+          "Koyeb's fully-managed serverless platform provides unique features to maximize developer productivity including a complete Service Mesh and Global Load Balancing.",
+        websitePreviewImage: require("../assets/koyeb-home.png"),
         textColor: "black",
         type: "hostingprovider",
       },
       {
-        name: "Layer0 Hosting",
-        link: "https://www.layer0.co/",
+        name: "Edgo Hosting",
+        link: "https://edg.io/",
         description:
-          "Layer0 allows you to deploy JAMStack websites very easily using technologies " +
-          "like Next.js, Nuxt.js, React and more.",
-        websitePreviewImage: require("../assets/layer0.webp"),
+          "Edgio AppOps is an Internet-scale platform that makes it easy for teams to build, release, protect, and accelerate their web apps and APIs.",
+        websitePreviewImage: require("../assets/edgio.png"),
         textColor: "black",
         type: "hostingprovider",
       },
       {
         name: "W3Schools Spaces Hosting",
         link: "https://www.w3schools.com/spaces/",
-        websitePreviewImage: require("../assets/w3schools.jpg"),
+        description: "W3Schools Spaces is a personal place where you can build and experiment with code and host your own website. With W3Schools Spaces you can build with HTML, CSS and JavaScript. Edit code directly in your browser. Upload and host your files and images.",
+        websitePreviewImage: require("../assets/w3schools.png"),
         textColor: "black",
         type: "hostingprovider",
       },
       {
         name: "Flatlogic Hosting",
-        link: "https://flatlogic.com/",
+        link: "https://flatlogic.com/templates?ref=c7ez7AzyG6",
+        description: "Generate full-stack databased-based (CRUD) React, Vue, Angular app codebases in just 3 steps! Select stack and template, connect to Github and deploy your app in minutes!",
         websitePreviewImage: require("../assets/flatlogic.png"),
         textColor: "black",
         type: "hostingprovider",
+        isRecommended: true,
       },
       {
         name: "Firebase Hosting",
@@ -259,9 +268,12 @@ export default createStore({
         link: "https://www.heroku.com/",
         description:
           "Heroku is a hosting service for full stack applications" +
-          " in the cloud. They support Nodejs, Pyton, Ruby, Java apps and many more.",
+          " in the cloud. They support Nodejs, Pyton, Ruby, Java apps and many more. The downside is that they are no longer offering free services.",
         websitePreviewImage: require("../assets/heroku.png"),
         type: "hostingprovider",
+        textColor: "black",
+        isRecommended: true,
+        isUsed: true,
       },
       {
         name: "Qovery Hosting",
@@ -271,29 +283,38 @@ export default createStore({
           " web apps and built-in databases. They provide unlimited apps and databases.",
         websitePreviewImage: require("../assets/qovery.jpg"),
         type: "hostingprovider",
+        textColor: "black",
       },
       {
         name: "Fly.io Hosting",
         link: "https://fly.io/",
         websitePreviewImage: require("../assets/fly.png"),
         type: "hostingprovider",
+        textColor: "black",
       },
       {
         name: "Stormkit Hosting",
         link: "https://stormkit.io/",
-        websitePreviewImage: require("../assets/stormkit.jpg"),
+        websitePreviewImage: require("../assets/stormkit.png"),
         type: "hostingprovider",
+        textColor: "black",
       },
       {
         name: "GitLab Pages Hosting",
         link: "https://gitlab.com/pages/",
-        websitePreviewImage: require("../assets/gitlab-pages.jpg"),
+        websitePreviewImage: require("../assets/gitlab-pages.png"),
+        type: "hostingprovider",
+        textColor: "black",
       },
       {
         name: "Railway Hosting",
         link: "https://railway.app?referralCode=Hy5cpA",
-        websitePreviewImage: require("../assets/railway.png"),
+        description:"Railway is a hosting service for full stack web apps and built-in databases. They provide unlimited apps and databases.",
+        websitePreviewImage: require("../assets/railway.svg"),
         type: "hostingprovider",
+        textColor: "black",
+        isRecommended: true,
+        isUsed: true,
       },
       {
         name: "Vercel Hosting",
@@ -303,30 +324,37 @@ export default createStore({
           "easily develop applications, previewing them before setting it to production.",
         websitePreviewImage: require("../assets/vercel.jpg"),
         type: "hostingprovider",
+        textColor: "black",
+        isRecommended: true,
       },
       {
         name: "Replit Hosting",
         link: "https://repl.it/",
         websitePreviewImage: require("../assets/replit.png"),
         type: "hostingprovider",
+        textColor: "black",
       },
       {
         name: "Fleek Hosting",
         link: "https://fleek.co/",
-        websitePreviewImage: require("../assets/fleek.jpg"),
+        websitePreviewImage: require("../assets/fleek.png"),
         type: "hostingprovider",
+        textColor: "black",
       },
       {
         name: "begin Hosting",
         link: "https://begin.com/",
-        websitePreviewImage: require("../assets/begin-logo.svg"),
+        websitePreviewImage: require("../assets/begin.png"),
         type: "hostingprovider",
+        textColor: "black",
       },
       {
         name: "Render Hosting",
         link: "https://render.com/",
-        websitePreviewImage: require("../assets/render.png"),
+        websitePreviewImage: require("../assets/render.jpg"),
         type: "hostingprovider",
+        textColor: "black",
+        isRecommended: true,
       },
       {
         name: "Netlify Hosting",
@@ -335,8 +363,11 @@ export default createStore({
           "Netlify is the go-to platform for deploying" +
           " modern web projects. It comes with an integrated system to let you" +
           " quickly deploy projects from GitHub and GitLab.",
-        websitePreviewImage: require("../assets/netlify.jpg"),
+        websitePreviewImage: require("../assets/netlify.webp"),
         type: "hostingprovider",
+        textColor: "black",
+        isRecommended: true,
+        isUsed: true,
       },
     ],
     gradientGeneratorsTools: [
@@ -883,7 +914,6 @@ export default createStore({
         });
         const response = await rawResponse.json();
       }
-
     },
     async SEARCH_TOOLS({ commit, state }, payload) {
       let allTools = [];

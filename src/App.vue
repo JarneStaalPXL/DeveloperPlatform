@@ -356,6 +356,10 @@ nav {
   //Set cursor image
   // cursor: url("./assets/cursor.svg"), default;
 }
+
+.n-drawer.n-drawer--right-placement.n-drawer--native-scrollbar {
+  z-index: 13 !important;
+}
 h1,
 h2,
 h3,
@@ -425,7 +429,7 @@ p {
   width: 100%;
   padding: 10px;
   background: #24242a;
-  z-index: 9999;
+  z-index: 10;
   display: flex;
   justify-content: space-between;
   padding: 20px;
