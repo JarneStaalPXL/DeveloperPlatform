@@ -1,4 +1,8 @@
 <template>
+  <div class="d-flex w-100 mb-4" style="gap: 20px">
+    <n-button @click="sortRecommended()">SORT ON RECOMMENDED</n-button>
+    <n-button @click="sortUsed()">SORT ON USED BY DEVELOPER PLATFORM</n-button>
+  </div>
   <section class="globalFrontendtoolsContainer">
     <div
       v-for="provider of $store.state.hostingproviders"
@@ -64,6 +68,12 @@ export default {
     NTag,
   },
   methods: {
+    sortRecommended() {
+      this.$store.dispatch("SORT_HOSTINGPROVIDERS_BY_RECOMMENDED");
+    },
+    sortUsed() {
+      this.$store.dispatch("SORT_HOSTINGPROVIDERS_BY_USED");
+    },
     openLink(url) {
       if (url === "" || url === undefined) {
         return;
