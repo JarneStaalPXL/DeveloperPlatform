@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex w-100 mb-4" style="gap: 20px">
+  <div class="mb-4 sortersContainer">
     <n-button @click="sortRecommended()">SORT ON RECOMMENDED</n-button>
     <n-button @click="sortUsed()">SORT ON USED BY DEVELOPER PLATFORM</n-button>
   </div>
@@ -43,7 +43,7 @@
             ></n-button>
           </div>
         </div>
-        <div class="pt-3 descriptionContainer" v-if="provider.description">
+        <div class="descriptionContainer" v-if="provider.description">
           <p>{{ provider.description }}</p>
           <div>
             <n-tag type="success" v-if="provider.isRecommended">RECOMMENDED</n-tag>
@@ -119,9 +119,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.sortersContainer {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+}
 .itemSection {
   display: flex;
   flex-direction: column;
+  height: 50%;
   .itemContent {
     justify-content: space-between;
     p {
@@ -164,7 +170,7 @@ export default {
 
   section {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     font-size: 18px;
     background: black;
     transition: opacity 0.3s ease-in-out;
@@ -205,6 +211,11 @@ export default {
 }
 
 @media only screen and (max-width: 890px) {
+  .sortersContainer {
+    flex-direction: column;
+    width: 100%;
+    gap: 5px;
+  }
   .item {
     min-width: 100% !important;
     section {
@@ -217,6 +228,7 @@ export default {
     }
   }
   .itemSection {
+    height: auto;
     .itemContent {
       display: flex;
       flex-direction: column;

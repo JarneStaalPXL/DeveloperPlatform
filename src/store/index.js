@@ -374,7 +374,7 @@ export default createStore({
         link: "https://render.com/",
         description:
           "Render is a unified cloud to build and run all your apps and websites with free TLS certificates, a global CDN, DDoS protection, private networks, and auto deploys from Git. Get started for free Contact sales.",
-        websitePreviewImage: require("../assets/render.jpg"),
+        websitePreviewImage: require("../assets/render.png"),
         type: "hostingprovider",
         textColor: "black",
         isRecommended: true,
