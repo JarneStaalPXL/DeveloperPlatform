@@ -133,14 +133,8 @@ export default {
   beforeMount() {
     this.setTime();
   },
-  unmounted() {
-    alert(true);
-  },
-  mounted() {
-    //capture moment when user closes window
-    window.onbeforeunload = () => {
-      this.setTime();
-    };
+  deactivated() {
+    alert("beforeUnmount");
   },
   data() {
     return {

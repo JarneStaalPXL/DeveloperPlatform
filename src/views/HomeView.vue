@@ -2,7 +2,7 @@
   <section class="fullContainer">
     <section class="explanationContainer">
       <h1>Developer Platform</h1>
-      <p>Usefull tools you can use for your website and design.<br /></p>
+      <p>Useful tools you can use for your website and design.<br /></p>
     </section>
     <n-auto-complete
       class="autoCompleteInput"
