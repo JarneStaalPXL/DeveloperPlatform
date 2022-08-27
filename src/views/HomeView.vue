@@ -70,11 +70,17 @@
 
     <section class="mt-5 developmentSection">
       <h6>
-        Developer Platform is still in development and we appreciate all the feedback.
+        Developer Platform is a platform where you can favorite all the useful tools you
+        want to use. It's continously expanding features and possibilities.
       </h6>
+
       <h6>
-        Visit our <a @click="openLink('https://discord.gg/3nfeEgcYgh')">Discord</a> .
+        Visit our <a @click="openLink('https://discord.gg/3nfeEgcYgh')">Discord</a> to
+        provide feedback .
       </h6>
+
+      <h6 class="mt-5">Current status:</h6>
+      <n-tag type="info">DEVELOPMENT</n-tag>
     </section>
 
     <div class="w-100">
@@ -117,12 +123,14 @@ import {
   NInput,
   NButton,
   NAutoComplete,
+  NTag,
   useMessage,
 } from "naive-ui";
 export default {
   name: "HomeView",
   components: {
     NCard,
+    NTag,
     NConfigProvider,
     NAvatar,
     NBadge,

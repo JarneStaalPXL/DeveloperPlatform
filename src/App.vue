@@ -133,9 +133,7 @@ export default {
   beforeMount() {
     this.setTime();
   },
-  deactivated() {
-    alert("beforeUnmount");
-  },
+  mounted() {},
   data() {
     return {
       isScrollingDown: false,

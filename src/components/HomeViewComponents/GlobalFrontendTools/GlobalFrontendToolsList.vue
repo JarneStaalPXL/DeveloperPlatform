@@ -14,24 +14,38 @@
         backgroundPosition: tool.websitePreviewImage ? '' : 'center',
       }"
     >
-      <section>
-        <p v-if="tool.name" :style="{ color: tool.textColor ? tool.textColor : 'white' }">
-          {{ tool.name }}
-        </p>
-        <div>
-          <n-button @click="openLink(tool.link)">Open website</n-button>
+      <section class="toolContent">
+        <div class="titleButtons">
+          <p
+            v-if="tool.name"
+            :style="{ color: tool.textColor ? tool.textColor : 'white' }"
+          >
+            {{ tool.name }}
+          </p>
+          <div class="actionBtns">
+            <n-button @click="openLink(tool.link)">Open website</n-button>
+            <n-button
+              class="pl-5"
+              @click="addToolToFavorites(tool)"
+              v-if="!tool.isFavorited"
+              ><i :style="{ color: 'black' }" class="fa-solid fa-heart"></i
+            ></n-button>
+            <n-button
+              class="pl-5"
+              @click="removeToolFromFavorites(tool)"
+              v-if="tool.isFavorited"
+              ><i :style="{ color: 'red' }" class="fa-solid fa-heart"></i
+            ></n-button>
+          </div>
+        </div>
+
+        <div class="mt-3 justify-content-end" v-if="tool.promoDescription">
           <n-button
-            class="pl-5"
-            @click="addToolToFavorites(tool)"
-            v-if="!tool.isFavorited"
-            ><i :style="{ color: 'black' }" class="fa-solid fa-heart"></i
-          ></n-button>
-          <n-button
-            class="pl-5"
-            @click="removeToolFromFavorites(tool)"
-            v-if="tool.isFavorited"
-            ><i :style="{ color: 'red' }" class="fa-solid fa-heart"></i
-          ></n-button>
+            class="promoBtn"
+            @click="openLink(tool.promoLink)"
+            :style="{ marginRight: '13px' }"
+            >{{ tool.promoDescription }}</n-button
+          >
         </div>
       </section>
     </div>
@@ -48,7 +62,7 @@
 </template>
 
 <script>
-import { NButton, useLoadingBar, useMessage, NSpin, NIcon } from "naive-ui";
+import { NButton, useLoadingBar, useMessage, NSpin, NIcon, NTag } from "naive-ui";
 import { Reload } from "@vicons/ionicons5";
 export default {
   components: {
@@ -56,6 +70,7 @@ export default {
     NSpin,
     Reload,
     NIcon,
+    NTag,
   },
   async mounted() {
     window.$message = useMessage();
@@ -132,6 +147,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.toolContent {
+  display: flex;
+  flex-direction: column;
+}
 .globalFrontendtoolsContainer {
   display: flex;
   /* flex-direction: column; */
@@ -183,9 +202,8 @@ export default {
       display: flex;
       gap: 5px;
       padding-right: 15px;
-
-      *,
-      *:hover {
+      justify-content: space-between;
+      button {
         background: white;
       }
     }
@@ -202,15 +220,44 @@ export default {
 }
 
 @media only screen and (max-width: 890px) {
+  .titleButtons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .actionBtns {
+      display: flex;
+      justify-content: center;
+      button {
+        width: 50%;
+      }
+    }
+  }
+
+  .promoBtn {
+    width: 95%;
+    margin: 0;
+  }
   .item {
     min-width: 100% !important;
     section {
       flex-direction: column;
-      div {
-        width: 100%;
-        justify-content: center;
-        padding-top: 10px;
+      p {
+        padding-left: 0;
       }
+      div {
+        justify-content: space-between;
+        padding-top: 10px;
+        padding-right: 5px;
+        padding-left: 5px;
+      }
+    }
+  }
+  .toolContent {
+    display: flex;
+    flex-direction: column;
+    div {
+      padding-right: 0;
+      justify-content: space-between;
     }
   }
 }
