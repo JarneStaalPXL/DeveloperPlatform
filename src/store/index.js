@@ -229,7 +229,8 @@ export default createStore({
       {
         name: "W3Schools Spaces Hosting",
         link: "https://www.w3schools.com/spaces/",
-        description: "W3Schools Spaces is a personal place where you can build and experiment with code and host your own website. With W3Schools Spaces you can build with HTML, CSS and JavaScript. Edit code directly in your browser. Upload and host your files and images.",
+        description:
+          "W3Schools Spaces is a personal place where you can build and experiment with code and host your own website. With W3Schools Spaces you can build with HTML, CSS and JavaScript. Edit code directly in your browser. Upload and host your files and images.",
         websitePreviewImage: require("../assets/w3schools.png"),
         textColor: "black",
         type: "hostingprovider",
@@ -237,7 +238,8 @@ export default createStore({
       {
         name: "Flatlogic Hosting",
         link: "https://flatlogic.com/templates?ref=c7ez7AzyG6",
-        description: "Generate full-stack databased-based (CRUD) React, Vue, Angular app codebases in just 3 steps! Select stack and template, connect to Github and deploy your app in minutes!",
+        description:
+          "Generate full-stack databased-based (CRUD) React, Vue, Angular app codebases in just 3 steps! Select stack and template, connect to Github and deploy your app in minutes!",
         websitePreviewImage: require("../assets/flatlogic.png"),
         textColor: "black",
         type: "hostingprovider",
@@ -246,7 +248,8 @@ export default createStore({
       {
         name: "Firebase Hosting",
         link: "https://firebase.com/",
-        description: "Firebase Hosting is production-grade web content hosting for developers. With a single command, you can quickly deploy web apps and serve both static and dynamic content to a global CDN (content delivery network).",
+        description:
+          "Firebase Hosting is production-grade web content hosting for developers. With a single command, you can quickly deploy web apps and serve both static and dynamic content to a global CDN (content delivery network).",
         websitePreviewImage: require("../assets/firebase.png"),
         textColor: "black",
         type: "hostingprovider",
@@ -254,7 +257,8 @@ export default createStore({
       {
         name: "Cloudflare Pages Hosting",
         link: "https://pages.cloudflare.com/",
-        description:"Cloudflare Pages is a JAMstack platform for frontend developers to collaborate and deploy websites. Developer-focused with effortless Git integration. Advanced collaboration built-in with unlimited seats. Unmatched performance on Cloudflare's edge network.",
+        description:
+          "Cloudflare Pages is a JAMstack platform for frontend developers to collaborate and deploy websites. Developer-focused with effortless Git integration. Advanced collaboration built-in with unlimited seats. Unmatched performance on Cloudflare's edge network.",
         websitePreviewImage: require("../assets/cloudflare-pages.png"),
         textColor: "black",
         type: "hostingprovider",
@@ -262,7 +266,8 @@ export default createStore({
       {
         name: "Hostman Hosting",
         link: "https://hostman.com/",
-        description: "Hostman lets you launch your apps in a few clicks using a friendly interface. The pricing is fair and transparent. Works on top of AWS and DigitalOcean.",
+        description:
+          "Hostman lets you launch your apps in a few clicks using a friendly interface. The pricing is fair and transparent. Works on top of AWS and DigitalOcean.",
         websitePreviewImage: require("../assets/hostman.png"),
         textColor: "black",
         type: "hostingprovider",
@@ -293,7 +298,8 @@ export default createStore({
       {
         name: "Fly.io Hosting",
         link: "https://fly.io/",
-        description:"fly.io is really a way to run Docker images on servers in different cities and a global router to connect users to the nearest available instance. We convert your Docker image into a root filesystem, boot tiny VMs using an Amazon project called Firecracker, and then proxy connections to it.",
+        description:
+          "fly.io is really a way to run Docker images on servers in different cities and a global router to connect users to the nearest available instance. We convert your Docker image into a root filesystem, boot tiny VMs using an Amazon project called Firecracker, and then proxy connections to it.",
         websitePreviewImage: require("../assets/fly.png"),
         type: "hostingprovider",
         textColor: "black",
@@ -301,7 +307,8 @@ export default createStore({
       {
         name: "Stormkit Hosting",
         link: "https://stormkit.io/",
-        description:"Stormkit is an infrastructure provider for modern javascript applications. It supports either server-less side rendered applications or JAMStack websites. You can easily deploy, host and manage your applications/websites using Stormkit.",
+        description:
+          "Stormkit is an infrastructure provider for modern javascript applications. It supports either server-less side rendered applications or JAMStack websites. You can easily deploy, host and manage your applications/websites using Stormkit.",
         websitePreviewImage: require("../assets/stormkit.png"),
         type: "hostingprovider",
         textColor: "black",
@@ -309,7 +316,8 @@ export default createStore({
       {
         name: "GitLab Pages Hosting",
         link: "https://gitlab.com/pages/",
-        description: "GitLab Pages supports static websites and builds any Static Site Generator (SSG), such as Jekyll, Hugo, Hexo, Middleman and Pelican. We are assuming that you are familiar with Git and with the web development process, from creation to publishing.",
+        description:
+          "GitLab Pages supports static websites and builds any Static Site Generator (SSG), such as Jekyll, Hugo, Hexo, Middleman and Pelican. We are assuming that you are familiar with Git and with the web development process, from creation to publishing.",
         websitePreviewImage: require("../assets/gitlab-pages.png"),
         type: "hostingprovider",
         textColor: "black",
@@ -317,7 +325,8 @@ export default createStore({
       {
         name: "Railway Hosting",
         link: "https://railway.app?referralCode=Hy5cpA",
-        description:"Railway is a hosting service for full stack web apps and built-in databases. They provide unlimited apps and databases.",
+        description:
+          "Railway is a hosting service for full stack web apps and built-in databases. They provide unlimited apps and databases.",
         websitePreviewImage: require("../assets/railway.svg"),
         type: "hostingprovider",
         textColor: "black",
@@ -338,7 +347,8 @@ export default createStore({
       {
         name: "Replit Hosting",
         link: "https://repl.it/",
-        description: "Web pages written in HTML, CSS, and JavaScript can be hosted on Replit. HTML/CSS/JS repls are given a unique URL that can be shared with your friends, family, peers, and clients. After running a repl, your repl will be hosted at the URL provided in the result tab.",
+        description:
+          "Web pages written in HTML, CSS, and JavaScript can be hosted on Replit. HTML/CSS/JS repls are given a unique URL that can be shared with your friends, family, peers, and clients. After running a repl, your repl will be hosted at the URL provided in the result tab.",
         websitePreviewImage: require("../assets/replit.png"),
         type: "hostingprovider",
         textColor: "black",
@@ -346,7 +356,8 @@ export default createStore({
       {
         name: "Fleek Hosting",
         link: "https://fleek.co/",
-        description:"Fleek makes it easy to build websites and apps on the new open web: permissionless, trustless, censorship resistant, and free of centralized gatekeepers.",
+        description:
+          "Fleek makes it easy to build websites and apps on the new open web: permissionless, trustless, censorship resistant, and free of centralized gatekeepers.",
         websitePreviewImage: require("../assets/fleek.png"),
         type: "hostingprovider",
         textColor: "black",
@@ -361,7 +372,8 @@ export default createStore({
       {
         name: "Render Hosting",
         link: "https://render.com/",
-        description:"Render is a unified cloud to build and run all your apps and websites with free TLS certificates, a global CDN, DDoS protection, private networks, and auto deploys from Git. Get started for free Contact sales.",
+        description:
+          "Render is a unified cloud to build and run all your apps and websites with free TLS certificates, a global CDN, DDoS protection, private networks, and auto deploys from Git. Get started for free Contact sales.",
         websitePreviewImage: require("../assets/render.jpg"),
         type: "hostingprovider",
         textColor: "black",
@@ -485,8 +497,8 @@ export default createStore({
       state.globalFrontendTools = payload;
     },
     setHostingProviders(state, payload) {
-      state.hostingProviders = payload;
-    }
+      state.hostingproviders = payload;
+    },
   },
   actions: {
     async GET_USER_FAVORITE_TOOLS({ dispatch, commit, state }) {
@@ -508,17 +520,26 @@ export default createStore({
         const res = await response.json();
         commit("setFavoriteTools", res.data.attributes.favoritetools);
 
-        //globalfrontendtools manipulation favorites
         if (state.favoritetools !== null) {
-          const dataTools = JSON.parse(
+          //globalfrontendtools manipulation favorites
+          const gbt = JSON.parse(
             JSON.stringify(state.globalFrontendTools)
           );
-          for (const tool of dataTools) {
+          for (const tool of gbt) {
             tool.isFavorited = state.favoritetools.some(
               (t) => t.name === tool.name
             );
           }
-          commit("setGlobalFrontendTools", dataTools);
+          commit("setGlobalFrontendTools", gbt);
+
+          //hosting providers manipulation favorites
+          const htp = JSON.parse(JSON.stringify(state.hostingproviders));
+          for(const provider of htp) {
+            provider.isFavorited = state.favoritetools.some(
+              (t) => t.name === provider.name
+            );
+          }
+          commit("setHostingProviders", htp);
         }
 
         //returning favorite tools

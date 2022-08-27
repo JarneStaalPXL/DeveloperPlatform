@@ -90,17 +90,6 @@ export default {
       await this.$store
         .dispatch("ADD_TOOL_TO_FAVORITES", tool)
         .then(async () => {
-          //find tool in globalFrontendTools and set isFavorited to false
-          const dataTools = JSON.parse(
-            JSON.stringify(this.$store.state.globalFrontendTools)
-          );
-          for (const tl of dataTools) {
-            if (tl.name === tool.name) {
-              tl.isFavorited = true;
-              break;
-            }
-          }
-          this.$store.commit("setGlobalFrontendTools", dataTools);
           this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
           window.$message.success('"' + tool.name + '"' + " added to favorites");
           window.$loadingbar.finish();
@@ -115,16 +104,6 @@ export default {
       await this.$store
         .dispatch("REMOVE_TOOL_FROM_FAVORITES", tool)
         .then(async () => {
-          const dataTools = JSON.parse(
-            JSON.stringify(this.$store.state.globalFrontendTools)
-          );
-          for (const tl of dataTools) {
-            if (tl.name === tool.name) {
-              tl.isFavorited = false;
-              break;
-            }
-          }
-          this.$store.commit("setGlobalFrontendTools", dataTools);
           this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
           window.$message.success('"' + tool.name + '"' + " removed from favorites");
           window.$loadingbar.finish();

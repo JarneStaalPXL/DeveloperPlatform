@@ -29,7 +29,7 @@
 
           <div>
             <n-button @click="openLink(provider.link)">Open website</n-button>
-            <!-- <n-button
+            <n-button
               class="pl-5"
               @click="addToolToFavorites(provider)"
               v-if="!provider.isFavorited"
@@ -40,7 +40,7 @@
               @click="removeToolFromFavorites(provider)"
               v-if="provider.isFavorited"
               ><i :style="{ color: 'red' }" class="fa-solid fa-heart"></i
-            ></n-button> -->
+            ></n-button>
           </div>
         </div>
         <div class="pt-3 descriptionContainer" v-if="provider.description">
@@ -58,6 +58,10 @@
 <script>
 import { NButton, useLoadingBar, useMessage, NSpin, NIcon, NTag } from "naive-ui";
 export default {
+  mounted() {
+    window.$loadingbar = useLoadingBar();
+    window.$message = useMessage();
+  },
   data() {
     return {};
   },
@@ -81,6 +85,34 @@ export default {
       window.open(url, "_blank");
       this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", url);
       this.$store.dispatch("GET_PAGE_VISITS");
+    },
+    async addToolToFavorites(tool) {
+      window.$loadingbar.start();
+      await this.$store
+        .dispatch("ADD_TOOL_TO_FAVORITES", tool)
+        .then(async () => {
+          this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
+          window.$message.success('"' + tool.name + '"' + " added to favorites");
+          window.$loadingbar.finish();
+        })
+        .catch((err) => {
+          window.$loadingbar.error();
+          window.$message.error(err);
+        });
+    },
+    async removeToolFromFavorites(tool) {
+      window.$loadingbar.start();
+      await this.$store
+        .dispatch("REMOVE_TOOL_FROM_FAVORITES", tool)
+        .then(async () => {
+          this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
+          window.$message.success('"' + tool.name + '"' + " removed from favorites");
+          window.$loadingbar.finish();
+        })
+        .catch((err) => {
+          window.$loadingbar.error();
+          window.$message.error(err);
+        });
     },
   },
 };

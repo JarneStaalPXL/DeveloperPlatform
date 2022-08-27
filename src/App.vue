@@ -133,7 +133,6 @@ export default {
   beforeMount() {
     this.setTime();
   },
-  mounted() {},
   data() {
     return {
       isScrollingDown: false,
