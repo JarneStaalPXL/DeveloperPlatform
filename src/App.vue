@@ -133,12 +133,23 @@ export default {
   beforeMount() {
     this.setTime();
   },
-  mounted() {},
+  unmounted() {
+    alert(true);
+  },
+  mounted() {
+    //capture moment when user closes window
+    window.onbeforeunload = () => {
+      this.setTime();
+    };
+  },
   data() {
     return {
       isScrollingDown: false,
       isScrollingUp: false,
       lastScrollY: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
     };
   },
   components: {

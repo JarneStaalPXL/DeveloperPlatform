@@ -83,6 +83,8 @@ export default createStore({
       {
         name: "Illustrations and Icons",
         link: "https://iconscout.com/",
+        promoDescription: "Free asset every day!",
+        promoLink: "https://iconscout.com/l/assets-of-the-day",
         websitePreviewImage: require("../assets/iconscout.png"),
         textColor: "black",
       },
@@ -517,7 +519,6 @@ export default createStore({
             );
           }
           commit("setGlobalFrontendTools", dataTools);
-          console.log(dataTools);
         }
 
         //returning favorite tools
