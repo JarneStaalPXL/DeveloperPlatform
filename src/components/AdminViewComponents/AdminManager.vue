@@ -63,14 +63,13 @@ export default {
       }
       await this.$store
         .dispatch("REMOVE_ADMIN", email)
-        .then(() => {
-          window.$message.success("Admin removed");
+        .then((msg) => {
+          window.$message.success(msg);
           this.removeAdminEmail = "";
         })
         .catch((err) => {
           window.$message.error(err);
         });
-      window.$notification.success("Admin removed");
     },
   },
 };

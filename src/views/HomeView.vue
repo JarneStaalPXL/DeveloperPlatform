@@ -73,11 +73,16 @@
           size="medium"
         />
       </div>
-      <section class="someFavorites" v-if="$store.state.favoritetools !== undefined">
+      <section
+        class="someFavorites"
+        v-if="
+          $store.state.favoritetools !== undefined && $store.state.favoritetools !== null
+        "
+      >
         <h4 v-if="$store.state.favoritetools.length > 0">Some of your favorites</h4>
-        <div class="favorites">
+        <div class="favorites" v-if="$store.state.favoritetools">
           <n-button
-            v-for="tool of $store.state.favoritetools.slice(0, 5)"
+            v-for="tool of first5Favorites()"
             :key="tool"
             @click="openLink(tool.link)"
           >
@@ -197,6 +202,15 @@ export default {
     }
   },
   methods: {
+    first5Favorites() {
+      if (
+        this.$store.state.favoritetools !== undefined &&
+        this.$store.state.favoritetools !== null &&
+        this.$store.state.favoritetools.length > 0
+      ) {
+        return this.$store.state.favoritetools.slice(0, 5);
+      }
+    },
     clearResults() {
       this.toolResults = [];
       this.showAll = true;

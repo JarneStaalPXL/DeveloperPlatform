@@ -3,7 +3,14 @@
     <template #header>
       <div class="d-flex" style="gap: 10px">
         <h4>Your favorites</h4>
-        <n-badge :value="$store.state.favoritetools.length" color="grey" />
+        <n-badge
+          v-if="
+            $store.state.favoritetools !== null &&
+            $store.state.favoritetools !== undefined
+          "
+          :value="$store.state.favoritetools.length"
+          color="grey"
+        />
       </div>
     </template>
     <FavoriteList />

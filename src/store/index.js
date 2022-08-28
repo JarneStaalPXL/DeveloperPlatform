@@ -501,13 +501,11 @@ export default createStore({
     },
   },
   actions: {
-    async GET_USER_FAVORITE_TOOLS({ dispatch, commit, state }) {
+    async GET_USER_FAVORITE_TOOLS({ commit, state }) {
       if (localStorage.getItem("uid") !== null) {
         //getting user favorite tools from strapi
-
-        let userid = await dispatch("GET_USER_ID", localStorage.getItem("uid"));
         const response = await fetch(
-          `${state.baseUrlStrapiApi}user-details/${userid}`,
+          `${state.baseUrlStrapiApi}user-data/favorite-tools/${localStorage.getItem("uid")}`,
           {
             method: "GET",
             headers: {
@@ -518,14 +516,16 @@ export default createStore({
           }
         );
         const res = await response.json();
-        commit("setFavoriteTools", res.data.attributes.favoritetools);
+        commit("setFavoriteTools", res.data.attributes.userFavTools.favoritetools);
 
         if (state.favoritetools !== null) {
           //globalfrontendtools manipulation favorites
           const gbt = JSON.parse(
             JSON.stringify(state.globalFrontendTools)
           );
-          for (const tool of gbt) {
+
+          
+          for (const tool of gbt) { 
             tool.isFavorited = state.favoritetools.some(
               (t) => t.name === tool.name
             );
@@ -543,7 +543,7 @@ export default createStore({
         }
 
         //returning favorite tools
-        return res.data.attributes.favoritetools;
+        return res.data.attributes.userFavTools.favoritetools;
       } else {
         //getting user favorite tools from localStorage
         let toolsString = localStorage.getItem("favTools");
@@ -769,44 +769,19 @@ export default createStore({
       return found;
     },
     async REMOVE_ADMIN({ state, dispatch }, payload) {
-      //Find user with email
-
-      const resUser = await fetch(`${state.baseUrlStrapiApi}visit-logs`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-      });
-      const users = await resUser.json();
-      let userid;
-      for (let user of users.data) {
-        if (user.attributes.email !== null) {
-          if (user.attributes.email === payload) {
-            userid = user.attributes.userid;
-            break;
-          }
-        }
-      }
-
-      //check if userid is already in admins
-      if (!(await dispatch("IS_ADMIN", userid))) {
-        return Promise.reject("User " + userid + " is not an admin");
-      } else {
-        //get user id
-        await dispatch("GET_ADMIN_ID", userid).then(async (userID) => {
-          //remove user from admins
-          const res = await fetch(`${state.baseUrlStrapiApi}admins/${userID}`, {
-            method: "DELETE",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + state.strapiApiKey,
-            },
-          });
-          const data = await res.json();
+      try{
+        const response = await fetch(`${state.baseUrlStrapiApi}admin-info/removeAdmin/${payload}`, {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
         });
+        const res = await response.json();
+        return Promise.resolve(res.message);
+      }catch(err){
+        return Promise.reject(err)
       }
     },
     async CREATE_ADMIN({ state, dispatch }, payload) {

@@ -1,7 +1,7 @@
 <template>
   <section
     class="globalFrontendtoolsContainer"
-    v-if="$store.state.favoritetools.length > 0"
+    v-if="$store.state.favoritetools !== null && $store.state.favoritetools !== undefined"
   >
     <div
       v-for="tool of $store.state.favoritetools"
