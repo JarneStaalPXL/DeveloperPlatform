@@ -74,7 +74,7 @@
         />
       </div>
       <section class="someFavorites" v-if="$store.state.favoritetools !== undefined">
-        <h4>Some of your favorites</h4>
+        <h4 v-if="$store.state.favoritetools.length > 0">Some of your favorites</h4>
         <div class="favorites">
           <n-button
             v-for="tool of $store.state.favoritetools.slice(0, 5)"

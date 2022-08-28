@@ -871,7 +871,7 @@ export default createStore({
       }
     },
     async GET_USER_ACTIVTIES({ state, commit }, payload) {
-      const rawResponse = await fetch(`${state.baseUrlStrapiApi}visit-logs`, {
+      const rawResponse = await fetch(`${state.baseUrlStrapiApi}visit-log-count/visitors/${20}`, {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -882,11 +882,11 @@ export default createStore({
       const response = await rawResponse.json();
       let tempArr = [];
       let index = 0;
-      for (let act of response.data) {
-        let date = new Date(act.attributes.createdAt);
+      for (let act of response.data.attributes.visitors) {
+        let date = new Date(act.createdAt);
         let isAdmin = false;
-        if (act.attributes.isadmin !== null) {
-          if (act.attributes.isadmin) {
+        if (act.isadmin !== null) {
+          if (act.isadmin) {
             isAdmin = "Admin";
           }
         } else {
@@ -894,12 +894,12 @@ export default createStore({
         }
         tempArr.push({
           key: act.id,
-          userid: act.attributes.userid,
-          username: act.attributes.name,
-          email: act.attributes.email,
-          route: act.attributes.route,
+          userid: act.userid,
+          username: act.name,
+          email: act.email,
+          route: act.route,
           createdat: date,
-          ip: act.attributes.ip,
+          ip: act.ip,
           isadmin: [isAdmin],
         });
         index++;
@@ -1137,13 +1137,10 @@ export default createStore({
         },
       });
       const response = await rawResponse.json();
-      console.log(response);
       commit("setPageVisits", response.data.attributes.count);
     },
     async IS_ADMIN({ state, commit }, uid) {
-      let isAdmin = false;
-      //get admins from strapi
-      const rawResponse = await fetch(`${state.baseUrlStrapiApi}admins`, {
+      const rawResponse = await fetch(`${state.baseUrlStrapiApi}admin-info/isadmin/${uid}`, {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -1152,18 +1149,11 @@ export default createStore({
         },
       });
       const admins = await rawResponse.json();
-      for (let admin of admins.data) {
-        if (admin.attributes.uid === uid) {
-          isAdmin = true;
-          break;
-        }
-      }
-
-      commit("setIsAdmin", isAdmin);
-      return isAdmin;
+      commit("setIsAdmin", admins.data.attributes.isAdmin);
+      return admins.data.attributes.isAdmin;
     },
     async GET_UNIQUE_VISITORS({ state, commit }) {
-      const rawResponse = await fetch(`${state.baseUrlStrapiApi}visit-logs`, {
+      const rawResponse = await fetch(`${state.baseUrlStrapiApi}visit-log-count/uniqueVisitors`, {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -1172,20 +1162,7 @@ export default createStore({
         },
       });
       const response = await rawResponse.json();
-
-      //create unique array of visitors checking by ip
-      let finalArr = [];
-      let uniqueVisitors = [];
-      for (let visit of response.data) {
-        if (!uniqueVisitors.includes(visit.attributes.ip)) {
-          uniqueVisitors.push(visit.attributes.ip);
-          finalArr.push({
-            ip: visit.attributes.ip,
-            name: visit.attributes.name,
-          });
-        }
-      }
-      commit("setUniqueVisitors", finalArr);
+      commit("setUniqueVisitors", response.data.attributes.uniqueVisitors);
     },
   },
   modules: {},
