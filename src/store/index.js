@@ -3,7 +3,7 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     isAdmin: false,
-    favoritetools: [],
+    favoritetools: undefined,
     uniqueVisitors: [],
     adminEmail: "jarne.staal9@gmail.com",
     pagevisits: 0,
@@ -1128,7 +1128,7 @@ export default createStore({
       dispatch("GET_USER_SAVED_COLOR_PALLETES", uid);
     },
     async GET_PAGE_VISITS({ state, commit, dispatch }) {
-      const rawResponse = await fetch(`${state.baseUrlStrapiApi}visit-logs`, {
+      const rawResponse = await fetch(`${state.baseUrlStrapiApi}visit-log-count`, {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -1137,7 +1137,8 @@ export default createStore({
         },
       });
       const response = await rawResponse.json();
-      commit("setPageVisits", response.data.length);
+      console.log(response);
+      commit("setPageVisits", response.data.attributes.count);
     },
     async IS_ADMIN({ state, commit }, uid) {
       let isAdmin = false;

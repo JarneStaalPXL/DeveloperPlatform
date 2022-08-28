@@ -54,7 +54,26 @@
         </section>
       </section>
 
-      <section class="someFavorites" v-if="$store.state.favoritetools.length > 0">
+      <n-skeleton
+        :style="{ margin: 'auto' }"
+        height="30px"
+        text
+        style="width: 30%"
+        v-if="$store.state.favoritetools === undefined"
+      />
+      <div
+        v-if="$store.state.favoritetools === undefined"
+        class="d-flex justify-content-between"
+      >
+        <n-skeleton
+          v-for="i in 5"
+          style="width: 15%"
+          :key="i"
+          :sharp="false"
+          size="medium"
+        />
+      </div>
+      <section class="someFavorites" v-if="$store.state.favoritetools !== undefined">
         <h4>Some of your favorites</h4>
         <div class="favorites">
           <n-button
@@ -125,6 +144,7 @@ import {
   NAutoComplete,
   NTag,
   useMessage,
+  NSkeleton,
 } from "naive-ui";
 export default {
   name: "HomeView",
@@ -145,6 +165,7 @@ export default {
     NInput,
     NButton,
     NAutoComplete,
+    NSkeleton,
   },
   data() {
     return {
@@ -431,7 +452,7 @@ a {
 }
 
 .explanationContainer {
-  padding-top: 10em;
+  padding-top: 6em;
   background: linear-gradient(to right, #1ea4e9, #36fd3c);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

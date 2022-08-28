@@ -130,9 +130,6 @@ import {
 } from "naive-ui";
 export default {
   name: "TemplateDesigner",
-  beforeMount() {
-    this.setTime();
-  },
   data() {
     return {
       isScrollingDown: false,
@@ -229,7 +226,7 @@ export default {
       return null;
     },
   },
-  mounted() {
+  async beforeMount() {
     if (localStorage.getItem("uid") !== null) {
       this.$store.dispatch("LOAD_USER_SAVED_DATA", localStorage.getItem("uid"));
     }
@@ -237,7 +234,10 @@ export default {
       localStorage.setItem("favTools", JSON.stringify([]));
     }
     //get user favorite tools
-    this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
+    await this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
+    this.setTime();
+  },
+  mounted() {
     document.addEventListener("scroll", () => {
       //Check if scrollY is decreasing
       if (window.scrollY < this.lastScrollY) {
