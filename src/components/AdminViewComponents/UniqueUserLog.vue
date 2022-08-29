@@ -27,11 +27,11 @@
     </h5>
   </n-card>
   <n-card title="Visits Overview">
-    <h5>Homepage -> <b>{{ routeVisitsHomepage }}</b> visits</h5>
-    <h5>Hosting Providers -> <b>{{ routeVisitsHP }}</b> visits</h5>
-    <h5>Global Frontend Tools -> <b>{{ routeVisitsGft }}</b> visits</h5>
-    <h5>Gradient Generators -> <b>{{ routeGradientGenerators }}</b> visits</h5>
-    <h5>Color Generators -> <b>{{ routeColorGenerators }}</b> visits</h5>
+    <h5><a @click="$router.push('/')">Homepage</a> -> <b>{{ routeVisitsHomepage }}</b> visits</h5>
+    <h5><a @click="$router.push('/hostingproviders')">Hosting Providers</a> -> <b>{{ routeVisitsHP }}</b> visits</h5>
+    <h5><a @click="$router.push('/globalfrontendtools')">Global Frontend Tools</a> -> <b>{{ routeVisitsGft }}</b> visits</h5>
+    <h5><a @click="$router.push('/gradientgenerators')">Gradient Generators</a> -> <b>{{ routeGradientGenerators }}</b> visits</h5>
+    <h5><a @click="$router.push('/colorgenerators')">Color Generators</a> -> <b>{{ routeColorGenerators }}</b> visits</h5>
   </n-card>
 </template>
 
@@ -79,7 +79,6 @@ export default {
     //get unique visitors
     this.$store.dispatch("GET_UNIQUE_VISITORS");
 
-    
     //homepage visits
     const dt = await this.$store.dispatch("GET_ROUTE_VISITS", "Homepage");
     this.routeVisitsHomepage = dt.routeVisitorsCount;
