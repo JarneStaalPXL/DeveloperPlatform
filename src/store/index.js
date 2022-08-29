@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
+    allTools: [],
     notificationPlacement: "top-right",
     isAdmin: false,
     favoritetools: [],
@@ -430,6 +431,7 @@ export default createStore({
         available: true
       }
     ],
+
     allUserActivities: [],
   },
 
@@ -516,8 +518,27 @@ export default createStore({
     setHostingProviders(state, payload) {
       state.hostingproviders = payload;
     },
+    setAllTools(state, payload) {
+      state.allTools = payload;
+    }
   },
   actions: {
+    async FILL_ALL_TOOLS_ARRAY({ state,commit }) {
+      let allTools = [];
+      for (let tool of state.globalFrontendTools) {
+        allTools.push(tool);
+      }
+      for (let tool of state.hostingproviders) {
+        allTools.push(tool);
+      }
+      for(let tool of state.gradientGeneratorsTools){
+        allTools.push(tool);
+      }
+      for (let tool of state.colorGeneratorsTools){
+        allTools.push(tool);
+      }
+      commit("setAllTools", allTools);
+    },
     async GET_USER_FAVORITE_TOOLS({ commit, state }) {
       if (localStorage.getItem("uid") !== null) {
         //getting user favorite tools from strapi
@@ -935,19 +956,8 @@ export default createStore({
         const response = await rawResponse.json();
       }
     },
-    async SEARCH_TOOLS({ commit, state }, payload) {
-      let allTools = [];
-      for (let tool of state.globalFrontendTools) {
-        allTools.push(tool);
-      }
-      for (let tool of state.hostingproviders) {
-        allTools.push(tool);
-      }
-      for(let tool of state.gradientGeneratorsTools){
-        allTools.push(tool);
-      }
-
-      let filteredTools = allTools.filter((tool) => {
+    async SEARCH_TOOLS({ state }, payload) {
+      let filteredTools = state.allTools.filter((tool) => {
         return tool.name.toLowerCase().includes(payload.toLowerCase());
       });
       return filteredTools;
@@ -959,15 +969,15 @@ export default createStore({
       commit("removeColorPalletFromSaved", user);
 
       //remove colorpallette from strapi
-      const userId = await dispatch("GET_USER_ID", user.id);
+      // const userId = await dispatch("GET_USER_ID", user.id);
       const rawResponse = await fetch(
-        `${state.baseUrlStrapiApi}user-details/${userId}`,
+        `${state.baseUrlStrapiApi}user-detail-info/setColorPallette/${localStorage.getItem("uid")}`,
         {
           method: "PUT",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            Authorization: "Bearer " + state.strapiApiKey,
+
           },
           body: JSON.stringify({
             data: { colorpallet: state.userSavedColorPallets },

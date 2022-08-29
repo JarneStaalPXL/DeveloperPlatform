@@ -262,7 +262,8 @@ export default {
       }
     },
     openLink(link) {
-      window.open(link, "_blank");
+      if(link.includes("https://")) window.open(link, "_blank");
+      else this.$router.push(link); 
       this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", link);
       this.$store.dispatch("GET_PAGE_VISITS");
     },

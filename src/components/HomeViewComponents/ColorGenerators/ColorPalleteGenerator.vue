@@ -109,7 +109,7 @@
           <div class="d-flex justify-content-between w-100">
             <p class="d-flex m-auto">{{ color.toUpperCase() }}</p>
             <n-button
-              :style="{ backgroundColor: '#2C2C32' }"
+              id="copyHEXButton"
               class="m-2"
               @click="copyHEXToClipboard(color)"
               >Copy HEX</n-button
@@ -331,6 +331,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  #copyHEXButton {
+    background:white;
+  }
 #creationSection {
   width: 50%;
   margin: auto;

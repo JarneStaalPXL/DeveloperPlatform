@@ -227,6 +227,7 @@ export default {
     },
   },
   async beforeMount() {
+    await this.$store.dispatch("FILL_ALL_TOOLS_ARRAY");
     if (localStorage.getItem("uid") !== null) {
       this.$store.dispatch("LOAD_USER_SAVED_DATA", localStorage.getItem("uid"));
     }
