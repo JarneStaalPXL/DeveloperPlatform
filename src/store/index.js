@@ -3,7 +3,7 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     isAdmin: false,
-    favoritetools: undefined,
+    favoritetools: [],
     uniqueVisitors: [],
     adminEmail: "jarne.staal9@gmail.com",
     pagevisits: 0,
@@ -453,7 +453,7 @@ export default createStore({
       localStorage.setItem("userName", state.name);
       localStorage.setItem("profilePic", state.profilepic);
       localStorage.setItem("email", state.email);
-      localStorage.setItem("uid", state.userObj.uid);
+      localStorage.setItem("uid", userdata.user.uid);
     },
     removeUserData(state) {
       state.name = "";
@@ -516,7 +516,12 @@ export default createStore({
           }
         );
         const res = await response.json();
-        commit("setFavoriteTools", res.data.attributes.userFavTools.favoritetools);
+        if(res.data.attributes.userFavTools === null){
+          commit("setFavoriteTools", []);
+        }
+        else {
+          commit("setFavoriteTools", res.data.attributes.userFavTools.favoritetools);
+        }
 
         if (state.favoritetools !== null) {
           //globalfrontendtools manipulation favorites
@@ -541,9 +546,6 @@ export default createStore({
           }
           commit("setHostingProviders", htp);
         }
-
-        //returning favorite tools
-        return res.data.attributes.userFavTools.favoritetools;
       } else {
         //getting user favorite tools from localStorage
         let toolsString = localStorage.getItem("favTools");
