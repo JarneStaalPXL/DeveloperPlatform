@@ -34,47 +34,6 @@
       </n-gi>
     </n-grid>
   </n-config-provider>
-  <!-- <section class="globalFrontendtoolsContainer" v-if="!dataIsLoading">
-    <div v-for="tool of $store.state.globalFrontendTools" :key="tool" class="item" :style="{
-      backgroundImage:
-        'url(' +
-        (tool.websitePreviewImage
-          ? tool.websitePreviewImage
-          : websitePreviewImagePlaceholder) +
-        ')',
-      backgroundPosition: tool.websitePreviewImage ? '' : 'center',
-    }">
-      <section class="toolContent">
-        <div class="titleButtons">
-          <p v-if="tool.name" :style="{ color: tool.textColor ? tool.textColor : 'white' }">
-            {{ tool.name }}
-          </p>
-          <div class="actionBtns">
-            <n-button @click="openLink(tool.link)">Open website</n-button>
-            <n-button class="pl-5" @click="addToolToFavorites(tool)" v-if="!tool.isFavorited"><i
-                :style="{ color: 'black' }" class="fa-solid fa-heart"></i></n-button>
-            <n-button class="pl-5" @click="removeToolFromFavorites(tool)" v-if="tool.isFavorited"><i
-                :style="{ color: 'red' }" class="fa-solid fa-heart"></i></n-button>
-          </div>
-        </div>
-
-        <div class="mt-3 justify-content-end" v-if="tool.promoDescription">
-          <n-button class="promoBtn" @click="openLink(tool.promoLink)" :style="{ marginRight: '13px' }">{{
-              tool.promoDescription
-          }}</n-button>
-        </div>
-      </section>
-    </div>
-  </section>
-  <section class="h-100" v-else>
-    <n-spin size="large" stroke="blue">
-      <template #icon>
-        <n-icon>
-          <Reload />
-        </n-icon>
-      </template>
-    </n-spin>
-  </section> -->
 </template>
 
 <script>

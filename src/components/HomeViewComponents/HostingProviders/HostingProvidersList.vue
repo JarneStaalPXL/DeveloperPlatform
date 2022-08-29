@@ -46,43 +46,6 @@
       </n-gi>
     </n-grid>
   </n-config-provider>
-  <section class="globalFrontendtoolsContainer">
-
-
-
-    <div v-for="provider of $store.state.hostingproviders" :key="provider" class="item" :style="{
-      backgroundImage:
-        'url(' +
-        (provider.websitePreviewImage
-          ? provider.websitePreviewImage
-          : websitePreviewImagePlaceholder) +
-        ')',
-      backgroundPosition: provider.websitePreviewImage ? '' : 'center',
-    }">
-      <section class="itemSection">
-        <div class="itemContent">
-          <p v-if="provider.name" :style="{ color: provider.textColor ? provider.textColor : 'white' }">
-            {{ provider.name }}
-          </p>
-
-          <div>
-            <n-button @click="openLink(provider.link)">Open website</n-button>
-            <n-button class="pl-5" @click="addToolToFavorites(provider)" v-if="!provider.isFavorited"><i
-                :style="{ color: 'black' }" class="fa-solid fa-heart"></i></n-button>
-            <n-button class="pl-5" @click="removeToolFromFavorites(provider)" v-if="provider.isFavorited"><i
-                :style="{ color: 'red' }" class="fa-solid fa-heart"></i></n-button>
-          </div>
-        </div>
-        <div class="descriptionContainer" v-if="provider.description">
-          <p>{{ provider.description }}</p>
-          <div>
-            <n-tag type="success" v-if="provider.isRecommended">RECOMMENDED</n-tag>
-            <n-tag type="info" v-if="provider.isUsed">USED BY DEVELOPER PLATFORM</n-tag>
-          </div>
-        </div>
-      </section>
-    </div>
-  </section>
 </template>
 
 <script>

@@ -4,49 +4,94 @@
       <h1>Developer Platform</h1>
       <p>Useful tools you can use for your website and design.<br /></p>
     </section>
-    <n-auto-complete class="autoCompleteInput" :on-update:value="showResultsTools" :input-props="{
-      autocomplete: 'disabled',
-    }" :options="toolResults" placeholder="Search (press space for all tools)" :on-select="openLink" />
+    <n-auto-complete
+      class="autoCompleteInput"
+      :on-update:value="showResultsTools"
+      :input-props="{
+        autocomplete: 'disabled',
+      }"
+      :options="toolResults"
+      placeholder="Search (press space for all tools)"
+      :on-select="openLink"
+    />
 
     <section class="toolCategoriesContainer">
       <section class="categories">
         <h4>Categories</h4>
         <section>
           <div>
-            <n-button @click="$router.push('/globalfrontendtools')">Global Frontend Tools
-              <n-badge class="ml-1 pl-1 pr-1" :value="$store.state.globalFrontendTools.length" color="grey" />
+            <n-button @click="$router.push('/globalfrontendtools')"
+              >Global Frontend Tools
+              <n-badge
+                class="ml-1 pl-1 pr-1"
+                :value="$store.state.globalFrontendTools.length"
+                color="grey"
+              />
             </n-button>
           </div>
 
           <div>
-            <n-button @click="$router.push('/gradientgenerators')">Gradient Generators
-              <n-badge :value="$store.state.gradientGeneratorsTools.length" color="grey" />
+            <n-button @click="$router.push('/gradientgenerators')"
+              >Gradient Generators
+              <n-badge
+                :value="$store.state.gradientGeneratorsTools.length"
+                color="grey"
+              />
             </n-button>
           </div>
           <div>
-            <n-button @click="$router.push('/colorgenerators')">Color Generators
+            <n-button @click="$router.push('/colorgenerators')"
+              >Color Generators
               <n-badge :value="2" color="grey" />
             </n-button>
           </div>
           <div>
-            <n-button @click="$router.push('/hostingproviders')">Hosting Providers
-              <n-badge :value="$store.state.hostingproviders.length" color="grey" />
+            <n-button @click="$router.push('/hostingproviders')"
+              >Hosting Providers
+              <n-badge
+                :value="$store.state.hostingproviders.length"
+                color="grey"
+              />
             </n-button>
           </div>
         </section>
       </section>
 
-      <n-skeleton :style="{ margin: 'auto' }" height="30px" text style="width: 30%"
-        v-if="$store.state.favoritetools === undefined" />
-      <div v-if="$store.state.favoritetools === undefined" class="d-flex justify-content-between">
-        <n-skeleton v-for="i in 5" style="width: 15%" :key="i" :sharp="false" size="medium" />
+      <n-skeleton
+        :style="{ margin: 'auto' }"
+        height="30px"
+        text
+        style="width: 30%"
+        v-if="$store.state.favoritetools === undefined"
+      />
+      <div
+        v-if="$store.state.favoritetools === undefined"
+        class="d-flex justify-content-between"
+      >
+        <n-skeleton
+          v-for="i in 5"
+          style="width: 15%"
+          :key="i"
+          :sharp="false"
+          size="medium"
+        />
       </div>
-      <section class="someFavorites" v-if="
-        $store.state.favoritetools !== undefined && $store.state.favoritetools !== null
-      ">
-        <h4 v-if="$store.state.favoritetools.length > 0">Some of your favorites</h4>
+      <section
+        class="someFavorites"
+        v-if="
+          $store.state.favoritetools !== undefined &&
+          $store.state.favoritetools !== null
+        "
+      >
+        <h4 v-if="$store.state.favoritetools.length > 0">
+          Some of your favorites
+        </h4>
         <div class="favorites" v-if="$store.state.favoritetools">
-          <n-button v-for="tool of first5Favorites()" :key="tool" @click="openLink(tool.link)">
+          <n-button
+            v-for="tool of first5Favorites()"
+            :key="tool"
+            @click="openLink(tool.link)"
+          >
             {{ tool.name }}
           </n-button>
         </div>
@@ -55,12 +100,14 @@
 
     <section class="mt-5 developmentSection">
       <h6>
-        Developer Platform is a platform where you can favorite all the useful tools you
-        want to use. It's continously expanding features and possibilities.
+        Developer Platform is a platform where you can favorite all the useful
+        tools you want to use. It's continously expanding features and
+        possibilities.
       </h6>
 
       <h6>
-        Visit our <a @click="openLink('https://discord.gg/3nfeEgcYgh')">Discord</a> to
+        Visit our
+        <a @click="openLink('https://discord.gg/3nfeEgcYgh')">Discord</a> to
         provide feedback .
       </h6>
 
@@ -69,24 +116,28 @@
     </section>
 
     <div class="w-100">
-      <component :is="'script'"
+      <component
+        :is="'script'"
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6265128065602433"
-        crossorigin="anonymous" async></component>
-      <ins class="adsbygoogle" style="display: block" data-ad-client="ca-pub-6265128065602433" data-ad-slot="2171576343"
-        data-ad-format="auto" data-full-width-responsive="true"></ins>
-      <component :is="'script'" crossorigin="anonymous" async>(adsbygoogle = window.adsbygoogle || []).push({});
+        crossorigin="anonymous"
+        async
+      ></component>
+      <ins
+        class="adsbygoogle"
+        style="display: block"
+        data-ad-client="ca-pub-6265128065602433"
+        data-ad-slot="2171576343"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      ></ins>
+      <component :is="'script'" crossorigin="anonymous" async
+        >(adsbygoogle = window.adsbygoogle || []).push({});
       </component>
     </div>
   </section>
 </template>
 
 <script>
-import ColorGeneratorsList from "@/components/HomeViewComponents/ColorGenerators/ColorGeneratorsList.vue";
-import ResponsivityList from "@/components/HomeViewComponents/Responsivity/ResponsivityList.vue";
-import GradientGeneratorsList from "@/components/HomeViewComponents/GradientGenerators/GradientGeneratorsList.vue";
-import GlobalFrontendToolsList from "@/components/HomeViewComponents/GlobalFrontendTools/GlobalFrontendToolsList.vue";
-import HostingProvidersList from "@/components/HomeViewComponents/HostingProviders/HostingProvidersList";
-import SEOList from "@/components/HomeViewComponents/SEO/SEOList.vue";
 import {
   NCard,
   NConfigProvider,
@@ -102,7 +153,6 @@ import {
   useMessage,
   NSkeleton,
   useNotification,
-
 } from "naive-ui";
 export default {
   name: "HomeView",
@@ -112,12 +162,6 @@ export default {
     NConfigProvider,
     NAvatar,
     NBadge,
-    GradientGeneratorsList,
-    ResponsivityList,
-    ColorGeneratorsList,
-    GlobalFrontendToolsList,
-    HostingProvidersList,
-    SEOList,
     NCollapse,
     NCollapseItem,
     NInput,
@@ -150,20 +194,34 @@ export default {
       // window.$message.success("Welcome back " + this.userName() + "!", {
       //   duration: 5000,
       // });
-      window.$notification.success({
-      title:"Welcome back " + this.userName() + " !",
-      content:'Feel free to browse the tools and try them out. \nIf you like them, you can add them to your favorites.\n'+
-      "\nDisclaimer: Log in to get the full functionality of the platform.",
-    });
+
+      //check if on mobile
+      if (window.innerWidth < 768) {
+        window.$message.success("Welcome back " + this.userName() + "!", {
+          duration: 5000,
+        });
+      } else {
+        window.$notification.info({
+          title: "Welcome back " + this.userName() + " !",
+          content:
+            "Feel free to browse the tools and try them out. \nIf you like them, you can add them to your favorites.\n"
+            ,
+        });       
+      }
     } else {
-      // window.$message.success("Welcome to the Developer Platform", {
-      //   duration: 5000,
-      // });
-      window.$notification.success({
-      title:"Welcome to Developer Platform",
-      content:'Feel free to browse the tools and try them out. \nIf you like them, you can add them to your favorites.\n'+
-      "\nDisclaimer: Log in to get the full functionality of the platform.",
-    });
+
+      if (window.innerWidth < 768) {
+        window.$message.success("Welcome to Developer Platform", {
+          duration: 5000,
+        });
+      } else {
+        window.$notification.info({
+        title: "Welcome to Developer Platform",
+        content:
+          "Feel free to browse the tools and try them out. \nIf you like them, you can add them to your favorites.\n" +
+          "\nDisclaimer: Log in to get the full functionality of the platform.",
+      });
+      }
     }
   },
   methods: {
@@ -459,7 +517,6 @@ a {
 }
 
 @media only screen and (max-width: 980px) {
-
   .titleCard,
   .categoryCard {
     margin: 0;

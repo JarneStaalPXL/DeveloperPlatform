@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
+    notificationPlacement: "top-right",
     isAdmin: false,
     favoritetools: [],
     uniqueVisitors: [],
@@ -71,13 +72,13 @@ export default createStore({
       {
         name: "Online Tools Toolbox",
         link: "https://10015.io/",
-        websitePreviewImage: require("../assets/toolsio.png"),
+        websitePreviewImage: require("../assets/toolsio.jpg"),
         textColor: "black",
       },
       {
         name: "SVG Illustrations",
         link: "https://undraw.co/illustrations",
-        websitePreviewImage: require("../assets/undraw.png"),
+        websitePreviewImage: require("../assets/undraw.jpg"),
         textColor: "black",
       },
       {
@@ -85,38 +86,38 @@ export default createStore({
         link: "https://iconscout.com/",
         promoDescription: "Free asset every day!",
         promoLink: "https://iconscout.com/l/assets-of-the-day",
-        websitePreviewImage: require("../assets/iconscout.png"),
+        websitePreviewImage: require("../assets/iconscout.jpg"),
         textColor: "black",
       },
       {
         name: "SVG Blob Generator",
         link: "https://www.blobmaker.app/",
-        websitePreviewImage: require("../assets/blobmaker.png"),
+        websitePreviewImage: require("../assets/blobmaker.jpg"),
         textColor: "black",
       },
       {
         name: "Chart Library",
         link: "https://apexcharts.com/",
-        websitePreviewImage: require("../assets/apexcharts.png"),
+        websitePreviewImage: require("../assets/apexcharts.jpg"),
         textColor: "black",
       },
       {
         name: "Toast Alert Library",
         link: "https://apvarun.github.io/toastify-js/",
-        websitePreviewImage: require("../assets/toastify.png"),
+        websitePreviewImage: require("../assets/toastify.jpg"),
         textColor: "black",
       },
       {
         name: "Input auto-formatter",
         link: "https://nosir.github.io/cleave.js/",
-        websitePreviewImage: require("../assets/cleave.png"),
+        websitePreviewImage: require("../assets/cleave.jpg"),
         textColor: "black",
       },
 
       {
         name: "CSS Key Frame Creator",
         link: "https://keyframes.app/",
-        websitePreviewImage: require("../assets/keyframescreator.png"),
+        websitePreviewImage: require("../assets/keyframescreator.jpg"),
       },
       {
         name: "Retro Game Creator (JS Library)",
@@ -126,7 +127,7 @@ export default createStore({
       {
         name: "Animation Library",
         link: "https://greensock.com/gsap/",
-        websitePreviewImage: require("../assets/greensock.png"),
+        websitePreviewImage: require("../assets/greensock.jpg"),
       },
       {
         name: "Animated Backgrounds",
@@ -143,30 +144,30 @@ export default createStore({
       {
         name: "CSS Loaders",
         link: "https://whirl.netlify.app/",
-        websitePreviewImage: require("../assets/whirl.png"),
+        websitePreviewImage: require("../assets/whirl.jpg"),
       },
 
       {
         name: "CSS Animated Backgrounds",
         link: "https://alvarotrigo.com/blog/animated-backgrounds-css/",
-        websitePreviewImage: require("../assets/animatedbackgrounds.png"),
+        websitePreviewImage: require("../assets/animatedbackgrounds.jpg"),
       },
       {
         name: "Mesh Gradient Generator",
         link: "https://csshero.org/mesher/",
-        websitePreviewImage: require("../assets/mesher.png"),
+        websitePreviewImage: require("../assets/mesher.jpg"),
       },
 
       {
         name: "Visual Effects Library",
         link: "https://party.js.org/",
-        websitePreviewImage: require("../assets/party.png"),
+        websitePreviewImage: require("../assets/party.jpg"),
       },
 
       {
         name: "Glassmorphism Generator",
         link: "https://hype4.academy/tools/glassmorphism-generator",
-        websitePreviewImage: require("../assets/glassmorphism.png"),
+        websitePreviewImage: require("../assets/glassmorphism.jpg"),
       },
       {
         name: "SVG Waves Generator",
@@ -176,23 +177,23 @@ export default createStore({
       {
         name: "Date Functions Library",
         link: "https://date-fns.org/",
-        websitePreviewImage: require("../assets/date-fns.png"),
+        websitePreviewImage: require("../assets/date-fns.jpg"),
       },
       {
         name: "Mockup Creator",
         link: "https://carrd.co/build",
-        websitePreviewImage: require("../assets/carrd.png"),
+        websitePreviewImage: require("../assets/carrd.jpg"),
       },
       {
         name: "Fully Customizable Chart Library",
         link: "https://gionkunz.github.io/chartist-js/",
-        websitePreviewImage: require("../assets/chartist.png"),
+        websitePreviewImage: require("../assets/chartist.jpg"),
         textColor: "black",
       },
       {
         name: "SEO Site Checkup",
         link: "https://seositecheckup.com/",
-        websitePreviewImage: require("../assets/seo-site-checkup.png"),
+        websitePreviewImage: require("../assets/seo-site-checkup.jpg"),
         textColor: "black",
       },
     ],
@@ -203,7 +204,7 @@ export default createStore({
         description:
           "GitHub Pages is a static site hosting service that takes HTML, " +
           "CSS, and JavaScript files straight from a repository on GitHub, optionally runs the files through a build process, and publishes a website",
-        websitePreviewImage: require("../assets/github-pages.png"),
+        websitePreviewImage: require("../assets/github-pages.jpg"),
         textColor: "black",
         type: "hostingprovider",
         isRecommended: true,
@@ -213,7 +214,7 @@ export default createStore({
         link: "https://koyeb.com/",
         description:
           "Koyeb's fully-managed serverless platform provides unique features to maximize developer productivity including a complete Service Mesh and Global Load Balancing.",
-        websitePreviewImage: require("../assets/koyeb-home.png"),
+        websitePreviewImage: require("../assets/koyeb-home.jpg"),
         textColor: "black",
         type: "hostingprovider",
       },
@@ -222,7 +223,7 @@ export default createStore({
         link: "https://edg.io/",
         description:
           "Edgio AppOps is an Internet-scale platform that makes it easy for teams to build, release, protect, and accelerate their web apps and APIs.",
-        websitePreviewImage: require("../assets/edgio.png"),
+        websitePreviewImage: require("../assets/edgio.jpg"),
         textColor: "black",
         type: "hostingprovider",
       },
@@ -231,7 +232,7 @@ export default createStore({
         link: "https://www.w3schools.com/spaces/",
         description:
           "W3Schools Spaces is a personal place where you can build and experiment with code and host your own website. With W3Schools Spaces you can build with HTML, CSS and JavaScript. Edit code directly in your browser. Upload and host your files and images.",
-        websitePreviewImage: require("../assets/w3schools.png"),
+        websitePreviewImage: require("../assets/w3schools.jpg"),
         textColor: "black",
         type: "hostingprovider",
       },
@@ -240,7 +241,7 @@ export default createStore({
         link: "https://flatlogic.com/templates?ref=c7ez7AzyG6",
         description:
           "Generate full-stack databased-based (CRUD) React, Vue, Angular app codebases in just 3 steps! Select stack and template, connect to Github and deploy your app in minutes!",
-        websitePreviewImage: require("../assets/flatlogic.png"),
+        websitePreviewImage: require("../assets/flatlogic.jpg"),
         textColor: "black",
         type: "hostingprovider",
         isRecommended: true,
@@ -250,7 +251,7 @@ export default createStore({
         link: "https://firebase.com/",
         description:
           "Firebase Hosting is production-grade web content hosting for developers. With a single command, you can quickly deploy web apps and serve both static and dynamic content to a global CDN (content delivery network).",
-        websitePreviewImage: require("../assets/firebase.png"),
+        websitePreviewImage: require("../assets/firebase.jpg"),
         textColor: "black",
         type: "hostingprovider",
       },
@@ -259,7 +260,7 @@ export default createStore({
         link: "https://pages.cloudflare.com/",
         description:
           "Cloudflare Pages is a JAMstack platform for frontend developers to collaborate and deploy websites. Developer-focused with effortless Git integration. Advanced collaboration built-in with unlimited seats. Unmatched performance on Cloudflare's edge network.",
-        websitePreviewImage: require("../assets/cloudflare-pages.png"),
+        websitePreviewImage: require("../assets/cloudflare-pages.jpg"),
         textColor: "black",
         type: "hostingprovider",
       },
@@ -268,7 +269,7 @@ export default createStore({
         link: "https://hostman.com/",
         description:
           "Hostman lets you launch your apps in a few clicks using a friendly interface. The pricing is fair and transparent. Works on top of AWS and DigitalOcean.",
-        websitePreviewImage: require("../assets/hostman.png"),
+        websitePreviewImage: require("../assets/hostman.jpg"),
         textColor: "black",
         type: "hostingprovider",
       },
@@ -279,7 +280,7 @@ export default createStore({
         description:
           "Heroku is a hosting service for full stack applications" +
           " in the cloud. They support Nodejs, Pyton, Ruby, Java apps and many more. The downside is that they are no longer offering free services.",
-        websitePreviewImage: require("../assets/heroku.png"),
+        websitePreviewImage: require("../assets/heroku.jpg"),
         type: "hostingprovider",
         textColor: "black",
         isRecommended: true,
@@ -300,7 +301,7 @@ export default createStore({
         link: "https://fly.io/",
         description:
           "fly.io is really a way to run Docker images on servers in different cities and a global router to connect users to the nearest available instance. We convert your Docker image into a root filesystem, boot tiny VMs using an Amazon project called Firecracker, and then proxy connections to it.",
-        websitePreviewImage: require("../assets/fly.png"),
+        websitePreviewImage: require("../assets/fly.jpg"),
         type: "hostingprovider",
         textColor: "black",
       },
@@ -309,7 +310,7 @@ export default createStore({
         link: "https://stormkit.io/",
         description:
           "Stormkit is an infrastructure provider for modern javascript applications. It supports either server-less side rendered applications or JAMStack websites. You can easily deploy, host and manage your applications/websites using Stormkit.",
-        websitePreviewImage: require("../assets/stormkit.png"),
+        websitePreviewImage: require("../assets/stormkit.jpg"),
         type: "hostingprovider",
         textColor: "black",
       },
@@ -318,7 +319,7 @@ export default createStore({
         link: "https://gitlab.com/pages/",
         description:
           "GitLab Pages supports static websites and builds any Static Site Generator (SSG), such as Jekyll, Hugo, Hexo, Middleman and Pelican. We are assuming that you are familiar with Git and with the web development process, from creation to publishing.",
-        websitePreviewImage: require("../assets/gitlab-pages.png"),
+        websitePreviewImage: require("../assets/gitlab-pages.jpg"),
         type: "hostingprovider",
         textColor: "black",
       },
@@ -349,7 +350,7 @@ export default createStore({
         link: "https://repl.it/",
         description:
           "Web pages written in HTML, CSS, and JavaScript can be hosted on Replit. HTML/CSS/JS repls are given a unique URL that can be shared with your friends, family, peers, and clients. After running a repl, your repl will be hosted at the URL provided in the result tab.",
-        websitePreviewImage: require("../assets/replit.png"),
+        websitePreviewImage: require("../assets/replit.jpg"),
         type: "hostingprovider",
         textColor: "black",
       },
@@ -358,14 +359,14 @@ export default createStore({
         link: "https://fleek.co/",
         description:
           "Fleek makes it easy to build websites and apps on the new open web: permissionless, trustless, censorship resistant, and free of centralized gatekeepers.",
-        websitePreviewImage: require("../assets/fleek.png"),
+        websitePreviewImage: require("../assets/fleek.jpg"),
         type: "hostingprovider",
         textColor: "black",
       },
       {
         name: "begin Hosting",
         link: "https://begin.com/",
-        websitePreviewImage: require("../assets/begin.png"),
+        websitePreviewImage: require("../assets/begin.jpg"),
         type: "hostingprovider",
         textColor: "black",
       },
@@ -374,7 +375,7 @@ export default createStore({
         link: "https://render.com/",
         description:
           "Render is a unified cloud to build and run all your apps and websites with free TLS certificates, a global CDN, DDoS protection, private networks, and auto deploys from Git. Get started for free Contact sales.",
-        websitePreviewImage: require("../assets/render.png"),
+        websitePreviewImage: require("../assets/render.jpg"),
         type: "hostingprovider",
         textColor: "black",
         isRecommended: true,
@@ -386,7 +387,7 @@ export default createStore({
           "Netlify is the go-to platform for deploying" +
           " modern web projects. It comes with an integrated system to let you" +
           " quickly deploy projects from GitHub and GitLab.",
-        websitePreviewImage: require("../assets/netlify.webp"),
+        websitePreviewImage: require("../assets/netlify.jpg"),
         type: "hostingprovider",
         textColor: "black",
         isRecommended: true,
@@ -412,6 +413,22 @@ export default createStore({
       //   css: "background: mesh-gradient(#a6a4de, #6619f3)",
       //   available: false,
       // },
+    ],
+    colorGeneratorsTools: [
+      {
+        name: "Color Lightener/Darker",
+        link: "/colorlightenerdarker",
+        css: "background: rgb(166, 164, 222)",
+        available: true,
+
+      }, 
+      {
+        name: "Color Pallette Generator",
+        link: "/colorPalleteGenerator",
+        css: "background: url(http://localhost:8080/img/colorGradient.3642d456.jpg);"+
+        "background-size: 100% 100%;",
+        available: true
+      }
     ],
     allUserActivities: [],
   },
@@ -924,6 +941,9 @@ export default createStore({
         allTools.push(tool);
       }
       for (let tool of state.hostingproviders) {
+        allTools.push(tool);
+      }
+      for(let tool of state.gradientGeneratorsTools){
         allTools.push(tool);
       }
 

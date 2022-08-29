@@ -4,7 +4,6 @@ import RadialGradientGeneratorView from "../views/RadialGradientGeneratorView";
 import WebsiteBuilderView from "../views/WebsiteBuilderView";
 import HomeView from "../views/HomeView";
 import DOMAnalyzerView from "../views/DOMAnalyzerView";
-import ResponsivityCheckerView from "../views/ResponsivityCheckerView";
 import ColorPalleteGeneratorView from "../views/ColorPalleteGeneratorView";
 import ColorLightenerDarkerView from "../views/ColorLightenerDarkerView";
 import AdminView from "../views/AdminView";
@@ -46,11 +45,6 @@ const routes = [
     path: "/DOMAnalyzer",
     name: "domanalyzer",
     component: DOMAnalyzerView,
-  },
-  {
-    path: "/ResponsivityChecker",
-    name: "responsivitychecker",
-    component: ResponsivityCheckerView,
   },
   {
     path: "/colorPalleteGenerator",

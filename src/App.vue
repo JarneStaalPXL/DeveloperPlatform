@@ -96,7 +96,7 @@
       Go back to homepage
     </n-tooltip> -->
     <n-loading-bar-provider>
-      <n-notification-provider :max="1">
+      <n-notification-provider :max="1" :placement="$store.state.notificationPlacement">
         <n-message-provider>
           <router-view v-slot="{ Component, route }">
             <transition name="fade" mode="out-in">

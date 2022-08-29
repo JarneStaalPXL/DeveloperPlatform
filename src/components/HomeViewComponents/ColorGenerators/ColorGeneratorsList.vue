@@ -1,13 +1,16 @@
 <template>
   <section class="colorGeneratorContainer">
-    <a @click="$router.push($store.state.routings.colorLightenerDarker.path)">
-      <div class="item" id="colorLightenerDarkerBox">
-        <p>Color Lightener/Darker</p>
-      </div>
-    </a>
-    <a @click="$router.push($store.state.routings.colorPalleteGenerator.path)">
-      <div class="item" id="colorPalleteGeneratorBox">
-        <p>Color Pallete Generator</p>
+    <a 
+      v-for="gradientGenerator of $store.state.colorGeneratorsTools"
+      :key="gradientGenerator"
+      @click="
+        gradientGenerator.available === true
+          ? $router.push(gradientGenerator.link)
+          : comingSoonAlert()
+      "
+    >
+      <div class="item" :style="gradientGenerator.css">
+        <p>{{ gradientGenerator.name }}</p>
       </div>
     </a>
   </section>
@@ -23,7 +26,7 @@ export default {};
 }
 
 #colorPalleteGeneratorBox {
-  background: url("../../../../src/assets/colorGradient.png");
+  background: url("../../../../src/assets/colorGradient.jpg");
   background-size: 100% 100%;
 }
 
