@@ -977,7 +977,7 @@ export default createStore({
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-
+            Authorization: "Bearer " + state.strapiApiKey,
           },
           body: JSON.stringify({
             data: { colorpallet: state.userSavedColorPallets },
@@ -1028,7 +1028,6 @@ export default createStore({
           },
         }),
       })
-      console.log(await resp.json());
 
 
       // if (!(await dispatch("USER_EXISTS", user.uid))) {
