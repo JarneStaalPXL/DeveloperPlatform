@@ -3,17 +3,35 @@
     <n-space vertical>
       <section class="d-flex">
         <n-p class="w-50">Page Size</n-p>
-        <n-input-number class="w-50" :min="0" :max="50" placeholder="Enter pagesize"
-          v-model:value="pagination.pageSize"></n-input-number>
+        <n-input-number
+          class="w-50"
+          :min="0"
+          :max="50"
+          placeholder="Enter pagesize"
+          v-model:value="pagination.pageSize"
+        ></n-input-number>
       </section>
-      <n-data-table ref="table" :columns="columns" :data="$store.state.uniqueVisitors" :pagination="pagination"
-        :row-key="rowKey" @update:checked-row-keys="handleCheck" />
+      <n-data-table
+        ref="table"
+        :columns="columns"
+        :data="$store.state.uniqueVisitors"
+        :pagination="pagination"
+        :row-key="rowKey"
+        @update:checked-row-keys="handleCheck"
+      />
     </n-space>
   </n-card>
   <n-card title="Unique Visitors Count">
     <h5>
       {{ $store.state.uniqueVisitors.length }}
     </h5>
+  </n-card>
+  <n-card title="Visits Overview">
+    <h5>Homepage -> <b>{{ routeVisitsHomepage }}</b> visits</h5>
+    <h5>Hosting Providers -> <b>{{ routeVisitsHP }}</b> visits</h5>
+    <h5>Global Frontend Tools -> <b>{{ routeVisitsGft }}</b> visits</h5>
+    <h5>Gradient Generators -> <b>{{ routeGradientGenerators }}</b> visits</h5>
+    <h5>Color Generators -> <b>{{ routeColorGenerators }}</b> visits</h5>
   </n-card>
 </template>
 
@@ -55,16 +73,91 @@ export default {
     NSpace,
     NTag,
   },
-  mounted() {
+  async mounted() {
     window.$loadingbar = useLoadingBar();
+
+    //get unique visitors
     this.$store.dispatch("GET_UNIQUE_VISITORS");
-    setInterval(() => {
+
+    
+    //homepage visits
+    const dt = await this.$store.dispatch("GET_ROUTE_VISITS", "Homepage");
+    this.routeVisitsHomepage = dt.routeVisitorsCount;
+
+        //hosting providers visits
+        const dt3 = await this.$store.dispatch(
+      "GET_ROUTE_VISITS",
+      "hostingproviders"
+    );
+    this.routeVisitsHP = dt3.routeVisitorsCount;
+
+    //global frontend tools visits
+    const dt2 = await this.$store.dispatch(
+      "GET_ROUTE_VISITS",
+      "globalfrontendtools"
+    );
+    this.routeVisitsGft = dt2.routeVisitorsCount;
+
+
+
+    //gradient generators visits
+    const dt4 = await this.$store.dispatch(
+      "GET_ROUTE_VISITS",
+      "gradientgenerators"
+    );
+    this.routeGradientGenerators = dt4.routeVisitorsCount;
+
+    //color generators visits
+    const dt5 = await this.$store.dispatch(
+      "GET_ROUTE_VISITS",
+      "colorgenerators"
+    );
+    this.routeColorGenerators = dt5.routeVisitorsCount;
+
+    setInterval(async () => {
+      //homepage visits
+      const dt = await this.$store.dispatch("GET_ROUTE_VISITS", "Homepage");
+      this.routeVisitsHomepage = dt.routeVisitorsCount;
+
+      //global frontend tools visits
+      const dt2 = await this.$store.dispatch(
+        "GET_ROUTE_VISITS",
+        "globalfrontendtools"
+      );
+      this.routeVisitsGft = dt2.routeVisitorsCount;
+
+      //hosting providers visits
+      const dt3 = await this.$store.dispatch(
+        "GET_ROUTE_VISITS",
+        "hostingproviders"
+      );
+      this.routeVisitsHP = dt3.routeVisitorsCount;
+
+      //gradient generators visits
+      const dt4 = await this.$store.dispatch(
+        "GET_ROUTE_VISITS",
+        "gradientgenerators"
+      );
+      this.routeGradientGenerators = dt4.routeVisitorsCount;
+
+      //color generators visits
+      const dt5 = await this.$store.dispatch(
+        "GET_ROUTE_VISITS",
+        "colorgenerators"
+      );
+      this.routeColorGenerators = dt5.routeVisitorsCount;
+
       this.$store.dispatch("GET_UNIQUE_VISITORS");
     }, 5000);
   },
   methods: {},
   data() {
     return {
+      routeColorGenerators: 0,
+      routeGradientGenerators: 0,
+      routeVisitsHP: 0,
+      routeVisitsGft: 0,
+      routeVisitsHomepage: 0,
       pagination: {
         pageSize: 5,
       },
@@ -91,5 +184,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

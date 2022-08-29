@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
+    recurringVisitorCount: 0,
     allTools: [],
     notificationPlacement: "top-right",
     isAdmin: false,
@@ -520,9 +521,27 @@ export default createStore({
     },
     setAllTools(state, payload) {
       state.allTools = payload;
+    },
+    setRecurringVisitorCount(state, payload) {
+      state.recurringVisitorCount = payload;
     }
   },
   actions: {
+    async GET_ROUTE_VISITS({ state,commit }, route) {
+      const res = await fetch(`${state.baseUrlStrapiApi}visit-log-count/getRouteVisits/${route}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${state.strapiApiKey}`,
+        },
+      })
+      const response = await res.json();
+      return {
+        route: response.data.attributes.route,
+        routeVisitorsCount: response.data.attributes.routeVisitorsCount,
+      }
+    },
     async FILL_ALL_TOOLS_ARRAY({ state,commit }) {
       let allTools = [];
       for (let tool of state.globalFrontendTools) {
