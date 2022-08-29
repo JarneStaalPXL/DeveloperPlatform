@@ -4,88 +4,49 @@
       <h1>Developer Platform</h1>
       <p>Useful tools you can use for your website and design.<br /></p>
     </section>
-    <n-auto-complete
-      class="autoCompleteInput"
-      :on-update:value="showResultsTools"
-      :input-props="{
-        autocomplete: 'disabled',
-      }"
-      :options="toolResults"
-      placeholder="Search (press space for all tools)"
-      :on-select="openLink"
-    />
+    <n-auto-complete class="autoCompleteInput" :on-update:value="showResultsTools" :input-props="{
+      autocomplete: 'disabled',
+    }" :options="toolResults" placeholder="Search (press space for all tools)" :on-select="openLink" />
 
     <section class="toolCategoriesContainer">
       <section class="categories">
         <h4>Categories</h4>
         <section>
           <div>
-            <n-button @click="$router.push('/globalfrontendtools')"
-              >Global Frontend Tools
-              <n-badge
-                class="ml-1 pl-1 pr-1"
-                :value="$store.state.globalFrontendTools.length"
-                color="grey"
-              />
+            <n-button @click="$router.push('/globalfrontendtools')">Global Frontend Tools
+              <n-badge class="ml-1 pl-1 pr-1" :value="$store.state.globalFrontendTools.length" color="grey" />
             </n-button>
           </div>
 
           <div>
-            <n-button @click="$router.push('/gradientgenerators')"
-              >Gradient Generators
-              <n-badge
-                :value="$store.state.gradientGeneratorsTools.length"
-                color="grey"
-              />
+            <n-button @click="$router.push('/gradientgenerators')">Gradient Generators
+              <n-badge :value="$store.state.gradientGeneratorsTools.length" color="grey" />
             </n-button>
           </div>
           <div>
-            <n-button @click="$router.push('/colorgenerators')"
-              >Color Generators
+            <n-button @click="$router.push('/colorgenerators')">Color Generators
               <n-badge :value="2" color="grey" />
             </n-button>
           </div>
           <div>
-            <n-button @click="$router.push('/hostingproviders')"
-              >Hosting Providers
+            <n-button @click="$router.push('/hostingproviders')">Hosting Providers
               <n-badge :value="$store.state.hostingproviders.length" color="grey" />
             </n-button>
           </div>
         </section>
       </section>
 
-      <n-skeleton
-        :style="{ margin: 'auto' }"
-        height="30px"
-        text
-        style="width: 30%"
-        v-if="$store.state.favoritetools === undefined"
-      />
-      <div
-        v-if="$store.state.favoritetools === undefined"
-        class="d-flex justify-content-between"
-      >
-        <n-skeleton
-          v-for="i in 5"
-          style="width: 15%"
-          :key="i"
-          :sharp="false"
-          size="medium"
-        />
+      <n-skeleton :style="{ margin: 'auto' }" height="30px" text style="width: 30%"
+        v-if="$store.state.favoritetools === undefined" />
+      <div v-if="$store.state.favoritetools === undefined" class="d-flex justify-content-between">
+        <n-skeleton v-for="i in 5" style="width: 15%" :key="i" :sharp="false" size="medium" />
       </div>
-      <section
-        class="someFavorites"
-        v-if="
-          $store.state.favoritetools !== undefined && $store.state.favoritetools !== null
-        "
-      >
+      <section class="someFavorites" v-if="
+        $store.state.favoritetools !== undefined && $store.state.favoritetools !== null
+      ">
         <h4 v-if="$store.state.favoritetools.length > 0">Some of your favorites</h4>
         <div class="favorites" v-if="$store.state.favoritetools">
-          <n-button
-            v-for="tool of first5Favorites()"
-            :key="tool"
-            @click="openLink(tool.link)"
-          >
+          <n-button v-for="tool of first5Favorites()" :key="tool" @click="openLink(tool.link)">
             {{ tool.name }}
           </n-button>
         </div>
@@ -108,22 +69,12 @@
     </section>
 
     <div class="w-100">
-      <component
-        :is="'script'"
+      <component :is="'script'"
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6265128065602433"
-        crossorigin="anonymous"
-        async
-      ></component>
-      <ins
-        class="adsbygoogle"
-        style="display: block"
-        data-ad-client="ca-pub-6265128065602433"
-        data-ad-slot="2171576343"
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      ></ins>
-      <component :is="'script'" crossorigin="anonymous" async
-        >(adsbygoogle = window.adsbygoogle || []).push({});
+        crossorigin="anonymous" async></component>
+      <ins class="adsbygoogle" style="display: block" data-ad-client="ca-pub-6265128065602433" data-ad-slot="2171576343"
+        data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <component :is="'script'" crossorigin="anonymous" async>(adsbygoogle = window.adsbygoogle || []).push({});
       </component>
     </div>
   </section>
@@ -425,6 +376,7 @@ a {
     gap: 20px;
     width: 100%;
     justify-content: space-between;
+
     section {
       display: flex;
       gap: 10px;
@@ -438,6 +390,7 @@ a {
     h4 {
       margin-bottom: 20px;
     }
+
     .favorites {
       display: flex;
       gap: 10px;
@@ -466,7 +419,7 @@ a {
 }
 
 .explanationContainer {
-  padding-top: 6em;
+  padding-top: 1em;
   background: linear-gradient(to right, #1ea4e9, #36fd3c);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -492,6 +445,7 @@ a {
 }
 
 @media only screen and (max-width: 980px) {
+
   .titleCard,
   .categoryCard {
     margin: 0;

@@ -3,44 +3,74 @@
     <n-button @click="sortRecommended()">SORT ON RECOMMENDED</n-button>
     <n-button @click="sortUsed()">SORT ON USED BY DEVELOPER PLATFORM</n-button>
   </div>
+  <n-config-provider :theme="darkTheme">
+    <n-grid x-gap="24" y-gap="24" cols="1 600:2 900:3">
+      <n-gi v-for="tool of $store.state.hostingproviders" :key="tool">
+        <n-card :title="tool.name" bordered>
+          <template #cover>
+            <div class="cover" :style="{
+              background: 'url(' +
+                (tool.websitePreviewImage
+                  ? tool.websitePreviewImage
+                  : websitePreviewImagePlaceholder) +
+                ')'
+              , backgroundPosition: 'center', backgroundSize: 'cover'
+            }"></div>
+          </template>
+
+          <section class="toolContent">
+            <div class="descriptionContainer" v-if="tool.description">
+              <p>{{ tool.description }}</p>
+              <div>
+                <n-tag type="success" v-if="tool.isRecommended">RECOMMENDED</n-tag>
+                <n-tag type="info" v-if="tool.isUsed">USED BY DEVELOPER PLATFORM</n-tag>
+              </div>
+            </div>
+            <div class="titleButtons">
+              <div class="actionBtns">
+                <n-button @click="openLink(tool.link)">Open website</n-button>
+                <n-button class="pl-5" @click="addToolToFavorites(tool)" v-if="!tool.isFavorited"><i
+                    :style="{ color: 'white' }" class="fa-solid fa-heart"></i></n-button>
+                <n-button class="pl-5" @click="removeToolFromFavorites(tool)" v-if="tool.isFavorited"><i
+                    :style="{ color: 'red' }" class="fa-solid fa-heart"></i></n-button>
+              </div>
+            </div>
+
+            <div class="mt-3 justify-content-end" v-if="tool.promoDescription">
+              <n-button class="promoBtn" @click="openLink(tool.promoLink)">{{
+                  tool.promoDescription
+              }}</n-button>
+            </div>
+          </section>
+        </n-card>
+      </n-gi>
+    </n-grid>
+  </n-config-provider>
   <section class="globalFrontendtoolsContainer">
-    <div
-      v-for="provider of $store.state.hostingproviders"
-      :key="provider"
-      class="item"
-      :style="{
-        backgroundImage:
-          'url(' +
-          (provider.websitePreviewImage
-            ? provider.websitePreviewImage
-            : websitePreviewImagePlaceholder) +
-          ')',
-        backgroundPosition: provider.websitePreviewImage ? '' : 'center',
-      }"
-    >
+
+
+
+    <div v-for="provider of $store.state.hostingproviders" :key="provider" class="item" :style="{
+      backgroundImage:
+        'url(' +
+        (provider.websitePreviewImage
+          ? provider.websitePreviewImage
+          : websitePreviewImagePlaceholder) +
+        ')',
+      backgroundPosition: provider.websitePreviewImage ? '' : 'center',
+    }">
       <section class="itemSection">
         <div class="itemContent">
-          <p
-            v-if="provider.name"
-            :style="{ color: provider.textColor ? provider.textColor : 'white' }"
-          >
+          <p v-if="provider.name" :style="{ color: provider.textColor ? provider.textColor : 'white' }">
             {{ provider.name }}
           </p>
 
           <div>
             <n-button @click="openLink(provider.link)">Open website</n-button>
-            <n-button
-              class="pl-5"
-              @click="addToolToFavorites(provider)"
-              v-if="!provider.isFavorited"
-              ><i :style="{ color: 'black' }" class="fa-solid fa-heart"></i
-            ></n-button>
-            <n-button
-              class="pl-5"
-              @click="removeToolFromFavorites(provider)"
-              v-if="provider.isFavorited"
-              ><i :style="{ color: 'red' }" class="fa-solid fa-heart"></i
-            ></n-button>
+            <n-button class="pl-5" @click="addToolToFavorites(provider)" v-if="!provider.isFavorited"><i
+                :style="{ color: 'black' }" class="fa-solid fa-heart"></i></n-button>
+            <n-button class="pl-5" @click="removeToolFromFavorites(provider)" v-if="provider.isFavorited"><i
+                :style="{ color: 'red' }" class="fa-solid fa-heart"></i></n-button>
           </div>
         </div>
         <div class="descriptionContainer" v-if="provider.description">
@@ -56,7 +86,7 @@
 </template>
 
 <script>
-import { NButton, useLoadingBar, useMessage, NSpin, NIcon, NTag } from "naive-ui";
+import { NButton, useLoadingBar, useMessage, NSpin, NIcon, NTag, NCard, NGi, NGrid, NConfigProvider, darkTheme } from "naive-ui";
 export default {
   mounted() {
     window.$loadingbar = useLoadingBar();
@@ -70,6 +100,10 @@ export default {
     NSpin,
     NIcon,
     NTag,
+    NCard,
+    NGi,
+    NGrid,
+    NConfigProvider
   },
   methods: {
     sortRecommended() {
@@ -115,140 +149,73 @@ export default {
         });
     },
   },
+  setup() {
+    return {
+      darkTheme
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
+.actionBtns {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.n-card {
+  max-width: 600px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 4px 12px;
+  border-radius: 8px;
+}
+
+.n-card-cover>* {
+  border-radius: 8px 8px 0 0;
+}
+
+.cover {
+  height: 300px;
+  background-size: cover;
+  background-position: center;
+  background-color: white !important;
+}
+
+.n-card.n-card--bordered {
+  height: 100%;
+}
+
+
+.toolContent {
+  display: flex;
+  flex-direction: column;
+}
+
+
 .sortersContainer {
   display: flex;
   width: 100%;
   gap: 20px;
 }
-.itemSection {
-  display: flex;
-  flex-direction: column;
-  height: 50%;
-  .itemContent {
-    justify-content: space-between;
-    p {
-      font-weight: bold;
-    }
-  }
-  .descriptionContainer {
+
+.descriptionContainer {
+  div {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-    div {
-      gap: 10px;
-      justify-content: center;
-    }
-  }
-}
-//from globalfrontendtools
-.globalFrontendtoolsContainer {
-  display: flex;
-  /* flex-direction: column; */
-  flex-wrap: wrap;
-  gap: 75px;
-  justify-content: space-between;
-  .item {
-    min-width: 43vw;
-    max-width: 43vw;
-  }
-}
-.item {
-  height: 500px;
-  border-radius: 15px;
-  margin-bottom: 20px;
-  // border: 2px solid transparent;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-
-  section {
-    display: flex;
-    justify-content: space-around;
-    font-size: 18px;
-    background: black;
-    transition: opacity 0.3s ease-in-out;
-    margin: 0;
-    width: 100%;
-    padding-top: 15px;
-    padding-bottom: 15px;
-
-    background: white;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-
-    p {
-      padding-left: 15px;
-      margin-top: auto;
-      margin-bottom: auto;
-      word-break: break-word;
-    }
-    div {
-      display: flex;
-      gap: 5px;
-      padding-right: 15px;
-    }
-  }
-
-  &:hover {
-    p {
-      // transition: opacity 0.3s ease-in-out;
-      // opacity: 0;
-      //disable selection
-      // user-select: none;
-    }
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 10px;
   }
 }
 
 @media only screen and (max-width: 890px) {
-  .sortersContainer {
-    flex-direction: column;
-    width: 100%;
-    gap: 5px;
-  }
-  .item {
-    min-width: 100% !important;
-    section {
-      flex-direction: column;
-      div {
-        padding-top: 10px;
-        padding-left: 8px;
-        padding-right: 8px;
-      }
+  .descriptionContainer {
+    div {
+      margin-bottom: 7px;
     }
   }
-  .itemSection {
-    height: auto;
-    .itemContent {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      div {
-        justify-content: center;
-        * {
-          width: 50%;
-        }
-      }
-    }
-    .descriptionContainer {
-      p {
-        padding-left: 0;
-      }
-      div {
-        width: 100%;
-        flex-wrap: wrap;
-      }
-    }
+
+  .actionBtns {
+    padding-bottom: 20px;
   }
 }
 </style>

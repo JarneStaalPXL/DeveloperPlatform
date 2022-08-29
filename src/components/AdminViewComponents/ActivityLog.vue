@@ -132,7 +132,7 @@ export default {
   data() {
     return {
       pagination: {
-        pageSize: 10,
+        pageSize: 5,
       },
       checkedRows: [],
       intervalID: null,

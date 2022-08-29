@@ -3,22 +3,11 @@
     <n-space vertical>
       <section class="d-flex">
         <n-p class="w-50">Page Size</n-p>
-        <n-input-number
-          class="w-50"
-          :min="0"
-          :max="50"
-          placeholder="Enter pagesize"
-          v-model:value="pagination.pageSize"
-        ></n-input-number>
+        <n-input-number class="w-50" :min="0" :max="50" placeholder="Enter pagesize"
+          v-model:value="pagination.pageSize"></n-input-number>
       </section>
-      <n-data-table
-        ref="table"
-        :columns="columns"
-        :data="$store.state.uniqueVisitors"
-        :pagination="pagination"
-        :row-key="rowKey"
-        @update:checked-row-keys="handleCheck"
-      />
+      <n-data-table ref="table" :columns="columns" :data="$store.state.uniqueVisitors" :pagination="pagination"
+        :row-key="rowKey" @update:checked-row-keys="handleCheck" />
     </n-space>
   </n-card>
   <n-card title="Unique Visitors Count">
@@ -77,7 +66,7 @@ export default {
   data() {
     return {
       pagination: {
-        pageSize: 10,
+        pageSize: 5,
       },
       checkedRows: [],
       intervalID: null,
@@ -102,4 +91,5 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+</style>

@@ -1,22 +1,15 @@
 <template>
-  <section
-    class="globalFrontendtoolsContainer"
-    v-if="$store.state.favoritetools !== null && $store.state.favoritetools !== undefined"
-  >
-    <div
-      v-for="tool of $store.state.favoritetools"
-      :key="tool"
-      class="item"
-      :style="{
-        backgroundImage:
-          'url(' +
-          (tool.websitePreviewImage
-            ? tool.websitePreviewImage
-            : websitePreviewImagePlaceholder) +
-          ')',
-        backgroundPosition: tool.websitePreviewImage ? '' : 'center',
-      }"
-    >
+  <section class="globalFrontendtoolsContainer" v-if="$store.state.favoritetools !== null && $store.state.favoritetools !== undefined &&
+  $store.state.favoritetools.length > 0">
+    <div v-for="tool of $store.state.favoritetools" :key="tool" class="item" :style="{
+      backgroundImage:
+        'url(' +
+        (tool.websitePreviewImage
+          ? tool.websitePreviewImage
+          : websitePreviewImagePlaceholder) +
+        ')',
+      backgroundPosition: tool.websitePreviewImage ? '' : 'center',
+    }">
       <section>
         <p v-if="tool.name" :style="{ color: tool.textColor ? tool.textColor : 'white' }">
           {{ tool.name }}
@@ -24,14 +17,9 @@
         <div>
           <n-button @click="openLink(tool.link)">Open website</n-button>
 
-          <n-popconfirm
-            @positive-click="removeToolFromFavorites(tool)"
-            @negative-click="abortRemovalTool()"
-          >
+          <n-popconfirm @positive-click="removeToolFromFavorites(tool)" @negative-click="abortRemovalTool()">
             <template #trigger>
-              <n-button class="pl-5"
-                ><i :style="{ color: 'red' }" class="fa-solid fa-heart"></i
-              ></n-button>
+              <n-button class="pl-5"><i :style="{ color: 'red' }" class="fa-solid fa-heart"></i></n-button>
             </template>
             Are you sure you want to remove this tool from your favorites?
           </n-popconfirm>
@@ -43,7 +31,8 @@
     <h6>You haven't added any favorites yet.</h6>
     <h6>
       Currently only
-      <a @click="$router.push('/globalfrontendtools')">Global Frontend Tools</a> can be
+      <a @click="$router.push('/globalfrontendtools')">Global Frontend Tools</a> and <a
+        @click="$router.push('hostingproviders')">Hosting Providers</a> can be
       added as favorite.
     </h6>
   </section>
@@ -108,23 +97,27 @@ export default {
 .noFavorites {
   a {
     color: lightcoral;
+
     &:hover {
       cursor: pointer;
       color: red;
     }
   }
 }
+
 .globalFrontendtoolsContainer {
   display: flex;
   /* flex-direction: column; */
   flex-wrap: wrap;
   gap: 75px;
   justify-content: space-between;
+
   .item {
     min-width: 43vw;
     max-width: 43vw;
   }
 }
+
 .item {
   height: 300px;
   border-radius: 15px;
@@ -161,6 +154,7 @@ export default {
       margin-top: auto;
       margin-bottom: auto;
     }
+
     div {
       display: flex;
       gap: 5px;

@@ -524,8 +524,8 @@ export default createStore({
             JSON.stringify(state.globalFrontendTools)
           );
 
-          
-          for (const tool of gbt) { 
+
+          for (const tool of gbt) {
             tool.isFavorited = state.favoritetools.some(
               (t) => t.name === tool.name
             );
@@ -534,7 +534,7 @@ export default createStore({
 
           //hosting providers manipulation favorites
           const htp = JSON.parse(JSON.stringify(state.hostingproviders));
-          for(const provider of htp) {
+          for (const provider of htp) {
             provider.isFavorited = state.favoritetools.some(
               (t) => t.name === provider.name
             );
@@ -742,22 +742,17 @@ export default createStore({
         return Promise.reject(errorText);
       }
     },
-    async CHECK_TOOL_PRESENT_STRAPI({ dispatch, commit, state }, toolname) {
+    async CHECK_TOOL_PRESENT_STRAPI({ state }, toolname) {
       let found = false;
-      let tools = await dispatch("GET_USER_FAVORITE_TOOLS");
-
       //check if tools is iterable
-      if (tools.length > 0) {
-        for (let tool of tools) {
-          if (tool.name === toolname) {
-            found = true;
-            break;
-          }
-        }
+      if (state.favoritetools.length > 0) {
+        found = state.favoritetools.some((tool) => {
+          return tool.name === toolname;
+        });
       }
       return found;
     },
-    async CHECK_TOOL_PRESENT_LST({ dispatch, commit, state }, toolname) {
+    async CHECK_TOOL_PRESENT_LST({ }, toolname) {
       let favTools = JSON.parse(localStorage.getItem("favTools"));
       let found = false;
       for (let tol of favTools) {
@@ -768,8 +763,8 @@ export default createStore({
       }
       return found;
     },
-    async REMOVE_ADMIN({ state, dispatch }, payload) {
-      try{
+    async REMOVE_ADMIN({ state }, payload) {
+      try {
         const response = await fetch(`${state.baseUrlStrapiApi}admin-info/removeAdmin/${payload}`, {
           method: "DELETE",
           headers: {
@@ -780,7 +775,7 @@ export default createStore({
         });
         const res = await response.json();
         return Promise.resolve(res.message);
-      }catch(err){
+      } catch (err) {
         return Promise.reject(err)
       }
     },
@@ -825,25 +820,6 @@ export default createStore({
       });
       const data = await response.json();
       return Promise.resolve(data);
-    },
-    async DELETE_USER_ACTIVITIES({ state }, payload) {
-      for (let activity of payload) {
-        try {
-          const rawResponse = await fetch(
-            `${state.baseUrlStrapiApi}visit-logs/${activity}`,
-            {
-              method: "DELETE",
-              headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + state.strapiApiKey,
-              },
-            }
-          );
-        } catch (err) {
-          alert(err);
-        }
-      }
     },
     async GET_USER_ACTIVTIES({ state, commit }, payload) {
       const rawResponse = await fetch(`${state.baseUrlStrapiApi}visit-log-count/visitors/${20}`, {
@@ -1007,25 +983,41 @@ export default createStore({
       const content = await rawResponse.json();
     },
     async CREATE_ACCOUNT({ state, dispatch, commit }, user) {
-      if (!(await dispatch("USER_EXISTS", user.uid))) {
-        const rawResponse = await fetch(
-          `${state.baseUrlStrapiApi}user-details`,
-          {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + state.strapiApiKey,
-            },
-            body: JSON.stringify({
-              data: {
-                userid: user.uid,
-              },
-            }),
-          }
-        );
-        const content = await rawResponse.json();
-      }
+      const resp = await fetch(`${state.baseUrlStrapiApi}user-detail-info/createUser`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+        body: JSON.stringify({
+          data: {
+            userid: user.uid,
+          },
+        }),
+      })
+      console.log(await resp.json());
+
+
+      // if (!(await dispatch("USER_EXISTS", user.uid))) {
+      //   const rawResponse = await fetch(
+      //     `${state.baseUrlStrapiApi}user-details`,
+      //     {
+      //       method: "POST",
+      //       headers: {
+      //         Accept: "application/json",
+      //         "Content-Type": "application/json",
+      //         Authorization: "Bearer " + state.strapiApiKey,
+      //       },
+      //       body: JSON.stringify({
+      //         data: {
+      //           userid: user.uid,
+      //         },
+      //       }),
+      //     }
+      //   );
+      //   const content = await rawResponse.json();
+      // }
       commit("setUserData", { user: user });
       dispatch("LOAD_USER_SAVED_DATA", user.uid);
     },

@@ -1,51 +1,67 @@
 <template>
-  <section class="globalFrontendtoolsContainer" v-if="!dataIsLoading">
-    <div
-      v-for="tool of $store.state.globalFrontendTools"
-      :key="tool"
-      class="item"
-      :style="{
-        backgroundImage:
-          'url(' +
-          (tool.websitePreviewImage
-            ? tool.websitePreviewImage
-            : websitePreviewImagePlaceholder) +
-          ')',
-        backgroundPosition: tool.websitePreviewImage ? '' : 'center',
-      }"
-    >
+  <n-config-provider :theme="darkTheme">
+    <n-grid x-gap="24" y-gap="24" cols="1 600:2 900:3">
+      <n-gi v-for="tool of $store.state.globalFrontendTools" :key="tool">
+        <n-card :title="tool.name" bordered>
+          <template #cover>
+            <div class="cover" :style="{
+              background: 'url(' +
+                (tool.websitePreviewImage
+                  ? tool.websitePreviewImage
+                  : websitePreviewImagePlaceholder) +
+                ')'
+              , backgroundPosition: 'center', backgroundSize: 'cover'
+            }"></div>
+          </template>
+          <section class="toolContent">
+            <div class="titleButtons">
+              <div class="actionBtns">
+                <n-button @click="openLink(tool.link)">Open website</n-button>
+                <n-button class="pl-5" @click="addToolToFavorites(tool)" v-if="!tool.isFavorited"><i
+                    :style="{ color: 'white' }" class="fa-solid fa-heart"></i></n-button>
+                <n-button class="pl-5" @click="removeToolFromFavorites(tool)" v-if="tool.isFavorited"><i
+                    :style="{ color: 'red' }" class="fa-solid fa-heart"></i></n-button>
+              </div>
+            </div>
+
+            <div class="mt-3 justify-content-end" v-if="tool.promoDescription">
+              <n-button class="promoBtn" @click="openLink(tool.promoLink)">{{
+                  tool.promoDescription
+              }}</n-button>
+            </div>
+          </section>
+        </n-card>
+      </n-gi>
+    </n-grid>
+  </n-config-provider>
+  <!-- <section class="globalFrontendtoolsContainer" v-if="!dataIsLoading">
+    <div v-for="tool of $store.state.globalFrontendTools" :key="tool" class="item" :style="{
+      backgroundImage:
+        'url(' +
+        (tool.websitePreviewImage
+          ? tool.websitePreviewImage
+          : websitePreviewImagePlaceholder) +
+        ')',
+      backgroundPosition: tool.websitePreviewImage ? '' : 'center',
+    }">
       <section class="toolContent">
         <div class="titleButtons">
-          <p
-            v-if="tool.name"
-            :style="{ color: tool.textColor ? tool.textColor : 'white' }"
-          >
+          <p v-if="tool.name" :style="{ color: tool.textColor ? tool.textColor : 'white' }">
             {{ tool.name }}
           </p>
           <div class="actionBtns">
             <n-button @click="openLink(tool.link)">Open website</n-button>
-            <n-button
-              class="pl-5"
-              @click="addToolToFavorites(tool)"
-              v-if="!tool.isFavorited"
-              ><i :style="{ color: 'black' }" class="fa-solid fa-heart"></i
-            ></n-button>
-            <n-button
-              class="pl-5"
-              @click="removeToolFromFavorites(tool)"
-              v-if="tool.isFavorited"
-              ><i :style="{ color: 'red' }" class="fa-solid fa-heart"></i
-            ></n-button>
+            <n-button class="pl-5" @click="addToolToFavorites(tool)" v-if="!tool.isFavorited"><i
+                :style="{ color: 'black' }" class="fa-solid fa-heart"></i></n-button>
+            <n-button class="pl-5" @click="removeToolFromFavorites(tool)" v-if="tool.isFavorited"><i
+                :style="{ color: 'red' }" class="fa-solid fa-heart"></i></n-button>
           </div>
         </div>
 
         <div class="mt-3 justify-content-end" v-if="tool.promoDescription">
-          <n-button
-            class="promoBtn"
-            @click="openLink(tool.promoLink)"
-            :style="{ marginRight: '13px' }"
-            >{{ tool.promoDescription }}</n-button
-          >
+          <n-button class="promoBtn" @click="openLink(tool.promoLink)" :style="{ marginRight: '13px' }">{{
+              tool.promoDescription
+          }}</n-button>
         </div>
       </section>
     </div>
@@ -58,11 +74,11 @@
         </n-icon>
       </template>
     </n-spin>
-  </section>
+  </section> -->
 </template>
 
 <script>
-import { NButton, useLoadingBar, useMessage, NSpin, NIcon, NTag } from "naive-ui";
+import { NConfigProvider, NButton, useLoadingBar, useMessage, NSpin, NIcon, NTag, NCard, darkTheme, NGrid, NGi } from "naive-ui";
 import { Reload } from "@vicons/ionicons5";
 export default {
   components: {
@@ -71,6 +87,9 @@ export default {
     Reload,
     NIcon,
     NTag,
+    NCard,
+    NConfigProvider,
+    NGrid, NGi
   },
   async mounted() {
     window.$message = useMessage();
@@ -122,122 +141,44 @@ export default {
       this.$store.dispatch("GET_PAGE_VISITS");
     },
   },
+  setup() {
+    return {
+      darkTheme
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
+.actionBtns {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.n-card {
+  max-width: 600px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 4px 12px;
+  border-radius: 8px;
+}
+
+.n-card-cover>* {
+  border-radius: 8px 8px 0 0;
+}
+
+.cover {
+  height: 300px;
+  background-size: cover;
+  background-position: center;
+}
+
+.n-card.n-card--bordered {
+  height: 100%;
+}
+
+
 .toolContent {
   display: flex;
   flex-direction: column;
-}
-.globalFrontendtoolsContainer {
-  display: flex;
-  /* flex-direction: column; */
-  flex-wrap: wrap;
-  gap: 75px;
-  justify-content: space-between;
-  .item {
-    min-width: 43vw;
-    max-width: 43vw;
-  }
-}
-.item {
-  height: 300px;
-  border-radius: 15px;
-  margin-bottom: 20px;
-  // border: 2px solid transparent;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  background: black;
-  background-size: cover;
-  background-position: center;
-
-  section {
-    display: flex;
-    justify-content: space-between;
-    font-size: 18px;
-    background: black;
-    transition: opacity 0.3s ease-in-out;
-    margin: 0;
-    width: 100%;
-    padding-top: 15px;
-    padding-bottom: 15px;
-
-    background: rgba(255, 255, 255, 0.45);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-
-    p {
-      padding-left: 15px;
-      margin-top: auto;
-      margin-bottom: auto;
-    }
-    div {
-      display: flex;
-      gap: 5px;
-      padding-right: 15px;
-      justify-content: space-between;
-      button {
-        background: white;
-      }
-    }
-  }
-
-  &:hover {
-    p {
-      // transition: opacity 0.3s ease-in-out;
-      // opacity: 0;
-      //disable selection
-      // user-select: none;
-    }
-  }
-}
-
-@media only screen and (max-width: 890px) {
-  .titleButtons {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    .actionBtns {
-      display: flex;
-      justify-content: center;
-      button {
-        width: 50%;
-      }
-    }
-  }
-
-  .promoBtn {
-    width: 95%;
-    margin: 0;
-  }
-  .item {
-    min-width: 100% !important;
-    section {
-      flex-direction: column;
-      p {
-        padding-left: 0;
-      }
-      div {
-        justify-content: space-between;
-        padding-top: 10px;
-        padding-right: 5px;
-        padding-left: 5px;
-      }
-    }
-  }
-  .toolContent {
-    display: flex;
-    flex-direction: column;
-    div {
-      padding-right: 0;
-      justify-content: space-between;
-    }
-  }
 }
 </style>
