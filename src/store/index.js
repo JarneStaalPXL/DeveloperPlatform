@@ -673,7 +673,6 @@ export default createStore({
       //get fav tools of user
       let favTools = [];
       //get userid from uid
-
       await dispatch("GET_USER_ID", localStorage.getItem("uid"))
         .then(async (userid) => {
           if (localStorage.getItem("uid") !== null) {
@@ -708,8 +707,6 @@ export default createStore({
                   }),
                 }
               );
-              const res = await tools.json();
-
               commit("setFavoriteTools", [tool]);
 
               succeeded = true;
@@ -740,7 +737,6 @@ export default createStore({
                     }),
                   }
                 );
-                const resp = await res.json();
                 commit("setFavoriteTools", array);
 
                 succeeded = true;
@@ -872,7 +868,7 @@ export default createStore({
       });
       const response = await rawResponse.json();
       let tempArr = [];
-      let index = 0;
+      let index;
       for (let act of response.data.attributes.visitors) {
         let date = new Date(act.createdAt);
         let isAdmin = false;
@@ -953,7 +949,6 @@ export default createStore({
             },
           }),
         });
-        const response = await rawResponse.json();
       }
     },
     async SEARCH_TOOLS({ state }, payload) {
@@ -984,7 +979,6 @@ export default createStore({
           }),
         }
       );
-      const content = await rawResponse.json();
       await dispatch("GET_USER_SAVED_COLOR_PALLETES", user.id);
     },
     async ADD_COLORPALLETE_TO_ACCOUNT({ state, dispatch, commit }, user) {
@@ -997,9 +991,8 @@ export default createStore({
         return;
       }
       //find id of user with useruid
-      const userId = await dispatch("GET_USER_ID", user.id);
       const rawResponse = await fetch(
-        `${state.baseUrlStrapiApi}user-details/${userId}`,
+        `${state.baseUrlStrapiApi}user-detail-info/setColorPallette/${localStorage.getItem("uid")}`,
         {
           method: "PUT",
           headers: {
@@ -1012,7 +1005,6 @@ export default createStore({
           }),
         }
       );
-      const content = await rawResponse.json();
     },
     async CREATE_ACCOUNT({ state, dispatch, commit }, user) {
       const resp = await fetch(`${state.baseUrlStrapiApi}user-detail-info/createUser`, {
@@ -1028,27 +1020,6 @@ export default createStore({
           },
         }),
       })
-
-
-      // if (!(await dispatch("USER_EXISTS", user.uid))) {
-      //   const rawResponse = await fetch(
-      //     `${state.baseUrlStrapiApi}user-details`,
-      //     {
-      //       method: "POST",
-      //       headers: {
-      //         Accept: "application/json",
-      //         "Content-Type": "application/json",
-      //         Authorization: "Bearer " + state.strapiApiKey,
-      //       },
-      //       body: JSON.stringify({
-      //         data: {
-      //           userid: user.uid,
-      //         },
-      //       }),
-      //     }
-      //   );
-      //   const content = await rawResponse.json();
-      // }
       commit("setUserData", { user: user });
       dispatch("LOAD_USER_SAVED_DATA", user.uid);
     },
@@ -1103,13 +1074,12 @@ export default createStore({
       }
       return content2.data[0].id;
     },
-    async GET_USER_SAVED_COLOR_PALLETES({ state, dispatch, commit }, userUid) {
+    async GET_USER_SAVED_COLOR_PALLETES({ state, commit }, userUid) {
       if (userUid === undefined) {
         return Promise.reject("User uid is undefined");
       }
-      const userId = await dispatch("GET_USER_ID", userUid);
       const dataResponse = await fetch(
-        `${state.baseUrlStrapiApi}user-details/${userId}`,
+        `${state.baseUrlStrapiApi}user-detail-info/getColorPallete/${localStorage.getItem("uid")}`,
         {
           method: "GET",
           headers: {
