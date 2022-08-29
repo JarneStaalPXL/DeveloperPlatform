@@ -24,7 +24,7 @@
               </div>
             </div>
 
-            <div class="mt-3 justify-content-end" v-if="tool.promoDescription">
+            <div class="justify-content-end promoContainer" v-if="tool.promoDescription">
               <n-button class="promoBtn" @click="openLink(tool.promoLink)">{{
                   tool.promoDescription
               }}</n-button>
@@ -150,6 +150,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.promoContainer {
+  margin-top: 10px;
+}
 .actionBtns {
   display: flex;
   gap: 5px;
@@ -180,5 +183,23 @@ export default {
 .toolContent {
   display: flex;
   flex-direction: column;
+}
+
+
+@media only screen and (max-width: 890px) {
+  .descriptionContainer {
+    div {
+      margin-bottom: 7px;
+    }
+  }
+
+  .actionBtns {
+    padding-bottom: 20px;
+  }
+
+  .promoContainer {
+    margin-top: -10px;
+    padding-bottom: 20px;
+}
 }
 </style>

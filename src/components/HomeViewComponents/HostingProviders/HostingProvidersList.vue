@@ -217,5 +217,8 @@ export default {
   .actionBtns {
     padding-bottom: 20px;
   }
+  .sortersContainer {
+    flex-direction:column;
+  }
 }
 </style>

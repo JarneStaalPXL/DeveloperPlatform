@@ -101,6 +101,8 @@ import {
   NTag,
   useMessage,
   NSkeleton,
+  useNotification,
+
 } from "naive-ui";
 export default {
   name: "HomeView",
@@ -142,14 +144,26 @@ export default {
 
   mounted() {
     window.$message = useMessage();
+    window.$notification = useNotification();
+
     if (localStorage.getItem("uid") !== null) {
-      window.$message.success("Welcome back " + this.userName() + "!", {
-        duration: 5000,
-      });
+      // window.$message.success("Welcome back " + this.userName() + "!", {
+      //   duration: 5000,
+      // });
+      window.$notification.success({
+      title:"Welcome back " + this.userName() + " !",
+      content:'Feel free to browse the tools and try them out. \nIf you like them, you can add them to your favorites.\n'+
+      "\nDisclaimer: Log in to get the full functionality of the platform.",
+    });
     } else {
-      window.$message.success("Welcome to the Developer Platform", {
-        duration: 5000,
-      });
+      // window.$message.success("Welcome to the Developer Platform", {
+      //   duration: 5000,
+      // });
+      window.$notification.success({
+      title:"Welcome to Developer Platform",
+      content:'Feel free to browse the tools and try them out. \nIf you like them, you can add them to your favorites.\n'+
+      "\nDisclaimer: Log in to get the full functionality of the platform.",
+    });
     }
   },
   methods: {
@@ -419,7 +433,7 @@ a {
 }
 
 .explanationContainer {
-  padding-top: 1em;
+  padding-top: 5%;
   background: linear-gradient(to right, #1ea4e9, #36fd3c);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
