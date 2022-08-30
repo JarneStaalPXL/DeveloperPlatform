@@ -536,7 +536,15 @@ export default createStore({
   },
   actions: {
     async GET_CURRENT_STATUS({ state }) {
-      let response = await fetch(`${state.baseUrlStrapiApi}current-status-info`);
+      let response = await fetch(`${state.baseUrlStrapiApi}current-status-info`, 
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+      });
       let data = await response.json();
       return data;
     },
