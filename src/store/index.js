@@ -536,9 +536,8 @@ export default createStore({
   },
   actions: {
     async GET_CURRENT_STATUS({ commit }) {
-      let response = await fetch("http://localhost:1337/api/current-status-info");
+      let response = await fetch(`${state.baseUrlStrapiApi}current-status-info`);
       let data = await response.json();
-      console.log(data);
       return data;
     },
     async GET_VOTES_DESIGN_ROUTE({ state }, givenRoute) {
