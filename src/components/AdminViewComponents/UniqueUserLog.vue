@@ -33,6 +33,14 @@
     <h5><a @click="$router.push('/gradientgenerators')">Gradient Generators</a> -> <b>{{ routeGradientGenerators }}</b> visits</h5>
     <h5><a @click="$router.push('/colorgenerators')">Color Generators</a> -> <b>{{ routeColorGenerators }}</b> visits</h5>
   </n-card>
+  <n-card title="Homepage Feedback">
+    <h5>
+      Positive Votes: {{ positiveVotes }}
+    </h5>
+    <h5>
+      Negative Votes: {{ negativeVotes }}
+    </h5>
+  </n-card>
 </template>
 
 <script>
@@ -113,6 +121,11 @@ export default {
     );
     this.routeColorGenerators = dt5.routeVisitorsCount;
 
+    //homepage feedback
+    const dt6 = await this.$store.dispatch("GET_VOTES_DESIGN_ROUTE", "Homepage");
+    this.positiveVotes = dt6.positiveVotes;
+    this.negativeVotes = dt6.negativeVotes;
+
     setInterval(async () => {
       //homepage visits
       const dt = await this.$store.dispatch("GET_ROUTE_VISITS", "Homepage");
@@ -152,6 +165,8 @@ export default {
   methods: {},
   data() {
     return {
+      positiveVotes: 0,
+      negativeVotes: 0,
       routeColorGenerators: 0,
       routeGradientGenerators: 0,
       routeVisitsHP: 0,

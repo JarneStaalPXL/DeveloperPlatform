@@ -530,6 +530,19 @@ export default createStore({
     }
   },
   actions: {
+    async GET_VOTES_DESIGN_ROUTE({ state }, givenRoute) {
+      const res = await fetch(`http://localhost:1337/api/design-vote-info/${givenRoute}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          // Authorization: "Bearer " + state.strapiApiKey,
+        },
+      })
+      const resp = await res.json();
+      console.log(resp);
+      return resp.data.attributes;
+    },
     async VOTE_DESIGN_ROUTE({ state,commit }, payload) {
       let givenVoteType = payload.voteType;
       let givenRoute = payload.route;
