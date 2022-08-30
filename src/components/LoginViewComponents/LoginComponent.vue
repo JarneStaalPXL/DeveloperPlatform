@@ -4,8 +4,8 @@
     class="d-flex justify-content-center align-center bg"
     style="height: 100vh"
   >
-    <section class="w-50 m-auto">
-      <div class="d-flex mb-2" style="gap: 10px">
+    <section class="loginSection m-auto">
+      <div class="d-flex mb-2 inputContainer">
         <n-auto-complete
           :options="options"
           type="email"
@@ -19,7 +19,7 @@
           v-model:value="password"
         ></n-input>
       </div>
-      <div class="w-100 d-flex flex-column" style="gap: 10px">
+      <div class="w-100 d-flex flex-column buttonContainer">
         <n-button class="w-100" @click="signIn(email, password)"
           >Sign in</n-button
         ><n-button class="w-100" @click="googleSignin()"
@@ -139,6 +139,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .loginSection {
+    width:50%;
+  }
+  .inputContainer {
+    gap:10px;
+  }
 .bg {
   width: 100%;
   height: 100vh;
@@ -167,4 +173,17 @@ export default {
     background-position: 0% 50%;
   }
 }
+
+ @media only screen and (max-width:750px){
+  .loginSection {
+    width:75%;
+  }
+  .inputContainer {
+    gap:5px;
+    flex-direction: column;
+  }
+  .buttonContainer {
+    gap:5px
+  }
+ }
 </style>

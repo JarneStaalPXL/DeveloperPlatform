@@ -98,8 +98,11 @@
     <n-button @click="$router.push('/')" v-if="$route.path !== '/'"
       >Home</n-button
     >
-    <n-button @click="googleSignin()" v-if="!$store.state.isLoggedIn"
+    <n-button @click="$router.push('/login')" v-if="!$store.state.isLoggedIn && $route.path !== '/login'"
       >Log in</n-button
+    >
+    <n-button @click="$router.push('/register')" v-if="!$store.state.isLoggedIn && $route.path !== '/register'"
+      >Sign up</n-button
     >
     <n-button @click="handleSignout()" v-if="$store.state.isLoggedIn"
       >Log out</n-button
