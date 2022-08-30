@@ -535,7 +535,7 @@ export default createStore({
     }
   },
   actions: {
-    async GET_CURRENT_STATUS({ commit }) {
+    async GET_CURRENT_STATUS({ state }) {
       let response = await fetch(`${state.baseUrlStrapiApi}current-status-info`);
       let data = await response.json();
       return data;
