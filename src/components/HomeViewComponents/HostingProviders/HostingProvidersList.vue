@@ -7,39 +7,60 @@
     <n-grid x-gap="24" y-gap="24" cols="1 680:2 1200:4">
       <n-gi v-for="tool of $store.state.hostingproviders" :key="tool">
         <n-card :title="tool.name" bordered>
-          <template #cover>
-            <div class="cover" :style="{
-              background: 'url(' +
-                (tool.websitePreviewImage
-                  ? tool.websitePreviewImage
-                  : websitePreviewImagePlaceholder) +
-                ')'
-              , backgroundPosition: 'center', backgroundSize: 'cover'
-            }"></div>
-          </template>
-
-          <section class="toolContent">
-            <div class="descriptionContainer" v-if="tool.description">
-              <p>{{ tool.description }}</p>
-              <div>
-                <n-tag type="success" v-if="tool.isRecommended">RECOMMENDED</n-tag>
-                <n-tag type="info" v-if="tool.isUsed">USED BY DEVELOPER PLATFORM</n-tag>
-              </div>
-            </div>
+          <template #footer>
             <div class="titleButtons">
               <div class="actionBtns">
                 <n-button @click="openLink(tool.link)">Open website</n-button>
-                <n-button class="pl-5" @click="addToolToFavorites(tool)" v-if="!tool.isFavorited"><i
-                    :style="{ color: 'white' }" class="fa-solid fa-heart"></i></n-button>
-                <n-button class="pl-5" @click="removeToolFromFavorites(tool)" v-if="tool.isFavorited"><i
-                    :style="{ color: 'red' }" class="fa-solid fa-heart"></i></n-button>
+                <n-button
+                  class="pl-5"
+                  @click="addToolToFavorites(tool)"
+                  v-if="!tool.isFavorited"
+                  ><i :style="{ color: 'white' }" class="fa-solid fa-heart"></i
+                ></n-button>
+                <n-button
+                  class="pl-5"
+                  @click="removeToolFromFavorites(tool)"
+                  v-if="tool.isFavorited"
+                  ><i :style="{ color: 'red' }" class="fa-solid fa-heart"></i
+                ></n-button>
               </div>
             </div>
 
             <div class="mt-3 justify-content-end" v-if="tool.promoDescription">
               <n-button class="promoBtn" @click="openLink(tool.promoLink)">{{
-                  tool.promoDescription
+                tool.promoDescription
               }}</n-button>
+            </div></template
+          >
+          <template #header-extra> <div class="d-flex flex-column ">
+                <n-tag type="success" v-if="tool.isRecommended"
+                  >RECOMMENDED</n-tag
+                >
+                <n-tag type="info" v-if="tool.isUsed">{{
+                  tool.usedDescription
+                }}</n-tag>
+              </div> </template>
+
+          <template #cover>
+            <div
+              class="cover"
+              :style="{
+                background:
+                  'url(' +
+                  (tool.websitePreviewImage
+                    ? tool.websitePreviewImage
+                    : websitePreviewImagePlaceholder) +
+                  ')',
+                backgroundPosition: 'center',
+                backgroundSize: 'cover',
+              }"
+            ></div>
+          </template>
+
+          <section class="toolContent">
+            <div class="descriptionContainer" v-if="tool.description">
+              <p>{{ tool.description }}</p>
+             
             </div>
           </section>
         </n-card>
@@ -49,7 +70,19 @@
 </template>
 
 <script>
-import { NButton, useLoadingBar, useMessage, NSpin, NIcon, NTag, NCard, NGi, NGrid, NConfigProvider, darkTheme } from "naive-ui";
+import {
+  NButton,
+  useLoadingBar,
+  useMessage,
+  NSpin,
+  NIcon,
+  NTag,
+  NCard,
+  NGi,
+  NGrid,
+  NConfigProvider,
+  darkTheme,
+} from "naive-ui";
 export default {
   mounted() {
     window.$loadingbar = useLoadingBar();
@@ -66,7 +99,7 @@ export default {
     NCard,
     NGi,
     NGrid,
-    NConfigProvider
+    NConfigProvider,
   },
   methods: {
     sortRecommended() {
@@ -89,7 +122,9 @@ export default {
         .dispatch("ADD_TOOL_TO_FAVORITES", tool)
         .then(async () => {
           this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
-          window.$message.success('"' + tool.name + '"' + " added to favorites");
+          window.$message.success(
+            '"' + tool.name + '"' + " added to favorites"
+          );
           window.$loadingbar.finish();
         })
         .catch((err) => {
@@ -103,7 +138,9 @@ export default {
         .dispatch("REMOVE_TOOL_FROM_FAVORITES", tool)
         .then(async () => {
           this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
-          window.$message.success('"' + tool.name + '"' + " removed from favorites");
+          window.$message.success(
+            '"' + tool.name + '"' + " removed from favorites"
+          );
           window.$loadingbar.finish();
         })
         .catch((err) => {
@@ -114,9 +151,9 @@ export default {
   },
   setup() {
     return {
-      darkTheme
-    }
-  }
+      darkTheme,
+    };
+  },
 };
 </script>
 
@@ -133,7 +170,7 @@ export default {
   border-radius: 8px;
 }
 
-.n-card-cover>* {
+.n-card-cover > * {
   border-radius: 8px 8px 0 0;
 }
 
@@ -148,12 +185,10 @@ export default {
   height: 100%;
 }
 
-
 .toolContent {
   display: flex;
   flex-direction: column;
 }
-
 
 .sortersContainer {
   display: flex;
@@ -165,6 +200,7 @@ export default {
   div {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 5px;
     margin-bottom: 10px;
   }
@@ -181,7 +217,7 @@ export default {
     padding-bottom: 20px;
   }
   .sortersContainer {
-    flex-direction:column;
+    flex-direction: column;
   }
 }
 </style>

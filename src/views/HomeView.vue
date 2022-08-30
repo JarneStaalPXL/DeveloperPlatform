@@ -99,22 +99,43 @@
     </section>
 
     <section class="mt-5 developmentSection">
+      <h4>
+        {{
+          voted ? "Thank you for voting!" : "Do you like this homepage? Vote!"
+        }}
+      </h4>
+      <div class="p-3 d-flex justify-content-center" :style="{ gap: '5px' }">
+        <n-button @click="voteHomepage('positiveVotes')" :disabled="voted">
+          <template #icon>
+            <n-icon>
+              <ThumbsUp />
+            </n-icon>
+          </template>
+          Yes
+        </n-button>
+
+        <n-button @click="voteHomepage('negativeVotes')" :disabled="voted">
+          <template #icon>
+            <n-icon>
+              <ThumbsDown />
+            </n-icon>
+          </template>
+          No
+        </n-button>
+      </div>
       <h6>
         Developer Platform is a platform where you can favorite all the useful
         tools you want to use. It's continously expanding features and
         possibilities.
       </h6>
-
       <h6>
         Visit our
         <a @click="openLink('https://discord.gg/3nfeEgcYgh')">Discord</a> to
         provide feedback .
       </h6>
-
       <h6 class="mt-5">Current status:</h6>
-      <n-tag type="info">DEVELOPMENT</n-tag>
+      <n-tag type="warning">DATABASE ISSUES.</n-tag>
     </section>
-
     <div class="w-100">
       <component
         :is="'script'"
@@ -138,6 +159,7 @@
 </template>
 
 <script>
+import { ThumbsDown, ThumbsUp } from "@vicons/ionicons5";
 import {
   NCard,
   NConfigProvider,
@@ -146,6 +168,7 @@ import {
   NBadge,
   NCollapse,
   NCollapseItem,
+  NIcon,
   NInput,
   NButton,
   NAutoComplete,
@@ -168,9 +191,13 @@ export default {
     NButton,
     NAutoComplete,
     NSkeleton,
+    NIcon,
+    ThumbsDown,
+    ThumbsUp,
   },
   data() {
     return {
+      voted: false,
       toolSearchString: "",
       toolResults: [],
       hasToolResult: true,
@@ -189,6 +216,7 @@ export default {
   mounted() {
     window.$message = useMessage();
     window.$notification = useNotification();
+    this.checkIfVoted();
 
     if (localStorage.getItem("uid") !== null) {
       // window.$message.success("Welcome back " + this.userName() + "!", {
@@ -204,27 +232,43 @@ export default {
         window.$notification.info({
           title: "Welcome back " + this.userName() + " !",
           content:
-            "Feel free to browse the tools and try them out. \nIf you like them, you can add them to your favorites.\n"
-            ,
-        });       
+            "Feel free to browse the tools and try them out. \nIf you like them, you can add them to your favorites.\n",
+        });
       }
     } else {
-
       if (window.innerWidth < 768) {
         window.$message.success("Welcome to Developer Platform", {
           duration: 5000,
         });
       } else {
         window.$notification.info({
-        title: "Welcome to Developer Platform",
-        content:
-          "Feel free to browse the tools and try them out. \nIf you like them, you can add them to your favorites.\n" +
-          "\nDisclaimer: Log in to get the full functionality of the platform.",
-      });
+          title: "Welcome to Developer Platform",
+          content:
+            "Feel free to browse the tools and try them out. \nIf you like them, you can add them to your favorites.\n" +
+            "\nDisclaimer: Log in to get the full functionality of the platform.",
+        });
       }
     }
   },
   methods: {
+    checkIfVoted() {
+      if (localStorage.getItem("voted") !== null) {
+        if (localStorage.getItem("voted") === "true") {
+          this.voted = true;
+        }
+      }
+    },
+    voteHomepage(value) {
+      localStorage.setItem("voted", true);
+      this.$store.dispatch("VOTE_DESIGN_ROUTE",{
+        voteType: value ,
+        route: "Homepage"
+      });
+      window.$notification.info({
+        title: "Thank you for voting!",
+      });
+      this.checkIfVoted();
+    },
     first5Favorites() {
       if (
         this.$store.state.favoritetools !== undefined &&
@@ -254,7 +298,6 @@ export default {
       }
 
       this.toolResults = optionsArr;
-
       if (this.showAll === false) {
         this.showAll = true;
       } else {
@@ -262,8 +305,8 @@ export default {
       }
     },
     openLink(link) {
-      if(link.includes("https://")) window.open(link, "_blank");
-      else this.$router.push(link); 
+      if (link.includes("https://")) window.open(link, "_blank");
+      else this.$router.push(link);
       this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", link);
       this.$store.dispatch("GET_PAGE_VISITS");
     },
@@ -273,7 +316,6 @@ export default {
         : undefined;
     },
   },
-  computed: {},
 };
 </script>
 

@@ -256,6 +256,9 @@ export default createStore({
         websitePreviewImage: require("../assets/firebase.jpg"),
         textColor: "black",
         type: "hostingprovider",
+        isRecommended: true,
+        isUsed: true,
+        usedDescription: "AUTH & AUTHOR",
       },
       {
         name: "Cloudflare Pages Hosting",
@@ -285,8 +288,6 @@ export default createStore({
         websitePreviewImage: require("../assets/heroku.jpg"),
         type: "hostingprovider",
         textColor: "black",
-        isRecommended: true,
-        isUsed: true,
       },
       {
         name: "Qovery Hosting",
@@ -335,6 +336,7 @@ export default createStore({
         textColor: "black",
         isRecommended: true,
         isUsed: true,
+        usedDescription: "BACKEND & DATABASE",
       },
       {
         name: "Vercel Hosting",
@@ -394,6 +396,7 @@ export default createStore({
         textColor: "black",
         isRecommended: true,
         isUsed: true,
+        usedDescription: "FRONT-END HOSTING",
       },
     ],
     gradientGeneratorsTools: [
@@ -527,6 +530,24 @@ export default createStore({
     }
   },
   actions: {
+    async VOTE_DESIGN_ROUTE({ commit }, payload) {
+      let givenVoteType = payload.voteType;
+      let givenRoute = payload.route;
+      const res = await fetch(`${state.baseUrlStrapiApi}design-vote-info/update-votes`, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+        body: JSON.stringify({
+          data: {
+            route: givenRoute,
+            voteType: givenVoteType
+          }
+        }),
+      })
+    },
     async GET_ROUTE_VISITS({ state,commit }, route) {
       const res = await fetch(`${state.baseUrlStrapiApi}visit-log-count/getRouteVisits/${route}`, {
         method: "GET",

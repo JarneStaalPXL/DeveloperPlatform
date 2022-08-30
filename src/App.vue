@@ -62,6 +62,7 @@
       </h5>
       <n-config-provider :theme="darkTheme" v-else>
         <n-button @click="googleSignin()">Log in</n-button>
+        <n-button @click="$router.push('/register')" v-if="!store.state.isLoggedIn">Sign up</n-button>
       </n-config-provider>
       <section class="timeContainer">
         <div class="clock-border">
@@ -127,11 +128,13 @@ import {
   NTooltip,
   NIcon,
   NDropdown,
+  NInput
 } from "naive-ui";
 export default {
   name: "TemplateDesigner",
   data() {
     return {
+      
       isScrollingDown: false,
       isScrollingUp: false,
       lastScrollY: 0,
@@ -151,8 +154,10 @@ export default {
     NTooltip,
     NIcon,
     NDropdown,
+    NInput
   },
   methods: {
+   
     userName() {
       return localStorage.getItem("userName")
         ? localStorage.getItem("userName")
@@ -280,7 +285,7 @@ export default {
 </script>
 
 <script setup>
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import {  getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
