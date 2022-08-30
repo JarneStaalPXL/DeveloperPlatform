@@ -134,7 +134,7 @@
         provide feedback .
       </h6>
       <h6 class="mt-5">Current status:</h6>
-      <n-tag type="success">IMPLEMENTED EMAIL/PASSWORD SIGN IN/SIGN UP</n-tag>
+      <n-tag :type="currentStatusObj.typeOfStatus">{{currentStatusObj.currentStatus}}</n-tag>
     </section>
    
   </section>
@@ -179,6 +179,10 @@ export default {
   },
   data() {
     return {
+      currentStatusObj : {
+        typeOfStatus: "info",
+        currentStatus: "DEVELOPMENT",
+      },
       voted: false,
       toolSearchString: "",
       toolResults: [],
@@ -199,6 +203,7 @@ export default {
     window.$message = useMessage();
     window.$notification = useNotification();
     this.checkIfVoted();
+    this.getCurrentStatus();
 
     if (localStorage.getItem("uid") !== null) {
       // window.$message.success("Welcome back " + this.userName() + "!", {
@@ -233,6 +238,10 @@ export default {
     }
   },
   methods: {
+    async getCurrentStatus(){
+     let result =  await this.$store.dispatch("GET_CURRENT_STATUS");
+     this.currentStatusObj = result.data.attributes;
+    },
     checkIfVoted() {
       if (localStorage.getItem("voted") !== null) {
         if (localStorage.getItem("voted") === "true") {
