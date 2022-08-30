@@ -530,7 +530,7 @@ export default createStore({
     }
   },
   actions: {
-    async VOTE_DESIGN_ROUTE({ commit }, payload) {
+    async VOTE_DESIGN_ROUTE({ state,commit }, payload) {
       let givenVoteType = payload.voteType;
       let givenRoute = payload.route;
       const res = await fetch(`${state.baseUrlStrapiApi}design-vote-info/update-votes`, {
