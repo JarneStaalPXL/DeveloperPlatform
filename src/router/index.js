@@ -14,6 +14,8 @@ import GlobalFrontendToolsPageView from '@/views/GlobalFrontendToolsPageView'
 import FavoriteToolsPageView from '@/views/FavoriteToolsPageView'
 import NotFoundView from '@/views/NotFoundView'
 import store from "../store";
+import RegisterView from "@/views/RegisterView";
+import LoginView from "@/views/LoginView";
 
 const routes = [
   {
@@ -86,9 +88,14 @@ const routes = [
     component: FavoriteToolsPageView
   },
   {
+    path: "/login",
+    name: "login",
+    component: LoginView,
+  },
+  {
     path: "/register",
     name: "register",
-    component: () => import("@/views/RegisterView.vue"),
+    component: RegisterView
   }
 ];
 

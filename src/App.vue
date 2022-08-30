@@ -25,7 +25,10 @@
     Log in
   </n-tooltip> -->
 
-  <n-tooltip trigger="hover" v-if="$store.state.isLoggedIn && $route.path === '/'">
+  <n-tooltip
+    trigger="hover"
+    v-if="$store.state.isLoggedIn && $route.path === '/'"
+  >
     <template #trigger>
       <a @click="handleSignout()" class="float3">
         <i class="fa-solid fa-right-from-bracket my-float"></i>
@@ -61,8 +64,12 @@
         <a v-else id="adminClickPointer">{{ userName() }}</a>
       </h5>
       <n-config-provider :theme="darkTheme" v-else>
-        <n-button @click="googleSignin()">Log in</n-button>
-        <n-button @click="$router.push('/register')" v-if="!store.state.isLoggedIn">Sign up</n-button>
+        <n-button @click="$router.push('/login')">Log in</n-button>
+        <n-button
+          @click="$router.push('/register')"
+          v-if="!store.state.isLoggedIn"
+          >Sign up</n-button
+        >
       </n-config-provider>
       <section class="timeContainer">
         <div class="clock-border">
@@ -78,13 +85,25 @@
       </section>
     </section>
   </footer>
-  <n-config-provider :theme="darkTheme" v-else class="stickyFooter actionButtonContainer">
-    <n-button @click="$router.push('/favorites')" v-if="$route.path !== '/favorites'"
+  <n-config-provider
+    :theme="darkTheme"
+    v-else
+    class="stickyFooter actionButtonContainer"
+  >
+    <n-button
+      @click="$router.push('/favorites')"
+      v-if="$route.path !== '/favorites'"
       >Favorites</n-button
     >
-    <n-button @click="$router.push('/')" v-if="$route.path !== '/'">Home</n-button>
-    <n-button @click="googleSignin()" v-if="!$store.state.isLoggedIn">Log in</n-button>
-    <n-button @click="handleSignout()" v-if="$store.state.isLoggedIn">Log out</n-button>
+    <n-button @click="$router.push('/')" v-if="$route.path !== '/'"
+      >Home</n-button
+    >
+    <n-button @click="googleSignin()" v-if="!$store.state.isLoggedIn"
+      >Log in</n-button
+    >
+    <n-button @click="handleSignout()" v-if="$store.state.isLoggedIn"
+      >Log out</n-button
+    >
   </n-config-provider>
 
   <div class="content">
@@ -97,10 +116,13 @@
       Go back to homepage
     </n-tooltip> -->
     <n-loading-bar-provider>
-      <n-notification-provider :max="1" :placement="$store.state.notificationPlacement">
+      <n-notification-provider
+        :max="1"
+        :placement="$store.state.notificationPlacement"
+      >
         <n-message-provider>
           <router-view v-slot="{ Component, route }">
-            <transition name="fade" mode="out-in">
+            <transition type="transition" name="fade" mode="out-in">
               <component
                 :style="{ marginBottom: '5rem' }"
                 :is="Component"
@@ -128,13 +150,12 @@ import {
   NTooltip,
   NIcon,
   NDropdown,
-  NInput
+  NInput,
 } from "naive-ui";
 export default {
   name: "TemplateDesigner",
   data() {
     return {
-      
       isScrollingDown: false,
       isScrollingUp: false,
       lastScrollY: 0,
@@ -154,10 +175,9 @@ export default {
     NTooltip,
     NIcon,
     NDropdown,
-    NInput
+    NInput,
   },
   methods: {
-   
     userName() {
       return localStorage.getItem("userName")
         ? localStorage.getItem("userName")
@@ -174,7 +194,10 @@ export default {
       return ("0" + digit).slice(-2);
     },
     async isAdmin() {
-      let isAdmin = await this.$store.dispatch("IS_ADMIN", localStorage.getItem("uid"));
+      let isAdmin = await this.$store.dispatch(
+        "IS_ADMIN",
+        localStorage.getItem("uid")
+      );
       return isAdmin;
     },
     setTime() {
@@ -203,6 +226,40 @@ export default {
           await this.$store.dispatch("CREATE_ACCOUNT", result.user);
           await this.$store.dispatch("GET_PAGE_VISITS");
           await this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
+
+          //show notification
+
+          if (localStorage.getItem("uid") !== null) {
+            // window.$message.success("Welcome back " + this.userName() + "!", {
+            //   duration: 5000,
+            // });
+
+            //check if on mobile
+            if (window.innerWidth < 768) {
+              window.$message.success("Welcome back " + this.userName() + "!", {
+                duration: 5000,
+              });
+            } else {
+              window.$notification.info({
+                title: "Welcome back " + this.userName() + " !",
+                content:
+                  "Feel free to browse the tools and try them out. \nIf you like them, you can add them to your favorites.\n",
+              });
+            }
+          } else {
+            if (window.innerWidth < 768) {
+              window.$message.success("Welcome to Developer Platform", {
+                duration: 5000,
+              });
+            } else {
+              window.$notification.info({
+                title: "Welcome to Developer Platform",
+                content:
+                  "Feel free to browse the tools and try them out. \nIf you like them, you can add them to your favorites.\n" +
+                  "\nDisclaimer: Log in to get the full functionality of the platform.",
+              });
+            }
+          }
         })
         .catch((error) => {
           // Handle Errors here.
@@ -285,7 +342,7 @@ export default {
 </script>
 
 <script setup>
-import {  getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
@@ -310,6 +367,7 @@ const handleSignout = () => {
     store.commit("removeUserData");
     store.commit("setIsAdmin", false);
     router.push("/");
+    window.$notification.destroyAll();
   });
 };
 </script>

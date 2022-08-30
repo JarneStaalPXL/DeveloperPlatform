@@ -134,7 +134,7 @@
         provide feedback .
       </h6>
       <h6 class="mt-5">Current status:</h6>
-      <n-tag type="info">DATABASE ISSUES RESOLVED</n-tag>
+      <n-tag type="success">IMPLEMENTED EMAIL/PASSWORD SIGN IN/SIGN UP</n-tag>
     </section>
    
   </section>

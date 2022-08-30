@@ -473,7 +473,12 @@ export default createStore({
       state.email = userdata.user.email;
       state.userObj = userdata.user.providerData[0];
 
-      localStorage.setItem("userName", state.name);
+      if(state.name === null){
+        localStorage.setItem("userName", state.email.split("@")[0]);
+      }
+      else {
+        localStorage.setItem("userName", state.name);
+      }
       localStorage.setItem("profilePic", state.profilepic);
       localStorage.setItem("email", state.email);
       localStorage.setItem("uid", userdata.user.uid);
@@ -540,7 +545,6 @@ export default createStore({
         },
       })
       const resp = await res.json();
-      console.log(resp);
       return resp.data.attributes;
     },
     async VOTE_DESIGN_ROUTE({ state,commit }, payload) {
