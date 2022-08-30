@@ -531,12 +531,12 @@ export default createStore({
   },
   actions: {
     async GET_VOTES_DESIGN_ROUTE({ state }, givenRoute) {
-      const res = await fetch(`http://localhost:1337/api/design-vote-info/${givenRoute}`, {
+      const res = await fetch(`${state.baseUrlStrapiApi}design-vote-info/${givenRoute}`, {
         method: "GET",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          // Authorization: "Bearer " + state.strapiApiKey,
+          Authorization: "Bearer " + state.strapiApiKey,
         },
       })
       const resp = await res.json();
