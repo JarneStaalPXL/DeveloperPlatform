@@ -425,15 +425,15 @@ export default createStore({
         link: "/colorlightenerdarker",
         css: "background: rgb(166, 164, 222)",
         available: true,
-
-      }, 
+      },
       {
         name: "Color Pallette Generator",
         link: "/colorPalleteGenerator",
-        css: "background: url(http://localhost:8080/img/colorGradient.3642d456.jpg);"+
-        "background-size: 100% 100%;",
-        available: true
-      }
+        css:
+          "background: url(http://localhost:8080/img/colorGradient.3642d456.jpg);" +
+          "background-size: 100% 100%;",
+        available: true,
+      },
     ],
 
     allUserActivities: [],
@@ -473,10 +473,9 @@ export default createStore({
       state.email = userdata.user.email;
       state.userObj = userdata.user.providerData[0];
 
-      if(state.name === null){
+      if (state.name === null) {
         localStorage.setItem("userName", state.email.split("@")[0]);
-      }
-      else {
+      } else {
         localStorage.setItem("userName", state.name);
       }
       localStorage.setItem("profilePic", state.profilepic);
@@ -532,68 +531,79 @@ export default createStore({
     },
     setRecurringVisitorCount(state, payload) {
       state.recurringVisitorCount = payload;
-    }
+    },
   },
   actions: {
     async GET_CURRENT_STATUS({ state }) {
-      let response = await fetch(`${state.baseUrlStrapiApi}current-status-info`, 
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-      });
+      let response = await fetch(
+        `${state.baseUrlStrapiApi}current-status-info`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+        }
+      );
       let data = await response.json();
       return data;
     },
     async GET_VOTES_DESIGN_ROUTE({ state }, givenRoute) {
-      const res = await fetch(`${state.baseUrlStrapiApi}design-vote-info/${givenRoute}`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-      })
+      const res = await fetch(
+        `${state.baseUrlStrapiApi}design-vote-info/${givenRoute}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+        }
+      );
       const resp = await res.json();
       return resp.data.attributes;
     },
-    async VOTE_DESIGN_ROUTE({ state,commit }, payload) {
+    async VOTE_DESIGN_ROUTE({ state, commit }, payload) {
       let givenVoteType = payload.voteType;
       let givenRoute = payload.route;
-      const res = await fetch(`${state.baseUrlStrapiApi}design-vote-info/update-votes`, {
-        method: "PUT",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-        body: JSON.stringify({
-          data: {
-            route: givenRoute,
-            voteType: givenVoteType
-          }
-        }),
-      })
+      const res = await fetch(
+        `${state.baseUrlStrapiApi}design-vote-info/update-votes`,
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+          body: JSON.stringify({
+            data: {
+              route: givenRoute,
+              voteType: givenVoteType,
+            },
+          }),
+        }
+      );
     },
-    async GET_ROUTE_VISITS({ state,commit }, route) {
-      const res = await fetch(`${state.baseUrlStrapiApi}visit-log-count/getRouteVisits/${route}`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${state.strapiApiKey}`,
-        },
-      })
+    async GET_ROUTE_VISITS({ state, commit }, route) {
+      const res = await fetch(
+        `${state.baseUrlStrapiApi}visit-log-count/getRouteVisits/${route}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${state.strapiApiKey}`,
+          },
+        }
+      );
       const response = await res.json();
       return {
         route: response.data.attributes.route,
         routeVisitorsCount: response.data.attributes.routeVisitorsCount,
-      }
+      };
     },
-    async FILL_ALL_TOOLS_ARRAY({ state,commit }) {
+    async FILL_ALL_TOOLS_ARRAY({ state, commit }) {
       let allTools = [];
       for (let tool of state.globalFrontendTools) {
         allTools.push(tool);
@@ -601,10 +611,10 @@ export default createStore({
       for (let tool of state.hostingproviders) {
         allTools.push(tool);
       }
-      for(let tool of state.gradientGeneratorsTools){
+      for (let tool of state.gradientGeneratorsTools) {
         allTools.push(tool);
       }
-      for (let tool of state.colorGeneratorsTools){
+      for (let tool of state.colorGeneratorsTools) {
         allTools.push(tool);
       }
       commit("setAllTools", allTools);
@@ -613,7 +623,9 @@ export default createStore({
       if (localStorage.getItem("uid") !== null) {
         //getting user favorite tools from strapi
         const response = await fetch(
-          `${state.baseUrlStrapiApi}user-data/favorite-tools/${localStorage.getItem("uid")}`,
+          `${
+            state.baseUrlStrapiApi
+          }user-data/favorite-tools/${localStorage.getItem("uid")}`,
           {
             method: "GET",
             headers: {
@@ -624,19 +636,18 @@ export default createStore({
           }
         );
         const res = await response.json();
-        if(res.data.attributes.userFavTools === null){
+        if (res.data.attributes.userFavTools === null) {
           commit("setFavoriteTools", []);
-        }
-        else {
-          commit("setFavoriteTools", res.data.attributes.userFavTools.favoritetools);
+        } else {
+          commit(
+            "setFavoriteTools",
+            res.data.attributes.userFavTools.favoritetools
+          );
         }
 
         if (state.favoritetools !== null) {
           //globalfrontendtools manipulation favorites
-          const gbt = JSON.parse(
-            JSON.stringify(state.globalFrontendTools)
-          );
-
+          const gbt = JSON.parse(JSON.stringify(state.globalFrontendTools));
 
           for (const tool of gbt) {
             tool.isFavorited = state.favoritetools.some(
@@ -743,104 +754,46 @@ export default createStore({
       //get fav tools of user
       let favTools = [];
       //get userid from uid
-      await dispatch("GET_USER_ID", localStorage.getItem("uid"))
-        .then(async (userid) => {
-          if (localStorage.getItem("uid") !== null) {
-            //getting users favorite tools
-            const tools = await fetch(
-              `${state.baseUrlStrapiApi}user-details/${userid}`,
-              {
-                method: "GET",
-                headers: {
-                  Accept: "application/json",
-                  "Content-Type": "application/json",
-                  Authorization: "Bearer " + state.strapiApiKey,
-                },
+      if (localStorage.getItem("uid") !== null) {
+        const tools = await fetch(
+          `${state.baseUrlStrapiApi}user-data/favorite-tools/addToolToFavorites`,
+          {
+            method: "PUT",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + state.strapiApiKey,
+            },
+            body: JSON.stringify({
+              data: {
+                  toolToAdd : tool,
+                  uid: localStorage.getItem("uid"),
               }
-            );
-            const res = await tools.json();
-            favTools = res.data.attributes.favoritetools;
-            if (favTools === null) {
-              const tools = await fetch(
-                `${state.baseUrlStrapiApi}user-details/${userid}`,
-                {
-                  method: "PUT",
-                  headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + state.strapiApiKey,
-                  },
-                  body: JSON.stringify({
-                    data: {
-                      favoritetools: [tool],
-                    },
-                  }),
-                }
-              );
-              commit("setFavoriteTools", [tool]);
-
-              succeeded = true;
-            } else {
-              let array = [];
-              if (
-                (await dispatch("CHECK_TOOL_PRESENT_STRAPI", tool.name)) ===
-                false
-              ) {
-                for (let toole of favTools) {
-                  array.push(toole);
-                }
-                array.push(tool);
-
-                const res = await fetch(
-                  `${state.baseUrlStrapiApi}user-details/${userid}`,
-                  {
-                    method: "PUT",
-                    headers: {
-                      Accept: "application/json",
-                      "Content-Type": "application/json",
-                      Authorization: "Bearer " + state.strapiApiKey,
-                    },
-                    body: JSON.stringify({
-                      data: {
-                        favoritetools: array,
-                      },
-                    }),
-                  }
-                );
-                commit("setFavoriteTools", array);
-
-                succeeded = true;
-              } else {
-                errorText = '"' + tool.name + '"' + " is already in favorites";
-                succeeded = false;
-              }
-            }
-          } else {
-            if (localStorage.getItem("favTools") === null) {
-              localStorage.setItem("favTools", JSON.stringify([]));
-            } else {
-              //check if tool is already in localstorage
-              if (
-                (await dispatch("CHECK_TOOL_PRESENT_LST", tool.name)) === false
-              ) {
-                favTools = localStorage.getItem("favTools");
-                favTools = JSON.parse(favTools);
-                favTools.push(tool);
-                localStorage.setItem("favTools", JSON.stringify(favTools));
-                succeeded = true;
-              } else {
-                errorText = '"' + tool.name + '"' + " is already in favorites";
-                succeeded = false;
-              }
-
-              return succeeded;
-            }
+            }),
           }
-        })
-        .catch((err) => {
-          errorText = err;
-          succeeded = false;
-        });
+        );
+        const res1 = await tools.json();
+        console.log(res1);
+        succeeded = true;
+      } else {
+        if (localStorage.getItem("favTools") === null) {
+          localStorage.setItem("favTools", JSON.stringify([]));
+        } else {
+          //check if tool is already in localstorage
+          if ((await dispatch("CHECK_TOOL_PRESENT_LST", tool.name)) === false) {
+            favTools = localStorage.getItem("favTools");
+            favTools = JSON.parse(favTools);
+            favTools.push(tool);
+            localStorage.setItem("favTools", JSON.stringify(favTools));
+            succeeded = true;
+          } else {
+            errorText = '"' + tool.name + '"' + " is already in favorites";
+            succeeded = false;
+          }
+
+          return succeeded;
+        }
+      }
 
       if (succeeded) {
         return Promise.resolve(true);
@@ -858,7 +811,7 @@ export default createStore({
       }
       return found;
     },
-    async CHECK_TOOL_PRESENT_LST({ }, toolname) {
+    async CHECK_TOOL_PRESENT_LST({}, toolname) {
       let favTools = JSON.parse(localStorage.getItem("favTools"));
       let found = false;
       for (let tol of favTools) {
@@ -871,18 +824,21 @@ export default createStore({
     },
     async REMOVE_ADMIN({ state }, payload) {
       try {
-        const response = await fetch(`${state.baseUrlStrapiApi}admin-info/removeAdmin/${payload}`, {
-          method: "DELETE",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + state.strapiApiKey,
-          },
-        });
+        const response = await fetch(
+          `${state.baseUrlStrapiApi}admin-info/removeAdmin/${payload}`,
+          {
+            method: "DELETE",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + state.strapiApiKey,
+            },
+          }
+        );
         const res = await response.json();
         return Promise.resolve(res.message);
       } catch (err) {
-        return Promise.reject(err)
+        return Promise.reject(err);
       }
     },
     async CREATE_ADMIN({ state, dispatch }, payload) {
@@ -928,14 +884,17 @@ export default createStore({
       return Promise.resolve(data);
     },
     async GET_USER_ACTIVTIES({ state, commit }, payload) {
-      const rawResponse = await fetch(`${state.baseUrlStrapiApi}visit-log-count/visitors/${20}`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-      });
+      const rawResponse = await fetch(
+        `${state.baseUrlStrapiApi}visit-log-count/visitors/${20}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+        }
+      );
       const response = await rawResponse.json();
       let tempArr = [];
       let index;
@@ -1036,7 +995,9 @@ export default createStore({
       //remove colorpallette from strapi
       // const userId = await dispatch("GET_USER_ID", user.id);
       const rawResponse = await fetch(
-        `${state.baseUrlStrapiApi}user-detail-info/setColorPallette/${localStorage.getItem("uid")}`,
+        `${
+          state.baseUrlStrapiApi
+        }user-detail-info/setColorPallette/${localStorage.getItem("uid")}`,
         {
           method: "PUT",
           headers: {
@@ -1062,7 +1023,9 @@ export default createStore({
       }
       //find id of user with useruid
       const rawResponse = await fetch(
-        `${state.baseUrlStrapiApi}user-detail-info/setColorPallette/${localStorage.getItem("uid")}`,
+        `${
+          state.baseUrlStrapiApi
+        }user-detail-info/setColorPallette/${localStorage.getItem("uid")}`,
         {
           method: "PUT",
           headers: {
@@ -1077,19 +1040,22 @@ export default createStore({
       );
     },
     async CREATE_ACCOUNT({ state, dispatch, commit }, user) {
-      const resp = await fetch(`${state.baseUrlStrapiApi}user-detail-info/createUser`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-        body: JSON.stringify({
-          data: {
-            userid: user.uid,
+      const resp = await fetch(
+        `${state.baseUrlStrapiApi}user-detail-info/createUser`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
           },
-        }),
-      })
+          body: JSON.stringify({
+            data: {
+              userid: user.uid,
+            },
+          }),
+        }
+      );
       commit("setUserData", { user: user });
       dispatch("LOAD_USER_SAVED_DATA", user.uid);
     },
@@ -1149,7 +1115,9 @@ export default createStore({
         return Promise.reject("User uid is undefined");
       }
       const dataResponse = await fetch(
-        `${state.baseUrlStrapiApi}user-detail-info/getColorPallete/${localStorage.getItem("uid")}`,
+        `${
+          state.baseUrlStrapiApi
+        }user-detail-info/getColorPallete/${localStorage.getItem("uid")}`,
         {
           method: "GET",
           headers: {
@@ -1166,39 +1134,48 @@ export default createStore({
       dispatch("GET_USER_SAVED_COLOR_PALLETES", uid);
     },
     async GET_PAGE_VISITS({ state, commit, dispatch }) {
-      const rawResponse = await fetch(`${state.baseUrlStrapiApi}visit-log-count`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-      });
+      const rawResponse = await fetch(
+        `${state.baseUrlStrapiApi}visit-log-count`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+        }
+      );
       const response = await rawResponse.json();
       commit("setPageVisits", response.data.attributes.count);
     },
     async IS_ADMIN({ state, commit }, uid) {
-      const rawResponse = await fetch(`${state.baseUrlStrapiApi}admin-info/isadmin/${uid}`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-      });
+      const rawResponse = await fetch(
+        `${state.baseUrlStrapiApi}admin-info/isadmin/${uid}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+        }
+      );
       const admins = await rawResponse.json();
       commit("setIsAdmin", admins.data.attributes.isAdmin);
       return admins.data.attributes.isAdmin;
     },
     async GET_UNIQUE_VISITORS({ state, commit }) {
-      const rawResponse = await fetch(`${state.baseUrlStrapiApi}visit-log-count/uniqueVisitors`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-      });
+      const rawResponse = await fetch(
+        `${state.baseUrlStrapiApi}visit-log-count/uniqueVisitors`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+        }
+      );
       const response = await rawResponse.json();
       commit("setUniqueVisitors", response.data.attributes.uniqueVisitors);
     },

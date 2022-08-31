@@ -22,8 +22,8 @@
       <div class="w-100 d-flex flex-column buttonContainer">
         <n-button class="w-100" @click="signIn(email, password)"
           >Sign in</n-button
-        ><n-button class="w-100" @click="googleSignin()"
-          >Sign in with Google</n-button
+        ><n-button class="w-100 mt-5" @click="googleSignin()"
+          ><span style="margin-right:5px;">Log in with </span> <i class="fa-brands fa-google" style="margin-right:3px;"></i>oogle</n-button
         >
       </div>
     </section>
@@ -139,6 +139,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .buttonContainer{
+    gap:5px
+  }
   .loginSection {
     width:50%;
   }
