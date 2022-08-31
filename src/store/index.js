@@ -636,7 +636,6 @@ export default createStore({
           }
         );
         const res = await response.json();
-        console.log(res);
         if (res.favoritetools === null) {
           commit("setFavoriteTools", []);
         } else {
@@ -693,13 +692,6 @@ export default createStore({
     },
     async REMOVE_TOOL_FROM_FAVORITES({ dispatch, commit, state }, tool) {
       if (localStorage.getItem("uid") !== null) {
-
-        // let userid = await dispatch("GET_USER_ID", localStorage.getItem("uid"));
-        // let newFavTools = JSON.parse(
-        //   JSON.stringify(state.favoritetools)
-        // ).filter((t) => {
-        //   return t.name !== tool.name;
-        // });
         const response = await fetch(
           `${state.baseUrlStrapiApi}user-data/favorite-tools/removeToolFromFavorites`,
           {
@@ -718,9 +710,7 @@ export default createStore({
           }
         );
         const res = await response.json();
-        console.log(res);
         commit("setFavoriteTools", res.favoritetools);
-
         return Promise.resolve(true);
       } else {
         let toolsString = localStorage.getItem("favTools");
@@ -777,7 +767,6 @@ export default createStore({
           }
         );
         const res1 = await tools.json();
-        console.log(res1);
         succeeded = true;
       } else {
         if (localStorage.getItem("favTools") === null) {

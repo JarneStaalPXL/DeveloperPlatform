@@ -240,7 +240,6 @@ export default {
   methods: {
     async getCurrentStatus(){
      let result =  await this.$store.dispatch("GET_CURRENT_STATUS");
-     console.log(result);
      this.currentStatusObj = result.data.attributes;
     },
     checkIfVoted() {
