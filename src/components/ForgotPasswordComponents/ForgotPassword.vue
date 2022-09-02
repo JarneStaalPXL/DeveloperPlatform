@@ -6,13 +6,13 @@
   >
     <section class="loginSection m-auto">
       <div class="d-flex mb-2 inputContainer">
-        <n-auto-complete class="w-75"
+        <n-auto-complete
           :options="options"
           type="email"
           placeholder="Email"
           v-model:value="email"
         ></n-auto-complete>
-    <n-button @click="forgotPassword(email)" class="w-25">Forgot password</n-button>
+    <n-button @click="forgotPassword(email)">Forgot password</n-button>
       </div>
     </section>
   </n-config-provider>
