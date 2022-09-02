@@ -95,23 +95,45 @@ export default {
         });
     },
     signIn(email, password) {
+      if(email === "" || password === null) {
+  
+        window.$message.error("Please fill in all fields");
+        return;
+      }
       window.$loadingbar.start();
       const auth = getAuth();
       signInWithEmailAndPassword(auth, email, password)
         .then(async (userCredential) => {
           const user = userCredential.user;
           window.$message.success("Successfully logged in.");
-          window.$loadingbar.finish();
-          this.$router.push("/");
           await this.$store.dispatch("CREATE_ACCOUNT", user);
           await this.$store.dispatch("GET_PAGE_VISITS");
           await this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
+          window.$loadingbar.finish();
+          this.$router.push("/");
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          window.$message.error(errorMessage);
-          window.$loadingbar.error();
+
+          if(errorCode.includes("user-not-found")){
+            window.$message.error("User is not registered.");
+            window.$loadingbar.error();
+            return;
+          }
+          else if(errorCode.includes("wrong-password")){
+            window.$message.error("Wrong password.");
+            window.$loadingbar.error();
+            return;
+          }
+          else if(errorCode.includes("invalid-email")){
+            window.$message.error("Invalid email.")
+            window.$loadingbar.error();
+          }
+          else  {
+            window.$message.error(errorMessage);
+            window.$loadingbar.error();
+          }
         });
     },
   },
