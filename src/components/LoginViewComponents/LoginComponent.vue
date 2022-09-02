@@ -1,10 +1,11 @@
 <template>
   <n-config-provider
     :theme="darkTheme"
-    class="d-flex justify-content-center align-center bg"
+    class="d-flex flex-column justify-content-center align-center bg"
     style="height: 100vh"
   >
-    <section class="loginSection m-auto">
+  <iframe src="https://embed.lottiefiles.com/animation/90397"></iframe>
+  <section class="loginSection">
       <div class="d-flex mb-2 inputContainer">
         <n-auto-complete
           :options="options"
@@ -169,6 +170,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  svg {
+    width:400px;
+    margin-top:7em;
+    margin-bottom: -10em;;
+  }
 .buttonContainer {
   gap: 5px;
 }

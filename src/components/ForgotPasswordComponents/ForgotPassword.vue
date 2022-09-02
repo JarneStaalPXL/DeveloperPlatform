@@ -57,7 +57,6 @@ export default {
             title: "Password reset email sent",
             content: "Check SPAM if you cannot find it in your inbox.",
           });
-          console.log("Password reset email sent!");
         })
         .catch((error) => {
           const errorCode = error.code;
