@@ -22,8 +22,13 @@
       <div class="w-100 d-flex flex-column buttonContainer">
         <n-button class="w-100" @click="signIn(email, password)"
           >Sign in</n-button
-        ><n-button class="w-100 mt-5" @click="googleSignin()"
-          ><span style="margin-right:5px;">Log in with </span> <i class="fa-brands fa-google" style="margin-right:2px;"></i>oogle</n-button
+        >
+
+        <n-button @click="forgotPassword(email)">Forgot password</n-button>
+        <n-button class="w-100 mt-5" @click="googleSignin()"
+          ><span style="margin-right: 5px">Log in with </span>
+          <i class="fa-brands fa-google" style="margin-right: 2px"></i
+          >oogle</n-button
         >
       </div>
     </section>
@@ -36,6 +41,7 @@ import {
   getAuth,
   GoogleAuthProvider,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
   signInWithPopup,
 } from "firebase/auth";
 import {
@@ -48,6 +54,7 @@ import {
   darkTheme,
   NAutoComplete,
   NConfigProvider,
+  useNotification,
 } from "naive-ui";
 export default {
   components: {
@@ -67,8 +74,29 @@ export default {
   mounted() {
     window.$loadingbar = useLoadingBar();
     window.$message = useMessage();
+    window.$notification = useNotification();
   },
   methods: {
+    async forgotPassword(email) {
+      console.log(email);
+      const auth = getAuth();
+      sendPasswordResetEmail(auth, email)
+        .then(() => {
+          // Password reset email sent!
+          // ..
+          window.$notification.success({
+            title: "Password reset email sent",
+            content: "Check SPAM if you cannot find it in your inbox."
+          })
+          console.log("Password reset email sent!");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorCode, errorMessage);
+          // ..
+        });
+    },
     async googleSignin() {
       const provider = new GoogleAuthProvider();
       const auth = getAuth();
@@ -95,8 +123,7 @@ export default {
         });
     },
     signIn(email, password) {
-      if(email === "" || password === null) {
-  
+      if (email === "" || password === null) {
         window.$message.error("Please fill in all fields");
         return;
       }
@@ -116,21 +143,18 @@ export default {
           const errorCode = error.code;
           const errorMessage = error.message;
 
-          if(errorCode.includes("user-not-found")){
+          if (errorCode.includes("user-not-found")) {
             window.$message.error("User is not registered.");
             window.$loadingbar.error();
             return;
-          }
-          else if(errorCode.includes("wrong-password")){
+          } else if (errorCode.includes("wrong-password")) {
             window.$message.error("Wrong password.");
             window.$loadingbar.error();
             return;
-          }
-          else if(errorCode.includes("invalid-email")){
-            window.$message.error("Invalid email.")
+          } else if (errorCode.includes("invalid-email")) {
+            window.$message.error("Invalid email.");
             window.$loadingbar.error();
-          }
-          else  {
+          } else {
             window.$message.error(errorMessage);
             window.$loadingbar.error();
           }
@@ -164,15 +188,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .buttonContainer{
-    gap:5px
-  }
-  .loginSection {
-    width:50%;
-  }
-  .inputContainer {
-    gap:10px;
-  }
+.buttonContainer {
+  gap: 5px;
+}
+.loginSection {
+  width: 50%;
+}
+.inputContainer {
+  gap: 10px;
+}
 .bg {
   width: 100%;
   height: 100vh;
@@ -202,16 +226,16 @@ export default {
   }
 }
 
- @media only screen and (max-width:750px){
+@media only screen and (max-width: 750px) {
   .loginSection {
-    width:75%;
+    width: 75%;
   }
   .inputContainer {
-    gap:5px;
+    gap: 5px;
     flex-direction: column;
   }
   .buttonContainer {
-    gap:5px
+    gap: 5px;
   }
- }
+}
 </style>
