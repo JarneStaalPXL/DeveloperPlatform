@@ -109,7 +109,7 @@
     </n-tooltip> -->
 
     <n-layout>
-      <n-layout-header :inverted="inverted" bordered>
+      <n-layout-header bordered>
         <!-- <n-button @click="$router.push('/')"
           ><i class="fa-solid fa-house"></i
           ><span style="padding-left: 8px">Home</span></n-button
@@ -144,12 +144,10 @@
           :collapsed-width="64"
           :width="240"
           :native-scrollbar="false"
-          :inverted="inverted"
           style="min-height: 320px"
         >
           <n-menu
             @update:value="openLink"
-            :inverted="inverted"
             :collapsed-width="64"
             :collapsed-icon-size="22"
             :options="categoryOptions"
