@@ -5,6 +5,7 @@
     style="height: 100vh"
   >
     <section class="loginSection">
+      <iframe src="https://embed.lottiefiles.com/animation/38435"></iframe>
       <div class="d-flex mb-2 inputContainer">
         <n-auto-complete
           :options="options"

@@ -15,8 +15,10 @@
     "firebase": "^9.8.4",
     "highlight.js": "^11.5.1",
     "jszip": "^3.10.0",
+    "typewriter-vue": "^0.5.19",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
+    "vue-writer": "^1.2.0",
     "vuex": "^4.0.0"
   },
   "devDependencies": {

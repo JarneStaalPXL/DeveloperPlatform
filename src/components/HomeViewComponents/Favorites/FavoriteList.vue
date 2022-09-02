@@ -176,4 +176,13 @@ export default {
     }
   }
 }
+
+@media only screen and (max-width:750px){
+  .globalFrontendtoolsContainer {
+    .item {
+      min-width: 100%;
+      max-width: 100%;
+    }
+  }
+}
 </style>
