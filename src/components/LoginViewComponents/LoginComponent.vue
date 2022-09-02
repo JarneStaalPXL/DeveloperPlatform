@@ -170,10 +170,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  svg {
-    width:400px;
-    margin-top:7em;
-    margin-bottom: -10em;;
+  iframe {
+    height: 200px;
+    margin-top: -200px;
+    margin-bottom: 70px;
   }
 .buttonContainer {
   gap: 5px;

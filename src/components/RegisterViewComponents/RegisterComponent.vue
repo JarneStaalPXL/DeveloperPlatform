@@ -4,7 +4,7 @@
     class="d-flex justify-content-center align-center bg"
     style="height: 100vh"
   >
-    <section class="loginSection m-auto">
+    <section class="loginSection">
       <div class="d-flex mb-2 inputContainer">
         <n-auto-complete
           :options="options"
