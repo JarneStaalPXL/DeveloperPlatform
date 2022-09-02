@@ -16,6 +16,7 @@ import NotFoundView from '@/views/NotFoundView'
 import store from "../store";
 import RegisterView from "@/views/RegisterView";
 import LoginView from "@/views/LoginView";
+import ForgotPasswordView from "@/views/ForgotPasswordView";
 
 const routes = [
   {
@@ -96,6 +97,11 @@ const routes = [
     path: "/register",
     name: "register",
     component: RegisterView
+  }, 
+  {
+    path: "/forgotpassword",
+    name: "forgotpassword",
+    component: ForgotPasswordView
   }
 ];
 

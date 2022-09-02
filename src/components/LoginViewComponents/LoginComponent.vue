@@ -24,7 +24,7 @@
           >Sign in</n-button
         >
 
-        <n-button @click="forgotPassword(email)">Forgot password</n-button>
+        <n-button @click="$router.push('/forgotpassword')">Forgot password</n-button>
         <n-button class="w-100 mt-5" @click="googleSignin()"
           ><span style="margin-right: 5px">Log in with </span>
           <i class="fa-brands fa-google" style="margin-right: 2px"></i
@@ -77,26 +77,7 @@ export default {
     window.$notification = useNotification();
   },
   methods: {
-    async forgotPassword(email) {
-      console.log(email);
-      const auth = getAuth();
-      sendPasswordResetEmail(auth, email)
-        .then(() => {
-          // Password reset email sent!
-          // ..
-          window.$notification.success({
-            title: "Password reset email sent",
-            content: "Check SPAM if you cannot find it in your inbox."
-          })
-          console.log("Password reset email sent!");
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorCode, errorMessage);
-          // ..
-        });
-    },
+   
     async googleSignin() {
       const provider = new GoogleAuthProvider();
       const auth = getAuth();
