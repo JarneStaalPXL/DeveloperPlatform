@@ -198,7 +198,9 @@ export default {
       darkTheme,
     };
   },
-
+  beforeUnmount(){
+    window.$notification.destroyAll();
+  },
   mounted() {
     window.$message = useMessage();
     window.$notification = useNotification();

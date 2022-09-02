@@ -43,6 +43,9 @@ export default {
     window.$message = useMessage();
     window.$notification = useNotification();
   },
+  beforeUnmount(){
+    window.$notification.destroyAll();
+  },
   methods: {
     async forgotPassword(email) {
       const auth = getAuth();
