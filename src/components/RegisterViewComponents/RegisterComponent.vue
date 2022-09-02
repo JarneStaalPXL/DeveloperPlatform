@@ -23,7 +23,7 @@
         <n-button class="w-100" @click="signUp(email, password)"
           >Sign up</n-button
         ><n-button class="w-100" @click="googleSignin()"
-          >Sign up with Google</n-button
+          ><span style="margin-right:5px;">Sign up with </span> <i class="fa-brands fa-google" style="margin-right:2px;"></i>oogle</n-button
         >
       </div>
     </section>
@@ -143,6 +143,9 @@ export default {
 
 
 <style lang="scss" scoped>
+  .buttonContainer {
+    gap: 5px;
+  }
     .loginSection {
     width:50%;
   }

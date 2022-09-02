@@ -4,7 +4,7 @@
       <n-space vertical>
         <section class="d-flex">
           <n-p class="w-50">Page Size</n-p>
-          <n-input-number class="w-50" :min="0" :max="50" placeholder="Enter pagesize"
+          <n-input-number class="w-50" :min="0" :max="100" placeholder="Enter pagesize"
             v-model:value="pagination.pageSize"></n-input-number>
         </section>
         <n-button v-if="checkedRowKeys.length > 0 && $store.state.allUserActivities.length > 0"

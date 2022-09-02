@@ -23,7 +23,7 @@
         <n-button class="w-100" @click="signIn(email, password)"
           >Sign in</n-button
         ><n-button class="w-100 mt-5" @click="googleSignin()"
-          ><span style="margin-right:5px;">Log in with </span> <i class="fa-brands fa-google" style="margin-right:3px;"></i>oogle</n-button
+          ><span style="margin-right:5px;">Log in with </span> <i class="fa-brands fa-google" style="margin-right:2px;"></i>oogle</n-button
         >
       </div>
     </section>
@@ -64,7 +64,10 @@ export default {
       password: null,
     };
   },
-  mounted() {},
+  mounted() {
+    window.$loadingbar = useLoadingBar();
+    window.$message = useMessage();
+  },
   methods: {
     async googleSignin() {
       const provider = new GoogleAuthProvider();

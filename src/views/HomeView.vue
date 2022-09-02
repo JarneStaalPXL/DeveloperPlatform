@@ -233,7 +233,7 @@ export default {
           content:
             "Feel free to browse the tools and try them out. \nIf you like them, you can add them to your favorites.\n" +
             "\nDisclaimer: Log in to get the full functionality of the platform.",
-        });
+     });
       }
     }
   },

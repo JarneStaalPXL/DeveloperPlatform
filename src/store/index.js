@@ -878,7 +878,7 @@ export default createStore({
     },
     async GET_USER_ACTIVTIES({ state, commit }, payload) {
       const rawResponse = await fetch(
-        `${state.baseUrlStrapiApi}visit-log-count/visitors/${20}`,
+        `${state.baseUrlStrapiApi}visit-log-count/visitors/${50}`,
         {
           method: "GET",
           headers: {
