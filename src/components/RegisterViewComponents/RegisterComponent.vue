@@ -115,8 +115,6 @@ export default {
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          console.log("🚀 ~ file: RegisterComponent.vue ~ line 118 ~ signUp ~ errorMessage", errorMessage)
-          
 
           if(errorCode.includes("invalid-email")){
             window.$message.error("Invalid email.", {
