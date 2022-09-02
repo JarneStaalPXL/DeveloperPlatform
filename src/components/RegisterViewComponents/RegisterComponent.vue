@@ -95,6 +95,11 @@ export default {
         });
     },
     signUp(email, password) {
+      if(email === "" || password === null) {
+  
+  window.$message.error("Please fill in all fields");
+  return;
+}
       window.$loadingbar.start();
       const auth = getAuth();
       createUserWithEmailAndPassword(auth, email, password)
@@ -110,8 +115,33 @@ export default {
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          window.$message.error(errorMessage);
-          window.$loadingbar.error();
+          console.log("🚀 ~ file: RegisterComponent.vue ~ line 118 ~ signUp ~ errorMessage", errorMessage)
+          
+
+          if(errorCode.includes("invalid-email")){
+            window.$message.error("Invalid email.", {
+              duration: 3000
+            })
+            window.$loadingbar.error();
+          }
+          else if(errorCode.includes("email-already-in-use")){
+            window.$message.error("Email already in use.", {
+              duration: 3000
+            })
+            window.$loadingbar.error();
+          }
+          else if(errorCode.includes("weak-password")){
+            window.$message.error(errorMessage.split("Firebase:")[1].split("(")[0], {
+              duration: 5000,
+            });
+            window.$loadingbar.error();
+          }
+          else  {
+            window.$message.error(errorMessage, {
+              duration: 5000
+            });
+            window.$loadingbar.error();
+          }
         });
     },
   },
