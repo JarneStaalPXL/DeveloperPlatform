@@ -32,14 +32,12 @@
               }}</n-button>
             </div></template
           >
-          <template #header-extra> <div class="d-flex flex-column ">
-                <n-tag type="success" v-if="tool.isRecommended"
-                  >RECOMMENDED</n-tag
-                >
-                <n-tag type="info" v-if="tool.isUsed">{{
-                  tool.usedDescription
-                }}</n-tag>
-              </div> </template>
+          <template #header-extra>
+            <div class="d-flex flex-column">
+              <n-tag type="success" v-if="tool.isRecommended">RECOMMENDED</n-tag>
+              <n-tag type="info" v-if="tool.isUsed">{{ tool.usedDescription }}</n-tag>
+            </div>
+          </template>
 
           <template #cover>
             <div
@@ -60,7 +58,6 @@
           <section class="toolContent">
             <div class="descriptionContainer" v-if="tool.description">
               <p>{{ tool.description }}</p>
-             
             </div>
           </section>
         </n-card>
@@ -108,12 +105,10 @@ export default {
     sortUsed() {
       this.$store.dispatch("SORT_HOSTINGPROVIDERS_BY_USED");
     },
-    openLink(url) {
-      if (url === "" || url === undefined) {
-        return;
-      }
-      window.open(url, "_blank");
-      this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", url);
+    openLink(link) {
+      if (link.includes("https://")) window.open(link, "_blank");
+      else this.$router.push(link);
+      this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", link);
       this.$store.dispatch("GET_PAGE_VISITS");
     },
     async addToolToFavorites(tool) {
@@ -122,9 +117,7 @@ export default {
         .dispatch("ADD_TOOL_TO_FAVORITES", tool)
         .then(async () => {
           this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
-          window.$message.success(
-            '"' + tool.name + '"' + " added to favorites"
-          );
+          window.$message.success('"' + tool.name + '"' + " added to favorites");
           window.$loadingbar.finish();
         })
         .catch((err) => {
@@ -138,9 +131,7 @@ export default {
         .dispatch("REMOVE_TOOL_FROM_FAVORITES", tool)
         .then(async () => {
           this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
-          window.$message.success(
-            '"' + tool.name + '"' + " removed from favorites"
-          );
+          window.$message.success('"' + tool.name + '"' + " removed from favorites");
           window.$loadingbar.finish();
         })
         .catch((err) => {

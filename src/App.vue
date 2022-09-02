@@ -25,10 +25,7 @@
     Log in
   </n-tooltip> -->
 
-  <n-tooltip
-    trigger="hover"
-    v-if="$store.state.isLoggedIn && $route.path === '/'"
-  >
+  <!-- <n-tooltip trigger="hover" v-if="$store.state.isLoggedIn && $route.path === '/'">
     <template #trigger>
       <a @click="handleSignout()" class="float3">
         <i class="fa-solid fa-right-from-bracket my-float"></i>
@@ -65,9 +62,7 @@
       </h5>
       <n-config-provider :theme="darkTheme" v-else>
         <n-button @click="$router.push('/login')">Log in</n-button>
-        <n-button
-          @click="$router.push('/register')"
-          v-if="!store.state.isLoggedIn"
+        <n-button @click="$router.push('/register')" v-if="!store.state.isLoggedIn"
           >Sign up</n-button
         >
       </n-config-provider>
@@ -85,29 +80,23 @@
       </section>
     </section>
   </footer>
-  <n-config-provider
-    :theme="darkTheme"
-    v-else
-    class="stickyFooter actionButtonContainer"
-  >
-    <n-button
-      @click="$router.push('/favorites')"
-      v-if="$route.path !== '/favorites'"
+  <n-config-provider :theme="darkTheme" v-else class="stickyFooter actionButtonContainer">
+    <n-button @click="$router.push('/favorites')" v-if="$route.path !== '/favorites'"
       >Favorites</n-button
     >
-    <n-button @click="$router.push('/')" v-if="$route.path !== '/'"
-      >Home</n-button
-    >
-    <n-button @click="$router.push('/login')" v-if="!$store.state.isLoggedIn && $route.path !== '/login'"
+    <n-button @click="$router.push('/')" v-if="$route.path !== '/'">Home</n-button>
+    <n-button
+      @click="$router.push('/login')"
+      v-if="!$store.state.isLoggedIn && $route.path !== '/login'"
       >Log in</n-button
     >
-    <n-button @click="$router.push('/register')" v-if="!$store.state.isLoggedIn && $route.path !== '/register'"
+    <n-button
+      @click="$router.push('/register')"
+      v-if="!$store.state.isLoggedIn && $route.path !== '/register'"
       >Sign up</n-button
     >
-    <n-button @click="handleSignout()" v-if="$store.state.isLoggedIn"
-      >Log out</n-button
-    >
-  </n-config-provider>
+    <n-button @click="handleSignout()" v-if="$store.state.isLoggedIn">Log out</n-button>
+  </n-config-provider> -->
 
   <div class="content">
     <!-- <n-tooltip trigger="hover" v-if="$route.path !== '/'">
@@ -118,28 +107,261 @@
       </template>
       Go back to homepage
     </n-tooltip> -->
-    <n-loading-bar-provider>
-      <n-notification-provider
-        :max="1"
-        :placement="$store.state.notificationPlacement"
-      >
-        <n-message-provider>
-          <router-view v-slot="{ Component, route }">
-            <transition type="transition" name="fade" mode="out-in">
-              <component
-                :style="{ marginBottom: '5rem' }"
-                :is="Component"
-                :key="route.meta.usePathKey ? route.path : undefined"
-              />
-            </transition>
-          </router-view>
-        </n-message-provider>
-      </n-notification-provider>
-    </n-loading-bar-provider>
+
+    <n-layout>
+      <n-layout-header :inverted="inverted" bordered>
+        <!-- <n-button @click="$router.push('/')"
+          ><i class="fa-solid fa-house"></i
+          ><span style="padding-left: 8px">Home</span></n-button
+        >
+        <n-button @click="$router.push('/favorites')"
+          ><i class="fa-solid fa-heart"></i
+          ><span style="padding-left: 8px">Favorites</span></n-button
+        > -->
+        <n-menu mode="horizontal" :options="menuOptions" @update:value="openLink" />
+        <n-button
+          @click="$router.push('/login')"
+          v-if="!$store.state.isLoggedIn && $route.path !== '/login'"
+          >Log in</n-button
+        >
+        <n-button
+          @click="$router.push('/register')"
+          v-if="!$store.state.isLoggedIn && $route.path !== '/register'"
+          >Sign up</n-button
+        >
+        <span v-if="$store.state.name" style="margin-right: 20px"
+          >Welcome {{ $store.state.name }}</span
+        >
+        <n-button @click="handleSignout()" v-if="$store.state.isLoggedIn"
+          >Log out</n-button
+        >
+      </n-layout-header>
+      <n-layout has-sider>
+        <n-layout-sider
+          bordered
+          show-trigger
+          collapse-mode="width"
+          :collapsed-width="64"
+          :width="240"
+          :native-scrollbar="false"
+          :inverted="inverted"
+          style="min-height: 320px"
+        >
+          <n-menu
+            @update:value="openLink"
+            :inverted="inverted"
+            :collapsed-width="64"
+            :collapsed-icon-size="22"
+            :options="categoryOptions"
+          />
+        </n-layout-sider>
+        <n-layout-content>
+          <n-loading-bar-provider>
+            <n-notification-provider
+              :max="1"
+              :placement="$store.state.notificationPlacement"
+            >
+              <n-message-provider>
+                <router-view v-slot="{ Component, route }">
+                  <transition type="transition" name="fade" mode="out-in">
+                    <component
+                      :style="{ marginBottom: '5rem' }"
+                      :is="Component"
+                      :key="route.meta.usePathKey ? route.path : undefined"
+                    />
+                  </transition>
+                </router-view>
+              </n-message-provider>
+            </n-notification-provider>
+          </n-loading-bar-provider>
+        </n-layout-content>
+      </n-layout>
+      <!-- 
+      <n-layout-footer :inverted="inverted" bordered>
+        Footer Footer Footer
+      </n-layout-footer> -->
+    </n-layout>
   </div>
 </template>
 
 <script>
+import { h, defineComponent, ref } from "vue";
+import {
+  BookOutline as BookIcon,
+  PersonOutline as PersonIcon,
+  WineOutline as WineIcon,
+  HomeOutline as HomeIcon,
+  HeartOutline as HeartIcon,
+} from "@vicons/ionicons5";
+
+function renderIcon(icon) {
+  return () => h(NIcon, null, { default: () => h(icon) });
+}
+
+const menuOptions = [
+  {
+    label: "Home",
+    key: "/",
+    icon: renderIcon(HomeIcon),
+  },
+  {
+    label: "Favorites",
+    key: "/favorites",
+    icon: renderIcon(HeartIcon),
+  },
+  // {
+  //   label: "Login",
+  //   key: "/login",
+  //   icon: renderIcon(PersonIcon),
+  // },
+  // {
+  //   label: "Register",
+  //   key: "/register",
+  //   icon: renderIcon(PersonIcon),
+  // },
+  // {
+  //   label: "Favorites",
+  //   key: "Dance Dance Dance",
+  //   icon: renderIcon(BookIcon),
+  //   children: [
+  //     {
+  //       type: "group",
+  //       label: "People",
+  //       key: "people",
+  //       children: [
+  //         {
+  //           label: "Narrator",
+  //           key: "narrator",
+  //           icon: renderIcon(PersonIcon),
+  //         },
+  //         {
+  //           label: "Sheep Man",
+  //           key: "sheep-man",
+  //           icon: renderIcon(PersonIcon),
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       label: "Beverage",
+  //       key: "beverage",
+  //       icon: renderIcon(WineIcon),
+  //       children: [
+  //         {
+  //           label: "Whisky",
+  //           key: "whisky",
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       label: "Food",
+  //       key: "food",
+  //       children: [
+  //         {
+  //           label: "Sandwich",
+  //           key: "sandwich",
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       label: "The past increases. The future recedes.",
+  //       key: "the-past-increases-the-future-recedes",
+  //     },
+  //   ],
+  // },
+];
+
+const categoryOptions = [
+  {
+    label: "Global Frontend Tools",
+    key: "/globalfrontendtools",
+    icon: renderIcon(BookIcon),
+  },
+  {
+    label: "Gradient Generators",
+    key: "/gradientgenerators",
+    icon: renderIcon(BookIcon),
+    children: [
+      {
+        label: "Linear Gradient Generator",
+        key: "/lineargradientgenerator",
+      },
+      {
+        label: "Radial Gradient Generator",
+        key: "/radialgradientgenerator",
+      },
+    ],
+  },
+  {
+    label: "Color Generators",
+    key: "/colorgenerators",
+    icon: renderIcon(BookIcon),
+    children: [
+      {
+        label: "Color Lightener/Darker",
+        key: "/colorlightenerdarker",
+      },
+      {
+        label: "Color Pallete Generator",
+        key: "/colorPalleteGenerator",
+      },
+    ],
+  },
+  {
+    label: "Hosting Providers",
+    key: "/hostingproviders",
+    icon: renderIcon(BookIcon),
+  },
+  // {
+  //   label: "Favorites",
+  //   key: "Dance Dance Dance",
+  //   icon: renderIcon(BookIcon),
+  //   children: [
+  //     {
+  //       type: "group",
+  //       label: "People",
+  //       key: "people",
+  //       children: [
+  //         {
+  //           label: "Narrator",
+  //           key: "narrator",
+  //           icon: renderIcon(PersonIcon),
+  //         },
+  //         {
+  //           label: "Sheep Man",
+  //           key: "sheep-man",
+  //           icon: renderIcon(PersonIcon),
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       label: "Beverage",
+  //       key: "beverage",
+  //       icon: renderIcon(WineIcon),
+  //       children: [
+  //         {
+  //           label: "Whisky",
+  //           key: "whisky",
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       label: "Food",
+  //       key: "food",
+  //       children: [
+  //         {
+  //           label: "Sandwich",
+  //           key: "sandwich",
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       label: "The past increases. The future recedes.",
+  //       key: "the-past-increases-the-future-recedes",
+  //     },
+  //   ],
+  // },
+];
+
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import {
   NButton,
@@ -152,8 +374,15 @@ import {
   NMessageProvider,
   NTooltip,
   NIcon,
+  NLayoutContent,
   NDropdown,
   NInput,
+  NSwitch,
+  NLayout,
+  NLayoutHeader,
+  NLayoutSider,
+  NMenu,
+  NLayoutFooter,
 } from "naive-ui";
 export default {
   name: "TemplateDesigner",
@@ -179,8 +408,21 @@ export default {
     NIcon,
     NDropdown,
     NInput,
+    NSwitch,
+    NLayout,
+    NLayoutHeader,
+    NLayoutSider,
+    NMenu,
+    NLayoutFooter,
+    NLayoutContent,
   },
   methods: {
+    openLink(link) {
+      if (link.includes("https://")) window.open(link, "_blank");
+      else this.$router.push(link);
+      this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", link);
+      this.$store.dispatch("GET_PAGE_VISITS");
+    },
     userName() {
       return localStorage.getItem("userName")
         ? localStorage.getItem("userName")
@@ -197,10 +439,7 @@ export default {
       return ("0" + digit).slice(-2);
     },
     async isAdmin() {
-      let isAdmin = await this.$store.dispatch(
-        "IS_ADMIN",
-        localStorage.getItem("uid")
-      );
+      let isAdmin = await this.$store.dispatch("IS_ADMIN", localStorage.getItem("uid"));
       return isAdmin;
     },
     setTime() {
@@ -316,26 +555,10 @@ export default {
   },
   setup() {
     return {
+      inverted: ref(false),
+      menuOptions,
       darkTheme,
-      options: [
-        {
-          label: "Marina Bay Sands",
-          key: "marina bay sands",
-          disabled: true,
-        },
-        {
-          label: "Brown's Hotel, London",
-          key: "brown's hotel, london",
-        },
-        {
-          label: "Atlantis Bahamas, Nassau",
-          key: "atlantis nahamas, nassau",
-        },
-        {
-          label: "The Beverly Hills Hotel, Los Angeles",
-          key: "the beverly hills hotel, los angeles",
-        },
-      ],
+
       handleSelect(key) {
         console.log(String(key));
       },
@@ -374,6 +597,23 @@ const handleSignout = () => {
   });
 };
 </script>
+
+<style>
+.n-layout-content {
+  height: calc(100vh - 70px);
+}
+*::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+</style>
+
 <style lang="scss">
 // .content {
 //   height: 100vh;

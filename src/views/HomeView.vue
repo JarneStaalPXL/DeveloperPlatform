@@ -3,60 +3,19 @@
     <section class="explanationContainer">
       <h1>Developer Platform</h1>
       <p>Useful tools you can use for your website and design.<br /></p>
+      <n-auto-complete
+        class="autoCompleteInput"
+        :on-update:value="showResultsTools"
+        :input-props="{
+          autocomplete: 'disabled',
+        }"
+        :options="toolResults"
+        placeholder="Search (press space for all tools)"
+        :on-select="openLink"
+      />
     </section>
-    <n-auto-complete
-      class="autoCompleteInput"
-      :on-update:value="showResultsTools"
-      :input-props="{
-        autocomplete: 'disabled',
-      }"
-      :options="toolResults"
-      placeholder="Search (press space for all tools)"
-      :on-select="openLink"
-    />
 
     <section class="toolCategoriesContainer">
-      <section class="categories">
-        <h4>Categories</h4>
-        <section>
-          <div>
-            <n-button @click="$router.push('/globalfrontendtools')"
-              >Global Frontend Tools
-              <n-badge
-                class="ml-1 pl-1 pr-1"
-                :value="$store.state.globalFrontendTools.length"
-                color="grey"
-              />
-            </n-button>
-          </div>
-
-          <div>
-            <n-button @click="$router.push('/gradientgenerators')"
-              >Gradient Generators
-              <n-badge
-                :value="$store.state.gradientGeneratorsTools.length"
-                color="grey"
-              />
-            </n-button>
-          </div>
-          <div>
-            <n-button @click="$router.push('/colorgenerators')"
-              >Color Generators
-              <n-badge :value="2" color="grey" />
-            </n-button>
-          </div>
-          <div>
-            <n-button @click="$router.push('/hostingproviders')"
-              >Hosting Providers
-              <n-badge
-                :value="$store.state.hostingproviders.length"
-                color="grey"
-              />
-            </n-button>
-          </div>
-        </section>
-      </section>
-
       <n-skeleton
         :style="{ margin: 'auto' }"
         height="30px"
@@ -79,13 +38,10 @@
       <section
         class="someFavorites"
         v-if="
-          $store.state.favoritetools !== undefined &&
-          $store.state.favoritetools !== null
+          $store.state.favoritetools !== undefined && $store.state.favoritetools !== null
         "
       >
-        <h4 v-if="$store.state.favoritetools.length > 0">
-          Some of your favorites
-        </h4>
+        <h4 v-if="$store.state.favoritetools.length > 0">Some of your favorites</h4>
         <div class="favorites" v-if="$store.state.favoritetools">
           <n-button
             v-for="tool of first5Favorites()"
@@ -100,9 +56,7 @@
 
     <section class="mt-5 developmentSection">
       <h4>
-        {{
-          voted ? "Thank you for voting!" : "Do you like this homepage? Vote!"
-        }}
+        {{ voted ? "Thank you for voting!" : "Do you like this homepage? Vote!" }}
       </h4>
       <div class="p-3 d-flex justify-content-center" :style="{ gap: '5px' }">
         <n-button @click="voteHomepage('positiveVotes')" :disabled="voted">
@@ -123,20 +77,24 @@
           No
         </n-button>
       </div>
+      <h6 class="mt-5">
+        Developer Platform is a platform where you can favorite all the useful tools you
+        want to use. It's continously expanding features and possibilities.
+      </h6>
       <h6>
-        Developer Platform is a platform where you can favorite all the useful
-        tools you want to use. It's continously expanding features and
-        possibilities.
+        We are currently trying to completely redesign the website. This might cause the
+        mobile version not to be usable yet. We are sorry for these inconveniences
       </h6>
       <h6>
         Visit our
-        <a @click="openLink('https://discord.gg/3nfeEgcYgh')">Discord</a> to
-        provide feedback .
+        <a @click="openLink('https://discord.gg/3nfeEgcYgh')">Discord</a> to provide
+        feedback .
       </h6>
       <h6 class="mt-5">Current status:</h6>
-      <n-tag :type="currentStatusObj.typeOfStatus">{{currentStatusObj.currentStatus}}</n-tag>
+      <n-tag :type="currentStatusObj.typeOfStatus">{{
+        currentStatusObj.currentStatus
+      }}</n-tag>
     </section>
-   
   </section>
 </template>
 
@@ -179,7 +137,7 @@ export default {
   },
   data() {
     return {
-      currentStatusObj : {
+      currentStatusObj: {
         typeOfStatus: "info",
         currentStatus: "DEVELOPMENT",
       },
@@ -198,7 +156,7 @@ export default {
       darkTheme,
     };
   },
-  beforeUnmount(){
+  beforeUnmount() {
     window.$notification.destroyAll();
   },
   mounted() {
@@ -235,14 +193,14 @@ export default {
           content:
             "Feel free to browse the tools and try them out. \nIf you like them, you can add them to your favorites.\n" +
             "\nDisclaimer: Log in to get the full functionality of the platform.",
-     });
+        });
       }
     }
   },
   methods: {
-    async getCurrentStatus(){
-     let result =  await this.$store.dispatch("GET_CURRENT_STATUS");
-     this.currentStatusObj = result.data.attributes;
+    async getCurrentStatus() {
+      let result = await this.$store.dispatch("GET_CURRENT_STATUS");
+      this.currentStatusObj = result.data.attributes;
     },
     checkIfVoted() {
       if (localStorage.getItem("voted") !== null) {
@@ -253,9 +211,9 @@ export default {
     },
     voteHomepage(value) {
       localStorage.setItem("voted", true);
-      this.$store.dispatch("VOTE_DESIGN_ROUTE",{
-        voteType: value ,
-        route: "Homepage"
+      this.$store.dispatch("VOTE_DESIGN_ROUTE", {
+        voteType: value,
+        route: "Homepage",
       });
       window.$notification.info({
         title: "Thank you for voting!",
@@ -527,10 +485,17 @@ a {
 }
 
 .explanationContainer {
+  h1 {
+    font-weight: 600;
+  }
+  h1,
+  p {
+    background: linear-gradient(to right, #1ea4e9, #36fd3c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
   padding-top: 5%;
-  background: linear-gradient(to right, #1ea4e9, #36fd3c);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  // margin-bottom: 100px;
 }
 
 //

@@ -4,34 +4,35 @@
     class="d-flex flex-column justify-content-center align-center bg"
     style="height: 100vh"
   >
-  <!-- <iframe src="https://embed.lottiefiles.com/animation/90397"></iframe> -->
-  <VueWriter id="title"  :array="arr" :typeSpeed="70"  :eraseSpeed="20" :delay="5000" />
-  <section class="loginSection">
+    <!-- <iframe src="https://embed.lottiefiles.com/animation/90397"></iframe> -->
+    <VueWriter id="title" :array="arr" :typeSpeed="70" :eraseSpeed="20" :delay="5000" />
+    <section class="loginSection">
       <div class="d-flex mb-2 inputContainer">
         <n-auto-complete
           :options="options"
           type="email"
           placeholder="Email"
           v-model:value="email"
+          @keyup.enter="signIn(email, password)"
         ></n-auto-complete>
         <n-input
           type="password"
           show-password-on="click"
           placeholder="Password"
           v-model:value="password"
+          @keyup.enter="signIn(email, password)"
         ></n-input>
       </div>
       <div class="w-100 d-flex flex-column buttonContainer">
-        <n-button class="w-100" @click="signIn(email, password)"
-          >Sign in</n-button
-        >
+        <n-button class="w-100" @click="signIn(email, password)">Sign in</n-button>
         <n-button class="w-100" @click="googleSignin()"
           ><span style="margin-right: 5px">Log in with </span>
           <i class="fa-brands fa-google" style="margin-right: 2px"></i
-          >oogle</n-button
-        >
+        ></n-button>
 
-        <a class="mt-4 text-white" @click="$router.push('/forgotpassword')">Forgot password?</a>
+        <a class="mt-4" id="forgotPassword" @click="$router.push('/forgotpassword')"
+          >Forgot password?</a
+        >
       </div>
     </section>
   </n-config-provider>
@@ -71,7 +72,11 @@ export default {
     return {
       //   email: null,
       password: null,
-      arr: ["Sign in to increase your productivity",   'Connect with your favorite tools','Expand your potential.'] 
+      arr: [
+        "Sign in to increase your productivity",
+        "Connect with your favorite tools",
+        "Expand your potential.",
+      ],
     };
   },
   mounted() {
@@ -80,12 +85,13 @@ export default {
     window.$notification = useNotification();
   },
   methods: {
-   
     async googleSignin() {
       const provider = new GoogleAuthProvider();
       const auth = getAuth();
       signInWithPopup(auth, provider)
         .then(async (result) => {
+          this.email = "";
+          this.password = "";
           // This gives you a Google Access Token. You can use it to access the Google API.
           const credential = GoogleAuthProvider.credentialFromResult(result);
           const token = credential.accessToken;
@@ -172,18 +178,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  #title {
-    color:white;
-    margin-bottom:150px;
-    font-size:50px;
-    font-weight:700;
-    margin-top: -200px;
+#forgotPassword {
+  color: white;
+  transition: color 0.2s ease-in-out;
+  &:hover {
+    cursor: pointer;
+    color: lightgray;
   }
-  iframe {
-    height: 200px;
-    margin-top: -200px;
-    margin-bottom: 70px;
-  }
+}
+#title {
+  color: white;
+  margin-bottom: 150px;
+  font-size: 50px;
+  font-weight: 700;
+  margin-top: -200px;
+}
+iframe {
+  height: 200px;
+  margin-top: -200px;
+  margin-bottom: 70px;
+}
 .buttonContainer {
   gap: 5px;
 }
@@ -235,11 +249,11 @@ export default {
   }
 
   #title {
-    font-size:30px;
+    font-size: 30px;
     word-wrap: break-word;
     height: 30px;
-    margin-left:30px;
-    margin-right:30px;
+    margin-left: 30px;
+    margin-right: 30px;
   }
 }
 </style>

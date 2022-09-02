@@ -1,15 +1,26 @@
 <template>
-  <section class="globalFrontendtoolsContainer" v-if="$store.state.favoritetools !== null && $store.state.favoritetools !== undefined &&
-  $store.state.favoritetools.length > 0">
-    <div v-for="tool of $store.state.favoritetools" :key="tool" class="item" :style="{
-      backgroundImage:
-        'url(' +
-        (tool.websitePreviewImage
-          ? tool.websitePreviewImage
-          : websitePreviewImagePlaceholder) +
-        ')',
-      backgroundPosition: tool.websitePreviewImage ? '' : 'center',
-    }">
+  <section
+    class="globalFrontendtoolsContainer"
+    v-if="
+      $store.state.favoritetools !== null &&
+      $store.state.favoritetools !== undefined &&
+      $store.state.favoritetools.length > 0
+    "
+  >
+    <div
+      v-for="tool of $store.state.favoritetools"
+      :key="tool"
+      class="item"
+      :style="{
+        backgroundImage:
+          'url(' +
+          (tool.websitePreviewImage
+            ? tool.websitePreviewImage
+            : websitePreviewImagePlaceholder) +
+          ')',
+        backgroundPosition: tool.websitePreviewImage ? '' : 'center',
+      }"
+    >
       <section>
         <p v-if="tool.name" :style="{ color: tool.textColor ? tool.textColor : 'white' }">
           {{ tool.name }}
@@ -17,9 +28,14 @@
         <div>
           <n-button @click="openLink(tool.link)">Open website</n-button>
 
-          <n-popconfirm @positive-click="removeToolFromFavorites(tool)" @negative-click="abortRemovalTool()">
+          <n-popconfirm
+            @positive-click="removeToolFromFavorites(tool)"
+            @negative-click="abortRemovalTool()"
+          >
             <template #trigger>
-              <n-button class="pl-5"><i :style="{ color: 'red' }" class="fa-solid fa-heart"></i></n-button>
+              <n-button class="pl-5"
+                ><i :style="{ color: 'red' }" class="fa-solid fa-heart"></i
+              ></n-button>
             </template>
             Are you sure you want to remove this tool from your favorites?
           </n-popconfirm>
@@ -31,9 +47,9 @@
     <h6>You haven't added any favorites yet.</h6>
     <h6>
       Currently only
-      <a @click="$router.push('/globalfrontendtools')">Global Frontend Tools</a> and <a
-        @click="$router.push('hostingproviders')">Hosting Providers</a> can be
-      added as favorite.
+      <a @click="$router.push('/globalfrontendtools')">Global Frontend Tools</a> and
+      <a @click="$router.push('hostingproviders')">Hosting Providers</a> can be added as
+      favorite.
     </h6>
   </section>
 </template>
@@ -55,13 +71,10 @@ export default {
     window.$loadingbar = useLoadingBar();
   },
   methods: {
-    openLink(url) {
-      if (url === "" || url === undefined) {
-        return;
-      }
-      window.open(url, "_blank");
-
-      this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", url);
+    openLink(link) {
+      if (link.includes("https://")) window.open(link, "_blank");
+      else this.$router.push(link);
+      this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", link);
       this.$store.dispatch("GET_PAGE_VISITS");
     },
     async removeToolFromFavorites(tool) {
@@ -113,8 +126,8 @@ export default {
   justify-content: space-between;
 
   .item {
-    min-width: 43vw;
-    max-width: 43vw;
+    min-width: 37vw;
+    max-width: 41vw;
   }
 }
 
@@ -177,7 +190,7 @@ export default {
   }
 }
 
-@media only screen and (max-width:750px){
+@media only screen and (max-width: 750px) {
   .globalFrontendtoolsContainer {
     .item {
       min-width: 100%;

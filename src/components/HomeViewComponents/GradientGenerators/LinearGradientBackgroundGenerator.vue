@@ -3,23 +3,44 @@
     <n-space vertical>
       <n-card>
         <header class="d-flex justify-content-between flex-wrap" style="gap: 50px">
-          <n-card title="Random Gradient Generator" style="width: 33%" class="naiveUICard">
+          <n-card
+            title="Random Gradient Generator"
+            style="width: 33%"
+            class="naiveUICard"
+          >
             <n-space vertical>
               <div class="d-flex flex-column justify-content-end">
                 <n-space vertical>
-                  <n-input-number id="amountInput" class="w-100 m-auto" v-model:value="amountBG" clearable
-                    placeholder="Amount" min="1" :value="amountBG" max="50" />
-                  <n-button id="getBGBtn" class="w-100" @click="this.GetGeneratedGradientBackgrounds(amountBG)">Generate
-                    gradients</n-button>
+                  <n-input-number
+                    id="amountInput"
+                    class="w-100 m-auto"
+                    v-model:value="amountBG"
+                    clearable
+                    placeholder="Amount"
+                    min="1"
+                    :value="amountBG"
+                    max="50"
+                  />
+                  <n-button
+                    id="getBGBtn"
+                    class="w-100"
+                    @click="this.GetGeneratedGradientBackgrounds(amountBG)"
+                    >Generate gradients</n-button
+                  >
                   <n-spin size="small" :show="downloadingGradients">
-                    <n-popconfirm @positive-click="this.downloadAllShownGradients()"
-                      @negative-click="this.abortedDownloadGradients()" positive-text="Download">
+                    <n-popconfirm
+                      @positive-click="this.downloadAllShownGradients()"
+                      @negative-click="this.abortedDownloadGradients()"
+                      positive-text="Download"
+                    >
                       <template #trigger>
                         <n-button class="w-100">
                           {{
-                              currentFileAmountZipped <= 0 ? "Download " + generatedGradientBGS.length + " gradients"
-                                : "Downloaded " + currentFileAmountZipped + " gradients"
-                          }} </n-button>
+                            currentFileAmountZipped <= 0
+                              ? "Download " + generatedGradientBGS.length + " gradients"
+                              : "Downloaded " + currentFileAmountZipped + " gradients"
+                          }}
+                        </n-button>
                       </template>
 
                       Are you sure you want to download
@@ -27,9 +48,9 @@
                       {{ windowWidth > 560 ? "in 4K resolution" : "" }}?<br />
                       Size will be maximum of
                       {{
-                          windowWidth > 550
-                            ? 2 * amountBG + "MB"
-                            : convertKilobytesToMegabytes(amountBG * 150) + "MB"
+                        windowWidth > 550
+                          ? 2 * amountBG + "MB"
+                          : convertKilobytesToMegabytes(amountBG * 150) + "MB"
                       }}
                     </n-popconfirm>
                   </n-spin>
@@ -40,16 +61,32 @@
 
           <n-card title="Gradient Creator" style="width: 33%" class="naiveUICard">
             <n-space vertical>
-              <n-color-picker :modes="['hex']" v-model:value="selectedFirstColor" :show-alpha="false" />
-              <n-color-picker :modes="['hex']" v-model:value="selectedSecondColor" :show-alpha="false" />
+              <n-color-picker
+                :modes="['hex']"
+                v-model:value="selectedFirstColor"
+                :show-alpha="false"
+              />
+              <n-color-picker
+                :modes="['hex']"
+                v-model:value="selectedSecondColor"
+                :show-alpha="false"
+              />
 
-              <n-button id="getBGBtn" class="w-100" @click="this.GetGeneratedGradientBackgroundsFromSelectedColor()">
-                Generate gradient</n-button>
+              <n-button
+                id="getBGBtn"
+                class="w-100"
+                @click="this.GetGeneratedGradientBackgroundsFromSelectedColor()"
+              >
+                Generate gradient</n-button
+              >
             </n-space>
           </n-card>
           <n-card title="Positioning" style="width: 22%" class="naiveUICard">
-            <n-select v-if="gradientLayout.includes('linear')" v-model:value="gradientPositioning"
-              placeholder="position" :options="[
+            <n-select
+              v-if="gradientLayout.includes('linear')"
+              v-model:value="gradientPositioning"
+              placeholder="position"
+              :options="[
                 {
                   label: 'to right',
                   value: 'to right',
@@ -82,7 +119,8 @@
                   label: 'to bottom left',
                   value: 'to bottom left',
                 },
-              ]">
+              ]"
+            >
             </n-select>
           </n-card>
         </header>
@@ -91,8 +129,12 @@
         <n-card v-if="generatedGradientBGS.length > 0" class="naiveUICard mt-3">
           <!--Generated backgrounds (gradients)-->
           <div id="generatedBGContainer" class="w-100">
-            <button @click="setSelectedGradient(item)" v-for="item of generatedGradientBGS" class="gradientBox"
-              :key="item" :style="
+            <button
+              @click="setSelectedGradient(item)"
+              v-for="item of generatedGradientBGS"
+              class="gradientBox"
+              :key="item"
+              :style="
                 'background: ' +
                 gradientLayout +
                 '-gradient(' +
@@ -102,15 +144,19 @@
                 ',' +
                 item.color2 +
                 ')'
-              "></button>
+              "
+            ></button>
           </div>
         </n-card>
       </n-card>
       <n-drawer v-model:show="drawerActive" :width="'95vw'">
         <n-drawer-content closable>
           <n-scrollbar style="max-height: 100%">
-            <section v-if="selectedGradient !== null" class="d-flex flex-column justify-content-between"
-              id="resultContainer">
+            <section
+              v-if="selectedGradient !== null"
+              class="d-flex flex-column justify-content-between"
+              id="resultContainer"
+            >
               <div class="typographyContainer">
                 <div>
                   <div>
@@ -144,30 +190,40 @@
                 </div>
               </div>
 
-              <div class="resultGradientBox" :style="
-                'background: ' +
-                gradientLayout +
-                '-gradient(' +
-                gradientPositioning +
-                ',' +
-                selectedGradient.color1 +
-                ',' +
-                selectedGradient.color2 +
-                ')'
-              ">
+              <div
+                class="resultGradientBox"
+                :style="
+                  'background: ' +
+                  gradientLayout +
+                  '-gradient(' +
+                  gradientPositioning +
+                  ',' +
+                  selectedGradient.color1 +
+                  ',' +
+                  selectedGradient.color2 +
+                  ')'
+                "
+              >
                 <h1 id="result"></h1>
                 <img src="" />
               </div>
             </section>
           </n-scrollbar>
-          <template #header :style="{
-            display: 'block !important',
-          }">
+          <template
+            #header
+            :style="{
+              display: 'block !important',
+            }"
+          >
             <div class="d-flex justify-content-between w-100">
               <div class="d-flex" style="gap: 20px">
                 <p class="m-auto">Position</p>
-                <n-select id="drawerPositioningSelect" v-if="gradientLayout.includes('linear')"
-                  v-model:value="gradientPositioning" placeholder="position" :options="[
+                <n-select
+                  id="drawerPositioningSelect"
+                  v-if="gradientLayout.includes('linear')"
+                  v-model:value="gradientPositioning"
+                  placeholder="position"
+                  :options="[
                     {
                       label: 'to right',
                       value: 'to right',
@@ -200,32 +256,47 @@
                       label: 'to bottom left',
                       value: 'to bottom left',
                     },
-                  ]">
+                  ]"
+                >
                 </n-select>
               </div>
             </div>
           </template>
 
           <template #footer>
-            <div class="d-flex w-100 justify-content-center align-items-center" style="gap: 10px">
-              <n-popconfirm v-model:show="copyCSSPopShow" :show-icon="false" positive-text="Background gradient"
-                negative-text="Text gradient">
+            <div
+              class="d-flex w-100 justify-content-center align-items-center"
+              style="gap: 10px"
+            >
+              <n-popconfirm
+                v-model:show="copyCSSPopShow"
+                :show-icon="false"
+                positive-text="Background gradient"
+                negative-text="Text gradient"
+              >
                 <template #action>
-                  <n-button type="success" @click="copyToClipboard(getGradientCSSForText())">Text Gradient
+                  <n-button
+                    type="success"
+                    @click="copyToClipboard(getGradientCSSForText())"
+                    >Text Gradient
                   </n-button>
-                  <n-button type="success" @click="
-                    copyToClipboard(
-                      'background: ' +
-                      gradientLayout +
-                      '-gradient(' +
-                      gradientPositioning +
-                      ',' +
-                      selectedGradient.color1 +
-                      ',' +
-                      selectedGradient.color2 +
-                      ')'
-                    )
-                  ">Background Gradient</n-button>
+                  <n-button
+                    type="success"
+                    @click="
+                      copyToClipboard(
+                        'background: ' +
+                          gradientLayout +
+                          '-gradient(' +
+                          gradientPositioning +
+                          ',' +
+                          selectedGradient.color1 +
+                          ',' +
+                          selectedGradient.color2 +
+                          ')'
+                      )
+                    "
+                    >Background Gradient</n-button
+                  >
                 </template>
                 <template #trigger>
                   <n-button class="w-50">Copy CSS</n-button>
@@ -655,18 +726,5 @@ nav {
 
 .n-card-cover {
   height: 500px;
-}
-</style>
-
-<style>
-*::-webkit-scrollbar {
-  display: none;
-}
-
-* {
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
 }
 </style>
