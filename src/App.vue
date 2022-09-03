@@ -200,6 +200,13 @@ import {
 import {
   World as WorldIcon,
 } from "@vicons/tabler";
+import {
+  Gradient as GradientIcon,
+  CloudApp as HostingIcon
+} from "@vicons/carbon";
+import {
+  Color24Regular as ColorIcon,
+} from "@vicons/fluent";
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -286,7 +293,7 @@ const categoryOptions = [
   {
     label: "Gradient Generators",
     key: "/gradientgenerators",
-    icon: renderIcon(BookIcon),
+    icon: renderIcon(GradientIcon),
     children: [
       {
         label: "Linear Gradient Generator",
@@ -301,7 +308,7 @@ const categoryOptions = [
   {
     label: "Color Generators",
     key: "/colorgenerators",
-    icon: renderIcon(BookIcon),
+    icon: renderIcon(ColorIcon),
     children: [
       {
         label: "Color Lightener/Darker",
@@ -316,7 +323,7 @@ const categoryOptions = [
   {
     label: "Hosting Providers",
     key: "/hostingproviders",
-    icon: renderIcon(BookIcon),
+    icon: renderIcon(HostingIcon),
   },
   // {
   //   label: "Favorites",

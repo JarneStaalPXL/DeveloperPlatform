@@ -22,6 +22,8 @@
     "vuex": "^4.0.0"
   },
   "devDependencies": {
+    "@vicons/carbon": "^0.12.0",
+    "@vicons/fluent": "^0.12.0",
     "@vicons/ionicons5": "^0.12.0",
     "@vicons/tabler": "^0.12.0",
     "@vue/cli-plugin-babel": "~5.0.0",

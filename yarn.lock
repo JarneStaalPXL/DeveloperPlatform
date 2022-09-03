@@ -1725,6 +1725,16 @@
   dependencies:
     "@types/node" "*"
 
+"@vicons/carbon@^0.12.0":
+  "integrity" "sha512-kCOgr/ZOhZzoiFLJ8pwxMa2TMxrkCUOA22qExPabus35F4+USqzcsxaPoYtqRd9ROOYiHrSqwapak/ywF0D9bg=="
+  "resolved" "https://registry.npmjs.org/@vicons/carbon/-/carbon-0.12.0.tgz"
+  "version" "0.12.0"
+
+"@vicons/fluent@^0.12.0":
+  "integrity" "sha512-ATCiqPuiJ6RI5GBlD3BIpZ9Xw4MsCA4RpI5oR6MCti4quS4mX1Gp6N74FCzw7lgOj+80rV4HMKhZTVInwimpVQ=="
+  "resolved" "https://registry.npmjs.org/@vicons/fluent/-/fluent-0.12.0.tgz"
+  "version" "0.12.0"
+
 "@vicons/ionicons5@^0.12.0":
   "integrity" "sha512-Iy1EUVRpX0WWxeu1VIReR1zsZLMc4fqpt223czR+Rpnrwu7pt46nbnC2ycO7ItI/uqDLJxnbcMC7FujKs9IfFA=="
   "resolved" "https://registry.npmjs.org/@vicons/ionicons5/-/ionicons5-0.12.0.tgz"

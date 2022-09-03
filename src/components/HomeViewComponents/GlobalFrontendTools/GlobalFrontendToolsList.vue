@@ -32,7 +32,7 @@
                   class="pl-5"
                   @click="removeToolFromFavorites(tool)"
                   v-if="tool.isFavorited"
-                  ><i :style="{ color: 'red' }" class="fa-solid fa-heart"></i
+                  ><i :style="{ color: '#7FE7C4' }" class="fa-solid fa-heart"></i
                 ></n-button>
               </div>
             </div>
