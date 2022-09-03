@@ -26,7 +26,7 @@
                   class="pl-5"
                   @click="addToolToFavorites(tool)"
                   v-if="!tool.isFavorited"
-                  ><i :style="{ color: 'white' }" class="fa-solid fa-heart"></i
+                  ><i  class="fa-solid fa-heart"></i
                 ></n-button>
                 <n-button
                   class="pl-5"

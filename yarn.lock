@@ -1730,6 +1730,11 @@
   "resolved" "https://registry.npmjs.org/@vicons/ionicons5/-/ionicons5-0.12.0.tgz"
   "version" "0.12.0"
 
+"@vicons/tabler@^0.12.0":
+  "integrity" "sha512-3+wUFuxb7e8OzZ8Wryct1pzfA2vyoF4lwW98O9s27ZrfCGaJGNmqG+q8A7vQ92Mf+COCgxpK+rhNPTtTvaU6qw=="
+  "resolved" "https://registry.npmjs.org/@vicons/tabler/-/tabler-0.12.0.tgz"
+  "version" "0.12.0"
+
 "@vue/babel-helper-vue-jsx-merge-props@^1.2.1":
   "integrity" "sha512-QOi5OW45e2R20VygMSNhyQHvpdUwQZqGPc748JLGCYEy+yp8fNFNdbNIGAgZmi9e+2JHPd6i6idRuqivyicIkA=="
   "resolved" "https://registry.npmjs.org/@vue/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-1.2.1.tgz"

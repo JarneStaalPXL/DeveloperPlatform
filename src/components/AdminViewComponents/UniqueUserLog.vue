@@ -27,19 +27,34 @@
     </h5>
   </n-card>
   <n-card title="Visits Overview">
-    <h5><a @click="$router.push('/')">Homepage</a> -> <b>{{ routeVisitsHomepage }}</b> visits</h5>
-    <h5><a @click="$router.push('/hostingproviders')">Hosting Providers</a> -> <b>{{ routeVisitsHP }}</b> visits</h5>
-    <h5><a @click="$router.push('/globalfrontendtools')">Global Frontend Tools</a> -> <b>{{ routeVisitsGft }}</b> visits</h5>
-    <h5><a @click="$router.push('/gradientgenerators')">Gradient Generators</a> -> <b>{{ routeGradientGenerators }}</b> visits</h5>
-    <h5><a @click="$router.push('/colorgenerators')">Color Generators</a> -> <b>{{ routeColorGenerators }}</b> visits</h5>
+    <h5 v-for="webpage of visitsOverViewArr" :key="webpage">
+      <a @click="$router.push(webpage.path)">{{webpage.route}}</a> ->
+      <b>{{ webpage.visits }}</b> visits
+    </h5>
+    <!-- <h5>
+      <a @click="$router.push('/')">Homepage</a> ->
+      <b>{{ routeVisitsHomepage }}</b> visits
+    </h5>
+    <h5>
+      <a @click="$router.push('/hostingproviders')">Hosting Providers</a> ->
+      <b>{{ routeVisitsHP }}</b> visits
+    </h5>
+    <h5>
+      <a @click="$router.push('/globalfrontendtools')">Global Frontend Tools</a>
+      -> <b>{{ routeVisitsGft }}</b> visits
+    </h5>
+    <h5>
+      <a @click="$router.push('/gradientgenerators')">Gradient Generators</a> ->
+      <b>{{ routeGradientGenerators }}</b> visits
+    </h5>
+    <h5>
+      <a @click="$router.push('/colorgenerators')">Color Generators</a> ->
+      <b>{{ routeColorGenerators }}</b> visits
+    </h5> -->
   </n-card>
   <n-card title="Homepage Feedback">
-    <h5>
-      Positive Votes: {{ positiveVotes }}
-    </h5>
-    <h5>
-      Negative Votes: {{ negativeVotes }}
-    </h5>
+    <h5>Positive Votes: {{ positiveVotes }}</h5>
+    <h5>Negative Votes: {{ negativeVotes }}</h5>
   </n-card>
 </template>
 
@@ -57,6 +72,7 @@ import {
   useLoadingBar,
 } from "naive-ui";
 import { h, ref } from "vue";
+import { beforeMount } from 'vue-writer';
 
 const columns = [
   {
@@ -81,9 +97,8 @@ export default {
     NSpace,
     NTag,
   },
-  async mounted() {
-    window.$loadingbar = useLoadingBar();
-
+  async beforeMount(){
+    
     //get unique visitors
     this.$store.dispatch("GET_UNIQUE_VISITORS");
 
@@ -91,8 +106,8 @@ export default {
     const dt = await this.$store.dispatch("GET_ROUTE_VISITS", "Homepage");
     this.routeVisitsHomepage = dt.routeVisitorsCount;
 
-        //hosting providers visits
-        const dt3 = await this.$store.dispatch(
+    //hosting providers visits
+    const dt3 = await this.$store.dispatch(
       "GET_ROUTE_VISITS",
       "hostingproviders"
     );
@@ -104,8 +119,6 @@ export default {
       "globalfrontendtools"
     );
     this.routeVisitsGft = dt2.routeVisitorsCount;
-
-
 
     //gradient generators visits
     const dt4 = await this.$store.dispatch(
@@ -122,9 +135,46 @@ export default {
     this.routeColorGenerators = dt5.routeVisitorsCount;
 
     //homepage feedback
-    const dt6 = await this.$store.dispatch("GET_VOTES_DESIGN_ROUTE", "Homepage");
+    const dt6 = await this.$store.dispatch(
+      "GET_VOTES_DESIGN_ROUTE",
+      "Homepage"
+    );
     this.positiveVotes = dt6.positiveVotes;
     this.negativeVotes = dt6.negativeVotes;
+
+    this.visitsOverViewArr.push(
+      {
+        route: "Homepage",
+        visits: this.routeVisitsHomepage,
+        path: "/",
+      },
+      {
+        route: "Hosting Providers",
+        visits: this.routeVisitsHP,
+        path: "/hostingproviders",
+      },
+      {
+        route: "Global Frontend Tools",
+        visits: this.routeVisitsGft,
+        path: "/globalfrontendtools",
+      },
+      {
+        route: "Gradient Generators",
+        visits: this.routeGradientGenerators,
+        path: "/gradientgenerators",
+      },
+      {
+        route: "Color Generators",
+        visits: this.routeColorGenerators,
+        path: "/colorgenerators",
+      }
+    );
+
+    //rank visits overview
+    this.visitsOverViewArr.sort((a, b) => b.visits - a.visits);
+  },
+  async mounted() {
+    window.$loadingbar = useLoadingBar();
 
     setInterval(async () => {
       //homepage visits
@@ -159,12 +209,31 @@ export default {
       );
       this.routeColorGenerators = dt5.routeVisitorsCount;
 
+      
+      //set all the visits of the objects to the new values
+      this.visitsOverViewArr.forEach((obj) => {
+        if (obj.route === "Homepage") {
+          obj.visits = this.routeVisitsHomepage;
+        } else if (obj.route === "Global Frontend Tools") {
+          obj.visits = this.routeVisitsGft;
+        } else if (obj.route === "Hosting Providers") {
+          obj.visits = this.routeVisitsHP;
+        } else if (obj.route === "Gradient Generators") {
+          obj.visits = this.routeGradientGenerators;
+        } else if (obj.route === "Color Generators") {
+          obj.visits = this.routeColorGenerators;
+        }
+      });
+      //rank visits overview
+      this.visitsOverViewArr.sort((a, b) => b.visits - a.visits);
+
       this.$store.dispatch("GET_UNIQUE_VISITORS");
     }, 5000);
   },
   methods: {},
   data() {
     return {
+      visitsOverViewArr: [],
       positiveVotes: 0,
       negativeVotes: 0,
       routeColorGenerators: 0,

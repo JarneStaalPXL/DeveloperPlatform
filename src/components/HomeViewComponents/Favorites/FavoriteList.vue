@@ -1,49 +1,4 @@
 <template>
-  <!-- <section
-    class="globalFrontendtoolsContainer"
-    v-if="
-      $store.state.favoritetools !== null &&
-      $store.state.favoritetools !== undefined &&
-      $store.state.favoritetools.length > 0
-    "
-  >
-    <div
-      v-for="tool of $store.state.favoritetools"
-      :key="tool"
-      class="item"
-      :style="{
-        backgroundImage:
-          'url(' +
-          (tool.websitePreviewImage
-            ? tool.websitePreviewImage
-            : websitePreviewImagePlaceholder) +
-          ')',
-        backgroundPosition: tool.websitePreviewImage ? '' : 'center',
-      }"
-    >
-      <section>
-        <p v-if="tool.name" :style="{ color: tool.textColor ? tool.textColor : 'white' }">
-          {{ tool.name }}
-        </p>
-        <div>
-          <n-button @click="openLink(tool.link)">Open website</n-button>
-
-          <n-popconfirm
-            @positive-click="removeToolFromFavorites(tool)"
-            @negative-click="abortRemovalTool()"
-          >
-            <template #trigger>
-              <n-button class="pl-5"
-                ><i :style="{ color: 'red' }" class="fa-solid fa-heart"></i
-              ></n-button>
-            </template>
-            Are you sure you want to remove this tool from your favorites?
-          </n-popconfirm>
-        </div>
-      </section>
-    </div>
-  </section> -->
-
   <n-config-provider   v-if="
       $store.state.favoritetools !== null &&
       $store.state.favoritetools !== undefined &&
@@ -171,6 +126,7 @@ export default {
 <style lang="scss" scoped>
   
 .noFavorites {
+  height:87vh;
   img {
     max-width:30%;
     margin-top:20px;

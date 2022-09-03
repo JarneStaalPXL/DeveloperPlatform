@@ -108,7 +108,7 @@
       Go back to homepage
     </n-tooltip> -->
 
-<n-config-provider :theme="$store.state.colorMode === 'light' ? null : darkTheme">
+<n-config-provider :theme="$store.state.colorMode === 'Light' ? null : darkTheme">
   <n-layout>
       <n-layout-header bordered>
         <!-- <n-button @click="$router.push('/')"
@@ -136,7 +136,7 @@
         <n-button @click="handleSignout()" v-if="$store.state.isLoggedIn"
           >Log out</n-button
         >
-        <n-switch :style="{marginLeft:'50px'}" :round="false"  :default-value="true" @update:value="handleColorChange" />
+        <n-switch :style="{marginLeft:'50px'}" v-model:value="switchIsChecked" :round="false"  :default-value="colorCheck()" @update:value="handleColorChange" />
         <span :style="{marginLeft:'20px'}">{{$store.state.colorMode}}</span>
         
       </n-layout-header>
@@ -197,6 +197,9 @@ import {
   HomeOutline as HomeIcon,
   HeartOutline as HeartIcon,
 } from "@vicons/ionicons5";
+import {
+  World as WorldIcon,
+} from "@vicons/tabler";
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -278,7 +281,7 @@ const categoryOptions = [
   {
     label: "Global Frontend Tools",
     key: "/globalfrontendtools",
-    icon: renderIcon(BookIcon),
+    icon: renderIcon(WorldIcon),
   },
   {
     label: "Gradient Generators",
@@ -393,6 +396,7 @@ export default {
   name: "TemplateDesigner",
   data() {
     return {
+      switchIsChecked: false,
       isScrollingDown: false,
       isScrollingUp: false,
       lastScrollY: 0,
@@ -423,12 +427,26 @@ export default {
     NP
   },
   methods: {
+    colorCheck(){
+      if(this.$store.state.colorMode.includes('Dark')){
+        this.switchIsChecked = true;
+        return true;
+      }
+     
+      if(this.$store.state.colorMode.includes('Light')){
+        this.switchIsChecked = false;
+        return false;
+      }
+
+      this.switchIsChecked = true;
+      return true;
+    },
     handleColorChange(value){
       if(value === true){
-        this.$store.commit("setColorMode", "dark");
+        this.$store.dispatch("UPDATE_COLOR_MODE", "Dark");
       }
       else {
-        this.$store.commit("setColorMode", "light");
+        this.$store.dispatch("UPDATE_COLOR_MODE", "Light");
       }
     },
     openLink(link) {
@@ -556,7 +574,10 @@ export default {
     await this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
     this.setTime();
   },
-  mounted() {
+  async mounted() {
+    
+    //set color mode
+    await this.$store.dispatch("GET_USER_COLOR_MODE");
     document.addEventListener("scroll", () => {
       //Check if scrollY is decreasing
       if (window.scrollY < this.lastScrollY) {

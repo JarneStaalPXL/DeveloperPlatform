@@ -624,6 +624,42 @@ export default createStore({
     }
   },
   actions: {
+    async UPDATE_COLOR_MODE({state,commit}, mode){
+      commit("setColorMode", mode);
+      if(localStorage.getItem('uid') !== null){
+        const resp = await fetch(`${state.baseUrlStrapiApi}user-detail-info/setColorMode`,
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+          body: JSON.stringify({
+            userid: localStorage.getItem('uid'),
+            colorMode: mode,
+          }),
+        })
+        const data = await resp.json();
+        return data;
+      }
+    },
+    async GET_USER_COLOR_MODE({state, commit}){
+      if(localStorage.getItem('uid') !== null){
+        const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/getColorMode/${localStorage.getItem('uid')}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+        });
+        const user = await res.json();
+        commit("setColorMode", user.data.attributes.selectedColorMode);
+        return user.data.attributes.selectedColorMode;
+      }
+    },
     async GET_CURRENT_STATUS({ state }) {
       let response = await fetch(
         `${state.baseUrlStrapiApi}current-status-info`,
