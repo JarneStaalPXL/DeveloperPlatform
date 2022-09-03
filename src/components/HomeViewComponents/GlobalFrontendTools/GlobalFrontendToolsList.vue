@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider :theme="darkTheme">
+  <n-config-provider>
     <n-grid x-gap="24" y-gap="24" cols="1 680:2 1200:4">
       <n-gi v-for="tool of $store.state.globalFrontendTools" :key="tool">
         <n-card :title="tool.name" bordered>

@@ -1,6 +1,6 @@
 <template>
   <n-config-provider
-    :theme="darkTheme"
+    n-config-provider:theme="darkTheme"
     class="d-flex flex-column justify-content-center align-center bg"
     style="height: 100vh"
   >

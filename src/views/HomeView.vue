@@ -15,34 +15,10 @@
       />
     </section>
 
-    <section class="toolCategoriesContainer">
-      <n-skeleton
-        :style="{ margin: 'auto' }"
-        height="30px"
-        text
-        style="width: 30%"
-        v-if="$store.state.favoritetools === undefined"
-      />
-      <div
-        v-if="$store.state.favoritetools === undefined"
-        class="d-flex justify-content-between"
-      >
-        <n-skeleton
-          v-for="i in 5"
-          style="width: 15%"
-          :key="i"
-          :sharp="false"
-          size="medium"
-        />
-      </div>
-      <section
-        class="someFavorites"
-        v-if="
-          $store.state.favoritetools !== undefined && $store.state.favoritetools !== null
-        "
-      >
+    <section class="toolCategoriesContainer" v-if="$store.state.favoritetools.length > 0">
+      <section class="someFavorites" v-if="$store.state.favoritetools.length > 0">
         <h4 v-if="$store.state.favoritetools.length > 0">Some of your favorites</h4>
-        <div class="favorites" v-if="$store.state.favoritetools">
+        <div class="favorites" v-if="$store.state.favoritetools.length > 0">
           <n-button
             v-for="tool of first5Favorites()"
             :key="tool"

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <n-config-provider :hljs="hljs" :theme="null">
+    <n-config-provider :hljs="hljs">
       <n-loading-bar-provider>
         <n-message-provider>
           <n-notification-provider>

@@ -1,7 +1,94 @@
 import { createStore } from "vuex";
+import { h, defineComponent, ref } from "vue";
+import {
+  BookOutline as BookIcon,
+  PersonOutline as PersonIcon,
+  WineOutline as WineIcon,
+  HomeOutline as HomeIcon,
+  HeartOutline as HeartIcon,
+} from "@vicons/ionicons5";
+import {NIcon} from "naive-ui";
+
+function renderIcon(icon) {
+  return () => h(NIcon, null, { default: () => h(icon) });
+}
+
 
 export default createStore({
   state: {
+    colorMode: 'dark',
+    menuOptions : [
+      {
+        label: "Home",
+        key: "/",
+        icon: renderIcon(HomeIcon),
+      },
+      {
+        label: "Favorites",
+        key: "/favorites",
+        icon: renderIcon(HeartIcon),
+        children: [],
+      },
+      // {
+      //   label: "Login",
+      //   key: "/login",
+      //   icon: renderIcon(PersonIcon),
+      // },
+      // {
+      //   label: "Register",
+      //   key: "/register",
+      //   icon: renderIcon(PersonIcon),
+      // },
+      // {
+      //   label: "Favorites",
+      //   key: "Dance Dance Dance",
+      //   icon: renderIcon(BookIcon),
+      //   children: [
+      //     {
+      //       type: "group",
+      //       label: "People",
+      //       key: "people",
+      //       children: [
+      //         {
+      //           label: "Narrator",
+      //           key: "narrator",
+      //           icon: renderIcon(PersonIcon),
+      //         },
+      //         {
+      //           label: "Sheep Man",
+      //           key: "sheep-man",
+      //           icon: renderIcon(PersonIcon),
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       label: "Beverage",
+      //       key: "beverage",
+      //       icon: renderIcon(WineIcon),
+      //       children: [
+      //         {
+      //           label: "Whisky",
+      //           key: "whisky",
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       label: "Food",
+      //       key: "food",
+      //       children: [
+      //         {
+      //           label: "Sandwich",
+      //           key: "sandwich",
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       label: "The past increases. The future recedes.",
+      //       key: "the-past-increases-the-future-recedes",
+      //     },
+      //   ],
+      // },
+    ],
     recurringVisitorCount: 0,
     allTools: [],
     notificationPlacement: "top-right",
@@ -532,6 +619,9 @@ export default createStore({
     setRecurringVisitorCount(state, payload) {
       state.recurringVisitorCount = payload;
     },
+    setColorMode(state, payload){
+      state.colorMode = payload;
+    }
   },
   actions: {
     async GET_CURRENT_STATUS({ state }) {
@@ -671,6 +761,27 @@ export default createStore({
         if (toolsString !== null) {
           let tools = JSON.parse(toolsString);
           commit("setFavoriteTools", tools);
+
+          if (state.favoritetools !== null) {
+            //globalfrontendtools manipulation favorites
+            const gbt = JSON.parse(JSON.stringify(state.globalFrontendTools));
+  
+            for (const tool of gbt) {
+              tool.isFavorited = state.favoritetools.some(
+                (t) => t.name === tool.name
+              );
+            }
+            commit("setGlobalFrontendTools", gbt);
+  
+            //hosting providers manipulation favorites
+            const htp = JSON.parse(JSON.stringify(state.hostingproviders));
+            for (const provider of htp) {
+              provider.isFavorited = state.favoritetools.some(
+                (t) => t.name === provider.name
+              );
+            }
+            commit("setHostingProviders", htp);
+          }
         }
       }
     },
@@ -784,6 +895,7 @@ export default createStore({
             succeeded = false;
           }
 
+          dispatch("GET_USER_FAVORITE_TOOLS");
           return succeeded;
         }
       }

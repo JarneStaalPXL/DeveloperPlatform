@@ -108,7 +108,8 @@
       Go back to homepage
     </n-tooltip> -->
 
-    <n-layout>
+<n-config-provider :theme="$store.state.colorMode === 'light' ? null : darkTheme">
+  <n-layout>
       <n-layout-header bordered>
         <!-- <n-button @click="$router.push('/')"
           ><i class="fa-solid fa-house"></i
@@ -135,6 +136,9 @@
         <n-button @click="handleSignout()" v-if="$store.state.isLoggedIn"
           >Log out</n-button
         >
+        <n-switch :style="{marginLeft:'50px'}" :round="false"  :default-value="true" @update:value="handleColorChange" />
+        <span :style="{marginLeft:'20px'}">{{$store.state.colorMode}}</span>
+        
       </n-layout-header>
       <n-layout has-sider>
         <n-layout-sider
@@ -163,7 +167,7 @@
                 <router-view v-slot="{ Component, route }">
                   <transition type="transition" name="fade" mode="out-in">
                     <component
-                      :style="{ marginBottom: '5rem' }"
+
                       :is="Component"
                       :key="route.meta.usePathKey ? route.path : undefined"
                     />
@@ -179,11 +183,13 @@
         Footer Footer Footer
       </n-layout-footer> -->
     </n-layout>
+</n-config-provider>
+    
   </div>
 </template>
 
 <script>
-import { h, defineComponent, ref } from "vue";
+import { h, ref } from "vue";
 import {
   BookOutline as BookIcon,
   PersonOutline as PersonIcon,
@@ -381,6 +387,7 @@ import {
   NLayoutSider,
   NMenu,
   NLayoutFooter,
+  NP
 } from "naive-ui";
 export default {
   name: "TemplateDesigner",
@@ -413,8 +420,17 @@ export default {
     NMenu,
     NLayoutFooter,
     NLayoutContent,
+    NP
   },
   methods: {
+    handleColorChange(value){
+      if(value === true){
+        this.$store.commit("setColorMode", "dark");
+      }
+      else {
+        this.$store.commit("setColorMode", "light");
+      }
+    },
     openLink(link) {
       if (link.includes("https://")) window.open(link, "_blank");
       else this.$router.push(link);
@@ -598,7 +614,7 @@ const handleSignout = () => {
 
 <style>
 .n-layout-content {
-  height: calc(100vh - 70px);
+  height: calc(100vh - 43px);
 }
 *::-webkit-scrollbar {
   display: none;

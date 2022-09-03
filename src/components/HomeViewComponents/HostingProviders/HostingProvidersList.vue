@@ -3,7 +3,7 @@
     <n-button @click="sortRecommended()">SORT ON RECOMMENDED</n-button>
     <n-button @click="sortUsed()">SORT ON USED BY DEVELOPER PLATFORM</n-button>
   </div>
-  <n-config-provider :theme="darkTheme">
+  <n-config-provider>
     <n-grid x-gap="24" y-gap="24" cols="1 680:2 1200:4">
       <n-gi v-for="tool of $store.state.hostingproviders" :key="tool">
         <n-card :title="tool.name" bordered>

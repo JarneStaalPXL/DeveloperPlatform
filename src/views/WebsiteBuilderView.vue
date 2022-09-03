@@ -1,6 +1,6 @@
 <template>
   <div>
-    <n-config-provider :theme="null">
+    <n-config-provider>
       <n-message-provider>
         <WebsiteBuilder />
       </n-message-provider>
