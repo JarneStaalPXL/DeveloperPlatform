@@ -30,65 +30,6 @@ export default createStore({
         icon: renderIcon(HeartIcon),
         children: [],
       },
-      // {
-      //   label: "Login",
-      //   key: "/login",
-      //   icon: renderIcon(PersonIcon),
-      // },
-      // {
-      //   label: "Register",
-      //   key: "/register",
-      //   icon: renderIcon(PersonIcon),
-      // },
-      // {
-      //   label: "Favorites",
-      //   key: "Dance Dance Dance",
-      //   icon: renderIcon(BookIcon),
-      //   children: [
-      //     {
-      //       type: "group",
-      //       label: "People",
-      //       key: "people",
-      //       children: [
-      //         {
-      //           label: "Narrator",
-      //           key: "narrator",
-      //           icon: renderIcon(PersonIcon),
-      //         },
-      //         {
-      //           label: "Sheep Man",
-      //           key: "sheep-man",
-      //           icon: renderIcon(PersonIcon),
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       label: "Beverage",
-      //       key: "beverage",
-      //       icon: renderIcon(WineIcon),
-      //       children: [
-      //         {
-      //           label: "Whisky",
-      //           key: "whisky",
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       label: "Food",
-      //       key: "food",
-      //       children: [
-      //         {
-      //           label: "Sandwich",
-      //           key: "sandwich",
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       label: "The past increases. The future recedes.",
-      //       key: "the-past-increases-the-future-recedes",
-      //     },
-      //   ],
-      // },
     ],
     recurringVisitorCount: 0,
     allTools: [],
@@ -285,6 +226,87 @@ export default createStore({
         link: "https://seositecheckup.com/",
         websitePreviewImage: require("../assets/seo-site-checkup.jpg"),
         textColor: "black",
+      },
+      {
+        name: "Charts CSS",
+        link: "https://chartscss.org/",
+        websitePreviewImage: require("../assets/charts-css.png"),
+        textColor: "black",
+      },
+      {
+        name: "CompSciLib",
+        link: "https://www.compscilib.com/",
+        websitePreviewImage: require("../assets/compscilib.png"),
+        textColor: "black",
+      },
+      {
+        name: "Figma Assets",
+        link: "https://www.figcomponents.com/",
+        websitePreviewImage: require("../assets/figmaassets.png"),
+        textColor: "black",
+      },
+      {
+        name: "Humble Icons",
+        link: "https://humbleicons.com/",
+        websitePreviewImage: require("../assets/humbleicons.png"),
+        textColor: "black",
+      },
+      {
+        name: "Iconer Icons",
+        link: "https://iconer.app/",
+        websitePreviewImage: require("../assets/iconer.png"),
+        textColor: "black",
+      },
+      {
+        name: "Color Pallete Generator - Coolors.co",
+        link: "https://coolors.co/generate",
+        websitePreviewImage: require("../assets/coolors.png"),
+        textColor: "black",
+      },
+      {
+        name: "Font Joy - Generate font pairings",
+        link: "https://fontjoy.com/",
+        websitePreviewImage: require("../assets/fontjoy.png"),
+        textColor: "black",
+      },
+      {
+        name: "TOOOLS Design Resources",
+        link: "https://tooools.design/",
+        websitePreviewImage: require("../assets/tooools.png"),
+        textColor: "black",
+      },
+      {
+        name: "Divider Generator",
+        link: "https://www.shapedivider.app/",
+        websitePreviewImage: require("../assets/shapedivider.png"),
+        textColor: "black",
+      },
+      {
+        name: "3D Design Creation",
+        link: "https://spline.design/",
+        websitePreviewImage: require("../assets/spline.png"),
+        textColor: "black",
+      },
+      {
+        name: "Mockuuups Studio",
+        link: "https://mockuuups.studio/",
+        websitePreviewImage: require("../assets/mockuuups_studio.png")
+      },
+      {
+        name: "Resize images for social media",
+        link: "https://pixelhunter.io/",
+        websitePreviewImage: require("../assets/pixelhunter.png")
+      },
+      {
+        name: "Animated Mesh Gradient",
+        link: "https://whatamesh.vercel.app/",
+        websitePreviewImage: require("../assets/whatamesh.png")
+
+      },
+      {
+        name: "SVG Background Generator",
+        link: "https://app.haikei.app/",
+        websitePreviewImage: require("../assets/haikei.png")
       },
     ],
     hostingproviders: [
