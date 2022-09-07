@@ -16,6 +16,7 @@ function renderIcon(icon) {
 
 export default createStore({
   state: {
+    verticalMenuCollapsed: false,
     colorMode: 'dark',
     menuOptions : [
       {
@@ -621,6 +622,9 @@ export default createStore({
     },
     setColorMode(state, payload){
       state.colorMode = payload;
+    },
+    setVerticalMenuCollapsed(state, payload){
+      state.verticalMenuCollapsed = payload;
     }
   },
   actions: {

@@ -1,126 +1,10 @@
 <template>
-  <!-- <n-tooltip trigger="hover" v-if="$route.path !== '/' && isScrollingUp === false">
-    <template #trigger>
-      <a @click="scrollToTop()" v-if="$route.path !== '/' && isScrollingUp === false" class="float2">
-        <i class="fa-solid fa-arrow-up my-float"></i>
-      </a>
-    </template>
-    Scroll to top
-  </n-tooltip>
-  <n-tooltip trigger="hover" v-if="$route.path !== '/' && isScrollingUp === true">
-    <template #trigger>
-      <a @click="scrollToBottom()" v-if="$route.path !== '/' && isScrollingUp === true" class="float2">
-        <i class="fa-solid fa-arrow-down my-float"></i>
-      </a>
-    </template>
-    Scroll to bottom
-  </n-tooltip> -->
-
-  <!-- <n-tooltip trigger="hover" v-if="!$store.state.isLoggedIn && $route.path === '/'">
-    <template #trigger>
-      <a @click="googleSignin()" class="float3">
-        <i class="fa-brands fa-google my-float"></i>
-      </a>
-    </template>
-    Log in
-  </n-tooltip> -->
-
-  <!-- <n-tooltip trigger="hover" v-if="$store.state.isLoggedIn && $route.path === '/'">
-    <template #trigger>
-      <a @click="handleSignout()" class="float3">
-        <i class="fa-solid fa-right-from-bracket my-float"></i>
-      </a>
-    </template>
-    Log out
-  </n-tooltip>
-
-  <n-tooltip trigger="hover" v-if="$route.path === '/'">
-    <template #trigger>
-      <a @click="$router.push('/favorites')" class="float4"
-        ><i class="fa-solid fa-heart my-float"></i
-      ></a>
-    </template>
-    Favorites
-  </n-tooltip>
-
-  <footer v-if="$route.path === '/'" class="stickyFooter">
-    <section class="allItemsFooter">
-      <section class="pagevisitscontainer">
-        <h1 v-if="getPageVisits > 0">
-          {{ getPageVisits }} <i class="fa-solid fa-eyes"></i>
-        </h1>
-      </section>
-      <h5 id="welcomeMsg" v-if="$store.state.isLoggedIn">
-        Welcome
-        <a
-          id="adminClickPointer"
-          @click="$router.push($store.state.routings.adminPanel.path)"
-          v-if="isAdmin()"
-          >{{ userName() }}</a
-        >
-        <a v-else id="adminClickPointer">{{ userName() }}</a>
-      </h5>
-      <n-config-provider :theme="darkTheme" v-else>
-        <n-button @click="$router.push('/login')">Log in</n-button>
-        <n-button @click="$router.push('/register')" v-if="!store.state.isLoggedIn"
-          >Sign up</n-button
-        >
-      </n-config-provider>
-      <section class="timeContainer">
-        <div class="clock-border">
-          <div class="clock-inner">
-            <div class="hour">{{ hours }}</div>
-            <div class="dots">:</div>
-            <div class="min">{{ minutes }}</div>
-            <div class="dots">:</div>
-            <div class="secs">{{ seconds }}</div>
-            <div class="mode"></div>
-          </div>
-        </div>
-      </section>
-    </section>
-  </footer>
-  <n-config-provider :theme="darkTheme" v-else class="stickyFooter actionButtonContainer">
-    <n-button @click="$router.push('/favorites')" v-if="$route.path !== '/favorites'"
-      >Favorites</n-button
-    >
-    <n-button @click="$router.push('/')" v-if="$route.path !== '/'">Home</n-button>
-    <n-button
-      @click="$router.push('/login')"
-      v-if="!$store.state.isLoggedIn && $route.path !== '/login'"
-      >Log in</n-button
-    >
-    <n-button
-      @click="$router.push('/register')"
-      v-if="!$store.state.isLoggedIn && $route.path !== '/register'"
-      >Sign up</n-button
-    >
-    <n-button @click="handleSignout()" v-if="$store.state.isLoggedIn">Log out</n-button>
-  </n-config-provider> -->
-
   <div class="content">
-    <!-- <n-tooltip trigger="hover" v-if="$route.path !== '/'">
-      <template #trigger>
-        <router-link to="/" class="float">
-          <i class="fa-solid fa-house my-float"></i>
-        </router-link>
-      </template>
-      Go back to homepage
-    </n-tooltip> -->
-
     <n-config-provider
       :theme="$store.state.colorMode === 'Light' ? null : darkTheme"
     >
       <n-layout>
         <n-layout-header bordered>
-          <!-- <n-button @click="$router.push('/')"
-          ><i class="fa-solid fa-house"></i
-          ><span style="padding-left: 8px">Home</span></n-button
-        >
-        <n-button @click="$router.push('/favorites')"
-          ><i class="fa-solid fa-heart"></i
-          ><span style="padding-left: 8px">Favorites</span></n-button
-        > -->
           <n-menu
             mode="horizontal"
             :options="menuOptions"
@@ -142,26 +26,12 @@
           <n-button @click="handleSignout()" v-if="$store.state.isLoggedIn"
             >Log out</n-button
           >
-          <!-- <n-switch
-            size="large"
-            :style="{ marginLeft: '50px' }"
-            v-model:value="switchIsChecked"
-            :round="false"
-            :default-value="colorCheck()"
-            @update:value="handleColorChange"
-          >
-            <template #checked-icon>
-              <n-icon :component="DarkModeIcon" />
-            </template>
-            <template #unchecked-icon>
-              <n-icon :component="LightModeIcon" />
-            </template>
-          </n-switch> -->
         </n-layout-header>
         <n-layout has-sider>
           <n-layout-sider
-          @collapse="collapsed = true"
-        @expand="collapsed = false"
+          :collapsed="$store.state.verticalMenuCollapsed"
+          @collapse="$store.state.verticalMenuCollapsed = true"
+        @expand="$store.state.verticalMenuCollapsed = false"
             bordered
             show-trigger
             collapse-mode="width"
@@ -181,7 +51,7 @@
               <n-switch 
             size="medium"
             v-model:value="switchIsChecked"
-            :style="collapsed ? { marginLeft:'10px'} : {marginLeft:'30px'}"
+            :style="$store.state.verticalMenuCollapsed ? { marginLeft:'10px'} : {marginLeft:'30px'}"
             :round="false"
             :default-value="colorCheck()"
             @update:value="handleColorChange"
@@ -217,10 +87,6 @@
             </n-loading-bar-provider>
           </n-layout-content>
         </n-layout>
-        <!-- 
-      <n-layout-footer :inverted="inverted" bordered>
-        Footer Footer Footer
-      </n-layout-footer> -->
       </n-layout>
     </n-config-provider>
   </div>
@@ -261,65 +127,6 @@ const menuOptions = [
     key: "/favorites",
     icon: renderIcon(HeartIcon),
   },
-  // {
-  //   label: "Login",
-  //   key: "/login",
-  //   icon: renderIcon(PersonIcon),
-  // },
-  // {
-  //   label: "Register",
-  //   key: "/register",
-  //   icon: renderIcon(PersonIcon),
-  // },
-  // {
-  //   label: "Favorites",
-  //   key: "Dance Dance Dance",
-  //   icon: renderIcon(BookIcon),
-  //   children: [
-  //     {
-  //       type: "group",
-  //       label: "People",
-  //       key: "people",
-  //       children: [
-  //         {
-  //           label: "Narrator",
-  //           key: "narrator",
-  //           icon: renderIcon(PersonIcon),
-  //         },
-  //         {
-  //           label: "Sheep Man",
-  //           key: "sheep-man",
-  //           icon: renderIcon(PersonIcon),
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       label: "Beverage",
-  //       key: "beverage",
-  //       icon: renderIcon(WineIcon),
-  //       children: [
-  //         {
-  //           label: "Whisky",
-  //           key: "whisky",
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       label: "Food",
-  //       key: "food",
-  //       children: [
-  //         {
-  //           label: "Sandwich",
-  //           key: "sandwich",
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       label: "The past increases. The future recedes.",
-  //       key: "the-past-increases-the-future-recedes",
-  //     },
-  //   ],
-  // },
 ];
 
 const categoryOptions = [
@@ -363,55 +170,6 @@ const categoryOptions = [
     key: "/hostingproviders",
     icon: renderIcon(HostingIcon),
   },
-  // {
-  //   label: "Favorites",
-  //   key: "Dance Dance Dance",
-  //   icon: renderIcon(BookIcon),
-  //   children: [
-  //     {
-  //       type: "group",
-  //       label: "People",
-  //       key: "people",
-  //       children: [
-  //         {
-  //           label: "Narrator",
-  //           key: "narrator",
-  //           icon: renderIcon(PersonIcon),
-  //         },
-  //         {
-  //           label: "Sheep Man",
-  //           key: "sheep-man",
-  //           icon: renderIcon(PersonIcon),
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       label: "Beverage",
-  //       key: "beverage",
-  //       icon: renderIcon(WineIcon),
-  //       children: [
-  //         {
-  //           label: "Whisky",
-  //           key: "whisky",
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       label: "Food",
-  //       key: "food",
-  //       children: [
-  //         {
-  //           label: "Sandwich",
-  //           key: "sandwich",
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       label: "The past increases. The future recedes.",
-  //       key: "the-past-increases-the-future-recedes",
-  //     },
-  //   ],
-  // },
 ];
 
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
@@ -473,6 +231,13 @@ export default {
     NP,
   },
   methods: {
+    checkIfOnMobile(){
+      if (window.innerWidth <= 768) {
+        this.$store.commit("setVerticalMenuCollapsed", true);
+      } else {
+        this.$store.commit("setVerticalMenuCollapsed", false);
+      }
+    },
     colorCheck() {
       if (this.$store.state.colorMode.includes("Dark")) {
         this.switchIsChecked = true;
@@ -611,6 +376,7 @@ export default {
     },
   },
   async beforeMount() {
+    this.checkIfOnMobile();
     await this.$store.dispatch("FILL_ALL_TOOLS_ARRAY");
     if (localStorage.getItem("uid") !== null) {
       this.$store.dispatch("LOAD_USER_SAVED_DATA", localStorage.getItem("uid"));
