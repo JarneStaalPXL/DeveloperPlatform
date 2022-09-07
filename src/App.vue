@@ -108,10 +108,12 @@
       Go back to homepage
     </n-tooltip> -->
 
-<n-config-provider :theme="$store.state.colorMode === 'Light' ? null : darkTheme">
-  <n-layout>
-      <n-layout-header bordered>
-        <!-- <n-button @click="$router.push('/')"
+    <n-config-provider
+      :theme="$store.state.colorMode === 'Light' ? null : darkTheme"
+    >
+      <n-layout>
+        <n-layout-header bordered>
+          <!-- <n-button @click="$router.push('/')"
           ><i class="fa-solid fa-house"></i
           ><span style="padding-left: 8px">Home</span></n-button
         >
@@ -119,72 +121,108 @@
           ><i class="fa-solid fa-heart"></i
           ><span style="padding-left: 8px">Favorites</span></n-button
         > -->
-        <n-menu mode="horizontal" :options="menuOptions" @update:value="openLink" />
-        <n-button
-          @click="$router.push('/login')"
-          v-if="!$store.state.isLoggedIn && $route.path !== '/login'"
-          >Log in</n-button
-        >
-        <n-button
-          @click="$router.push('/register')"
-          v-if="!$store.state.isLoggedIn && $route.path !== '/register'"
-          >Sign up</n-button
-        >
-        <span v-if="$store.state.name" style="margin-right: 20px"
-          >Welcome {{ $store.state.name }}</span
-        >
-        <n-button @click="handleSignout()" v-if="$store.state.isLoggedIn"
-          >Log out</n-button
-        >
-        <n-switch :style="{marginLeft:'50px'}" v-model:value="switchIsChecked" :round="false"  :default-value="colorCheck()" @update:value="handleColorChange" />
-        <span :style="{marginLeft:'20px'}">{{$store.state.colorMode}}</span>
-        
-      </n-layout-header>
-      <n-layout has-sider>
-        <n-layout-sider
-          bordered
-          show-trigger
-          collapse-mode="width"
-          :collapsed-width="64"
-          :width="240"
-          :native-scrollbar="false"
-          style="min-height: 320px"
-        >
           <n-menu
+            mode="horizontal"
+            :options="menuOptions"
             @update:value="openLink"
-            :collapsed-width="64"
-            :collapsed-icon-size="22"
-            :options="categoryOptions"
           />
-        </n-layout-sider>
-        <n-layout-content>
-          <n-loading-bar-provider>
-            <n-notification-provider
-              :max="1"
-              :placement="$store.state.notificationPlacement"
-            >
-              <n-message-provider>
-                <router-view v-slot="{ Component, route }">
-                  <transition type="transition" name="fade" mode="out-in">
-                    <component
-
-                      :is="Component"
-                      :key="route.meta.usePathKey ? route.path : undefined"
-                    />
-                  </transition>
-                </router-view>
-              </n-message-provider>
-            </n-notification-provider>
-          </n-loading-bar-provider>
-        </n-layout-content>
-      </n-layout>
-      <!-- 
+          <n-button
+            @click="$router.push('/login')"
+            v-if="!$store.state.isLoggedIn && $route.path !== '/login'"
+            >Log in</n-button
+          >
+          <n-button
+            @click="$router.push('/register')"
+            v-if="!$store.state.isLoggedIn && $route.path !== '/register'"
+            >Sign up</n-button
+          >
+          <span v-if="$store.state.name" style="margin-right: 20px"
+            >Welcome {{ $store.state.name }}</span
+          >
+          <n-button @click="handleSignout()" v-if="$store.state.isLoggedIn"
+            >Log out</n-button
+          >
+          <!-- <n-switch
+            size="large"
+            :style="{ marginLeft: '50px' }"
+            v-model:value="switchIsChecked"
+            :round="false"
+            :default-value="colorCheck()"
+            @update:value="handleColorChange"
+          >
+            <template #checked-icon>
+              <n-icon :component="DarkModeIcon" />
+            </template>
+            <template #unchecked-icon>
+              <n-icon :component="LightModeIcon" />
+            </template>
+          </n-switch> -->
+        </n-layout-header>
+        <n-layout has-sider>
+          <n-layout-sider
+          @collapse="collapsed = true"
+        @expand="collapsed = false"
+            bordered
+            show-trigger
+            collapse-mode="width"
+            :collapsed-width="64"
+            :width="240"
+            :native-scrollbar="false"
+            style="min-height: 320px"
+          >
+            <n-menu
+              :style="{ height: '95%' }"
+              @update:value="openLink"
+              :collapsed-width="64"
+              :collapsed-icon-size="22"
+              :options="categoryOptions"
+            />
+            <div class="d-flex">
+              <n-switch 
+            size="medium"
+            v-model:value="switchIsChecked"
+            :style="collapsed ? { marginLeft:'10px'} : {marginLeft:'30px'}"
+            :round="false"
+            :default-value="colorCheck()"
+            @update:value="handleColorChange"
+          >
+            <template #checked-icon>
+              <n-icon :component="DarkModeIcon" />
+            </template>
+            <template #unchecked-icon>
+              <n-icon :component="LightModeIcon" />
+            </template>
+          </n-switch>
+          <span v-if="!collapsed" :style="{marginLeft:'30px'}">{{switchIsChecked ? 'Dark' : 'Light'}}</span>
+            </div>
+           
+          </n-layout-sider>
+          <n-layout-content>
+            <n-loading-bar-provider>
+              <n-notification-provider
+                :max="1"
+                :placement="$store.state.notificationPlacement"
+              >
+                <n-message-provider>
+                  <router-view v-slot="{ Component, route }">
+                    <transition type="transition" name="fade" mode="out-in">
+                      <component
+                        :is="Component"
+                        :key="route.meta.usePathKey ? route.path : undefined"
+                      />
+                    </transition>
+                  </router-view>
+                </n-message-provider>
+              </n-notification-provider>
+            </n-loading-bar-provider>
+          </n-layout-content>
+        </n-layout>
+        <!-- 
       <n-layout-footer :inverted="inverted" bordered>
         Footer Footer Footer
       </n-layout-footer> -->
-    </n-layout>
-</n-config-provider>
-    
+      </n-layout>
+    </n-config-provider>
   </div>
 </template>
 
@@ -196,17 +234,17 @@ import {
   WineOutline as WineIcon,
   HomeOutline as HomeIcon,
   HeartOutline as HeartIcon,
+  ArrowForwardOutline,
+  ArrowBackOutline,
 } from "@vicons/ionicons5";
-import {
-  World as WorldIcon,
-} from "@vicons/tabler";
+import { World as WorldIcon, Sun as LightModeIcon } from "@vicons/tabler";
 import {
   Gradient as GradientIcon,
-  CloudApp as HostingIcon
+  CloudApp as HostingIcon,
 } from "@vicons/carbon";
-import {
-  Color24Regular as ColorIcon,
-} from "@vicons/fluent";
+import { Color24Regular as ColorIcon } from "@vicons/fluent";
+
+import { DarkModeOutlined as DarkModeIcon } from "@vicons/material";
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -397,12 +435,13 @@ import {
   NLayoutSider,
   NMenu,
   NLayoutFooter,
-  NP
+  NP,
 } from "naive-ui";
 export default {
   name: "TemplateDesigner",
   data() {
     return {
+      collapsed: false,
       switchIsChecked: false,
       isScrollingDown: false,
       isScrollingUp: false,
@@ -431,16 +470,16 @@ export default {
     NMenu,
     NLayoutFooter,
     NLayoutContent,
-    NP
+    NP,
   },
   methods: {
-    colorCheck(){
-      if(this.$store.state.colorMode.includes('Dark')){
+    colorCheck() {
+      if (this.$store.state.colorMode.includes("Dark")) {
         this.switchIsChecked = true;
         return true;
       }
-     
-      if(this.$store.state.colorMode.includes('Light')){
+
+      if (this.$store.state.colorMode.includes("Light")) {
         this.switchIsChecked = false;
         return false;
       }
@@ -448,11 +487,10 @@ export default {
       this.switchIsChecked = true;
       return true;
     },
-    handleColorChange(value){
-      if(value === true){
+    handleColorChange(value) {
+      if (value === true) {
         this.$store.dispatch("UPDATE_COLOR_MODE", "Dark");
-      }
-      else {
+      } else {
         this.$store.dispatch("UPDATE_COLOR_MODE", "Light");
       }
     },
@@ -478,7 +516,10 @@ export default {
       return ("0" + digit).slice(-2);
     },
     async isAdmin() {
-      let isAdmin = await this.$store.dispatch("IS_ADMIN", localStorage.getItem("uid"));
+      let isAdmin = await this.$store.dispatch(
+        "IS_ADMIN",
+        localStorage.getItem("uid")
+      );
       return isAdmin;
     },
     setTime() {
@@ -582,7 +623,6 @@ export default {
     this.setTime();
   },
   async mounted() {
-    
     //set color mode
     await this.$store.dispatch("GET_USER_COLOR_MODE");
     document.addEventListener("scroll", () => {
@@ -654,9 +694,16 @@ const handleSignout = () => {
   scrollbar-width: none;
   /* Firefox */
 }
+
+.n-scrollbar-content {
+    display: flex !important;
+    flex-direction: column!important;
+    height: 100%!important;
+  }
 </style>
 
 <style lang="scss">
+  
 // .content {
 //   height: 100vh;
 // }
@@ -727,9 +774,11 @@ p {
   color: black;
   cursor: text;
 }
+
 </style>
 
 <style lang="scss" scoped>
+
 .actionButtonContainer {
   button {
     color: white;

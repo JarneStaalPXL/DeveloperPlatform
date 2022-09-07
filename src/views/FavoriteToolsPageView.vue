@@ -1,5 +1,5 @@
 <template>
-  <n-card class="categoryCard">
+  <n-card class="categoryCard h-100">
     <template #header>
       <div class="d-flex" style="gap: 10px">
         <h4>Your favorites</h4>

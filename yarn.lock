@@ -1740,6 +1740,11 @@
   "resolved" "https://registry.npmjs.org/@vicons/ionicons5/-/ionicons5-0.12.0.tgz"
   "version" "0.12.0"
 
+"@vicons/material@^0.12.0":
+  "integrity" "sha512-chv1CYAl8P32P3Ycwgd5+vw/OFNc2mtkKdb1Rw4T5IJmKy6GVDsoUKV3N2l208HATn7CCQphZtuPDdsm7K2kmA=="
+  "resolved" "https://registry.npmjs.org/@vicons/material/-/material-0.12.0.tgz"
+  "version" "0.12.0"
+
 "@vicons/tabler@^0.12.0":
   "integrity" "sha512-3+wUFuxb7e8OzZ8Wryct1pzfA2vyoF4lwW98O9s27ZrfCGaJGNmqG+q8A7vQ92Mf+COCgxpK+rhNPTtTvaU6qw=="
   "resolved" "https://registry.npmjs.org/@vicons/tabler/-/tabler-0.12.0.tgz"
