@@ -15,6 +15,7 @@
             v-if="!$store.state.isLoggedIn && $route.path !== '/login'"
             >Log in</n-button
           >
+          <h1>{{switchIsChcked}}</h1>
           <n-button
             @click="$router.push('/register')"
             v-if="!$store.state.isLoggedIn && $route.path !== '/register'"
@@ -48,7 +49,7 @@
               :options="categoryOptions"
             />
             <div class="d-flex">
-              {{switchIsChcked}}
+              
               <!-- <n-switch 
             size="medium"
             v-model:value="switchIsChecked"
