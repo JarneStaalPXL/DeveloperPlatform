@@ -200,8 +200,8 @@ export default {
   data() {
     return {
       collapsed: false,
-      switchIsChecked: false,
       isScrollingDown: false,
+      switchIsChecked: false,
       isScrollingUp: false,
       lastScrollY: 0,
       hours: 0,
