@@ -48,7 +48,8 @@
               :options="categoryOptions"
             />
             <div class="d-flex">
-              <n-switch 
+              {{switchIsChcked}}
+              <!-- <n-switch 
             size="medium"
             v-model:value="switchIsChecked"
             :style="$store.state.verticalMenuCollapsed ? { marginLeft:'10px'} : {marginLeft:'30px'}"
@@ -63,7 +64,7 @@
               <n-icon :component="LightModeIcon" />
             </template>
           </n-switch>
-          <span v-if="!collapsed" :style="{marginLeft:'30px'}">{{switchIsChecked ? 'Dark' : 'Light'}}</span>
+          <span v-if="!collapsed" :style="{marginLeft:'30px'}">{{switchIsChecked ? 'Dark' : 'Light'}}</span> -->
             </div>
            
           </n-layout-sider>
@@ -201,7 +202,7 @@ export default {
     return {
       collapsed: false,
       isScrollingDown: false,
-      switchIsChecked: false,
+      switchIsChecked: "So it is defined? WTH",
       isScrollingUp: false,
       lastScrollY: 0,
       hours: 0,
