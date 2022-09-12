@@ -15,7 +15,7 @@
             v-if="!$store.state.isLoggedIn && $route.path !== '/login'"
             >Log in</n-button
           >
-          <h1>{{switchIsChcked}}</h1>
+          <h1>{{switchIsChecked}}</h1>
           <n-button
             @click="$router.push('/register')"
             v-if="!$store.state.isLoggedIn && $route.path !== '/register'"
