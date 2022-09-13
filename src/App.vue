@@ -4,24 +4,7 @@
       <n-config-provider :theme="$store.state.colorMode === 'Light' ? null : darkTheme">
         <n-layout>
           <n-layout-header bordered>
-            <n-menu mode="horizontal" :options="menuOptions" @update:value="openLink" />
-            <n-dropdown
-              :options="options"
-              v-if="$store.state.isLoggedIn"
-              @select="openLink"
-            >
-              <n-button>Profile</n-button>
-            </n-dropdown>
-            <n-button
-              @click="$router.push('/login')"
-              v-if="!$store.state.isLoggedIn && $route.path !== '/login'"
-              >Log in</n-button
-            >
-            <n-button
-              @click="$router.push('/register')"
-              v-if="!$store.state.isLoggedIn && $route.path !== '/register'"
-              >Sign up</n-button
-            >
+            <n-menu mode="horizontal" :options="menuOpts" @update:value="openLink" />
             <n-popover
               placement="bottom-end"
               trigger="click"
@@ -95,7 +78,8 @@
 </template>
 
 <script>
-import { h, ref } from "vue";
+import { h, ref, computed } from "vue";
+import { useStore } from "vuex";
 import {
   BookOutline as BookIcon,
   PersonOutline as PersonIcon,
@@ -118,37 +102,6 @@ import { DarkModeOutlined as DarkModeIcon } from "@vicons/material";
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
 }
-
-const menuOptions = [
-  {
-    label: "Home",
-    key: "/",
-    icon: renderIcon(HomeIcon),
-  },
-  {
-    label: "Favorites",
-    key: "/favorites",
-    icon: renderIcon(HeartIcon),
-  },
-];
-
-const options = [
-  {
-    label: "Profile",
-    key: "profile",
-    icon: renderIcon(UserIcon),
-  },
-  {
-    label: "Switch mode",
-    key: "colormode",
-    icon: renderIcon(ColorIcon),
-  },
-  {
-    label: "Logout",
-    key: "logout",
-    icon: renderIcon(LogoutIcon),
-  },
-];
 
 const categoryOptions = [
   {
@@ -370,7 +323,6 @@ export default {
           await this.$store.dispatch("CREATE_ACCOUNT", result.user);
           await this.$store.dispatch("GET_PAGE_VISITS");
           await this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
-
           //show notification
 
           if (localStorage.getItem("uid") !== null) {
@@ -419,11 +371,76 @@ export default {
         this.$store.commit("removeUserData");
         this.$store.commit("setIsAdmin", false);
         this.$router.push("/");
+
         window.$notification.destroyAll();
       });
     },
   },
   computed: {
+    menuOpts() {
+      return [
+        {
+          label: "Home",
+          key: "/",
+          icon: renderIcon(HomeIcon),
+        },
+        {
+          label: "Favorites",
+          key: "/favorites",
+          icon: renderIcon(HeartIcon),
+        },
+        {
+          label: "Profile",
+          key: "profile",
+          show: this.$store.state.isLoggedIn,
+          //set show property depending if user is logged in
+          // show: () => this.$store.state.isLoggedIn,
+
+          // icon: renderIcon(BookIcon),
+          icon: renderIcon(PersonIcon),
+          children: [
+            {
+              label: "Profile",
+              key: "profile",
+              icon: renderIcon(UserIcon),
+            },
+            {
+              label: "Switch mode",
+              key: "colormode",
+              icon: renderIcon(ColorIcon),
+            },
+            {
+              label: "Logout",
+              key: "logout",
+              icon: renderIcon(LogoutIcon),
+            },
+          ],
+        },
+        {
+          label: "Profile",
+          key: "profile",
+          show: !this.$store.state.isLoggedIn,
+          icon: renderIcon(PersonIcon),
+          children: [
+            {
+              label: "Login",
+              key: "login",
+              icon: renderIcon(PersonIcon),
+              show: false,
+            },
+            {
+              label: "Register",
+              key: "register",
+              icon: renderIcon(PersonIcon),
+              show: () => this.$store.state.isLoggedIn,
+            },
+          ],
+        },
+      ];
+    },
+    getLogInStatus() {
+      return this.$store.state.isLoggedIn;
+    },
     getPageVisits() {
       return this.$store.state.pagevisits;
     },
@@ -456,7 +473,6 @@ export default {
     this.setTime();
   },
   async mounted() {
-    //refractoring the code for bug fixing
     window.$auth = getAuth();
     onAuthStateChanged(window.$auth, (user) => {
       if (user !== null) {
@@ -465,20 +481,22 @@ export default {
       }
     });
 
-    // const handleSignout = () => {
-    //   signOut(window.$auth).then(() => {
-    //     this.$store.commit("removeUserData");
-    //     this.$store.commit("setIsAdmin", false);
-    //     this.$router.push("/");
-    //     window.$notification.destroyAll();
-    //   });
-    // };
-    //
+    //if we are logged in
+    // if (localStorage.getItem("userName") !== null) {
+    //   //logged in so show children
+    //   this.menuOpts[2].children[0].show = true;
+    //   this.menuOpts[2].children[1].show = true;
+    //   this.menuOpts[2].children[4].show = true;
 
-    if (localStorage.getItem("userName") !== null) {
-      //set option of options that matches Profile label
-      options[0].label = localStorage.getItem("userName");
-    }
+    //   this.menuOpts[2].children[2].show = false;
+    //   this.menuOpts[2].children[3].show = false;
+    //   console.log(this.menuOpts[2]);
+    // } else {
+    //   //not logged in so hide children
+    //   this.menuOpts[2].children[0].show = false;
+    //   this.menuOpts[2].children[1].show = false;
+    //   this.menuOpts[2].children[4].show = false;
+    // }
     document.addEventListener("scroll", () => {
       //Check if scrollY is decreasing
       if (window.scrollY < this.lastScrollY) {
@@ -490,11 +508,59 @@ export default {
     });
   },
   setup() {
+    const store = useStore();
+    // const menuOpts = computed(() => [
+    //   {
+    //     label: "Home",
+    //     key: "/",
+    //     icon: renderIcon(HomeIcon),
+    //   },
+    //   {
+    //     label: "Favorites",
+    //     key: "/favorites",
+    //     icon: renderIcon(HeartIcon),
+    //   },
+    //   {
+    //     label: "Profile",
+    //     key: "profile",
+    //     //set show property depending if user is logged in
+    //     // show: () => this.$store.state.isLoggedIn,
+
+    //     // icon: renderIcon(BookIcon),
+    //     icon: renderIcon(PersonIcon),
+    //     children: [
+    //       {
+    //         label: "Profile",
+    //         key: "profile",
+    //         icon: renderIcon(UserIcon),
+    //       },
+    //       {
+    //         label: "Switch mode",
+    //         key: "colormode",
+    //         icon: renderIcon(ColorIcon),
+    //       },
+    //       {
+    //         label: "Login",
+    //         key: "login",
+    //         icon: renderIcon(PersonIcon),
+    //       },
+    //       {
+    //         label: "Register",
+    //         key: "register",
+    //         icon: renderIcon(PersonIcon),
+    //       },
+    //       {
+    //         label: "Logout",
+    //         key: "logout",
+    //         icon: renderIcon(LogoutIcon),
+    //         show: this / getLogInStatus,
+    //       },
+    //     ],
+    //   },
+    // ]);
     return {
       categoryOptions,
-      options,
       inverted: ref(false),
-      menuOptions,
       darkTheme,
       mobileCategories,
 
@@ -505,38 +571,6 @@ export default {
   },
 };
 </script>
-
-<!--
-<script setup>
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
-
-const store = useStore();
-const router = useRouter();
-
-const isLoggedIn = ref(false);
-let auth;
-onMounted(() => {
-  auth = getAuth();
-  onAuthStateChanged(auth, (user) => {
-    if (user !== null) {
-      isLoggedIn.value = !!user;
-      store.state.isLoggedIn = isLoggedIn.value;
-    }
-  });
-});
-
-const handleSignout = () => {
-  signOut(auth).then(() => {
-    store.commit("removeUserData");
-    store.commit("setIsAdmin", false);
-    router.push("/");
-    window.$notification.destroyAll();
-  });
-};
-</script> -->
 
 <style>
 .n-layout-content {

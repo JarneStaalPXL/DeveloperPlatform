@@ -1,12 +1,9 @@
 <template>
-  <n-card>
+  <n-card class="h-100">
     <n-space vertical>
       <n-card :title="userName" class="w-100">
         <template #cover>
-          <img
-            :src="profilePicture"
-            style="max-width: 350px; margin: auto; margin-top: 50px"
-          />
+          <img :src="profilePicture" id="profilePicture" />
         </template>
 
         <!--Card content-->
@@ -21,45 +18,21 @@
           <n-statistic label="Visits">{{ totalVisits }}</n-statistic>
         </n-space>
       </n-card>
-      <n-card title="Todays History">
+      <n-card title="History">
         <!--Get todays history of this user-->
         <!--Use component https://www.naiveui.com/en-US/os-theme/components/timeline-->
-        <div style="overflow: auto">
-          <n-timeline horizontal>
+        <n-scrollbar x-scrollable>
+          <n-timeline horizontal class="pb-4">
             <n-timeline-item
               v-for="item in routeVisitsToday"
               :key="item"
               type="success"
               :title="item.route"
               content="Visited Route"
-              :time="item.timeStamp"
+              :time="item.createdAt"
             />
-            <!-- <n-timeline-item content="Oops" />
-            <n-timeline-item
-              type="success"
-              title="Success"
-              content="Success content"
-              time="2018-04-03 20:46"
-            />
-            <n-timeline-item
-              type="error"
-              content="Error content"
-              time="2018-04-03 20:46"
-            />
-            <n-timeline-item
-              type="warning"
-              title="Warning"
-              content="Warning content"
-              time="2018-04-03 20:46"
-            />
-            <n-timeline-item
-              type="info"
-              title="Info"
-              content="Info content"
-              time="2018-04-03 20:46"
-            /> -->
           </n-timeline>
-        </div>
+        </n-scrollbar>
       </n-card>
     </n-space>
   </n-card>
@@ -75,9 +48,20 @@ import {
   NIcon,
   NTimeline,
   NTimelineItem,
+  NScrollbar,
 } from "naive-ui";
 export default {
-  components: { NCard, NSpace, NRow, NCol, NStatistic, NIcon, NTimeline, NTimelineItem },
+  components: {
+    NCard,
+    NSpace,
+    NRow,
+    NCol,
+    NStatistic,
+    NIcon,
+    NTimeline,
+    NTimelineItem,
+    NScrollbar,
+  },
   data() {
     return {
       totalVisits: 0,
@@ -85,6 +69,12 @@ export default {
     };
   },
   async beforeMount() {
+    let data = await this.$store.dispatch("GET_USER_VISIT_COUNT");
+    data = data.data.attributes;
+    this.totalVisits = data.totalVisits;
+    this.routeVisitsToday = data.entriesFromToday;
+  },
+  async mounted() {
     let data = await this.$store.dispatch("GET_USER_VISIT_COUNT");
     data = data.data.attributes;
     this.totalVisits = data.totalVisits;
@@ -107,8 +97,16 @@ export default {
 };
 </script>
 
+<style lang="scss" scoped>
+#profilePicture {
+  max-width: 150px;
+  margin: auto;
+  margin-top: 50px;
+}
+</style>
 <style lang="scss">
-.n-timeline-item-content__content {
+.n-timeline-item-content__content,
+.n-timeline .n-timeline-item .n-timeline-item-content .n-timeline-item-content__title {
   text-align: left !important;
 }
 </style>
