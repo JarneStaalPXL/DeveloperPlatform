@@ -4,20 +4,30 @@
       <n-space vertical>
         <section class="d-flex">
           <n-p class="w-50">Page Size</n-p>
-          <n-input-number class="w-50" :min="0" :max="100" placeholder="Enter pagesize"
-            v-model:value="pagination.pageSize"></n-input-number>
+          <n-input-number
+            class="w-50"
+            :min="0"
+            :max="100"
+            placeholder="Enter pagesize"
+            v-model:value="pagination.pageSize"
+          ></n-input-number>
         </section>
-        <n-button v-if="checkedRowKeys.length > 0 && $store.state.allUserActivities.length > 0"
-          @click="deleteSelectedRows(checkedRowKeys)">Delete selected rows</n-button>
-        <n-data-table ref="table" :columns="columns" :data="$store.state.allUserActivities" :pagination="pagination"
-          :row-key="rowKey" @update:checked-row-keys="handleCheck" />
+        <n-button
+          v-if="checkedRowKeys.length > 0 && $store.state.allUserActivities.length > 0"
+          @click="deleteSelectedRows(checkedRowKeys)"
+          >Delete selected rows</n-button
+        >
+        <n-data-table
+          ref="table"
+          :columns="columns"
+          :data="$store.state.allUserActivities"
+          :pagination="pagination"
+          :row-key="rowKey"
+          @update:checked-row-keys="handleCheck"
+        />
       </n-space>
     </n-card>
-    <n-dropdown :options="dropdownOptions">
-    <n-button>User profile</n-button>
-  </n-dropdown>
   </n-card>
-  
 </template>
 
 <script>
@@ -33,7 +43,7 @@ import {
   NTag,
   NDropdown,
   useLoadingBar,
-  NIcon
+  NIcon,
 } from "naive-ui";
 import { h, ref } from "vue";
 import UniqueUserLog from "./UniqueUserLog.vue";
@@ -48,7 +58,7 @@ import {
   ArrowBackOutline,
   PersonCircleOutline as UserIcon,
   Pencil as EditIcon,
-  LogOutOutline as LogoutIcon
+  LogOutOutline as LogoutIcon,
 } from "@vicons/ionicons5";
 
 function renderIcon(icon) {
@@ -170,23 +180,6 @@ export default {
     const checkedRowKeysRef = ref([]);
 
     return {
-      dropdownOptions: [
-        {
-          label: 'Profile',
-          key: 'profile',
-          icon: renderIcon(UserIcon)
-        },
-        {
-          label: 'Edit Profile',
-          key: 'editProfile',
-          icon: renderIcon(EditIcon)
-        },
-        {
-          label: 'Logout',
-          key: 'logout',
-          icon: renderIcon(LogoutIcon)
-        }
-      ],
       checkedRowKeys: checkedRowKeysRef,
       table: tableRef,
       rowKey: (row) => row.key,
