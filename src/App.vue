@@ -75,7 +75,6 @@
                 "
                 :round="false"
                 :default-value="colorCheck()"
-                v-model:value="switchIsChecked"
                 @update:value="handleColorChange"
               >
                 <template #checked-icon>
