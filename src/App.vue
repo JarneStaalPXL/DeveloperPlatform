@@ -65,29 +65,7 @@
               :collapsed-icon-size="22"
               :options="categoryOptions"
             />
-            <div class="d-flex">
-              <n-switch
-                size="medium"
-                :style="
-                  $store.state.verticalMenuCollapsed
-                    ? { marginLeft: '10px' }
-                    : { marginLeft: '30px' }
-                "
-                :round="false"
-                :default-value="colorCheck()"
-                @update:value="handleColorChange"
-              >
-                <template #checked-icon>
-                  <n-icon :component="DarkModeIcon" />
-                </template>
-                <template #unchecked-icon>
-                  <n-icon :component="LightModeIcon" />
-                </template>
-              </n-switch>
-              <span v-if="!collapsed" :style="{ marginLeft: '30px' }">{{
-                switchIsChecked ? "Dark" : "Light"
-              }}</span>
-            </div>
+           
           </n-layout-sider>
           <n-layout-content>
             <n-loading-bar-provider>
@@ -333,7 +311,7 @@ export default {
     },
     openLink(link) {
       if(link === "colormode"){
-        this.handleColorChange(!this.switchIsChecked);
+        this.handleColorChange(this.$store.state.colorMode.includes("Dark") ? false : true);
         return;
       }
       if (link === "logout") {
