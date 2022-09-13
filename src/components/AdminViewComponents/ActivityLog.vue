@@ -13,7 +13,11 @@
           :row-key="rowKey" @update:checked-row-keys="handleCheck" />
       </n-space>
     </n-card>
+    <n-dropdown :options="dropdownOptions">
+    <n-button>User profile</n-button>
+  </n-dropdown>
   </n-card>
+  
 </template>
 
 <script>
@@ -27,10 +31,29 @@ import {
   NSpace,
   NP,
   NTag,
+  NDropdown,
   useLoadingBar,
+  NIcon
 } from "naive-ui";
 import { h, ref } from "vue";
 import UniqueUserLog from "./UniqueUserLog.vue";
+
+import {
+  BookOutline as BookIcon,
+  PersonOutline as PersonIcon,
+  WineOutline as WineIcon,
+  HomeOutline as HomeIcon,
+  HeartOutline as HeartIcon,
+  ArrowForwardOutline,
+  ArrowBackOutline,
+  PersonCircleOutline as UserIcon,
+  Pencil as EditIcon,
+  LogOutOutline as LogoutIcon
+} from "@vicons/ionicons5";
+
+function renderIcon(icon) {
+  return () => h(NIcon, null, { default: () => h(icon) });
+}
 
 const columns = [
   {
@@ -99,6 +122,7 @@ export default {
     NP,
     NSpace,
     NTag,
+    NDropdown,
     UniqueUserLog,
   },
   mounted() {
@@ -146,6 +170,23 @@ export default {
     const checkedRowKeysRef = ref([]);
 
     return {
+      dropdownOptions: [
+        {
+          label: 'Profile',
+          key: 'profile',
+          icon: renderIcon(UserIcon)
+        },
+        {
+          label: 'Edit Profile',
+          key: 'editProfile',
+          icon: renderIcon(EditIcon)
+        },
+        {
+          label: 'Logout',
+          key: 'logout',
+          icon: renderIcon(LogoutIcon)
+        }
+      ],
       checkedRowKeys: checkedRowKeysRef,
       table: tableRef,
       rowKey: (row) => row.key,

@@ -10,6 +10,29 @@
             :options="menuOptions"
             @update:value="openLink"
           />
+          <n-dropdown
+            :options="options"
+            v-if="$store.state.isLoggedIn"
+            @select="openLink"
+          >
+            <n-button>Profile</n-button>
+          </n-dropdown>
+
+          <n-popover placement="bottom-end" trigger="click"  style="max-height: 500px" scrollable>
+            <template #trigger>
+              <n-icon size="30" class="mobileMenu">
+                <menu-icon />
+              </n-icon>
+            </template>
+            <div class="large-text">
+              <n-menu  accordion
+              :style="{ height: '95%' }"
+              @update:value="openLink"
+              :collapsed-width="64"
+              :collapsed-icon-size="22"
+              :options="mobileCategories" />
+            </div>
+          </n-popover>
           <n-button
             @click="$router.push('/login')"
             v-if="!$store.state.isLoggedIn && $route.path !== '/login'"
@@ -20,18 +43,12 @@
             v-if="!$store.state.isLoggedIn && $route.path !== '/register'"
             >Sign up</n-button
           >
-          <span v-if="$store.state.name" style="margin-right: 20px"
-            >Welcome {{ $store.state.name }}</span
-          >
-          <n-button @click="handleSignout()" v-if="$store.state.isLoggedIn"
-            >Log out</n-button
-          >
         </n-layout-header>
         <n-layout has-sider>
-          <n-layout-sider
-          :collapsed="$store.state.verticalMenuCollapsed"
-          @collapse="$store.state.verticalMenuCollapsed = true"
-        @expand="$store.state.verticalMenuCollapsed = false"
+          <n-layout-sider class="layoutSider"
+            :collapsed="$store.state.verticalMenuCollapsed"
+            @collapse="$store.state.verticalMenuCollapsed = true"
+            @expand="$store.state.verticalMenuCollapsed = false"
             bordered
             show-trigger
             collapse-mode="width"
@@ -41,6 +58,7 @@
             style="min-height: 320px"
           >
             <n-menu
+              accordion
               :style="{ height: '95%' }"
               @update:value="openLink"
               :collapsed-width="64"
@@ -48,24 +66,29 @@
               :options="categoryOptions"
             />
             <div class="d-flex">
-              <n-switch 
-            size="medium"
-
-            :style="$store.state.verticalMenuCollapsed ? { marginLeft:'10px'} : {marginLeft:'30px'}"
-            :round="false"
-            :default-value="colorCheck()"
-            @update:value="handleColorChange"
-          >
-            <template #checked-icon>
-              <n-icon :component="DarkModeIcon" />
-            </template>
-            <template #unchecked-icon>
-              <n-icon :component="LightModeIcon" />
-            </template>
-          </n-switch>
-          <span v-if="!collapsed" :style="{marginLeft:'30px'}">{{switchIsChecked ? 'Dark' : 'Light'}}</span>
+              <n-switch
+                size="medium"
+                :style="
+                  $store.state.verticalMenuCollapsed
+                    ? { marginLeft: '10px' }
+                    : { marginLeft: '30px' }
+                "
+                :round="false"
+                :default-value="colorCheck()"
+                v-model:value="switchIsChecked"
+                @update:value="handleColorChange"
+              >
+                <template #checked-icon>
+                  <n-icon :component="DarkModeIcon" />
+                </template>
+                <template #unchecked-icon>
+                  <n-icon :component="LightModeIcon" />
+                </template>
+              </n-switch>
+              <span v-if="!collapsed" :style="{ marginLeft: '30px' }">{{
+                switchIsChecked ? "Dark" : "Light"
+              }}</span>
             </div>
-           
           </n-layout-sider>
           <n-layout-content>
             <n-loading-bar-provider>
@@ -102,6 +125,10 @@ import {
   HeartOutline as HeartIcon,
   ArrowForwardOutline,
   ArrowBackOutline,
+  PersonCircleOutline as UserIcon,
+  Pencil as EditIcon,
+  LogOutOutline as LogoutIcon,
+  Menu as MenuIcon,
 } from "@vicons/ionicons5";
 import { World as WorldIcon, Sun as LightModeIcon } from "@vicons/tabler";
 import {
@@ -126,6 +153,26 @@ const menuOptions = [
     label: "Favorites",
     key: "/favorites",
     icon: renderIcon(HeartIcon),
+  },
+];
+
+const options = [
+  {
+    label: "Profile",
+    key: "profile",
+    icon: renderIcon(UserIcon),
+    disabled: true,
+  },
+  {
+    label: "Switch mode",
+    key: "colormode",
+    icon: renderIcon(ColorIcon),
+
+  },
+  {
+    label: "Logout",
+    key: "logout",
+    icon: renderIcon(LogoutIcon),
   },
 ];
 
@@ -172,6 +219,29 @@ const categoryOptions = [
   },
 ];
 
+const mobileCategories = [
+  {
+    label: "Global Frontend Tools",
+    key: "/globalfrontendtools",
+    icon: renderIcon(WorldIcon),
+  },
+  {
+    label: "Gradient Generators",
+    key: "/gradientgenerators",
+    icon: renderIcon(GradientIcon),
+  },
+  {
+    label: "Color Generators",
+    key: "/colorgenerators",
+    icon: renderIcon(ColorIcon),
+  },
+  {
+    label: "Hosting Providers",
+    key: "/hostingproviders",
+    icon: renderIcon(HostingIcon),
+  },
+]
+
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import {
   NButton,
@@ -194,11 +264,13 @@ import {
   NMenu,
   NLayoutFooter,
   NP,
+  NPopover,
 } from "naive-ui";
 export default {
   name: "TemplateDesigner",
   data() {
     return {
+      showMobileToolCategoriesPopover: false,
       collapsed: false,
       isScrollingDown: false,
       switchIsChecked: false,
@@ -228,10 +300,11 @@ export default {
     NMenu,
     NLayoutFooter,
     NLayoutContent,
+    NPopover,
     NP,
   },
   methods: {
-    checkIfOnMobile(){
+    checkIfOnMobile() {
       if (window.innerWidth <= 768) {
         this.$store.commit("setVerticalMenuCollapsed", true);
       } else {
@@ -260,6 +333,15 @@ export default {
       }
     },
     openLink(link) {
+      if(link === "colormode"){
+        this.handleColorChange(!this.switchIsChecked);
+        return;
+      }
+      if (link === "logout") {
+        this.handleSignout();
+        this.showMobileToolCategoriesPopover === false;
+        return;
+      }
       if (link.includes("https://")) window.open(link, "_blank");
       else this.$router.push(link);
       this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", link);
@@ -391,6 +473,10 @@ export default {
   async mounted() {
     //set color mode
     await this.$store.dispatch("GET_USER_COLOR_MODE");
+    if (localStorage.getItem("userName") !== null) {
+      //set option of options that matches Profile label
+      options[0].label = localStorage.getItem("userName");
+    }
     document.addEventListener("scroll", () => {
       //Check if scrollY is decreasing
       if (window.scrollY < this.lastScrollY) {
@@ -403,9 +489,11 @@ export default {
   },
   setup() {
     return {
+      options,
       inverted: ref(false),
       menuOptions,
       darkTheme,
+      mobileCategories,
 
       handleSelect(key) {
         console.log(String(key));
@@ -462,14 +550,13 @@ const handleSignout = () => {
 }
 
 .n-scrollbar-content {
-    display: flex !important;
-    flex-direction: column!important;
-    height: 100%!important;
-  }
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
 </style>
 
 <style lang="scss">
-  
 // .content {
 //   height: 100vh;
 // }
@@ -540,11 +627,9 @@ p {
   color: black;
   cursor: text;
 }
-
 </style>
 
 <style lang="scss" scoped>
-
 .actionButtonContainer {
   button {
     color: white;
@@ -566,8 +651,15 @@ p {
     }
   }
 }
-
-@media only screen and (min-width: 650px) {
+@media only screen and (min-width: 650px){
+  .mobileMenu {
+    display:none !important;
+  }
+}
+@media only screen and (max-width: 650px) {
+  .layoutSider {
+    display:none !important;
+  }
   .allItemsFooter {
     button {
       width: 200px !important;

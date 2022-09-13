@@ -358,7 +358,7 @@ export default {
     return {
       generatedGradientBGS: [],
       selectedGradient: null,
-      amountBG: 12,
+      amountBG: 15,
       amountBGSelect: null,
       selectedFirstColor: null,
       selectedSecondColor: null,

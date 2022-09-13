@@ -136,7 +136,7 @@ router.beforeEach((to, from, next) => {
       return;
     }
   }
-
+    //loadingbar
   store.dispatch("ADD_PAGE_VISIT_ROUTE", to.fullPath);
   store.dispatch("GET_PAGE_VISITS");
   next();
