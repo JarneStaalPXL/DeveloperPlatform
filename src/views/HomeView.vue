@@ -58,8 +58,8 @@
         want to use. It's continously expanding features and possibilities.
       </h6>
       <h6>
-        We are currently trying to completely redesign the website. This might cause the
-        mobile version not to be usable yet. We are sorry for these inconveniences
+        We are currently trying to completely redesign the website. Changing color mode
+        won't work yet on mobile. We are sorry for these inconveniences
       </h6>
       <h6>
         Visit our

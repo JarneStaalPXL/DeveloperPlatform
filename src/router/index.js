@@ -7,23 +7,25 @@ import DOMAnalyzerView from "../views/DOMAnalyzerView";
 import ColorPalleteGeneratorView from "../views/ColorPalleteGeneratorView";
 import ColorLightenerDarkerView from "../views/ColorLightenerDarkerView";
 import AdminView from "../views/AdminView";
-import ColorGeneratorsToolsPageView from '@/views/ColorGeneratorsToolsPageView'
-import GradientGeneratorsToolsPageView from '@/views/GradientGeneratorsToolsPageView'
-import HostingProvidersPageView from '@/views/HostingProvidersPageView'
-import GlobalFrontendToolsPageView from '@/views/GlobalFrontendToolsPageView'
-import FavoriteToolsPageView from '@/views/FavoriteToolsPageView'
-import NotFoundView from '@/views/NotFoundView'
+import ColorGeneratorsToolsPageView from "@/views/ColorGeneratorsToolsPageView";
+import GradientGeneratorsToolsPageView from "@/views/GradientGeneratorsToolsPageView";
+import HostingProvidersPageView from "@/views/HostingProvidersPageView";
+import GlobalFrontendToolsPageView from "@/views/GlobalFrontendToolsPageView";
+import FavoriteToolsPageView from "@/views/FavoriteToolsPageView";
+import NotFoundView from "@/views/NotFoundView";
 import store from "../store";
 import RegisterView from "@/views/RegisterView";
 import LoginView from "@/views/LoginView";
 import ForgotPasswordView from "@/views/ForgotPasswordView";
+import ProfileView from "@/views/ProfileView";
+import { useLoadingBar } from "naive-ui";
 
 const routes = [
   {
     path: "/:catchAll(.*)",
     name: "NotFound",
     component: NotFoundView,
-},
+  },
   {
     path: "/",
     name: "home",
@@ -70,10 +72,11 @@ const routes = [
     component: GlobalFrontendToolsPageView,
   },
   {
-    path:"/gradientgenerators",
-    name:"gradientgenerators",
-    component:GradientGeneratorsToolsPageView,
-  }, {
+    path: "/gradientgenerators",
+    name: "gradientgenerators",
+    component: GradientGeneratorsToolsPageView,
+  },
+  {
     path: "/colorgenerators",
     name: "colorgenerators",
     component: ColorGeneratorsToolsPageView,
@@ -82,11 +85,11 @@ const routes = [
     path: "/hostingproviders",
     name: "hostingproviders",
     component: HostingProvidersPageView,
-  }, 
+  },
   {
     path: "/favorites",
     name: "favorites",
-    component: FavoriteToolsPageView
+    component: FavoriteToolsPageView,
   },
   {
     path: "/login",
@@ -96,14 +99,36 @@ const routes = [
   {
     path: "/register",
     name: "register",
-    component: RegisterView
-  }, 
+    component: RegisterView,
+  },
   {
     path: "/forgotpassword",
     name: "forgotpassword",
-    component: ForgotPasswordView
-  }
+    component: ForgotPasswordView,
+  },
+  {
+    path: "/profile",
+    name: "profile",
+    component: ProfileView,
+  },
 ];
+
+import {
+  createDiscreteApi,
+  ConfigProviderProps,
+  darkTheme,
+  lightTheme,
+} from "naive-ui";
+import { computed, defineComponent, ref } from 'vue'
+
+
+const configProviderPropsRef = computed(() => ({
+  theme: store.state.colorMode.toLowerCase() === 'light'? lightTheme : darkTheme
+}));
+
+const { loadingBar } = createDiscreteApi(["loadingBar"], {
+  configProviderProps: configProviderPropsRef,
+});
 
 const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
@@ -122,13 +147,16 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  loadingBar.start();
+  // const loadingBar = useLoadingBar();
+  // loadingBar.start();
   if (to.name === "adminpanel") {
     if (localStorage.getItem("email") === null) {
       //TODO: REDIRECT TO ACCES DENIED PAGE
       next("/");
       return;
     }
-    
+
     //TODO: CHECK IF USER IS ADMIN
     if (!localStorage.getItem("email").includes("jarne.staal9@gmail.com")) {
       //TODO: REDIRECT TO ACCES DENIED PAGE
@@ -136,10 +164,13 @@ router.beforeEach((to, from, next) => {
       return;
     }
   }
-    //loadingbar
   store.dispatch("ADD_PAGE_VISIT_ROUTE", to.fullPath);
   store.dispatch("GET_PAGE_VISITS");
   next();
+});
+
+router.afterEach((to, from) => {
+  loadingBar.finish();
 });
 
 export default router;

@@ -1,95 +1,97 @@
 <template>
-  <div class="content">
-    <n-config-provider
-      :theme="$store.state.colorMode === 'Light' ? null : darkTheme"
-    >
-      <n-layout>
-        <n-layout-header bordered>
-          <n-menu
-            mode="horizontal"
-            :options="menuOptions"
-            @update:value="openLink"
-          />
-          <n-dropdown
-            :options="options"
-            v-if="$store.state.isLoggedIn"
-            @select="openLink"
-          >
-            <n-button>Profile</n-button>
-          </n-dropdown>
-
-          <n-popover placement="bottom-end" trigger="click"  style="max-height: 500px" scrollable>
-            <template #trigger>
-              <n-icon size="30" class="mobileMenu">
-                <menu-icon />
-              </n-icon>
-            </template>
-            <div class="large-text">
-              <n-menu  accordion
-              :style="{ height: '95%' }"
-              @update:value="openLink"
+  <n-loading-bar-provider>
+    <div class="content">
+      <n-config-provider :theme="$store.state.colorMode === 'Light' ? null : darkTheme">
+        <n-layout>
+          <n-layout-header bordered>
+            <n-menu mode="horizontal" :options="menuOptions" @update:value="openLink" />
+            <n-dropdown
+              :options="options"
+              v-if="$store.state.isLoggedIn"
+              @select="openLink"
+            >
+              <n-button>Profile</n-button>
+            </n-dropdown>
+            <n-button
+              @click="$router.push('/login')"
+              v-if="!$store.state.isLoggedIn && $route.path !== '/login'"
+              >Log in</n-button
+            >
+            <n-button
+              @click="$router.push('/register')"
+              v-if="!$store.state.isLoggedIn && $route.path !== '/register'"
+              >Sign up</n-button
+            >
+            <n-popover
+              placement="bottom-end"
+              trigger="click"
+              style="max-height: 500px"
+              scrollable
+            >
+              <template #trigger>
+                <n-icon size="30" class="mobileMenu">
+                  <menu-icon />
+                </n-icon>
+              </template>
+              <div class="large-text">
+                <n-menu
+                  accordion
+                  :style="{ height: '95%' }"
+                  @update:value="openLink"
+                  :collapsed-width="64"
+                  :collapsed-icon-size="22"
+                  :options="mobileCategories"
+                />
+              </div>
+            </n-popover>
+          </n-layout-header>
+          <n-layout has-sider>
+            <n-layout-sider
+              class="layoutSider"
+              :collapsed="$store.state.verticalMenuCollapsed"
+              @collapse="$store.state.verticalMenuCollapsed = true"
+              @expand="$store.state.verticalMenuCollapsed = false"
+              bordered
+              show-trigger
+              collapse-mode="width"
               :collapsed-width="64"
-              :collapsed-icon-size="22"
-              :options="mobileCategories" />
-            </div>
-          </n-popover>
-          <n-button
-            @click="$router.push('/login')"
-            v-if="!$store.state.isLoggedIn && $route.path !== '/login'"
-            >Log in</n-button
-          >
-          <n-button
-            @click="$router.push('/register')"
-            v-if="!$store.state.isLoggedIn && $route.path !== '/register'"
-            >Sign up</n-button
-          >
-        </n-layout-header>
-        <n-layout has-sider>
-          <n-layout-sider class="layoutSider"
-            :collapsed="$store.state.verticalMenuCollapsed"
-            @collapse="$store.state.verticalMenuCollapsed = true"
-            @expand="$store.state.verticalMenuCollapsed = false"
-            bordered
-            show-trigger
-            collapse-mode="width"
-            :collapsed-width="64"
-            :width="240"
-            :native-scrollbar="false"
-            style="min-height: 320px"
-          >
-            <n-menu
-              accordion
-              :style="{ height: '95%' }"
-              @update:value="openLink"
-              :collapsed-width="64"
-              :collapsed-icon-size="22"
-              :options="categoryOptions"
-            />
-           
-          </n-layout-sider>
-          <n-layout-content>
-            <n-loading-bar-provider>
-              <n-notification-provider
-                :max="1"
-                :placement="$store.state.notificationPlacement"
-              >
-                <n-message-provider>
-                  <router-view v-slot="{ Component, route }">
-                    <transition type="transition" name="fade" mode="out-in">
-                      <component
-                        :is="Component"
-                        :key="route.meta.usePathKey ? route.path : undefined"
-                      />
-                    </transition>
-                  </router-view>
-                </n-message-provider>
-              </n-notification-provider>
-            </n-loading-bar-provider>
-          </n-layout-content>
+              :width="240"
+              :native-scrollbar="false"
+              style="min-height: 320px"
+            >
+              <n-menu
+                accordion
+                :style="{ height: '95%' }"
+                @update:value="openLink"
+                :collapsed-width="64"
+                :collapsed-icon-size="22"
+                :options="categoryOptions"
+              />
+            </n-layout-sider>
+            <n-layout-content>
+              <n-loading-bar-provider>
+                <n-notification-provider
+                  :max="1"
+                  :placement="$store.state.notificationPlacement"
+                >
+                  <n-message-provider>
+                    <router-view v-slot="{ Component, route }">
+                      <transition type="transition" name="fade" mode="out-in">
+                        <component
+                          :is="Component"
+                          :key="route.meta.usePathKey ? route.path : undefined"
+                        />
+                      </transition>
+                    </router-view>
+                  </n-message-provider>
+                </n-notification-provider>
+              </n-loading-bar-provider>
+            </n-layout-content>
+          </n-layout>
         </n-layout>
-      </n-layout>
-    </n-config-provider>
-  </div>
+      </n-config-provider>
+    </div>
+  </n-loading-bar-provider>
 </template>
 
 <script>
@@ -108,10 +110,7 @@ import {
   Menu as MenuIcon,
 } from "@vicons/ionicons5";
 import { World as WorldIcon, Sun as LightModeIcon } from "@vicons/tabler";
-import {
-  Gradient as GradientIcon,
-  CloudApp as HostingIcon,
-} from "@vicons/carbon";
+import { Gradient as GradientIcon, CloudApp as HostingIcon } from "@vicons/carbon";
 import { Color24Regular as ColorIcon } from "@vicons/fluent";
 
 import { DarkModeOutlined as DarkModeIcon } from "@vicons/material";
@@ -138,13 +137,11 @@ const options = [
     label: "Profile",
     key: "profile",
     icon: renderIcon(UserIcon),
-    disabled: true,
   },
   {
     label: "Switch mode",
     key: "colormode",
     icon: renderIcon(ColorIcon),
-
   },
   {
     label: "Logout",
@@ -217,7 +214,7 @@ const mobileCategories = [
     key: "/hostingproviders",
     icon: renderIcon(HostingIcon),
   },
-]
+];
 
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import {
@@ -310,8 +307,10 @@ export default {
       }
     },
     openLink(link) {
-      if(link === "colormode"){
-        this.handleColorChange(this.$store.state.colorMode.includes("Dark") ? false : true);
+      if (link === "colormode") {
+        this.handleColorChange(
+          this.$store.state.colorMode.includes("Dark") ? false : true
+        );
         return;
       }
       if (link === "logout") {
@@ -340,10 +339,7 @@ export default {
       return ("0" + digit).slice(-2);
     },
     async isAdmin() {
-      let isAdmin = await this.$store.dispatch(
-        "IS_ADMIN",
-        localStorage.getItem("uid")
-      );
+      let isAdmin = await this.$store.dispatch("IS_ADMIN", localStorage.getItem("uid"));
       return isAdmin;
     },
     setTime() {
@@ -435,21 +431,21 @@ export default {
     },
   },
   async beforeMount() {
-    this.checkIfOnMobile();
     await this.$store.dispatch("FILL_ALL_TOOLS_ARRAY");
     if (localStorage.getItem("uid") !== null) {
       this.$store.dispatch("LOAD_USER_SAVED_DATA", localStorage.getItem("uid"));
+      //get user favorite tools
+      await this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
+      //set color mode
+      await this.$store.dispatch("GET_USER_COLOR_MODE");
     }
     if (localStorage.getItem("favTools") === null) {
       localStorage.setItem("favTools", JSON.stringify([]));
     }
-    //get user favorite tools
-    await this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
+    this.checkIfOnMobile();
     this.setTime();
   },
   async mounted() {
-    //set color mode
-    await this.$store.dispatch("GET_USER_COLOR_MODE");
     if (localStorage.getItem("userName") !== null) {
       //set option of options that matches Profile label
       options[0].label = localStorage.getItem("userName");
@@ -628,14 +624,14 @@ p {
     }
   }
 }
-@media only screen and (min-width: 650px){
+@media only screen and (min-width: 650px) {
   .mobileMenu {
-    display:none !important;
+    display: none !important;
   }
 }
 @media only screen and (max-width: 650px) {
   .layoutSider {
-    display:none !important;
+    display: none !important;
   }
   .allItemsFooter {
     button {

@@ -650,6 +650,20 @@ export default createStore({
     }
   },
   actions: {
+    async GET_USER_VISIT_COUNT({ state }) {
+      const resp = await fetch(`${state.baseUrlStrapiApi}visit-log-count/getRouteVisitsFromUID/${localStorage.getItem("uid")}`,
+      {
+        method: "GET",
+        headers: {
+          Accept : "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+      });
+      const data = await resp.json();
+      console.log(data);
+      return data;
+    },
     async UPDATE_COLOR_MODE({state,commit}, mode){
       commit("setColorMode", mode);
       if(localStorage.getItem('uid') !== null){
