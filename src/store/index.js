@@ -661,7 +661,6 @@ export default createStore({
         },
       });
       const data = await resp.json();
-      console.log(data);
       return data;
     },
     async UPDATE_COLOR_MODE({state,commit}, mode){
