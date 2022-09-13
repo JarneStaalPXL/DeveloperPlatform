@@ -30,7 +30,7 @@
             >
               <template #trigger>
                 <n-icon size="30" class="mobileMenu">
-                  <menu-icon />
+                  <menu-hamburger-icon />
                 </n-icon>
               </template>
               <div class="large-text">
@@ -107,7 +107,7 @@ import {
   PersonCircleOutline as UserIcon,
   Pencil as EditIcon,
   LogOutOutline as LogoutIcon,
-  Menu as MenuIcon,
+  Menu as MenuHamburgerIcon,
 } from "@vicons/ionicons5";
 import { World as WorldIcon, Sun as LightModeIcon } from "@vicons/tabler";
 import { Gradient as GradientIcon, CloudApp as HostingIcon } from "@vicons/carbon";
@@ -216,6 +216,7 @@ const mobileCategories = [
   },
 ];
 
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import {
   NButton,
@@ -244,6 +245,7 @@ export default {
   name: "TemplateDesigner",
   data() {
     return {
+      isLoggedIn: false,
       showMobileToolCategoriesPopover: false,
       collapsed: false,
       isScrollingDown: false,
@@ -276,6 +278,7 @@ export default {
     NLayoutContent,
     NPopover,
     NP,
+    MenuHamburgerIcon,
   },
   methods: {
     checkIfOnMobile() {
@@ -314,8 +317,7 @@ export default {
         return;
       }
       if (link === "logout") {
-        this.handleSignout();
-        this.showMobileToolCategoriesPopover === false;
+        this.signOutUser();
         return;
       }
       if (link.includes("https://")) window.open(link, "_blank");
@@ -412,6 +414,14 @@ export default {
           // ...
         });
     },
+    signOutUser() {
+      signOut(window.$auth).then(() => {
+        this.$store.commit("removeUserData");
+        this.$store.commit("setIsAdmin", false);
+        this.$router.push("/");
+        window.$notification.destroyAll();
+      });
+    },
   },
   computed: {
     getPageVisits() {
@@ -446,6 +456,25 @@ export default {
     this.setTime();
   },
   async mounted() {
+    //refractoring the code for bug fixing
+    window.$auth = getAuth();
+    onAuthStateChanged(window.$auth, (user) => {
+      if (user !== null) {
+        this.isLoggedIn = !!user;
+        this.$store.state.isLoggedIn = this.isLoggedIn;
+      }
+    });
+
+    // const handleSignout = () => {
+    //   signOut(window.$auth).then(() => {
+    //     this.$store.commit("removeUserData");
+    //     this.$store.commit("setIsAdmin", false);
+    //     this.$router.push("/");
+    //     window.$notification.destroyAll();
+    //   });
+    // };
+    //
+
     if (localStorage.getItem("userName") !== null) {
       //set option of options that matches Profile label
       options[0].label = localStorage.getItem("userName");
@@ -462,6 +491,7 @@ export default {
   },
   setup() {
     return {
+      categoryOptions,
       options,
       inverted: ref(false),
       menuOptions,
@@ -476,6 +506,7 @@ export default {
 };
 </script>
 
+<!--
 <script setup>
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { onMounted, ref } from "vue";
@@ -505,7 +536,7 @@ const handleSignout = () => {
     window.$notification.destroyAll();
   });
 };
-</script>
+</script> -->
 
 <style>
 .n-layout-content {
