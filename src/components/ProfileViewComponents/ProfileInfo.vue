@@ -30,8 +30,8 @@
               v-for="item in routeVisitsToday"
               :key="item"
               type="success"
-              title="Visited Route"
-              :content="item.route"
+              :title="item.route"
+              content="Visited Route"
               :time="item.timeStamp"
             />
             <!-- <n-timeline-item content="Oops" />
