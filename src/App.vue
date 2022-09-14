@@ -316,6 +316,7 @@ export default {
           await this.$store.dispatch("CREATE_ACCOUNT", result.user);
           await this.$store.dispatch("GET_PAGE_VISITS");
           await this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
+          await this.$store.dispatch("IS_ADMIN", localStorage.getItem("uid"));
           //show notification
 
           if (localStorage.getItem("uid") !== null) {
