@@ -15,7 +15,6 @@ Make a difference and join the Discord Server to help improve the site and get t
 ## Front-end Hosting
 [![Netlify Status](https://api.netlify.com/api/v1/badges/2b59b341-4ba0-4c1d-8159-e0b8b49752f5/deploy-status)](https://app.netlify.com/sites/developerplatform/deploys)
 
-
 ## Back-end Hosting
 [Railway](https://img.shields.io/badge/Railway-0B0D0E.svg?style=for-the-badge&logo=Railway&logoColor=white)
 
