@@ -2,7 +2,7 @@
 
 This site is still under development but you can get lots of awesome tools on here for your website and designs! 
 Constantly adding more and improving user flow.
-[Developer Platform](https://developerplatform.net/)
+[Visit the website](https://developerplatform.net/)
 
 ## Looking for Contributors ✨
 We are looking for contributors to help us improve the site and add more features. If you are interested in helping out, please contact us on our <a href="https://discord.com/invite/3nfeEgcYgh"><img src="https://img.shields.io/badge/Discord-5865F2.svg?style=for-the-badge&logo=Discord&logoColor=white"/></a> server.
