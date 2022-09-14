@@ -96,6 +96,7 @@ import {
 import { World as WorldIcon, Sun as LightModeIcon } from "@vicons/tabler";
 import { Gradient as GradientIcon, CloudApp as HostingIcon } from "@vicons/carbon";
 import { Color24Regular as ColorIcon } from "@vicons/fluent";
+
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
 }
@@ -423,13 +424,11 @@ export default {
               label: "Login",
               key: "login",
               icon: renderIcon(PersonIcon),
-              show: false,
             },
             {
               label: "Register",
               key: "register",
               icon: renderIcon(PersonIcon),
-              show: () => this.$store.state.isLoggedIn,
             },
           ],
         },
