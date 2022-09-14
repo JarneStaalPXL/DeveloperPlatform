@@ -5,12 +5,12 @@ Constantly adding more and improving user flow.
 [Developer Platform](https://developerplatform.net/)
 
 ## Looking for Contributors ✨
+We are looking for contributors to help us improve the site and add more features. If you are interested in helping out, please contact us on our <a href="https://discord.com/invite/3nfeEgcYgh"><img src="https://img.shields.io/badge/Discord-5865F2.svg?style=for-the-badge&logo=Discord&logoColor=white"/></a>.
 
 ## Join the Discord Server 🎉
 Make a difference and join the Discord Server to help improve the site and get the latest updates!
 
-[Discord](https://discord.com/invite/3nfeEgcYgh)
-
+<a href="https://discord.com/invite/3nfeEgcYgh"><img src="https://img.shields.io/badge/Discord-5865F2.svg?style=for-the-badge&logo=Discord&logoColor=white"/></a>
 
 ## Front-end Hosting
 [![Netlify Status](https://api.netlify.com/api/v1/badges/2b59b341-4ba0-4c1d-8159-e0b8b49752f5/deploy-status)](https://app.netlify.com/sites/developerplatform/deploys)
