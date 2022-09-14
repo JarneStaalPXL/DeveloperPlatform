@@ -426,13 +426,11 @@ export default {
               label: "Login",
               key: "login",
               icon: renderIcon(PersonIcon),
-              show: false,
             },
             {
               label: "Register",
               key: "register",
               icon: renderIcon(PersonIcon),
-              show: () => this.$store.state.isLoggedIn,
             },
           ],
         },
