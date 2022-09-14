@@ -71,7 +71,6 @@ export default {
   },
   data() {
     return {
-      //   email: null,
       password: null,
       arr: [
         "Sign in to increase your productivity",
