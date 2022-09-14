@@ -8,7 +8,6 @@ Constantly adding more and improving user flow.
 
 ## Join the Discord Server 🎉
 Make a difference and join the Discord Server to help improve the site and get the latest updates!
-
 [Discord](https://discord.com/invite/3nfeEgcYgh)
 
 
