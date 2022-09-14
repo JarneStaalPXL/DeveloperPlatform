@@ -17,10 +17,10 @@ Make a difference and join the Discord Server to help improve the site and get t
 
 
 ## Back-end Hosting
-https://img.shields.io/badge/Railway-0B0D0E.svg?style=for-the-badge&logo=Railway&logoColor=white
+<img src="https://img.shields.io/badge/Railway-0B0D0E.svg?style=for-the-badge&logo=Railway&logoColor=white"/>
 
 ## Backend CMS 📦
-[[Strapi](https://img.shields.io/badge/Strapi-2F2E8B.svg?style=for-the-badge&logo=Strapi&logoColor=white)
+<img src="https://img.shields.io/badge/Strapi-2F2E8B.svg?style=for-the-badge&logo=Strapi&logoColor=white"/>
 
 ## User Authentication 🔐
 [![Firebase Authentication](https://img.shields.io/badge/Firebase-FFCA28.svg?style=for-the-badge&logo=Firebase&logoColor=black)
