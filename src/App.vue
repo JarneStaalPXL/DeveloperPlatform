@@ -97,8 +97,6 @@ import { World as WorldIcon, Sun as LightModeIcon } from "@vicons/tabler";
 import { Gradient as GradientIcon, CloudApp as HostingIcon } from "@vicons/carbon";
 import { Color24Regular as ColorIcon } from "@vicons/fluent";
 
-import { DarkModeOutlined as DarkModeIcon } from "@vicons/material";
-
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
 }
