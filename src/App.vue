@@ -425,6 +425,11 @@ export default {
               key: "register",
               icon: renderIcon(PersonIcon),
             },
+            {
+              label: "Switch mode",
+              key: "colormode",
+              icon: renderIcon(ColorIcon),
+            },
           ],
         },
       ];
