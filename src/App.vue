@@ -81,19 +81,14 @@
 import { h, ref, computed } from "vue";
 import { useStore } from "vuex";
 import {
-  BookOutline as BookIcon,
   PersonOutline as PersonIcon,
-  WineOutline as WineIcon,
   HomeOutline as HomeIcon,
   HeartOutline as HeartIcon,
-  ArrowForwardOutline,
-  ArrowBackOutline,
   PersonCircleOutline as UserIcon,
-  Pencil as EditIcon,
   LogOutOutline as LogoutIcon,
   Menu as MenuHamburgerIcon,
 } from "@vicons/ionicons5";
-import { World as WorldIcon, Sun as LightModeIcon } from "@vicons/tabler";
+import { World as WorldIcon } from "@vicons/tabler";
 import { Gradient as GradientIcon, CloudApp as HostingIcon } from "@vicons/carbon";
 import { Color24Regular as ColorIcon } from "@vicons/fluent";
 
@@ -321,6 +316,7 @@ export default {
           await this.$store.dispatch("CREATE_ACCOUNT", result.user);
           await this.$store.dispatch("GET_PAGE_VISITS");
           await this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
+          await this.$store.dispatch("IS_ADMIN", localStorage.getItem("uid"));
           //show notification
 
           if (localStorage.getItem("uid") !== null) {
@@ -429,6 +425,11 @@ export default {
               label: "Register",
               key: "register",
               icon: renderIcon(PersonIcon),
+            },
+            {
+              label: "Switch mode",
+              key: "colormode",
+              icon: renderIcon(ColorIcon),
             },
           ],
         },
