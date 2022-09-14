@@ -5,7 +5,7 @@ Constantly adding more and improving user flow.
 [Developer Platform](https://developerplatform.net/)
 
 ## Looking for Contributors ✨
-We are looking for contributors to help us improve the site and add more features. If you are interested in helping out, please contact us on our <a href="https://discord.com/invite/3nfeEgcYgh"><img src="https://img.shields.io/badge/Discord-5865F2.svg?style=for-the-badge&logo=Discord&logoColor=white"/></a>.
+We are looking for contributors to help us improve the site and add more features. If you are interested in helping out, please contact us on our <a href="https://discord.com/invite/3nfeEgcYgh"><img src="https://img.shields.io/badge/Discord-5865F2.svg?style=for-the-badge&logo=Discord&logoColor=white"/></a> server.
 
 ## Join the Discord Server 🎉
 Make a difference and join the Discord Server to help improve the site and get the latest updates!
