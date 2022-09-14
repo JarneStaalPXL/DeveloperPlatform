@@ -13,38 +13,58 @@ Make a difference and join the Discord Server to help improve the site and get t
 
 
 ## Front-end Hosting
+[![Netlify Status](https://api.netlify.com/api/v1/badges/2b59b341-4ba0-4c1d-8159-e0b8b49752f5/deploy-status)](https://app.netlify.com/sites/developerplatform/deploys)
+
+
+## Back-end Hosting
+[![Railway](https://img.shields.io/badge/Railway-0B0D0E.svg?style=for-the-badge&logo=Railway&logoColor=white)
+
+## Backend CMS 📦
+[![Strapi](https://img.shields.io/badge/Strapi-2F2E8B.svg?style=for-the-badge&logo=Strapi&logoColor=white)
+
+## User Authentication 🔐
+[![Firebase Authentication](https://img.shields.io/badge/Firebase-FFCA28.svg?style=for-the-badge&logo=Firebase&logoColor=black)
+
+## Used Languages 📚
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=for-the-badge&logo=JavaScript&logoColor=black)
+
+## Used Frameworks
+[![Vue.js](https://img.shields.io/badge/Vue.js-4FC08D.svg?style=for-the-badge&logo=vuedotjs&logoColor=white)
+[![Node.js](https://img.shields.io/badge/Node.js-339933.svg?style=for-the-badge&logo=nodedotjs&logoColor=white)
+
+## Front-end Hosting
 [![Netlify Status](https://api.netlify.com/api/v1/badges/2b59b341-4ba0-4c1d-8159-e0b8b49752f5/deploy-status)](https://app.netlify.com/sites/developerplatform/deploys)]
 
 
 ## Back-end Hosting
-[Railway](https://img.shields.io/badge/Railway-0B0D0E.svg?style=for-the-badge&logo=Railway&logoColor=white)
+[![Railway](https://img.shields.io/badge/Railway-0B0D0E.svg?style=for-the-badge&logo=Railway&logoColor=white)
 
 ## Backend CMS 📦
-[Strapi](https://img.shields.io/badge/Strapi-2F2E8B.svg?style=for-the-badge&logo=Strapi&logoColor=white)
+[![Strapi](https://img.shields.io/badge/Strapi-2F2E8B.svg?style=for-the-badge&logo=Strapi&logoColor=white)
 
 ## User Authentication 🔐
-[Firebase Authentication](https://img.shields.io/badge/Firebase-FFCA28.svg?style=for-the-badge&logo=Firebase&logoColor=black)
+[![Firebase Authentication](https://img.shields.io/badge/Firebase-FFCA28.svg?style=for-the-badge&logo=Firebase&logoColor=black)
 
 ## Used Languages 📚
-[JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=for-the-badge&logo=JavaScript&logoColor=black)]
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=for-the-badge&logo=JavaScript&logoColor=black)
 
 ## Used Frameworks
-[Vue.js](https://img.shields.io/badge/Vue.js-4FC08D.svg?style=for-the-badge&logo=vuedotjs&logoColor=white)
-[Node.js](https://img.shields.io/badge/Node.js-339933.svg?style=for-the-badge&logo=nodedotjs&logoColor=white)
+[![Vue.js](https://img.shields.io/badge/Vue.js-4FC08D.svg?style=for-the-badge&logo=vuedotjs&logoColor=white)
+[![Node.js](https://img.shields.io/badge/Node.js-339933.svg?style=for-the-badge&logo=nodedotjs&logoColor=white)
 
 ## Project setup
 ```
-npm install
+yarn install
 ```
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+yarn serve
 ```
 
 ### Compiles and minifies for production
 ```
-npm run build
+yarn build
 ```
 
 ### Customize configuration
