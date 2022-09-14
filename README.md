@@ -19,19 +19,7 @@ Make a difference and join the Discord Server to help improve the site and get t
 ## Back-end Hosting
 [![Railway](https://img.shields.io/badge/Railway-0B0D0E.svg?style=for-the-badge&logo=Railway&logoColor=white)
 
-## Backend CMS 📦
-[![Strapi](https://img.shields.io/badge/Strapi-2F2E8B.svg?style=for-the-badge&logo=Strapi&logoColor=white)
-
-## User Authentication 🔐
-[![Firebase Authentication](https://img.shields.io/badge/Firebase-FFCA28.svg?style=for-the-badge&logo=Firebase&logoColor=black)
-
-## Used Languages 📚
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=for-the-badge&logo=JavaScript&logoColor=black)
-
 ## Used Frameworks
-[![Vue.js](https://img.shields.io/badge/Vue.js-4FC08D.svg?style=for-the-badge&logo=vuedotjs&logoColor=white)
-[![Node.js](https://img.shields.io/badge/Node.js-339933.svg?style=for-the-badge&logo=nodedotjs&logoColor=white)
-=======
 <img src="https://img.shields.io/badge/Railway-0B0D0E.svg?style=for-the-badge&logo=Railway&logoColor=white"/>
 
 ## Backend CMS 📦
@@ -46,7 +34,6 @@ Make a difference and join the Discord Server to help improve the site and get t
 ## Used Frameworks
 <img src="https://img.shields.io/badge/Vue.js-4FC08D.svg?style=for-the-badge&logo=vuedotjs&logoColor=white">
 <img src="https://img.shields.io/badge/Node.js-339933.svg?style=for-the-badge&logo=nodedotjs&logoColor=white">
->>>>>>> 2352535e85cfb911d0443025a22a0c94eac9f31b
 
 ## Project setup
 ```
