@@ -18,6 +18,7 @@ import RegisterView from "@/views/RegisterView";
 import LoginView from "@/views/LoginView";
 import ForgotPasswordView from "@/views/ForgotPasswordView";
 import ProfileView from "@/views/ProfileView";
+import LearningView from "@/views/LearningView";
 import { useLoadingBar } from "naive-ui";
 
 const routes = [
@@ -111,6 +112,11 @@ const routes = [
     name: "profile",
     component: ProfileView,
   },
+  {
+    path: "/learningtools",
+    name: "learningtools",
+    component: LearningView
+  }
 ];
 
 import {
