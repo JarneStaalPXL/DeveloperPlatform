@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { h, ref, computed } from "vue";
+import { h, ref } from "vue";
 import { useStore } from "vuex";
 import {
   PersonOutline as PersonIcon,
@@ -86,6 +86,7 @@ import {
   HeartOutline as HeartIcon,
   PersonCircleOutline as UserIcon,
   LogOutOutline as LogoutIcon,
+  BookOutline as BookIcon,
   Menu as MenuHamburgerIcon,
 } from "@vicons/ionicons5";
 import { World as WorldIcon } from "@vicons/tabler";
@@ -95,72 +96,6 @@ import { Color24Regular as ColorIcon } from "@vicons/fluent";
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
 }
-
-const categoryOptions = [
-  {
-    label: "Global Frontend Tools",
-    key: "/globalfrontendtools",
-    icon: renderIcon(WorldIcon),
-  },
-  {
-    label: "Gradient Generators",
-    key: "/gradientgenerators",
-    icon: renderIcon(GradientIcon),
-    children: [
-      {
-        label: "Linear Gradient Generator",
-        key: "/lineargradientgenerator",
-      },
-      {
-        label: "Radial Gradient Generator",
-        key: "/radialgradientgenerator",
-      },
-    ],
-  },
-  {
-    label: "Color Generators",
-    key: "/colorgenerators",
-    icon: renderIcon(ColorIcon),
-    children: [
-      {
-        label: "Color Lightener/Darker",
-        key: "/colorlightenerdarker",
-      },
-      {
-        label: "Color Pallete Generator",
-        key: "/colorPalleteGenerator",
-      },
-    ],
-  },
-  {
-    label: "Hosting Providers",
-    key: "/hostingproviders",
-    icon: renderIcon(HostingIcon),
-  },
-];
-
-const mobileCategories = [
-  {
-    label: "Global Frontend Tools",
-    key: "/globalfrontendtools",
-    icon: renderIcon(WorldIcon),
-  },
-  {
-    label: "Gradient Generators",
-    key: "/gradientgenerators",
-    icon: renderIcon(GradientIcon),
-  },
-  {
-    label: "Color Generators",
-    key: "/colorgenerators",
-    icon: renderIcon(ColorIcon),
-  },
-  {
-    label: "Hosting Providers",
-    key: "/hostingproviders",
-    icon: renderIcon(HostingIcon),
-  },
-];
 
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
@@ -371,6 +306,84 @@ export default {
     },
   },
   computed: {
+    mobileCategories() {
+      return [
+        {
+          label: "Global Frontend Tools",
+          key: "/globalfrontendtools",
+          icon: renderIcon(WorldIcon),
+        },
+        {
+          label: "Gradient Generators",
+          key: "/gradientgenerators",
+          icon: renderIcon(GradientIcon),
+        },
+        {
+          label: "Color Generators",
+          key: "/colorgenerators",
+          icon: renderIcon(ColorIcon),
+        },
+        {
+          label: "Hosting Providers",
+          key: "/hostingproviders",
+          icon: renderIcon(HostingIcon),
+        },
+        {
+          label: "Learning Tools",
+          key: "/learningtools",
+          icon: renderIcon(BookIcon),
+        },
+      ];
+    },
+    categoryOptions() {
+      return [
+        {
+          label: "Global Frontend Tools",
+          key: "/globalfrontendtools",
+          icon: renderIcon(WorldIcon),
+        },
+        {
+          label: "Gradient Generators",
+          key: "/gradientgenerators",
+          icon: renderIcon(GradientIcon),
+          children: [
+            {
+              label: "Linear Gradient Generator",
+              key: "/lineargradientgenerator",
+            },
+            {
+              label: "Radial Gradient Generator",
+              key: "/radialgradientgenerator",
+            },
+          ],
+        },
+        {
+          label: "Color Generators",
+          key: "/colorgenerators",
+          icon: renderIcon(ColorIcon),
+          children: [
+            {
+              label: "Color Lightener/Darker",
+              key: "/colorlightenerdarker",
+            },
+            {
+              label: "Color Pallete Generator",
+              key: "/colorPalleteGenerator",
+            },
+          ],
+        },
+        {
+          label: "Hosting Providers",
+          key: "/hostingproviders",
+          icon: renderIcon(HostingIcon),
+        },
+        {
+          label: "Learning Tools",
+          key: "/learningtools",
+          icon: renderIcon(BookIcon),
+        },
+      ];
+    },
     menuOpts() {
       return [
         {
@@ -477,23 +490,6 @@ export default {
         this.$store.state.isLoggedIn = this.isLoggedIn;
       }
     });
-
-    //if we are logged in
-    // if (localStorage.getItem("userName") !== null) {
-    //   //logged in so show children
-    //   this.menuOpts[2].children[0].show = true;
-    //   this.menuOpts[2].children[1].show = true;
-    //   this.menuOpts[2].children[4].show = true;
-
-    //   this.menuOpts[2].children[2].show = false;
-    //   this.menuOpts[2].children[3].show = false;
-    //   console.log(this.menuOpts[2]);
-    // } else {
-    //   //not logged in so hide children
-    //   this.menuOpts[2].children[0].show = false;
-    //   this.menuOpts[2].children[1].show = false;
-    //   this.menuOpts[2].children[4].show = false;
-    // }
     document.addEventListener("scroll", () => {
       //Check if scrollY is decreasing
       if (window.scrollY < this.lastScrollY) {
@@ -505,61 +501,9 @@ export default {
     });
   },
   setup() {
-    const store = useStore();
-    // const menuOpts = computed(() => [
-    //   {
-    //     label: "Home",
-    //     key: "/",
-    //     icon: renderIcon(HomeIcon),
-    //   },
-    //   {
-    //     label: "Favorites",
-    //     key: "/favorites",
-    //     icon: renderIcon(HeartIcon),
-    //   },
-    //   {
-    //     label: "Profile",
-    //     key: "profile",
-    //     //set show property depending if user is logged in
-    //     // show: () => this.$store.state.isLoggedIn,
-
-    //     // icon: renderIcon(BookIcon),
-    //     icon: renderIcon(PersonIcon),
-    //     children: [
-    //       {
-    //         label: "Profile",
-    //         key: "profile",
-    //         icon: renderIcon(UserIcon),
-    //       },
-    //       {
-    //         label: "Switch mode",
-    //         key: "colormode",
-    //         icon: renderIcon(ColorIcon),
-    //       },
-    //       {
-    //         label: "Login",
-    //         key: "login",
-    //         icon: renderIcon(PersonIcon),
-    //       },
-    //       {
-    //         label: "Register",
-    //         key: "register",
-    //         icon: renderIcon(PersonIcon),
-    //       },
-    //       {
-    //         label: "Logout",
-    //         key: "logout",
-    //         icon: renderIcon(LogoutIcon),
-    //         show: this / getLogInStatus,
-    //       },
-    //     ],
-    //   },
-    // ]);
     return {
-      categoryOptions,
       inverted: ref(false),
       darkTheme,
-      mobileCategories,
 
       handleSelect(key) {
         console.log(String(key));
