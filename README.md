@@ -6,8 +6,8 @@ Constantly adding more and improving user flow.
 
 ## Badges
 [![PyPi license](https://badgen.net/pypi/license/pip/)](https://pypi.com/project/pip/)
-[![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://developerplatform.net/)
-[![Api shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://developerplatformbackend.up.railway.app/)
+[![Website https://developerplatform.net/](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://developerplatform.net/)
+[![Website https://developerplatformbackend.up.railway.app/](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://developerplatformbackend.up.railway.app/)
 
 ## Looking for Contributors ✨
 We are looking for contributors to help us improve the site and add more features. If you are interested in helping out, please contact us on our <a href="https://discord.com/invite/3nfeEgcYgh" target="_blank"><img src="https://img.shields.io/badge/Discord-5865F2.svg?style=for-the-badge&logo=Discord&logoColor=white"/></a> server.
