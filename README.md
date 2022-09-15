@@ -5,9 +5,11 @@ Constantly adding more and improving user flow.
 <a href="https://developerplatform.net/" target="_blank">Visit the website</a>
 
 ## Badges
-[![PyPi license](https://badgen.net/pypi/license/pip/)](https://pypi.com/project/pip/)
+[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/DeveloperJarne/DeveloperPlatform/blob/main/LICENSE.md)
 [![Website https://developerplatform.net/ https://developerplatformbackend.up.railway.app/](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://developerplatform.net/)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/DeveloperJarne/DeveloperPlatform/graphs/commit-activity)
+[![made-with-javascript](https://img.shields.io/badge/Made%20with-JavaScript-1f425f.svg)](https://www.javascript.com)
+
 
 ## Looking for Contributors ✨
 We are looking for contributors to help us improve the site and add more features. If you are interested in helping out, please contact us on our <a href="https://discord.com/invite/3nfeEgcYgh" target="_blank"><img src="https://img.shields.io/badge/Discord-5865F2.svg?style=for-the-badge&logo=Discord&logoColor=white"/></a> server.
