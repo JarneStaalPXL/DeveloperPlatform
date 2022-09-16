@@ -48,14 +48,22 @@
         Developer Platform is a platform where you can favorite all the useful tools you
         want to use. It's continously expanding features and possibilities.
       </h6>
-      <h6>
-        We are currently trying to completely redesign the website. Changing color mode
-        won't work yet on mobile. We are sorry for these inconveniences
+      <h6 class="mt-3">
+        <a
+          href="https://github.com/DeveloperJarne/DeveloperPlatform/issues/new"
+          target="_blank"
+          >Open an issue</a
+        >
+        to provide feedback or to request a feature. You can also contribute to the
+        project by forking it on
+        <a href="https://github.com/DeveloperJarne/DeveloperPlatform" target="_blank"
+          >GitHub</a
+        >.
       </h6>
-      <h6>
-        Visit our
-        <a @click="openLink('https://discord.gg/3nfeEgcYgh')">Discord</a> to provide
-        feedback .
+      <h6 class="mt-3">
+        <a href="https://discord.gg/3nfeEgcYgh" target="_blank"
+          >Join our community on Discord</a
+        >
       </h6>
       <h6 class="mt-5">Current status:</h6>
       <n-tag :type="currentStatusObj.typeOfStatus">{{
