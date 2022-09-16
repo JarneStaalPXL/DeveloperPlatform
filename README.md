@@ -26,17 +26,17 @@ Make a difference and join the Discord Server to help improve the site and get t
 [![Railway](https://img.shields.io/badge/Railway-0B0D0E.svg?style=for-the-badge&logo=Railway&logoColor=white)](https://railway.app/)
 
 ## Backend CMS 📦
-<img src="https://img.shields.io/badge/Strapi-2F2E8B.svg?style=for-the-badge&logo=Strapi&logoColor=white"/>
+<a href="https://strapi.io/"><img src="https://img.shields.io/badge/Strapi-2F2E8B.svg?style=for-the-badge&logo=Strapi&logoColor=white"/></a>
 
 ## User Authentication 🔐
-<img src="https://img.shields.io/badge/Firebase-FFCA28.svg?style=for-the-badge&logo=Firebase&logoColor=black">
+<a href="https://console.firebase.google.com/"><img src="https://img.shields.io/badge/Firebase-FFCA28.svg?style=for-the-badge&logo=Firebase&logoColor=black"></a> 
 
 ## Used Languages 📚
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=for-the-badge&logo=JavaScript&logoColor=black">
+<a href="https://www.javascript.com/"><img src="https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=for-the-badge&logo=JavaScript&logoColor=black"></a> 
 
 ## Used Frameworks
-<img src="https://img.shields.io/badge/Vue.js-4FC08D.svg?style=for-the-badge&logo=vuedotjs&logoColor=white">
-<img src="https://img.shields.io/badge/Node.js-339933.svg?style=for-the-badge&logo=nodedotjs&logoColor=white">
+<a href="https://vuejs.org/"><img src="https://img.shields.io/badge/Vue.js-4FC08D.svg?style=for-the-badge&logo=vuedotjs&logoColor=white"></a>
+<a href="https://nodejs.org/en/"><img src="https://img.shields.io/badge/Node.js-339933.svg?style=for-the-badge&logo=nodedotjs&logoColor=white"></a>
 
 ## Project setup
 ```
