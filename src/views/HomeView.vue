@@ -3,7 +3,9 @@
     <section class="explanationContainer">
       <h1>Developer Platform</h1>
       <p>Useful tools you can use for your website and design.<br /></p>
-      <SearchComponent />
+      <div id="searchbar">
+        <SearchComponent />
+      </div>
     </section>
 
     <section class="toolCategoriesContainer" v-if="$store.state.favoritetools.length > 0">
@@ -526,6 +528,9 @@ a {
 }
 
 @media only screen and (min-width: 550px) {
+  #searchbar {
+    display: none;
+  }
   #submitFeedback {
     display: none;
   }

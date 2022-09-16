@@ -3,7 +3,7 @@
     v-model:show="$store.state.showFeedbackPopup"
     preset="card"
     title="Feedback"
-    :style="{ width: '650px' }"
+    class="feedbackModal"
   >
     <template #header>
       <div>Feedback</div>
@@ -102,4 +102,14 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.feedbackModal {
+  width: 650px;
+}
+
+@media only screen and (max-width: 650px) {
+  .feedbackModal {
+    width: 85%;
+  }
+}
+</style>
