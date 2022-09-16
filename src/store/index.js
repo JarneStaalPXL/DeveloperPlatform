@@ -545,7 +545,69 @@ export default createStore({
         available: true,
       },
     ],
+    learningTools: [
+      //Games to learn code
+      {
+        name: "Flexbox Froggy",
+        link: "https://flexboxfroggy.com/",
+        description:
+          "A game for learning CSS flexbox. Guide the frog to the lilypad on the right by using the flexbox properties.",
+        websitePreviewImage: require("../assets/flexboxfroggy.png"),
+      },
+      {
+        name: "Flexbox Defense",
+        link: "http://www.flexboxdefense.com/",
+        description: "A game for learning CSS flexbox. Defend your base by writing the correct CSS flexbox properties.",
+        websitePreviewImage: require("../assets/flexboxdefense.png"),
+      },
+      {
+        name: "Grid Garden",
+        link: "https://cssgridgarden.com/",
+        description:
+          "A game for learning CSS grid. Guide the little bug to the leaf on the right by using the CSS grid properties.",
+        websitePreviewImage: require("../assets/gridgarden.png"),
+      },
+      {
+        name: "CSS Diner - Learn CSS selectors",
+        link: "https://flukeout.github.io/",
+        description:
+          "A game for learning CSS selectors. Eat the bugs by writing the correct CSS selectors.",
+        websitePreviewImage: require("../assets/cssdiner.png"),
+      },
+      {
+        name: "HEX Invaders",
+        link: "http://www.hexinvaders.com/",
+        description:
+          "A game for learning CSS colors. Defeat the aliens by writing the correct CSS color values.",
+        websitePreviewImage: require("../assets/hexinvaders.png"),
 
+      },
+      {
+        name: "CodeCombat",
+        link: "https://codecombat.com/play",
+        description: "Learn to code by playing a game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make real-world games.",
+        websitePreviewImage: require("../assets/codecombat.png"),
+
+      },
+      {
+        name: "CodinGame",
+        link: "https://www.codingame.com/ide/puzzle/onboarding",
+        description: "CodinGame is a challenge-based training platform for programmers where you can improve your coding skills with fun exercises (25+ languages supported).",
+        websitePreviewImage: require("../assets/codingame.png"),
+      },
+      {
+        name: "JSRobot",
+        link: "https://lab.reaal.me/jsrobot/",
+        description: "A game for learning JavaScript. Guide the robot to the flag by writing the correct JavaScript code.",
+        websitePreviewImage: require("../assets/jsrobot.png"),
+      },
+      {
+        name: "Pixact.ly",
+        link: "https://pixact.ly/",
+        description: "A game for learning the porportions of width and height.",
+        websitePreviewImage: require("../assets/pixactly.png"), 
+      }
+    ],
     allUserActivities: [],
   },
 
