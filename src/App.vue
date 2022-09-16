@@ -17,7 +17,12 @@
         <n-layout>
           <n-layout-header bordered class="mobileNav desktopNav">
             <section class="d-flex justify-content-center">
-              <n-menu mode="horizontal" :options="menuOpts" @update:value="openLink" />
+              <n-menu
+                mode="horizontal"
+                :options="menuOpts"
+                @update:value="openLinkFromNav"
+                :value="navMenu"
+              />
               <SearchComponent
                 :style="{
                   width: '300px',
@@ -69,10 +74,11 @@
               <n-menu
                 accordion
                 :style="{ height: '95%' }"
-                @update:value="openLink"
+                @update:value="openLinkFromCategory"
                 :collapsed-width="64"
                 :collapsed-icon-size="22"
                 :options="categoryOptions"
+                :value="categoryMenu"
               />
               <n-menu
                 :value="feedbackMenu"
@@ -252,6 +258,52 @@ export default {
       this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", link);
       this.$store.dispatch("GET_PAGE_VISITS");
     },
+    openLinkFromNav(link) {
+      if (link === "colormode") {
+        this.handleColorChange(
+          this.$store.state.colorMode.includes("Dark") ? false : true
+        );
+        return;
+      }
+      if (link === "logout") {
+        this.signOutUser();
+        return;
+      }
+      if (link === "feedback") {
+        this.$store.commit("setShowFeedbackModal", true);
+        return;
+      }
+      if (link.includes("https://")) window.open(link, "_blank");
+      else this.$router.push(link);
+      this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", link);
+      this.$store.dispatch("GET_PAGE_VISITS");
+
+      this.navMenu = this.menuOpts.find((option) => option.key === link).link;
+      this.categoryMenu = null;
+    },
+    openLinkFromCategory(link) {
+      if (link === "colormode") {
+        this.handleColorChange(
+          this.$store.state.colorMode.includes("Dark") ? false : true
+        );
+        return;
+      }
+      if (link === "logout") {
+        this.signOutUser();
+        return;
+      }
+      if (link === "feedback") {
+        this.$store.commit("setShowFeedbackModal", true);
+        return;
+      }
+      if (link.includes("https://")) window.open(link, "_blank");
+      else this.$router.push(link);
+      this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", link);
+      this.$store.dispatch("GET_PAGE_VISITS");
+
+      this.categoryMenu = this.categoryOptions.find((option) => option.key === link).link;
+      this.navMenu = null;
+    },
     userName() {
       return localStorage.getItem("userName")
         ? localStorage.getItem("userName")
@@ -360,12 +412,12 @@ export default {
           icon: renderIcon(WorldIcon),
         },
         {
-          label: "Gradient Generators",
+          label: "Gradient Tools",
           key: "/gradientgenerators",
           icon: renderIcon(GradientIcon),
         },
         {
-          label: "Color Generators",
+          label: "Color Tools",
           key: "/colorgenerators",
           icon: renderIcon(ColorIcon),
         },
@@ -398,7 +450,7 @@ export default {
           icon: renderIcon(WorldIcon),
         },
         {
-          label: "Gradient Generators",
+          label: "Gradient Tools",
           key: "/gradientgenerators",
           icon: renderIcon(GradientIcon),
           children: [
@@ -413,7 +465,7 @@ export default {
           ],
         },
         {
-          label: "Color Generators",
+          label: "Color Tools",
           key: "/colorgenerators",
           icon: renderIcon(ColorIcon),
           children: [

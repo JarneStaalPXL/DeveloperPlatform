@@ -37,7 +37,7 @@
 
 <script>
 import { ref } from "vue";
-import { NForm, NFormItem, NCard, NButton, NInput, NModal } from "naive-ui";
+import { NForm, NFormItem, NCard, NButton, NInput, NModal, useMessage } from "naive-ui";
 export default {
   name: "FeedbackComponent",
   components: {
@@ -72,6 +72,9 @@ export default {
       },
     };
   },
+  mounted() {
+    window.$message = useMessage();
+  },
   methods: {
     async submitFeedback() {
       if (this.formValue.user.title && this.formValue.user.description) {
@@ -80,8 +83,10 @@ export default {
           JSON.parse(JSON.stringify(this.formValue.user))
         );
         if (resp.data.attributes.title !== "") {
-          window.$message.succes("Feedback submitted successfully");
+          window.$message.success("Feedback submitted successfully");
           this.$store.commit("setShowFeedbackModal", false);
+          this.formValue.user.title = "";
+          this.formValue.user.description = "";
         }
       } else {
         window.$message.error("Please fill all the fields");
