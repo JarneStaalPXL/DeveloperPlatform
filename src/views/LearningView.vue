@@ -3,7 +3,7 @@
     <template #header>
       <div class="d-flex" style="gap: 10px">
         <h4>Learning Tools</h4>
-        <n-badge :value="$store.state.globalFrontendTools.length" color="grey" />
+        <n-badge :value="$store.state.learningTools.length" color="grey" />
       </div>
     </template>
 

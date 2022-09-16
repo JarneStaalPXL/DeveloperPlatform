@@ -7,18 +7,17 @@ import {
   HomeOutline as HomeIcon,
   HeartOutline as HeartIcon,
 } from "@vicons/ionicons5";
-import {NIcon} from "naive-ui";
+import { NIcon } from "naive-ui";
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
 }
 
-
 export default createStore({
   state: {
     verticalMenuCollapsed: false,
-    colorMode: 'dark',
-    menuOptions : [
+    colorMode: "dark",
+    menuOptions: [
       {
         label: "Home",
         key: "/",
@@ -290,23 +289,22 @@ export default createStore({
       {
         name: "Mockuuups Studio",
         link: "https://mockuuups.studio/",
-        websitePreviewImage: require("../assets/mockuuups_studio.png")
+        websitePreviewImage: require("../assets/mockuuups_studio.png"),
       },
       {
         name: "Resize images for social media",
         link: "https://pixelhunter.io/",
-        websitePreviewImage: require("../assets/pixelhunter.png")
+        websitePreviewImage: require("../assets/pixelhunter.png"),
       },
       {
         name: "Animated Mesh Gradient",
         link: "https://whatamesh.vercel.app/",
-        websitePreviewImage: require("../assets/whatamesh.png")
-
+        websitePreviewImage: require("../assets/whatamesh.png"),
       },
       {
         name: "SVG Background Generator",
         link: "https://app.haikei.app/",
-        websitePreviewImage: require("../assets/haikei.png")
+        websitePreviewImage: require("../assets/haikei.png"),
       },
     ],
     hostingproviders: [
@@ -557,7 +555,8 @@ export default createStore({
       {
         name: "Flexbox Defense",
         link: "http://www.flexboxdefense.com/",
-        description: "A game for learning CSS flexbox. Defend your base by writing the correct CSS flexbox properties.",
+        description:
+          "A game for learning CSS flexbox. Defend your base by writing the correct CSS flexbox properties.",
         websitePreviewImage: require("../assets/flexboxdefense.png"),
       },
       {
@@ -580,33 +579,34 @@ export default createStore({
         description:
           "A game for learning CSS colors. Defeat the aliens by writing the correct CSS color values.",
         websitePreviewImage: require("../assets/hexinvaders.png"),
-
       },
       {
         name: "CodeCombat",
         link: "https://codecombat.com/play",
-        description: "Learn to code by playing a game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make real-world games.",
+        description:
+          "Learn to code by playing a game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make real-world games.",
         websitePreviewImage: require("../assets/codecombat.png"),
-
       },
       {
         name: "CodinGame",
         link: "https://www.codingame.com/ide/puzzle/onboarding",
-        description: "CodinGame is a challenge-based training platform for programmers where you can improve your coding skills with fun exercises (25+ languages supported).",
+        description:
+          "CodinGame is a challenge-based training platform for programmers where you can improve your coding skills with fun exercises (25+ languages supported).",
         websitePreviewImage: require("../assets/codingame.png"),
       },
       {
         name: "JSRobot",
         link: "https://lab.reaal.me/jsrobot/",
-        description: "A game for learning JavaScript. Guide the robot to the flag by writing the correct JavaScript code.",
+        description:
+          "A game for learning JavaScript. Guide the robot to the flag by writing the correct JavaScript code.",
         websitePreviewImage: require("../assets/jsrobot.png"),
       },
       {
         name: "Pixact.ly",
         link: "https://pixact.ly/",
         description: "A game for learning the porportions of width and height.",
-        websitePreviewImage: require("../assets/pixactly.png"), 
-      }
+        websitePreviewImage: require("../assets/pixactly.png"),
+      },
     ],
     allUserActivities: [],
   },
@@ -704,50 +704,22 @@ export default createStore({
     setRecurringVisitorCount(state, payload) {
       state.recurringVisitorCount = payload;
     },
-    setColorMode(state, payload){
+    setColorMode(state, payload) {
       state.colorMode = payload;
     },
-    setVerticalMenuCollapsed(state, payload){
+    setVerticalMenuCollapsed(state, payload) {
       state.verticalMenuCollapsed = payload;
+    },
+    setLearningTools(state, payload) {
+      state.learningTools = payload;
     }
   },
   actions: {
     async GET_USER_VISIT_COUNT({ state }) {
-      const resp = await fetch(`${state.baseUrlStrapiApi}visit-log-count/getRouteVisitsFromUID/${localStorage.getItem("uid")}`,
-      {
-        method: "GET",
-        headers: {
-          Accept : "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-      });
-      const data = await resp.json();
-      return data;
-    },
-    async UPDATE_COLOR_MODE({state,commit}, mode){
-      commit("setColorMode", mode);
-      if(localStorage.getItem('uid') !== null){
-        const resp = await fetch(`${state.baseUrlStrapiApi}user-detail-info/setColorMode`,
-        {
-          method: "PUT",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + state.strapiApiKey,
-          },
-          body: JSON.stringify({
-            userid: localStorage.getItem('uid'),
-            colorMode: mode,
-          }),
-        })
-        const data = await resp.json();
-        return data;
-      }
-    },
-    async GET_USER_COLOR_MODE({state, commit}){
-      if(localStorage.getItem('uid') !== null){
-        const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/getColorMode/${localStorage.getItem('uid')}`,
+      const resp = await fetch(
+        `${
+          state.baseUrlStrapiApi
+        }visit-log-count/getRouteVisitsFromUID/${localStorage.getItem("uid")}`,
         {
           method: "GET",
           headers: {
@@ -755,7 +727,48 @@ export default createStore({
             "Content-Type": "application/json",
             Authorization: "Bearer " + state.strapiApiKey,
           },
-        });
+        }
+      );
+      const data = await resp.json();
+      return data;
+    },
+    async UPDATE_COLOR_MODE({ state, commit }, mode) {
+      commit("setColorMode", mode);
+      if (localStorage.getItem("uid") !== null) {
+        const resp = await fetch(
+          `${state.baseUrlStrapiApi}user-detail-info/setColorMode`,
+          {
+            method: "PUT",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + state.strapiApiKey,
+            },
+            body: JSON.stringify({
+              userid: localStorage.getItem("uid"),
+              colorMode: mode,
+            }),
+          }
+        );
+        const data = await resp.json();
+        return data;
+      }
+    },
+    async GET_USER_COLOR_MODE({ state, commit }) {
+      if (localStorage.getItem("uid") !== null) {
+        const res = await fetch(
+          `${
+            state.baseUrlStrapiApi
+          }user-detail-info/getColorMode/${localStorage.getItem("uid")}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + state.strapiApiKey,
+            },
+          }
+        );
         const user = await res.json();
         commit("setColorMode", user.data.attributes.selectedColorMode);
         return user.data.attributes.selectedColorMode;
@@ -866,10 +879,7 @@ export default createStore({
         if (res.favoritetools === null) {
           commit("setFavoriteTools", []);
         } else {
-          commit(
-            "setFavoriteTools",
-            res.favoritetools
-          );
+          commit("setFavoriteTools", res.favoritetools);
         }
 
         if (state.favoritetools !== null) {
@@ -891,6 +901,15 @@ export default createStore({
             );
           }
           commit("setHostingProviders", htp);
+
+          //learning tools manipulation favorites
+          const ltp = JSON.parse(JSON.stringify(state.learningTools));
+          for (const tool of ltp) {
+            tool.isFavorited = state.favoritetools.some(
+              (t) => t.name === tool.name
+            );
+          }
+          commit("setLearningTools", ltp);
         }
       } else {
         //getting user favorite tools from localStorage
@@ -902,14 +921,14 @@ export default createStore({
           if (state.favoritetools !== null) {
             //globalfrontendtools manipulation favorites
             const gbt = JSON.parse(JSON.stringify(state.globalFrontendTools));
-  
+
             for (const tool of gbt) {
               tool.isFavorited = state.favoritetools.some(
                 (t) => t.name === tool.name
               );
             }
             commit("setGlobalFrontendTools", gbt);
-  
+
             //hosting providers manipulation favorites
             const htp = JSON.parse(JSON.stringify(state.hostingproviders));
             for (const provider of htp) {
@@ -918,6 +937,15 @@ export default createStore({
               );
             }
             commit("setHostingProviders", htp);
+
+            //learning tools manipulation favorites
+            const ltp = JSON.parse(JSON.stringify(state.learningTools));
+            for (const tool of ltp) {
+              tool.isFavorited = state.favoritetools.some(
+                (t) => t.name === tool.name
+              );
+            }
+            commit("setLearningTools", ltp);
           }
         }
       }
@@ -952,7 +980,7 @@ export default createStore({
             body: JSON.stringify({
               data: {
                 removeTool: tool,
-                uid: localStorage.getItem("uid")
+                uid: localStorage.getItem("uid"),
               },
             }),
           }
@@ -1008,9 +1036,9 @@ export default createStore({
             },
             body: JSON.stringify({
               data: {
-                  toolToAdd : tool,
-                  uid: localStorage.getItem("uid"),
-              }
+                toolToAdd: tool,
+                uid: localStorage.getItem("uid"),
+              },
             }),
           }
         );

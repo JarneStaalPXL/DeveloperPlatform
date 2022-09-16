@@ -26,14 +26,12 @@
               <div class="actionBtns">
                 <n-button @click="openLink(tool.link)">Play</n-button>
                 <n-button
-                  disabled
                   class="pl-5"
                   @click="addToolToFavorites(tool)"
                   v-if="!tool.isFavorited"
                   ><i class="fa-solid fa-heart"></i
                 ></n-button>
                 <n-button
-                  disabled
                   class="pl-5"
                   @click="removeToolFromFavorites(tool)"
                   v-if="tool.isFavorited"
