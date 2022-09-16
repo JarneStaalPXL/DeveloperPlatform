@@ -4,7 +4,6 @@ This site is still under development but you can get lots of awesome tools on he
 Constantly adding more and improving user flow.
 <a href="https://developerplatform.net/" target="_blank">Visit the website</a>
 
-## Badges
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/DeveloperJarne/DeveloperPlatform/blob/main/LICENSE.md)
 [![Website https://developerplatform.net/ https://developerplatformbackend.up.railway.app/](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://developerplatform.net/)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/DeveloperJarne/DeveloperPlatform/graphs/commit-activity)
