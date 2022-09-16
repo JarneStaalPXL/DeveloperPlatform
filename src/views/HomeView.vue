@@ -23,10 +23,10 @@
 
     <section class="mt-5 developmentSection">
       <h4>
-        {{ voted ? "Thank you for voting!" : "Do you like this homepage? Vote!" }}
+        {{ voted ? "Thank you for voting!" : "Do you like this platform? Vote!" }}
       </h4>
       <div class="p-3 d-flex justify-content-center" :style="{ gap: '5px' }">
-        <n-button @click="voteHomepage('positiveVotes')" :disabled="voted">
+        <n-button @click="votePlatform('positiveVotes')" :disabled="voted">
           <template #icon>
             <n-icon>
               <ThumbsUp />
@@ -35,7 +35,7 @@
           Yes
         </n-button>
 
-        <n-button @click="voteHomepage('negativeVotes')" :disabled="voted">
+        <n-button @click="votePlatform('negativeVotes')" :disabled="voted">
           <template #icon>
             <n-icon>
               <ThumbsDown />
@@ -178,11 +178,11 @@ export default {
         }
       }
     },
-    voteHomepage(value) {
+    votePlatform(value) {
       localStorage.setItem("voted", true);
       this.$store.dispatch("VOTE_DESIGN_ROUTE", {
         voteType: value,
-        route: "Homepage",
+        route: "Platform",
       });
       window.$notification.info({
         title: "Thank you for voting!",

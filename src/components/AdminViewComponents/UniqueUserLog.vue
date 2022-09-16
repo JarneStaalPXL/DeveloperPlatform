@@ -28,7 +28,7 @@
   </n-card>
   <n-card title="Visits Overview">
     <h5 v-for="webpage of visitsOverViewArr" :key="webpage">
-      <a @click="$router.push(webpage.path)">{{webpage.route}}</a> ->
+      <a @click="$router.push(webpage.path)">{{ webpage.route }}</a> ->
       <b>{{ webpage.visits }}</b> visits
     </h5>
     <!-- <h5>
@@ -52,7 +52,7 @@
       <b>{{ routeColorGenerators }}</b> visits
     </h5> -->
   </n-card>
-  <n-card title="Homepage Feedback">
+  <n-card title="Platform Feedback">
     <h5>Positive Votes: {{ positiveVotes }}</h5>
     <h5>Negative Votes: {{ negativeVotes }}</h5>
   </n-card>
@@ -72,7 +72,7 @@ import {
   useLoadingBar,
 } from "naive-ui";
 import { h, ref } from "vue";
-import { beforeMount } from 'vue-writer';
+import { beforeMount } from "vue-writer";
 
 const columns = [
   {
@@ -97,8 +97,7 @@ export default {
     NSpace,
     NTag,
   },
-  async beforeMount(){
-    
+  async beforeMount() {
     //get unique visitors
     this.$store.dispatch("GET_UNIQUE_VISITORS");
 
@@ -107,38 +106,23 @@ export default {
     this.routeVisitsHomepage = dt.routeVisitorsCount;
 
     //hosting providers visits
-    const dt3 = await this.$store.dispatch(
-      "GET_ROUTE_VISITS",
-      "hostingproviders"
-    );
+    const dt3 = await this.$store.dispatch("GET_ROUTE_VISITS", "hostingproviders");
     this.routeVisitsHP = dt3.routeVisitorsCount;
 
     //global frontend tools visits
-    const dt2 = await this.$store.dispatch(
-      "GET_ROUTE_VISITS",
-      "globalfrontendtools"
-    );
+    const dt2 = await this.$store.dispatch("GET_ROUTE_VISITS", "globalfrontendtools");
     this.routeVisitsGft = dt2.routeVisitorsCount;
 
     //gradient generators visits
-    const dt4 = await this.$store.dispatch(
-      "GET_ROUTE_VISITS",
-      "gradientgenerators"
-    );
+    const dt4 = await this.$store.dispatch("GET_ROUTE_VISITS", "gradientgenerators");
     this.routeGradientGenerators = dt4.routeVisitorsCount;
 
     //color generators visits
-    const dt5 = await this.$store.dispatch(
-      "GET_ROUTE_VISITS",
-      "colorgenerators"
-    );
+    const dt5 = await this.$store.dispatch("GET_ROUTE_VISITS", "colorgenerators");
     this.routeColorGenerators = dt5.routeVisitorsCount;
 
-    //homepage feedback
-    const dt6 = await this.$store.dispatch(
-      "GET_VOTES_DESIGN_ROUTE",
-      "Homepage"
-    );
+    //playform feedback
+    const dt6 = await this.$store.dispatch("GET_VOTES_DESIGN_ROUTE", "Platform");
     this.positiveVotes = dt6.positiveVotes;
     this.negativeVotes = dt6.negativeVotes;
 
@@ -182,34 +166,21 @@ export default {
       this.routeVisitsHomepage = dt.routeVisitorsCount;
 
       //global frontend tools visits
-      const dt2 = await this.$store.dispatch(
-        "GET_ROUTE_VISITS",
-        "globalfrontendtools"
-      );
+      const dt2 = await this.$store.dispatch("GET_ROUTE_VISITS", "globalfrontendtools");
       this.routeVisitsGft = dt2.routeVisitorsCount;
 
       //hosting providers visits
-      const dt3 = await this.$store.dispatch(
-        "GET_ROUTE_VISITS",
-        "hostingproviders"
-      );
+      const dt3 = await this.$store.dispatch("GET_ROUTE_VISITS", "hostingproviders");
       this.routeVisitsHP = dt3.routeVisitorsCount;
 
       //gradient generators visits
-      const dt4 = await this.$store.dispatch(
-        "GET_ROUTE_VISITS",
-        "gradientgenerators"
-      );
+      const dt4 = await this.$store.dispatch("GET_ROUTE_VISITS", "gradientgenerators");
       this.routeGradientGenerators = dt4.routeVisitorsCount;
 
       //color generators visits
-      const dt5 = await this.$store.dispatch(
-        "GET_ROUTE_VISITS",
-        "colorgenerators"
-      );
+      const dt5 = await this.$store.dispatch("GET_ROUTE_VISITS", "colorgenerators");
       this.routeColorGenerators = dt5.routeVisitorsCount;
 
-      
       //set all the visits of the objects to the new values
       this.visitsOverViewArr.forEach((obj) => {
         if (obj.route === "Homepage") {

@@ -3,7 +3,11 @@
     <n-space vertical>
       <n-card :title="userName" class="w-100">
         <template #cover>
-          <img :src="profilePicture" id="profilePicture" />
+          <img
+            :src="profilePicture"
+            id="profilePicture"
+            v-if="isProfilePictureLoaded()"
+          />
         </template>
 
         <!--Card content-->
@@ -18,7 +22,7 @@
           <n-statistic label="Visits">{{ totalVisits }}</n-statistic>
         </n-space>
       </n-card>
-      <n-card title="History">
+      <n-card title="History" v-if="routeVisitsToday.length > 0">
         <!--Get todays history of this user-->
         <!--Use component https://www.naiveui.com/en-US/os-theme/components/timeline-->
         <n-scrollbar x-scrollable>
@@ -79,6 +83,18 @@ export default {
     data = data.data.attributes;
     this.totalVisits = data.totalVisits;
     this.routeVisitsToday = data.entriesFromToday;
+  },
+  methods: {
+    isProfilePictureLoaded() {
+      setTimeout(() => {
+        let image = document.querySelector("img");
+        if (image === null) {
+          return false;
+        }
+        let isLoaded = image.complete && image.naturalHeight !== 0;
+        return isLoaded;
+      }, 2000);
+    },
   },
   computed: {
     userName() {
