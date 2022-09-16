@@ -3,16 +3,7 @@
     <section class="explanationContainer">
       <h1>Developer Platform</h1>
       <p>Useful tools you can use for your website and design.<br /></p>
-      <n-auto-complete
-        class="autoCompleteInput"
-        :on-update:value="showResultsTools"
-        :input-props="{
-          autocomplete: 'disabled',
-        }"
-        :options="toolResults"
-        placeholder="Search (press space for all tools)"
-        :on-select="openLink"
-      />
+      <SearchComponent />
     </section>
 
     <section class="toolCategoriesContainer" v-if="$store.state.favoritetools.length > 0">
@@ -93,6 +84,7 @@ import {
   NSkeleton,
   useNotification,
 } from "naive-ui";
+import SearchComponent from "../components/GlobalComponents/SearchComponent.vue";
 export default {
   name: "HomeView",
   components: {
@@ -110,6 +102,7 @@ export default {
     NIcon,
     ThumbsDown,
     ThumbsUp,
+    SearchComponent,
   },
   data() {
     return {
@@ -119,7 +112,7 @@ export default {
       },
       voted: false,
       toolSearchString: "",
-      toolResults: [],
+      // toolResults: [],
       hasToolResult: true,
       showAll: true,
       hours: 0,
@@ -209,28 +202,7 @@ export default {
       this.toolResults = [];
       this.showAll = true;
     },
-    async showResultsTools(value) {
-      var tools = await this.$store.dispatch("SEARCH_TOOLS", value);
-      //rank tools by string size
-      tools.sort((a, b) => {
-        return a.name.length - b.name.length;
-      });
 
-      let optionsArr = [];
-      for (let tool of tools) {
-        optionsArr.push({
-          label: tool.name,
-          value: tool.link,
-        });
-      }
-
-      this.toolResults = optionsArr;
-      if (this.showAll === false) {
-        this.showAll = true;
-      } else {
-        this.showAll = false;
-      }
-    },
     openLink(link) {
       if (link.includes("https://")) window.open(link, "_blank");
       else this.$router.push(link);

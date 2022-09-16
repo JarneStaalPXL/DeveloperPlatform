@@ -3,8 +3,14 @@
     <div class="content">
       <n-config-provider :theme="$store.state.colorMode === 'Light' ? null : darkTheme">
         <n-layout>
-          <n-layout-header bordered>
-            <n-menu mode="horizontal" :options="menuOpts" @update:value="openLink" />
+          <n-layout-header bordered class="mobileNav desktopNav">
+            <section class="d-flex justify-content-center">
+              <n-menu mode="horizontal" :options="menuOpts" @update:value="openLink" />
+              <SearchComponent
+                :style="{ width: '300px', marginLeft: '50px' }"
+                class="desktopSearch"
+              />
+            </section>
             <n-popover
               placement="bottom-end"
               trigger="click"
@@ -92,6 +98,7 @@ import {
 import { World as WorldIcon } from "@vicons/tabler";
 import { Gradient as GradientIcon, CloudApp as HostingIcon } from "@vicons/carbon";
 import { Color24Regular as ColorIcon } from "@vicons/fluent";
+import SearchComponent from "./components/GlobalComponents/SearchComponent.vue";
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -160,6 +167,7 @@ export default {
     NPopover,
     NP,
     MenuHamburgerIcon,
+    SearchComponent,
   },
   methods: {
     checkIfOnMobile() {
@@ -515,7 +523,7 @@ export default {
 
 <style>
 .n-layout-content {
-  height: calc(100vh - 43px);
+  height: calc(100vh - 69px);
 }
 *::-webkit-scrollbar {
   display: none;
@@ -609,12 +617,31 @@ p {
 </style>
 
 <style lang="scss" scoped>
+.desktopNav {
+  padding: 13px;
+  section {
+    margin-left: 150px;
+  }
+}
 .actionButtonContainer {
   button {
     color: white;
   }
 }
 @media only screen and (max-width: 980px) {
+  .desktopNav {
+    padding: 5px;
+    section {
+      margin-left: 0px;
+    }
+  }
+  .desktopSearch {
+    display: none;
+  }
+  .mobileNav {
+    display: flex;
+    justify-content: center;
+  }
   .allItemsFooter {
     #welcomeMsg {
       font-size: 15px;
