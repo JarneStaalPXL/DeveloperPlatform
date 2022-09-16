@@ -264,6 +264,12 @@ export default createStore({
         textColor: "black",
       },
       {
+        name: "Swiper JS - Your own slider",
+        link: "https://studio.swiperjs.com/play",
+        websitePreviewImage: require("../assets/swiperjs.png"),
+        textColor: "black",
+      },
+      {
         name: "Font Joy - Generate font pairings",
         link: "https://fontjoy.com/",
         websitePreviewImage: require("../assets/fontjoy.png"),
