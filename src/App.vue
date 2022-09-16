@@ -614,6 +614,12 @@ p {
   color: black;
   cursor: text;
 }
+
+@media only screen and (max-width: 980px) {
+  .n-layout-content {
+    height: calc(100vh - 53px);
+  }
+}
 </style>
 
 <style lang="scss" scoped>

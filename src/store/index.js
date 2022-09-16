@@ -857,6 +857,9 @@ export default createStore({
       for (let tool of state.colorGeneratorsTools) {
         allTools.push(tool);
       }
+      for(let tool of state.learningTools){
+        allTools.push(tool);
+      }
       commit("setAllTools", allTools);
     },
     async GET_USER_FAVORITE_TOOLS({ commit, state }) {
