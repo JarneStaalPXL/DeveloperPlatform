@@ -15,6 +15,7 @@ function renderIcon(icon) {
 
 export default createStore({
   state: {
+    showFeedbackPopup: false,
     verticalMenuCollapsed: false,
     colorMode: "dark",
     menuOptions: [
@@ -712,9 +713,50 @@ export default createStore({
     },
     setLearningTools(state, payload) {
       state.learningTools = payload;
+    },
+    setAllFeedback(state,payload){
+      state.allFeedback = payload;
+    },
+    setShowFeedbackModal(state,payload){
+      state.showFeedbackPopup = payload;
     }
   },
   actions: {
+    async GET_ALL_FEEDBACK({state, commit}, payload){
+      const resp = await fetch(`${state.baseUrlStrapiApi}feedbacks`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+      })
+      const data = await resp.json();
+      console.log(data.attributes);
+      commit("setAllFeedback", data.attributes);
+    },
+    async SUBMIT_FEEDBACK({ state }, payload) {
+      const resp = await fetch(`${state.baseUrlStrapiApi}feedbacks`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+        body: JSON.stringify({
+          data: {
+            title: payload.title,
+            description: payload.description,
+          }
+        })
+
+      })
+      const data = await resp.json();
+      console.log(data);
+      return data;
+    },
     async GET_USER_VISIT_COUNT({ state }) {
       const resp = await fetch(
         `${

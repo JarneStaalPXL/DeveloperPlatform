@@ -2,12 +2,30 @@
   <n-loading-bar-provider>
     <div class="content">
       <n-config-provider :theme="$store.state.colorMode === 'Light' ? null : darkTheme">
+        <!--MODALS-->
+        <n-loading-bar-provider>
+          <n-notification-provider
+            :max="1"
+            :placement="$store.state.notificationPlacement"
+          >
+            <n-message-provider>
+              <FeedbackComponent v-model:show="$store.state.showFeedbackPopup" />
+            </n-message-provider>
+          </n-notification-provider>
+        </n-loading-bar-provider>
+        <!---->
         <n-layout>
           <n-layout-header bordered class="mobileNav desktopNav">
             <section class="d-flex justify-content-center">
               <n-menu mode="horizontal" :options="menuOpts" @update:value="openLink" />
               <SearchComponent
-                :style="{ width: '300px', marginLeft: '50px' }"
+                :style="{
+                  width: '300px',
+                  height: '35px',
+                  marginTop: 'auto',
+                  marginBottom: 'auto',
+                  marginLeft: '50px',
+                }"
                 class="desktopSearch"
               />
             </section>
@@ -56,6 +74,14 @@
                 :collapsed-icon-size="22"
                 :options="categoryOptions"
               />
+              <n-menu
+                :value="feedbackMenu"
+                accordion
+                @update:value="openLink"
+                :collapsed-width="64"
+                :collapsed-icon-size="22"
+                :options="feedbackOption"
+              />
             </n-layout-sider>
             <n-layout-content>
               <n-loading-bar-provider>
@@ -97,8 +123,12 @@ import {
 } from "@vicons/ionicons5";
 import { World as WorldIcon } from "@vicons/tabler";
 import { Gradient as GradientIcon, CloudApp as HostingIcon } from "@vicons/carbon";
-import { Color24Regular as ColorIcon } from "@vicons/fluent";
+import {
+  Color24Regular as ColorIcon,
+  PersonFeedback16Regular as FeedbackIcon,
+} from "@vicons/fluent";
 import SearchComponent from "./components/GlobalComponents/SearchComponent.vue";
+import FeedbackComponent from "./components/GlobalComponents/FeedbackComponent.vue";
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -133,6 +163,9 @@ export default {
   name: "TemplateDesigner",
   data() {
     return {
+      feedbackMenu: null,
+      navMenu: null,
+      categoryMenu: null,
       isLoggedIn: false,
       showMobileToolCategoriesPopover: false,
       collapsed: false,
@@ -168,6 +201,7 @@ export default {
     NP,
     MenuHamburgerIcon,
     SearchComponent,
+    FeedbackComponent,
   },
   methods: {
     checkIfOnMobile() {
@@ -207,6 +241,10 @@ export default {
       }
       if (link === "logout") {
         this.signOutUser();
+        return;
+      }
+      if (link === "feedback") {
+        this.$store.commit("setShowFeedbackModal", true);
         return;
       }
       if (link.includes("https://")) window.open(link, "_blank");
@@ -340,6 +378,15 @@ export default {
           label: "Learning Tools",
           key: "/learningtools",
           icon: renderIcon(BookIcon),
+        },
+      ];
+    },
+    feedbackOption() {
+      return [
+        {
+          label: "Feedback",
+          key: "feedback",
+          icon: renderIcon(FeedbackIcon),
         },
       ];
     },

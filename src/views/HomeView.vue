@@ -22,28 +22,6 @@
     </section>
 
     <section class="mt-5 developmentSection">
-      <h4>
-        {{ voted ? "Thank you for voting!" : "Do you like this platform? Vote!" }}
-      </h4>
-      <div class="p-3 d-flex justify-content-center" :style="{ gap: '5px' }">
-        <n-button @click="votePlatform('positiveVotes')" :disabled="voted">
-          <template #icon>
-            <n-icon>
-              <ThumbsUp />
-            </n-icon>
-          </template>
-          Yes
-        </n-button>
-
-        <n-button @click="votePlatform('negativeVotes')" :disabled="voted">
-          <template #icon>
-            <n-icon>
-              <ThumbsDown />
-            </n-icon>
-          </template>
-          No
-        </n-button>
-      </div>
       <h6 class="mt-5">
         Developer Platform is a platform where you can favorite all the useful tools you
         want to use. It's continously expanding features and possibilities.
@@ -54,11 +32,14 @@
           target="_blank"
           >Open an issue</a
         >
-        to provide feedback or to request a feature. You can also contribute to the
-        project by forking it on
+        to request a feature. You can also contribute to the project by forking it on
         <a href="https://github.com/DeveloperJarne/DeveloperPlatform" target="_blank"
           >GitHub</a
         >.
+      </h6>
+      <h6 class="mt-3" id="submitFeedback">
+        <a @click="$store.commit('setShowFeedbackModal', true)">Submit feedback</a> to let
+        me know what you think of the platform.
       </h6>
       <h6 class="mt-3">
         <a href="https://discord.gg/3nfeEgcYgh" target="_blank"
@@ -74,8 +55,10 @@
 </template>
 
 <script>
+import { ref } from "vue";
 import { ThumbsDown, ThumbsUp } from "@vicons/ionicons5";
 import {
+  NModal,
   NCard,
   NConfigProvider,
   darkTheme,
@@ -93,6 +76,7 @@ import {
   useNotification,
 } from "naive-ui";
 import SearchComponent from "../components/GlobalComponents/SearchComponent.vue";
+import FeedbackComponent from "@/components/GlobalComponents/FeedbackComponent.vue";
 export default {
   name: "HomeView",
   components: {
@@ -111,9 +95,12 @@ export default {
     ThumbsDown,
     ThumbsUp,
     SearchComponent,
+    NModal,
+    FeedbackComponent,
   },
   data() {
     return {
+      showFeedbackPopup: false,
       currentStatusObj: {
         typeOfStatus: "info",
         currentStatus: "DEVELOPMENT",
@@ -535,6 +522,12 @@ a {
     .pagevisitscontainer h1 {
       margin: 0;
     }
+  }
+}
+
+@media only screen and (min-width: 550px) {
+  #submitFeedback {
+    display: none;
   }
 }
 </style>
