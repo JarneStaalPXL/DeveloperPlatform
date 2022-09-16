@@ -117,7 +117,6 @@
 
 <script>
 import { h, ref } from "vue";
-import { useStore } from "vuex";
 import {
   PersonOutline as PersonIcon,
   HomeOutline as HomeIcon,
@@ -164,6 +163,7 @@ import {
   NLayoutFooter,
   NP,
   NPopover,
+  useLoadingBar,
 } from "naive-ui";
 export default {
   name: "TemplateDesigner",
@@ -282,12 +282,6 @@ export default {
       this.categoryMenu = null;
     },
     openLinkFromCategory(link) {
-      if (link === "colormode") {
-        this.handleColorChange(
-          this.$store.state.colorMode.includes("Dark") ? false : true
-        );
-        return;
-      }
       if (link === "logout") {
         this.signOutUser();
         return;

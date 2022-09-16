@@ -8,6 +8,7 @@ import {
   HeartOutline as HeartIcon,
 } from "@vicons/ionicons5";
 import { NIcon } from "naive-ui";
+import { TrayItemAdd20Filled } from "@vicons/fluent";
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -720,15 +721,13 @@ export default createStore({
     setLearningTools(state, payload) {
       state.learningTools = payload;
     },
-    setAllFeedback(state,payload){
-      state.allFeedback = payload;
-    },
+  
     setShowFeedbackModal(state,payload){
       state.showFeedbackPopup = payload;
     }
   },
   actions: {
-    async GET_ALL_FEEDBACK({state, commit}, payload){
+    async GET_ALL_FEEDBACK({state, commit}){
       const resp = await fetch(`${state.baseUrlStrapiApi}feedbacks`,
       {
         method: "GET",
@@ -738,9 +737,16 @@ export default createStore({
           Authorization: "Bearer " + state.strapiApiKey,
         },
       })
-      const data = await resp.json();
-      console.log(data.attributes);
-      commit("setAllFeedback", data.attributes);
+      const response = await resp.json();
+
+      let tempArr = [];
+      response.data.forEach((item) => {
+        tempArr.push({
+          title: item.attributes.title,
+          description: item.attributes.description,
+        })
+      })
+      return tempArr;
     },
     async SUBMIT_FEEDBACK({ state }, payload) {
       const resp = await fetch(`${state.baseUrlStrapiApi}feedbacks`,
@@ -760,7 +766,6 @@ export default createStore({
 
       })
       const data = await resp.json();
-      console.log(data);
       return data;
     },
     async GET_USER_VISIT_COUNT({ state }) {

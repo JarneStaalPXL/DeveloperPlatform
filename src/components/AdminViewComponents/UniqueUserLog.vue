@@ -31,30 +31,12 @@
       <a @click="$router.push(webpage.path)">{{ webpage.route }}</a> ->
       <b>{{ webpage.visits }}</b> visits
     </h5>
-    <!-- <h5>
-      <a @click="$router.push('/')">Homepage</a> ->
-      <b>{{ routeVisitsHomepage }}</b> visits
-    </h5>
-    <h5>
-      <a @click="$router.push('/hostingproviders')">Hosting Providers</a> ->
-      <b>{{ routeVisitsHP }}</b> visits
-    </h5>
-    <h5>
-      <a @click="$router.push('/globalfrontendtools')">Global Frontend Tools</a>
-      -> <b>{{ routeVisitsGft }}</b> visits
-    </h5>
-    <h5>
-      <a @click="$router.push('/gradientgenerators')">Gradient Generators</a> ->
-      <b>{{ routeGradientGenerators }}</b> visits
-    </h5>
-    <h5>
-      <a @click="$router.push('/colorgenerators')">Color Generators</a> ->
-      <b>{{ routeColorGenerators }}</b> visits
-    </h5> -->
   </n-card>
   <n-card title="Platform Feedback">
-    <h5>Positive Votes: {{ positiveVotes }}</h5>
-    <h5>Negative Votes: {{ negativeVotes }}</h5>
+    <n-card v-for="fb of allFeedback" :key="fb">
+      <h5>{{ fb.title }}</h5>
+      <h6>{{ fb.description }}</h6>
+    </n-card>
   </n-card>
 </template>
 
@@ -156,6 +138,9 @@ export default {
 
     //rank visits overview
     this.visitsOverViewArr.sort((a, b) => b.visits - a.visits);
+
+    //get all feedback
+    this.allFeedback = await this.$store.dispatch("GET_ALL_FEEDBACK");
   },
   async mounted() {
     window.$loadingbar = useLoadingBar();
@@ -199,11 +184,15 @@ export default {
       this.visitsOverViewArr.sort((a, b) => b.visits - a.visits);
 
       this.$store.dispatch("GET_UNIQUE_VISITORS");
+
+      //get all feedback
+      this.allFeedback = await this.$store.dispatch("GET_ALL_FEEDBACK");
     }, 5000);
   },
   methods: {},
   data() {
     return {
+      allFeedback: [],
       visitsOverViewArr: [],
       positiveVotes: 0,
       negativeVotes: 0,
