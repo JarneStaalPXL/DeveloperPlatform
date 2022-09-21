@@ -728,6 +728,9 @@ export default createStore({
     },
     setGradientGeneratorsTools(state, payload) {
       state.gradientGeneratorsTools = payload;
+    },
+    setColorGeneratorsTools(state, payload) {
+      state.colorGeneratorsTools = payload;
     }
   },
   actions: {
@@ -996,6 +999,15 @@ export default createStore({
         );
       }
       commit("setGradientGeneratorsTools", ggt);
+
+      //color generators manipulation favorites
+      const cgt = JSON.parse(JSON.stringify(state.colorGeneratorsTools));
+      for (const tool of cgt) {
+        tool.isFavorited = state.favoritetools.some(
+          (t) => t.name === tool.name
+        );
+      }
+      commit("setColorGeneratorsTools", cgt);
     },
     async SORT_HOSTINGPROVIDERS_BY_RECOMMENDED({ commit, state }) {
       let array = state.hostingproviders.sort((a, b) => {
