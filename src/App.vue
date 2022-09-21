@@ -610,6 +610,8 @@ export default {
       }
       this.lastScrollY = window.scrollY;
     });
+
+    window.$scrollContent = this.contentRef;
   },
   setup() {
     const contentRef = ref(null);

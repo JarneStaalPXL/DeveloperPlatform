@@ -177,6 +177,7 @@ router.beforeEach((to, from, next) => {
 router.afterEach((to, from) => {
   loadingBar.finish();
   //vue scroll to top
+    window.$scrollContent.scrollTo({ top: 0, behavior: "smooth" });
 });
 
 export default router;
