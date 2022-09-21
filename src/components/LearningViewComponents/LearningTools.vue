@@ -134,6 +134,7 @@ export default {
       } else this.$router.push(link);
       this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", link);
       this.$store.dispatch("GET_PAGE_VISITS");
+      console.log(link);
     },
   },
   setup() {

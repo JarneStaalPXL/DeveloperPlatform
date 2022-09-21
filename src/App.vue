@@ -16,23 +16,36 @@
         <!---->
         <n-layout>
           <n-layout-header bordered class="mobileNav desktopNav">
-            <section class="d-flex justify-content-center">
-              <n-menu
-                mode="horizontal"
-                :options="menuOpts"
-                @update:value="openLinkFromNav"
-                :value="navMenu"
-              />
-              <SearchComponent
-                :style="{
-                  width: '300px',
-                  height: '35px',
-                  marginTop: 'auto',
-                  marginBottom: 'auto',
-                  marginLeft: '50px',
-                }"
-                class="desktopSearch"
-              />
+            <section class="d-flex justify-content-between">
+              <section class="logotitleSection">
+                <a @click="$router.push('/')">
+                  <img
+                    src="@/assets/faviconpic.png"
+                    alt="Developer Platform"
+                    class="logo"
+                /></a>
+                <n-h4 id="siteTitleNavbar">{{
+                  $route.path !== "/" ? "Developer Platform" : ""
+                }}</n-h4>
+              </section>
+              <section class="justify-content-end">
+                <n-menu
+                  mode="horizontal"
+                  :options="menuOpts"
+                  @update:value="openLinkFromNav"
+                  :value="navMenu"
+                />
+                <SearchComponent
+                  :style="{
+                    width: '300px',
+                    height: '35px',
+                    marginTop: 'auto',
+                    marginBottom: 'auto',
+                    marginLeft: '50px',
+                  }"
+                  class="desktopSearch"
+                />
+              </section>
             </section>
             <n-popover
               placement="bottom-end"
@@ -67,7 +80,7 @@
               show-trigger
               collapse-mode="width"
               :collapsed-width="64"
-              :width="240"
+              :width="265"
               :native-scrollbar="false"
               style="min-height: 320px"
             >
@@ -166,6 +179,7 @@ import {
   NP,
   NPopover,
   useLoadingBar,
+  NH4,
 } from "naive-ui";
 export default {
   name: "TemplateDesigner",
@@ -210,6 +224,7 @@ export default {
     MenuHamburgerIcon,
     SearchComponent,
     FeedbackComponent,
+    NH4,
   },
   methods: {
     checkIfOnMobile() {
@@ -722,6 +737,12 @@ p {
   cursor: text;
 }
 
+.logo {
+  width: 40px;
+  height: 40px;
+  margin-right: 25px;
+}
+
 @media only screen and (max-width: 980px) {
   .n-layout-content {
     height: calc(100vh - 53px);
@@ -733,7 +754,7 @@ p {
 .desktopNav {
   padding: 13px;
   section {
-    margin-left: 150px;
+    // margin-left: 150px;
   }
 }
 .actionButtonContainer {
@@ -741,7 +762,27 @@ p {
     color: white;
   }
 }
-@media only screen and (max-width: 980px) {
+
+#siteTitleNavbar {
+  margin-top: auto;
+  margin-bottom: auto;
+  text-align: left;
+  font-size: 23px;
+  // color: #2acf97;
+}
+.logotitleSection {
+  display: flex;
+  margin-left: 13px;
+}
+@media only screen and (max-width: 999px) {
+  .logotitleSection {
+    img {
+      display: none !important;
+    }
+  }
+  #siteTitleNavbar {
+    display: none;
+  }
   .desktopNav {
     padding: 5px;
     section {
