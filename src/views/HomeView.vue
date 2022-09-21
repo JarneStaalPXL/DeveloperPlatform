@@ -52,6 +52,15 @@
       <n-tag :type="currentStatusObj.typeOfStatus">{{
         currentStatusObj.currentStatus
       }}</n-tag>
+      <n-card class="mt-5">
+        <div id="container-1824d6b21d3992c8979a1715c0e55eae"></div>
+      </n-card>
+      <component
+        :is="'script'"
+        async="async"
+        data-cfasync="false"
+        src="//pl17730901.profitablegatetocontent.com/1824d6b21d3992c8979a1715c0e55eae/invoke.js"
+      ></component>
     </section>
   </section>
 </template>
