@@ -16,6 +16,7 @@ function renderIcon(icon) {
 
 export default createStore({
   state: {
+    favoritesCategorizedChecked: true,
     contentRef : ref(null),
     showFeedbackPopup: false,
     verticalMenuCollapsed: false,

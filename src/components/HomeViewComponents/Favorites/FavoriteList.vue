@@ -6,55 +6,396 @@
       $store.state.favoritetools.length > 0
     "
   >
-    <n-grid x-gap="24" y-gap="24" cols="1 680:2 1200:4">
-      <n-gi v-for="tool of $store.state.favoritetools" :key="tool">
-        <n-card :title="tool.name" bordered>
-          <template #cover>
-            <div
-              class="cover"
-              :style="
-                tool.websitePreviewImage
-                  ? {
-                      background:
-                        'url(' +
-                        (tool.websitePreviewImage
-                          ? tool.websitePreviewImage
-                          : websitePreviewImagePlaceholder) +
-                        ')',
-                      backgroundPosition: 'center',
-                      backgroundSize: 'cover',
-                    }
-                  : tool.css
-              "
-            ></div>
-          </template>
-          <section class="toolContent">
-            <div class="titleButtons">
-              <div class="actionBtns">
-                <n-button @click="openLink(tool.link)">Open website</n-button>
-                <n-popconfirm
-                  @positive-click="removeToolFromFavorites(tool)"
-                  @negative-click="abortRemovalTool()"
-                >
-                  <template #trigger>
-                    <n-button class="pl-5"
-                      ><i :style="{ color: '#7FE7C4' }" class="fa-solid fa-heart"></i
-                    ></n-button>
-                  </template>
-                  Are you sure you want to remove this tool from your favorites?
-                </n-popconfirm>
-              </div>
-            </div>
+    <!--Categorized-->
+    <section v-if="$store.state.favoritesCategorizedChecked">
+      <section v-if="$store.state.globalFrontendTools.some((x) => x.isFavorited)">
+        <n-card title="Global Tools">
+          <n-grid x-gap="24" y-gap="24" cols="1 680:2 1200:4">
+            <n-gi
+              v-for="tool of $store.state.globalFrontendTools.filter(
+                (x) => x.isFavorited
+              )"
+              :key="tool"
+            >
+              <n-card :title="tool.name" bordered class="itemCard">
+                <template #cover>
+                  <div
+                    class="cover"
+                    :style="
+                      tool.websitePreviewImage
+                        ? {
+                            background:
+                              'url(' +
+                              (tool.websitePreviewImage
+                                ? tool.websitePreviewImage
+                                : websitePreviewImagePlaceholder) +
+                              ')',
+                            backgroundPosition: 'center',
+                            backgroundSize: 'cover',
+                          }
+                        : tool.css
+                    "
+                  ></div>
+                </template>
+                <section class="toolContent">
+                  <div class="titleButtons">
+                    <div class="actionBtns">
+                      <n-button @click="openLink(tool.link)">Open website</n-button>
+                      <n-popconfirm
+                        @positive-click="removeToolFromFavorites(tool)"
+                        @negative-click="abortRemovalTool()"
+                      >
+                        <template #trigger>
+                          <n-button class="pl-5"
+                            ><i
+                              :style="{ color: '#7FE7C4' }"
+                              class="fa-solid fa-heart"
+                            ></i
+                          ></n-button>
+                        </template>
+                        Are you sure you want to remove this tool from your favorites?
+                      </n-popconfirm>
+                    </div>
+                  </div>
 
-            <div class="justify-content-end promoContainer" v-if="tool.promoDescription">
-              <n-button class="promoBtn" @click="openLink(tool.promoLink)">{{
-                tool.promoDescription
-              }}</n-button>
-            </div>
-          </section>
+                  <div
+                    class="justify-content-end promoContainer"
+                    v-if="tool.promoDescription"
+                  >
+                    <n-button class="promoBtn" @click="openLink(tool.promoLink)">{{
+                      tool.promoDescription
+                    }}</n-button>
+                  </div>
+                </section>
+              </n-card>
+            </n-gi>
+          </n-grid>
         </n-card>
-      </n-gi>
-    </n-grid>
+      </section>
+
+      <!--Gradient Tools that are favorited-->
+      <section
+        class="mt-2"
+        v-if="$store.state.gradientGeneratorsTools.some((x) => x.isFavorited)"
+      >
+        <n-card title="Gradient Tools">
+          <n-grid x-gap="24" y-gap="24" cols="1 680:2 1200:4">
+            <n-gi
+              v-for="tool of $store.state.gradientGeneratorsTools.filter(
+                (x) => x.isFavorited
+              )"
+              :key="tool"
+            >
+              <n-card :title="tool.name" bordered class="itemCard">
+                <template #cover>
+                  <div
+                    class="cover"
+                    :style="
+                      tool.websitePreviewImage
+                        ? {
+                            background:
+                              'url(' +
+                              (tool.websitePreviewImage
+                                ? tool.websitePreviewImage
+                                : websitePreviewImagePlaceholder) +
+                              ')',
+                            backgroundPosition: 'center',
+                            backgroundSize: 'cover',
+                          }
+                        : tool.css
+                    "
+                  ></div>
+                </template>
+                <section class="toolContent">
+                  <div class="titleButtons">
+                    <div class="actionBtns">
+                      <n-button @click="openLink(tool.link)">Open website</n-button>
+                      <n-popconfirm
+                        @positive-click="removeToolFromFavorites(tool)"
+                        @negative-click="abortRemovalTool()"
+                      >
+                        <template #trigger>
+                          <n-button class="pl-5"
+                            ><i
+                              :style="{ color: '#7FE7C4' }"
+                              class="fa-solid fa-heart"
+                            ></i
+                          ></n-button>
+                        </template>
+                        Are you sure you want to remove this tool from your favorites?
+                      </n-popconfirm>
+                    </div>
+                  </div>
+
+                  <div
+                    class="justify-content-end promoContainer"
+                    v-if="tool.promoDescription"
+                  >
+                    <n-button class="promoBtn" @click="openLink(tool.promoLink)">{{
+                      tool.promoDescription
+                    }}</n-button>
+                  </div>
+                </section>
+              </n-card>
+            </n-gi>
+          </n-grid>
+        </n-card>
+      </section>
+
+      <!--Color Tools that are favorited-->
+      <section
+        class="mt-2"
+        v-if="$store.state.colorGeneratorsTools.some((x) => x.isFavorited)"
+      >
+        <n-card title="Color Tools">
+          <n-grid x-gap="24" y-gap="24" cols="1 680:2 1200:4">
+            <n-gi
+              v-for="tool of $store.state.colorGeneratorsTools.filter(
+                (x) => x.isFavorited
+              )"
+              :key="tool"
+            >
+              <n-card :title="tool.name" bordered class="itemCard">
+                <template #cover>
+                  <div
+                    class="cover"
+                    :style="
+                      tool.websitePreviewImage
+                        ? {
+                            background:
+                              'url(' +
+                              (tool.websitePreviewImage
+                                ? tool.websitePreviewImage
+                                : websitePreviewImagePlaceholder) +
+                              ')',
+                            backgroundPosition: 'center',
+                            backgroundSize: 'cover',
+                          }
+                        : tool.css
+                    "
+                  ></div>
+                </template>
+                <section class="toolContent">
+                  <div class="titleButtons">
+                    <div class="actionBtns">
+                      <n-button @click="openLink(tool.link)">Open website</n-button>
+                      <n-popconfirm
+                        @positive-click="removeToolFromFavorites(tool)"
+                        @negative-click="abortRemovalTool()"
+                      >
+                        <template #trigger>
+                          <n-button class="pl-5"
+                            ><i
+                              :style="{ color: '#7FE7C4' }"
+                              class="fa-solid fa-heart"
+                            ></i
+                          ></n-button>
+                        </template>
+                        Are you sure you want to remove this tool from your favorites?
+                      </n-popconfirm>
+                    </div>
+                  </div>
+
+                  <div
+                    class="justify-content-end promoContainer"
+                    v-if="tool.promoDescription"
+                  >
+                    <n-button class="promoBtn" @click="openLink(tool.promoLink)">{{
+                      tool.promoDescription
+                    }}</n-button>
+                  </div>
+                </section>
+              </n-card>
+            </n-gi>
+          </n-grid>
+        </n-card>
+      </section>
+
+      <!--Hostings that are favorited-->
+      <section
+        class="mt-2"
+        v-if="$store.state.hostingproviders.some((x) => x.isFavorited)"
+      >
+        <n-card title="Hosting Providers">
+          <n-grid x-gap="24" y-gap="24" cols="1 680:2 1200:4">
+            <n-gi
+              v-for="tool of $store.state.hostingproviders.filter((x) => x.isFavorited)"
+              :key="tool"
+            >
+              <n-card :title="tool.name" bordered class="itemCard">
+                <template #cover>
+                  <div
+                    class="cover"
+                    :style="
+                      tool.websitePreviewImage
+                        ? {
+                            background:
+                              'url(' +
+                              (tool.websitePreviewImage
+                                ? tool.websitePreviewImage
+                                : websitePreviewImagePlaceholder) +
+                              ')',
+                            backgroundPosition: 'center',
+                            backgroundSize: 'cover',
+                          }
+                        : tool.css
+                    "
+                  ></div>
+                </template>
+                <section class="toolContent">
+                  <div class="titleButtons">
+                    <div class="actionBtns">
+                      <n-button @click="openLink(tool.link)">Open website</n-button>
+                      <n-popconfirm
+                        @positive-click="removeToolFromFavorites(tool)"
+                        @negative-click="abortRemovalTool()"
+                      >
+                        <template #trigger>
+                          <n-button class="pl-5"
+                            ><i
+                              :style="{ color: '#7FE7C4' }"
+                              class="fa-solid fa-heart"
+                            ></i
+                          ></n-button>
+                        </template>
+                        Are you sure you want to remove this tool from your favorites?
+                      </n-popconfirm>
+                    </div>
+                  </div>
+
+                  <div
+                    class="justify-content-end promoContainer"
+                    v-if="tool.promoDescription"
+                  >
+                    <n-button class="promoBtn" @click="openLink(tool.promoLink)">{{
+                      tool.promoDescription
+                    }}</n-button>
+                  </div>
+                </section>
+              </n-card>
+            </n-gi>
+          </n-grid>
+        </n-card>
+      </section>
+
+      <!--Learning Tools that are favorited-->
+      <section class="mt-2" v-if="$store.state.learningTools.some((x) => x.isFavorited)">
+        <n-card title="Learning Tools">
+          <n-grid x-gap="24" y-gap="24" cols="1 680:2 1200:4">
+            <n-gi
+              v-for="tool of $store.state.learningTools.filter((x) => x.isFavorited)"
+              :key="tool"
+            >
+              <n-card :title="tool.name" bordered class="itemCard">
+                <template #cover>
+                  <div
+                    class="cover"
+                    :style="
+                      tool.websitePreviewImage
+                        ? {
+                            background:
+                              'url(' +
+                              (tool.websitePreviewImage
+                                ? tool.websitePreviewImage
+                                : websitePreviewImagePlaceholder) +
+                              ')',
+                            backgroundPosition: 'center',
+                            backgroundSize: 'cover',
+                          }
+                        : tool.css
+                    "
+                  ></div>
+                </template>
+                <section class="toolContent">
+                  <div class="titleButtons">
+                    <div class="actionBtns">
+                      <n-button @click="openLink(tool.link)">Open website</n-button>
+                      <n-popconfirm
+                        @positive-click="removeToolFromFavorites(tool)"
+                        @negative-click="abortRemovalTool()"
+                      >
+                        <template #trigger>
+                          <n-button class="pl-5"
+                            ><i
+                              :style="{ color: '#7FE7C4' }"
+                              class="fa-solid fa-heart"
+                            ></i
+                          ></n-button>
+                        </template>
+                        Are you sure you want to remove this tool from your favorites?
+                      </n-popconfirm>
+                    </div>
+                  </div>
+
+                  <div
+                    class="justify-content-end promoContainer"
+                    v-if="tool.promoDescription"
+                  >
+                    <n-button class="promoBtn" @click="openLink(tool.promoLink)">{{
+                      tool.promoDescription
+                    }}</n-button>
+                  </div>
+                </section>
+              </n-card>
+            </n-gi>
+          </n-grid>
+        </n-card>
+      </section>
+    </section>
+    <section v-if="$store.state.favoritesCategorizedChecked === false">
+      <n-grid x-gap="24" y-gap="24" cols="1 680:2 1200:4">
+        <n-gi v-for="tool of $store.state.favoritetools" :key="tool">
+          <n-card :title="tool.name" bordered class="itemCard">
+            <template #cover>
+              <div
+                class="cover"
+                :style="
+                  tool.websitePreviewImage
+                    ? {
+                        background:
+                          'url(' +
+                          (tool.websitePreviewImage
+                            ? tool.websitePreviewImage
+                            : websitePreviewImagePlaceholder) +
+                          ')',
+                        backgroundPosition: 'center',
+                        backgroundSize: 'cover',
+                      }
+                    : tool.css
+                "
+              ></div>
+            </template>
+            <section class="toolContent">
+              <div class="titleButtons">
+                <div class="actionBtns">
+                  <n-button @click="openLink(tool.link)">Open website</n-button>
+                  <n-popconfirm
+                    @positive-click="removeToolFromFavorites(tool)"
+                    @negative-click="abortRemovalTool()"
+                  >
+                    <template #trigger>
+                      <n-button class="pl-5"
+                        ><i :style="{ color: '#7FE7C4' }" class="fa-solid fa-heart"></i
+                      ></n-button>
+                    </template>
+                    Are you sure you want to remove this tool from your favorites?
+                  </n-popconfirm>
+                </div>
+              </div>
+
+              <div
+                class="justify-content-end promoContainer"
+                v-if="tool.promoDescription"
+              >
+                <n-button class="promoBtn" @click="openLink(tool.promoLink)">{{
+                  tool.promoDescription
+                }}</n-button>
+              </div>
+            </section>
+          </n-card>
+        </n-gi>
+      </n-grid>
+    </section>
   </n-config-provider>
   <section class="noFavorites" v-else>
     <img src="../../../assets/illu_nofavorites.svg" />
@@ -125,6 +466,7 @@ export default {
           this.$store.commit("setGlobalFrontendTools", dataTools);
           window.$message.success('"' + tool.name + '"' + " removed from favorites");
           window.$loadingbar.finish();
+          await this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
         })
         .catch((err) => {
           window.$loadingbar.error();
@@ -252,7 +594,7 @@ export default {
   justify-content: center;
 }
 
-.n-card {
+.itemCard {
   max-width: 600px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 4px 12px;
   border-radius: 8px;
