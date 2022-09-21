@@ -52,8 +52,8 @@
       <n-tag :type="currentStatusObj.typeOfStatus">{{
         currentStatusObj.currentStatus
       }}</n-tag>
-      <n-card class="mt-5">
-        <div id="container-1824d6b21d3992c8979a1715c0e55eae"></div>
+      <n-card class="mt-5 mb-3">
+        <!-- <div id="container-1824d6b21d3992c8979a1715c0e55eae"></div> -->
       </n-card>
       <component
         :is="'script'"
