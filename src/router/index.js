@@ -19,7 +19,6 @@ import LoginView from "@/views/LoginView";
 import ForgotPasswordView from "@/views/ForgotPasswordView";
 import ProfileView from "@/views/ProfileView";
 import LearningView from "@/views/LearningView";
-import { useLoadingBar } from "naive-ui";
 
 const routes = [
   {
@@ -127,7 +126,6 @@ import {
 } from "naive-ui";
 import { computed, defineComponent, ref } from 'vue'
 
-
 const configProviderPropsRef = computed(() => ({
   theme: store.state.colorMode.toLowerCase() === 'light'? lightTheme : darkTheme
 }));
@@ -138,21 +136,22 @@ const { loadingBar } = createDiscreteApi(["loadingBar"], {
 
 const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
-    return new Promise((resolve, reject) => {
-      if (savedPosition) {
-        return savedPosition;
-      } else {
-        setTimeout(() => {
-          resolve({ top: 0 });
-        }, 200);
-      }
-    });
+    // always scroll to top
+    if(to.hash){
+      return { el: to.hash, behavior: 'smooth' }
+    }
+    else {
+      return { top: 0 }
+    }
   },
+  
+  //scrollbehavior that sets scrollposition of layoutcontent id to 0
   history: createWebHistory(),
   routes,
 });
 
 router.beforeEach((to, from, next) => {
+
   loadingBar.start();
   // const loadingBar = useLoadingBar();
   // loadingBar.start();
@@ -177,6 +176,7 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to, from) => {
   loadingBar.finish();
+  //vue scroll to top
 });
 
 export default router;

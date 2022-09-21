@@ -16,6 +16,7 @@ function renderIcon(icon) {
 
 export default createStore({
   state: {
+    contentRef : ref(null),
     showFeedbackPopup: false,
     verticalMenuCollapsed: false,
     colorMode: "dark",
@@ -724,6 +725,9 @@ export default createStore({
   
     setShowFeedbackModal(state,payload){
       state.showFeedbackPopup = payload;
+    },
+    setGradientGeneratorsTools(state, payload) {
+      state.gradientGeneratorsTools = payload;
     }
   },
   actions: {
@@ -915,7 +919,7 @@ export default createStore({
       }
       commit("setAllTools", allTools);
     },
-    async GET_USER_FAVORITE_TOOLS({ commit, state }) {
+    async GET_USER_FAVORITE_TOOLS({ commit, state, dispatch }) {
       if (localStorage.getItem("uid") !== null) {
         //getting user favorite tools from strapi
         const response = await fetch(
@@ -940,32 +944,8 @@ export default createStore({
 
         if (state.favoritetools !== null) {
           //globalfrontendtools manipulation favorites
-          const gbt = JSON.parse(JSON.stringify(state.globalFrontendTools));
-
-          for (const tool of gbt) {
-            tool.isFavorited = state.favoritetools.some(
-              (t) => t.name === tool.name
-            );
-          }
-          commit("setGlobalFrontendTools", gbt);
-
-          //hosting providers manipulation favorites
-          const htp = JSON.parse(JSON.stringify(state.hostingproviders));
-          for (const provider of htp) {
-            provider.isFavorited = state.favoritetools.some(
-              (t) => t.name === provider.name
-            );
-          }
-          commit("setHostingProviders", htp);
-
-          //learning tools manipulation favorites
-          const ltp = JSON.parse(JSON.stringify(state.learningTools));
-          for (const tool of ltp) {
-            tool.isFavorited = state.favoritetools.some(
-              (t) => t.name === tool.name
-            );
-          }
-          commit("setLearningTools", ltp);
+          dispatch("SET_FAVORITE_TOOLS");
+         
         }
       } else {
         //getting user favorite tools from localStorage
@@ -975,36 +955,47 @@ export default createStore({
           commit("setFavoriteTools", tools);
 
           if (state.favoritetools !== null) {
-            //globalfrontendtools manipulation favorites
-            const gbt = JSON.parse(JSON.stringify(state.globalFrontendTools));
-
-            for (const tool of gbt) {
-              tool.isFavorited = state.favoritetools.some(
-                (t) => t.name === tool.name
-              );
-            }
-            commit("setGlobalFrontendTools", gbt);
-
-            //hosting providers manipulation favorites
-            const htp = JSON.parse(JSON.stringify(state.hostingproviders));
-            for (const provider of htp) {
-              provider.isFavorited = state.favoritetools.some(
-                (t) => t.name === provider.name
-              );
-            }
-            commit("setHostingProviders", htp);
-
-            //learning tools manipulation favorites
-            const ltp = JSON.parse(JSON.stringify(state.learningTools));
-            for (const tool of ltp) {
-              tool.isFavorited = state.favoritetools.some(
-                (t) => t.name === tool.name
-              );
-            }
-            commit("setLearningTools", ltp);
+            dispatch("SET_FAVORITE_TOOLS");
           }
         }
       }
+    },
+    async SET_FAVORITE_TOOLS({ commit, state }) {
+      const gbt = JSON.parse(JSON.stringify(state.globalFrontendTools));
+
+      for (const tool of gbt) {
+        tool.isFavorited = state.favoritetools.some(
+          (t) => t.name === tool.name
+        );
+      }
+      commit("setGlobalFrontendTools", gbt);
+
+      //hosting providers manipulation favorites
+      const htp = JSON.parse(JSON.stringify(state.hostingproviders));
+      for (const provider of htp) {
+        provider.isFavorited = state.favoritetools.some(
+          (t) => t.name === provider.name
+        );
+      }
+      commit("setHostingProviders", htp);
+
+      //learning tools manipulation favorites
+      const ltp = JSON.parse(JSON.stringify(state.learningTools));
+      for (const tool of ltp) {
+        tool.isFavorited = state.favoritetools.some(
+          (t) => t.name === tool.name
+        );
+      }
+      commit("setLearningTools", ltp);
+
+      //gradient generators manipulation favorites
+      const ggt = JSON.parse(JSON.stringify(state.gradientGeneratorsTools));
+      for (const tool of ggt) {
+        tool.isFavorited = state.favoritetools.some(
+          (t) => t.name === tool.name
+        );
+      }
+      commit("setGradientGeneratorsTools", ggt);
     },
     async SORT_HOSTINGPROVIDERS_BY_RECOMMENDED({ commit, state }) {
       let array = state.hostingproviders.sort((a, b) => {

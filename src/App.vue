@@ -89,7 +89,7 @@
                 :options="feedbackOption"
               />
             </n-layout-sider>
-            <n-layout-content>
+            <n-layout-content ref="contentRef">
               <n-loading-bar-provider>
                 <n-notification-provider
                   :max="1"
@@ -138,6 +138,8 @@ import FeedbackComponent from "./components/GlobalComponents/FeedbackComponent.v
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
 }
+
+//export reference to contentRef
 
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
@@ -401,7 +403,7 @@ export default {
     mobileCategories() {
       return [
         {
-          label: "Global Frontend Tools",
+          label: "Global Tools",
           key: "/globalfrontendtools",
           icon: renderIcon(WorldIcon),
         },
@@ -439,7 +441,7 @@ export default {
     categoryOptions() {
       return [
         {
-          label: "Global Frontend Tools",
+          label: "Global Tools",
           key: "/globalfrontendtools",
           icon: renderIcon(WorldIcon),
         },
@@ -448,6 +450,10 @@ export default {
           key: "/gradientgenerators",
           icon: renderIcon(GradientIcon),
           children: [
+            {
+              label: "All Gradient Tools",
+              key: "/gradientgenerators",
+            },
             {
               label: "Linear Gradient Generator",
               key: "/lineargradientgenerator",
@@ -463,6 +469,10 @@ export default {
           key: "/colorgenerators",
           icon: renderIcon(ColorIcon),
           children: [
+            {
+              label: "All Color Tools",
+              key: "/colorgenerators",
+            },
             {
               label: "Color Lightener/Darker",
               key: "/colorlightenerdarker",
@@ -602,9 +612,11 @@ export default {
     });
   },
   setup() {
+    const contentRef = ref(null);
     return {
       inverted: ref(false),
       darkTheme,
+      contentRef,
 
       handleSelect(key) {
         console.log(String(key));

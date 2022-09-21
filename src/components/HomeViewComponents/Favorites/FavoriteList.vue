@@ -12,16 +12,20 @@
           <template #cover>
             <div
               class="cover"
-              :style="{
-                background:
-                  'url(' +
-                  (tool.websitePreviewImage
-                    ? tool.websitePreviewImage
-                    : websitePreviewImagePlaceholder) +
-                  ')',
-                backgroundPosition: 'center',
-                backgroundSize: 'cover',
-              }"
+              :style="
+                tool.websitePreviewImage
+                  ? {
+                      background:
+                        'url(' +
+                        (tool.websitePreviewImage
+                          ? tool.websitePreviewImage
+                          : websitePreviewImagePlaceholder) +
+                        ')',
+                      backgroundPosition: 'center',
+                      backgroundSize: 'cover',
+                    }
+                  : tool.css
+              "
             ></div>
           </template>
           <section class="toolContent">
