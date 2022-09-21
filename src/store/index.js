@@ -732,9 +732,57 @@ export default createStore({
     },
     setColorGeneratorsTools(state, payload) {
       state.colorGeneratorsTools = payload;
-    }
+    },
+    setfavoritesCategorizedChecked(state, payload) {
+      state.favoritesCategorizedChecked = payload;
+    },
   },
   actions: {
+    async SET_FAVORITES_CATEGORIZED({ state,commit }, isChecked) {
+      commit("setfavoritesCategorizedChecked", isChecked);
+      if(localStorage.getItem('uid') !== null){
+        const resp = await fetch(`http://localhost:1337/api/user-detail-info/setFavoritesCategorized/${localStorage.getItem("uid")}`,
+        {
+          method: "PUT",
+          headers: {
+            Accept : "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            data: {
+              favoritesCategorized: state.favoritesCategorizedChecked,
+            }
+          })
+        });
+  
+        const data = await resp.json();
+      }
+      else {
+        localStorage.setItem("favoritesCategorized", isChecked);
+      }
+    },
+    async GET_FAVORITES_CATEGORIZED({ commit }) {
+      if(localStorage.getItem('uid') !== null){
+        const resp = await fetch(`http://localhost:1337/api/user-detail-info/getFavoritesCategorized/${localStorage.getItem("uid")}`,
+        {
+          method: "GET",
+          headers: {
+            Accept : "application/json",
+            "Content-Type": "application/json",
+          },
+        });
+  
+        const user = await resp.json();
+          commit("setfavoritesCategorizedChecked", user.data.attributes.favoritesCategorized);
+          return user.data.attributes.favoritesCategorized;
+      }
+      else {
+        let isChecked = localStorage.getItem("favoritesCategorized");
+        commit("setfavoritesCategorizedChecked", isChecked);
+        return isChecked;
+      }
+     
+    },
     async GET_ALL_FEEDBACK({state, commit}){
       const resp = await fetch(`${state.baseUrlStrapiApi}feedbacks`,
       {

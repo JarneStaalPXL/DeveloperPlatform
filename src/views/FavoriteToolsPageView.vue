@@ -14,10 +14,9 @@
       </div>
     </template>
     <FavoriteList />
-    <template #header-extra>
+    <template #header-extra v-if="$store.state.favoritetools.length > 0">
       <n-switch
         :rail-style="railStyle"
-        :default-value="true"
         @update:value="handleChange"
         v-model:value="$store.state.favoritesCategorizedChecked"
       >
@@ -58,11 +57,13 @@ export default {
       },
     };
   },
+  async mounted() {
+    this.$store.dispatch("GET_FAVORITES_CATEGORIZED");
+  },
   created() {},
-  mounted() {},
   methods: {
     handleChange(value) {
-      //  this.$store.dispatch("SET_FAVORITES_CATEGORIZED", value);
+      this.$store.dispatch("SET_FAVORITES_CATEGORIZED", value);
     },
   },
 };

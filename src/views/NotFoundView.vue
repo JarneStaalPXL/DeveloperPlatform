@@ -32,7 +32,6 @@ export default {
   },
   beforeMount() {
     let path = this.$route.path.split("/")[1];
-    console.log(path);
     this.routepath = path.charAt(0).toUpperCase() + path.slice(1, path.length);
   },
   methods: {
