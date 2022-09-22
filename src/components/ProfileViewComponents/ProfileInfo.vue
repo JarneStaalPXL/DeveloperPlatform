@@ -125,4 +125,6 @@ export default {
 .n-timeline .n-timeline-item .n-timeline-item-content .n-timeline-item-content__title {
   text-align: left !important;
 }
+.n-card-header__main {
+}
 </style>

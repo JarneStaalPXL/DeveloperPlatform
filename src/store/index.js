@@ -16,6 +16,8 @@ function renderIcon(icon) {
 
 export default createStore({
   state: {
+    selectedItemsQA: [],
+    quickAccessTools: [],
     favoritesCategorizedChecked: true,
     contentRef : ref(null),
     showFeedbackPopup: false,
@@ -547,9 +549,7 @@ export default createStore({
       {
         name: "Color Pallette Generator",
         link: "/colorPalleteGenerator",
-        css:
-          "background: url(http://localhost:8080/img/colorGradient.3642d456.jpg);" +
-          "background-size: 100% 100%;",
+          websitePreviewImage: require("../assets/colorGradient.jpg"),
         available: true,
       },
     ],
@@ -736,8 +736,21 @@ export default createStore({
     setfavoritesCategorizedChecked(state, payload) {
       state.favoritesCategorizedChecked = payload;
     },
+    setQuickAccessTools(state, payload) {
+      state.quickAccessTools = payload;
+    },
+    setsSelectedItemsQA(state, payload) {
+      state.selectedItemsQA = payload;
+    }
   },
   actions: {
+    async GET_QUICK_ACCESS_TOOLS({ commit }) {
+      
+    },
+   async SAVE_QUICK_ACCESS_TOOLS({commit},payload){
+    commit("setQuickAccessTools", payload);
+    localStorage.setItem("quickAccessTools", JSON.stringify(payload));
+   },
     async SET_FAVORITES_CATEGORIZED({ state,commit }, isChecked) {
       commit("setfavoritesCategorizedChecked", isChecked);
       if(localStorage.getItem('uid') !== null){

@@ -4,7 +4,23 @@
       <n-gi v-for="tool of $store.state.colorGeneratorsTools" :key="tool">
         <n-card :title="tool.name" bordered>
           <template #cover>
-            <div class="gradientBox" :style="tool.css"></div>
+            <div
+              class="cover"
+              :style="
+                tool.websitePreviewImage
+                  ? {
+                      background:
+                        'url(' +
+                        (tool.websitePreviewImage
+                          ? tool.websitePreviewImage
+                          : websitePreviewImagePlaceholder) +
+                        ')',
+                      backgroundPosition: 'center',
+                      backgroundSize: 'cover',
+                    }
+                  : tool.css
+              "
+            ></div>
           </template>
           <section class="toolContent">
             <div class="titleButtons">

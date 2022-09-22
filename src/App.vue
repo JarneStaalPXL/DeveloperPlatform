@@ -645,7 +645,8 @@ export default {
 </script>
 
 <style>
-.categoryMenu.n-menu-item-content__icon .n-layout-content {
+.n-card.n-card--bordered {
+  text-align: center !important;
 }
 .n-layout-content {
   height: calc(100vh - 69px);
@@ -690,7 +691,7 @@ html {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+
   // color: white;
 }
 

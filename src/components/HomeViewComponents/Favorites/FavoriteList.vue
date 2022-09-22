@@ -402,11 +402,20 @@
     <div class="contentNoFavorites">
       <h6>You haven't added any favorites yet.</h6>
       <h6>
-        Currently only
-        <a @click="$router.push('globalfrontendtools')">Global Frontend Tools</a> &
-        <a @click="$router.push('hostingproviders')">Hosting Providers</a> and
-        <a @click="$router.push('learningtools')">Learning Tools</a> can be added as
-        favorite.
+        Currently only these can be added as favorite.
+        <ul class="mt-3" style="list-style: none">
+          <li>
+            <a @click="$router.push('globalfrontendtools')">Global Frontend Tools</a>
+          </li>
+          <li>
+            <a @click="$router.push('gradientgenerators')">Gradient Tools</a>
+          </li>
+          <li>
+            <a @click="$router.push('colorgenerators')">Color Tools</a>
+          </li>
+          <li><a @click="$router.push('hostingproviders')">Hosting Providers</a></li>
+          <li><a @click="$router.push('learningtools')">Learning Tools</a></li>
+        </ul>
       </h6>
     </div>
   </section>
