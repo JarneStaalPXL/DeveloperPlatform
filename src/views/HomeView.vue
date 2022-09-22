@@ -8,7 +8,7 @@
       </div>
     </section>
 
-    <section class="toolCategoriesContainer" v-if="$store.state.favoritetools.length > 0">
+    <!-- <section class="toolCategoriesContainer" v-if="$store.state.favoritetools.length > 0">
       <section class="someFavorites" v-if="$store.state.favoritetools.length > 0">
         <h4 v-if="$store.state.favoritetools.length > 0">Some of your favorites</h4>
         <div class="favorites" v-if="$store.state.favoritetools.length > 0">
@@ -21,10 +21,10 @@
           </n-button>
         </div>
       </section>
-    </section>
+    </section> -->
 
-    <section class="mt-5 developmentSection">
-      <h6 class="mt-5">
+    <section class="developmentSection">
+      <h6 class="mt-3">
         Developer Platform is a platform where you can favorite all the useful tools you
         want to use. It's continously expanding features and possibilities.
       </h6>
@@ -48,20 +48,15 @@
           >Join our community on Discord</a
         >
       </h6>
+    </section>
+
+    <QuickAccessFavorites />
+    <!-- <section class="developmentSection">
       <h6 class="mt-5">Current status:</h6>
       <n-tag :type="currentStatusObj.typeOfStatus">{{
         currentStatusObj.currentStatus
       }}</n-tag>
-      <n-card class="mt-5 mb-3">
-        <!-- <div id="container-1824d6b21d3992c8979a1715c0e55eae"></div> -->
-      </n-card>
-      <component
-        :is="'script'"
-        async="async"
-        data-cfasync="false"
-        src="//pl17730901.profitablegatetocontent.com/1824d6b21d3992c8979a1715c0e55eae/invoke.js"
-      ></component>
-    </section>
+    </section> -->
   </section>
 </template>
 
@@ -85,7 +80,9 @@ import {
   useMessage,
   NSkeleton,
   useNotification,
+  NDivider,
 } from "naive-ui";
+import QuickAccessFavorites from "../components/HomeViewComponents/QuickAccessFavorites.vue";
 import SearchComponent from "../components/GlobalComponents/SearchComponent.vue";
 import FeedbackComponent from "@/components/GlobalComponents/FeedbackComponent.vue";
 export default {
@@ -108,6 +105,8 @@ export default {
     SearchComponent,
     NModal,
     FeedbackComponent,
+    QuickAccessFavorites,
+    NDivider,
   },
   data() {
     return {
@@ -226,6 +225,7 @@ export default {
 
 <style lang="scss" scoped>
 .developmentSection {
+  text-align: center;
   width: 75%;
   margin: auto;
 
@@ -444,11 +444,13 @@ a {
   }
   h1,
   p {
+    margin-bottom: 0;
+    text-align: center;
     background: linear-gradient(to right, #1ea4e9, #36fd3c);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-  padding-top: 5%;
+  padding-top: 30px;
   // margin-bottom: 100px;
 }
 
@@ -471,7 +473,16 @@ a {
   }
 }
 
+#searchbar {
+  display: none;
+}
+
 @media only screen and (max-width: 980px) {
+  #searchbar {
+    display: flex;
+    justify-content: center !important;
+  }
+
   .titleCard,
   .categoryCard {
     margin: 0;
@@ -537,9 +548,6 @@ a {
 }
 
 @media only screen and (min-width: 550px) {
-  #searchbar {
-    display: none;
-  }
   #submitFeedback {
     display: none;
   }
