@@ -16,6 +16,7 @@ function renderIcon(icon) {
 
 export default createStore({
   state: {
+    showInfoModal:false,
     selectedItemsQA: [],
     quickAccessTools: [],
     favoritesCategorizedChecked: true,
@@ -741,16 +742,40 @@ export default createStore({
     },
     setsSelectedItemsQA(state, payload) {
       state.selectedItemsQA = payload;
+    },
+    setShowInfoModal(state, payload) {
+      state.showInfoModal = payload;
     }
   },
   actions: {
     async GET_QUICK_ACCESS_TOOLS({ commit }) {
-      
+      const resp = await fetch(`${state.baseUrlStrapiApi}user-detail-info/getQuickAccessTools/${localStorage.getItem("uid")}`, {
+        method: "GET",
+        headers: {
+          Accept : "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+      })
+      const dt = await resp.json();
+      return (dt.data.attributes.quickAccessTools);
     },
    async SAVE_QUICK_ACCESS_TOOLS({commit},payload){
     commit("setQuickAccessTools", payload);
-    localStorage.setItem("quickAccessTools", JSON.stringify(payload));
-    const resp = await fetch(``)
+    const resp = await fetch(`${state.baseUrlStrapiApi}user-detail-info/setQuickAccessTools/${localStorage.getItem("uid")}`, {
+      method: "PUT",
+      headers: {
+        Accept : "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + state.strapiApiKey,
+      },
+      body: JSON.stringify({
+        data : {
+          quickAccessTools: payload,
+        }
+      }),
+    })
+    const data = await resp.json();
    },
     async SET_FAVORITES_CATEGORIZED({ state,commit }, isChecked) {
       commit("setfavoritesCategorizedChecked", isChecked);

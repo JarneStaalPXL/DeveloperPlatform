@@ -189,6 +189,7 @@ export default {
 }
 .loginSection {
   width: 50%;
+  text-align: center;
 }
 .inputContainer {
   gap: 10px;

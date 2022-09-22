@@ -7,7 +7,7 @@
   >
     <!-- <iframe src="https://embed.lottiefiles.com/animation/90397"></iframe> -->
     <VueWriter id="title" :array="arr" :typeSpeed="70" :eraseSpeed="20" :delay="5000" />
-    <section class="loginSection">
+    <section class="registerSection">
       <div class="d-flex mb-2 inputContainer">
         <n-auto-complete
           :options="options"
@@ -201,8 +201,9 @@ iframe {
 .buttonContainer {
   gap: 5px;
 }
-.loginSection {
+.registerSection {
   width: 50%;
+  text-align: center;
 }
 .inputContainer {
   gap: 10px;
@@ -237,7 +238,7 @@ iframe {
 }
 
 @media only screen and (max-width: 750px) {
-  .loginSection {
+  .registerSection {
     width: 75%;
   }
   .inputContainer {

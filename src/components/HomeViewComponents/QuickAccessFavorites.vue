@@ -1,32 +1,5 @@
 <template>
-  <!-- <n-card
-    v-for="tool of $store.state.favoritetools"
-    :key="tool"
-    :title="tool.name"
-    :style="{ maxWidth: '300px' }"
-  >
-    <template #cover>
-      <div
-        class="cover"
-        :style="
-          tool.websitePreviewImage
-            ? {
-                background:
-                  'url(' +
-                  (tool.websitePreviewImage
-                    ? tool.websitePreviewImage
-                    : websitePreviewImagePlaceholder) +
-                  ')',
-                backgroundPosition: 'center',
-                backgroundSize: 'cover',
-              }
-            : tool.css
-        "
-      ></div>
-    </template>
-    <n-button @click="openLink(tool.link)">Open website</n-button>
-  </n-card> -->
-  <section class="mt-5 mb-5">
+  <section class="mt-5">
     <n-config-provider
       class="mb-5 w-75 m-auto"
       v-if="$store.state.quickAccessTools.length > 0"
@@ -85,16 +58,32 @@
       v-if="$store.state.favoritetools.length > 0"
     >
       <template #trigger>
-        <n-button class="d-flex m-auto mt-5" size="large"
-          >{{
-            $store.state.selectedItemsQA.length > 0
-              ? "Change Quick Access Tools"
-              : "Add Quick Access Tools"
-          }}<HomeAddIcon :style="{ width: '20px', marginLeft: '10px' }" />
-        </n-button>
+        <n-tooltip>
+          <template #trigger>
+            <n-button
+              disabled
+              tag="span"
+              class="d-flex m-auto mt-5"
+              size="large"
+              :style="
+                $store.state.quickAccessTools.length === 0
+                  ? {}
+                  : { marginBottom: '300px !important' }
+              "
+              >{{
+                $store.state.selectedItemsQA.length > 0
+                  ? "Change Quick Access Tools"
+                  : "Add Quick Access Tools"
+              }}<HomeAddIcon :style="{ width: '20px', marginLeft: '10px' }" />
+            </n-button>
+          </template>
+          This feature is not finished yet.
+        </n-tooltip>
       </template>
-      <div style="width: 40vw">
+      <div class="transferWidth">
         <n-transfer
+          source-filter-placeholder="Search"
+          class="transfer"
           :max="8"
           virtual-scroll
           source-filterable
@@ -119,6 +108,7 @@ import {
   NGi,
   NTransfer,
   NPopover,
+  NTooltip,
 } from "naive-ui";
 export default {
   name: "QuickAccessFavorites",
@@ -134,6 +124,20 @@ export default {
     NTransfer,
     NPopover,
     HomeAddIcon,
+    NTooltip,
+  },
+  async beforeMount() {
+    const tools = await this.$store.dispatch("GET_QUICK_ACCESS_TOOLS");
+    let arr = [];
+    for (let tool of tools) {
+      arr.push({
+        label: tool.name,
+        value: tool.name,
+        selected: true,
+      });
+    }
+    this.$store.commit("setsSelectedItemsQA", arr);
+    this.updateValue(arr);
   },
   computed: {
     getManipulatedFavorites() {
@@ -153,9 +157,9 @@ export default {
   methods: {
     updateValue(selectedTools) {
       //limit to 4 selections
-      if (selectedTools.length > 3) {
-        this.$store.commit("setsSelectedItemsQA", selectedTools.slice(0, 3));
-        window.$message.info("You can only select 3 tools");
+      if (selectedTools.length > 6) {
+        this.$store.commit("setsSelectedItemsQA", selectedTools.slice(0, 6));
+        window.$message.info("You can only select 6 tools");
         return;
       }
 
@@ -189,14 +193,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.transferWidth {
+  width: 1000px;
+}
 .cover {
   height: 150px;
   background-size: cover;
   background-position: center;
 }
-</style>
-
-<style lang="scss" scoped>
 .promoContainer {
   margin-top: 10px;
 }
@@ -232,6 +236,12 @@ export default {
 }
 
 @media only screen and (max-width: 890px) {
+  .transferWidth {
+    width: 100%;
+  }
+  .transfer {
+    flex-direction: column;
+  }
   .descriptionContainer {
     div {
       margin-bottom: 7px;

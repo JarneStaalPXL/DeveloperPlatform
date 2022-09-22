@@ -10,6 +10,7 @@
           >
             <n-message-provider>
               <FeedbackComponent v-model:show="$store.state.showFeedbackPopup" />
+              <InfoComponent v-model:show="$store.state.showInfoModal" />
             </n-message-provider>
           </n-notification-provider>
         </n-loading-bar-provider>
@@ -100,7 +101,7 @@
                 @update:value="openLink"
                 :collapsed-width="64"
                 :collapsed-icon-size="22"
-                :options="feedbackOption"
+                :options="extraOptions"
               />
             </n-layout-sider>
             <n-layout-content ref="contentRef">
@@ -139,6 +140,7 @@ import {
   LogOutOutline as LogoutIcon,
   BookOutline as BookIcon,
   Menu as MenuHamburgerIcon,
+  Information as InfoIcon,
 } from "@vicons/ionicons5";
 import { World as WorldIcon } from "@vicons/tabler";
 import { Gradient as GradientIcon, CloudApp as HostingIcon } from "@vicons/carbon";
@@ -148,6 +150,7 @@ import {
 } from "@vicons/fluent";
 import SearchComponent from "./components/GlobalComponents/SearchComponent.vue";
 import FeedbackComponent from "./components/GlobalComponents/FeedbackComponent.vue";
+import InfoComponent from "./components/GlobalComponents/InfoComponent.vue";
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -225,7 +228,9 @@ export default {
     MenuHamburgerIcon,
     SearchComponent,
     FeedbackComponent,
+    InfoComponent,
     NH4,
+    InfoIcon,
   },
   methods: {
     checkIfOnMobile() {
@@ -269,6 +274,10 @@ export default {
       }
       if (link === "feedback") {
         this.$store.commit("setShowFeedbackModal", true);
+        return;
+      }
+      if (link === "info") {
+        this.$store.commit("setShowInfoModal", true);
         return;
       }
       if (link.includes("https://")) window.open(link, "_blank");
@@ -445,8 +454,13 @@ export default {
         },
       ];
     },
-    feedbackOption() {
+    extraOptions() {
       return [
+        {
+          label: "Info",
+          key: "info",
+          icon: renderIcon(InfoIcon),
+        },
         {
           label: "Feedback",
           key: "feedback",

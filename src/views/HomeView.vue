@@ -1,5 +1,6 @@
 <template>
   <section class="fullContainer">
+    <QuickAccessFavorites />
     <section class="explanationContainer">
       <h1>Developer Platform</h1>
       <p>Useful tools you can use for your website and design.<br /></p>
@@ -8,25 +9,19 @@
       </div>
     </section>
 
-    <!-- <section class="toolCategoriesContainer" v-if="$store.state.favoritetools.length > 0">
-      <section class="someFavorites" v-if="$store.state.favoritetools.length > 0">
-        <h4 v-if="$store.state.favoritetools.length > 0">Some of your favorites</h4>
-        <div class="favorites" v-if="$store.state.favoritetools.length > 0">
-          <n-button
-            v-for="tool of first5Favorites()"
-            :key="tool"
-            @click="openLink(tool.link)"
-          >
-            {{ tool.name }}
-          </n-button>
-        </div>
-      </section>
-    </section> -->
-
     <section class="developmentSection">
       <h6 class="mt-3">
         Developer Platform is a platform where you can favorite all the useful tools you
         want to use. It's continously expanding features and possibilities.
+      </h6>
+      <h6 class="mt-3" v-if="!$store.state.isLoggedIn">
+        To have access to the Quick Access dashboard, you need to
+        <a @click="$router.push('login')">log in</a> or
+        <a @click="$router.push('register')">sign up</a>.
+      </h6>
+      <h6 class="mt-3" v-if="$store.state.isLoggedIn">
+        This homepage offers a Quick Access dashboard, where you can select up to 6 of
+        your favorites for easy access.
       </h6>
       <h6 class="mt-3">
         <a
@@ -49,14 +44,6 @@
         >
       </h6>
     </section>
-
-    <QuickAccessFavorites />
-    <!-- <section class="developmentSection">
-      <h6 class="mt-5">Current status:</h6>
-      <n-tag :type="currentStatusObj.typeOfStatus">{{
-        currentStatusObj.currentStatus
-      }}</n-tag>
-    </section> -->
   </section>
 </template>
 
@@ -111,10 +98,6 @@ export default {
   data() {
     return {
       showFeedbackPopup: false,
-      currentStatusObj: {
-        typeOfStatus: "info",
-        currentStatus: "DEVELOPMENT",
-      },
       voted: false,
       toolSearchString: "",
       // toolResults: [],
@@ -136,8 +119,6 @@ export default {
   mounted() {
     window.$message = useMessage();
     window.$notification = useNotification();
-    this.checkIfVoted();
-    this.getCurrentStatus();
 
     if (localStorage.getItem("uid") !== null) {
       // window.$message.success("Welcome back " + this.userName() + "!", {
@@ -172,42 +153,10 @@ export default {
     }
   },
   methods: {
-    async getCurrentStatus() {
-      let result = await this.$store.dispatch("GET_CURRENT_STATUS");
-      this.currentStatusObj = result.data.attributes;
-    },
-    checkIfVoted() {
-      if (localStorage.getItem("voted") !== null) {
-        if (localStorage.getItem("voted") === "true") {
-          this.voted = true;
-        }
-      }
-    },
-    votePlatform(value) {
-      localStorage.setItem("voted", true);
-      this.$store.dispatch("VOTE_DESIGN_ROUTE", {
-        voteType: value,
-        route: "Platform",
-      });
-      window.$notification.info({
-        title: "Thank you for voting!",
-      });
-      this.checkIfVoted();
-    },
-    first5Favorites() {
-      if (
-        this.$store.state.favoritetools !== undefined &&
-        this.$store.state.favoritetools !== null &&
-        this.$store.state.favoritetools.length > 0
-      ) {
-        return this.$store.state.favoritetools.slice(0, 5);
-      }
-    },
     clearResults() {
       this.toolResults = [];
       this.showAll = true;
     },
-
     openLink(link) {
       if (link.includes("https://")) window.open(link, "_blank");
       else this.$router.push(link);
@@ -228,6 +177,7 @@ export default {
   text-align: center;
   width: 75%;
   margin: auto;
+  margin-bottom: 100px;
 
   a {
     color: #2bd48c;
