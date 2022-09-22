@@ -85,6 +85,7 @@
               style="min-height: 320px"
             >
               <n-menu
+                class="categoryMenu"
                 accordion
                 :style="{ height: '95%' }"
                 @update:value="openLinkFromCategory"
@@ -644,6 +645,8 @@ export default {
 </script>
 
 <style>
+.categoryMenu.n-menu-item-content__icon .n-layout-content {
+}
 .n-layout-content {
   height: calc(100vh - 69px);
 }
