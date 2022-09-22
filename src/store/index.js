@@ -750,16 +750,18 @@ export default createStore({
    async SAVE_QUICK_ACCESS_TOOLS({commit},payload){
     commit("setQuickAccessTools", payload);
     localStorage.setItem("quickAccessTools", JSON.stringify(payload));
+    const resp = await fetch(``)
    },
     async SET_FAVORITES_CATEGORIZED({ state,commit }, isChecked) {
       commit("setfavoritesCategorizedChecked", isChecked);
       if(localStorage.getItem('uid') !== null){
-        const resp = await fetch(`http://localhost:1337/api/user-detail-info/setFavoritesCategorized/${localStorage.getItem("uid")}`,
+        const resp = await fetch(`${state.baseUrlStrapiApi}user-detail-info/setFavoritesCategorized/${localStorage.getItem("uid")}`,
         {
           method: "PUT",
           headers: {
             Accept : "application/json",
             "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
           },
           body: JSON.stringify({
             data: {
@@ -776,12 +778,13 @@ export default createStore({
     },
     async GET_FAVORITES_CATEGORIZED({ commit }) {
       if(localStorage.getItem('uid') !== null){
-        const resp = await fetch(`http://localhost:1337/api/user-detail-info/getFavoritesCategorized/${localStorage.getItem("uid")}`,
+        const resp = await fetch(`${state.baseUrlStrapiApi}user-detail-info/getFavoritesCategorized/${localStorage.getItem("uid")}`,
         {
           method: "GET",
           headers: {
             Accept : "application/json",
             "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
           },
         });
   
