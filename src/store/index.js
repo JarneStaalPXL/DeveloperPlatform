@@ -747,6 +747,9 @@ export default createStore({
     setShowInfoModal(state, payload) {
       state.showInfoModal = payload;
     },
+    setKeysArray(state, payload) {
+      state.keysArray = payload;
+    }
   },
   actions: {
     async GET_QUICK_ACCESS_TOOLS({ state, commit }) {
@@ -767,7 +770,7 @@ export default createStore({
       return dt.data.attributes.quickAccessTools;
     },
     async SAVE_QUICK_ACCESS_TOOLS({ state, commit }, payload) {
-      commit("setQuickAccessTools", payload);
+      // commit("setQuickAccessTools", payload);
       const resp = await fetch(
         `${
           state.baseUrlStrapiApi

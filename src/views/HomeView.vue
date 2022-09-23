@@ -20,8 +20,9 @@
         <a @click="$router.push('register')">sign up</a>.
       </h6>
       <h6 class="mt-3" v-if="$store.state.isLoggedIn">
-        This homepage offers a Quick Access dashboard, where you can select up to 6 of
-        your favorites for easy access.
+        This homepage offers a Quick Access dashboard, where you can have up to 6 of your
+        favorites for easy access. Configure these on
+        <a @click="$router.push('favorites')">favorites</a>
       </h6>
       <h6 class="mt-3">
         <a

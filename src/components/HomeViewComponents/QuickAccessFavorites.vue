@@ -51,7 +51,7 @@
       </n-grid>
     </n-config-provider>
 
-    <!-- <n-popover
+    <n-popover
       placement="bottom"
       trigger="click"
       scrollable
@@ -69,7 +69,7 @@
                   : { marginBottom: '300px !important' }
               "
               >{{
-                $store.state.selectedItemsQA.length > 0
+                $store.state.keysArray.length > 0
                   ? "Change Quick Access Tools"
                   : "Add Quick Access Tools"
               }}<HomeAddIcon :style="{ width: '20px', marginLeft: '10px' }" />
@@ -80,19 +80,18 @@
       </template>
       <div class="transferWidth">
         <n-transfer
-          :value="$store.state.keysArray"
+          v-model:value="$store.state.keysArray"
           source-filter-placeholder="Search"
           class="transfer"
           :max="8"
           virtual-scroll
           source-filterable
           ref="transfer"
-          v-model:value="$store.state.selectedItemsQA"
           @update:value="updateValue"
           :options="getManipulatedFavorites"
         />
       </div>
-    </n-popover> -->
+    </n-popover>
   </section>
 </template>
 
@@ -125,109 +124,79 @@ export default {
     HomeAddIcon,
     NTooltip,
   },
-  async beforeMount() {
+  async mounted() {
     const tools = await this.$store.dispatch("GET_QUICK_ACCESS_TOOLS");
+    console.log(tools);
     if (tools === null) {
       return;
     }
     let arr = [];
-    for (let tool of tools) {
-      arr.push({
-        label: tool.name,
-        value: tool.name,
+    let arr2 = [];
+    for (let key of tools) {
+      arr.push(key);
 
-        selected: true,
-      });
+      for (let tool of JSON.parse(JSON.stringify(this.$store.state.favoritetools))) {
+        if (tool.name === key) {
+          arr2.push(tool);
+        }
+      }
     }
-    this.$store.commit("setsSelectedItemsQA", arr);
-    // this.updateValue(arr);
+
+    this.$store.commit("setQuickAccessTools", arr2);
+    this.$store.commit("setKeysArray", arr);
   },
   computed: {
-    // getManipulatedFavorites() {
-    //   let manipulatedFavorites = [];
-    //   let tools = JSON.parse(JSON.stringify(this.$store.state.selectedItemsQA));
-    //   let keysArray = [];
-    //   this.$store.state.favoritetools.forEach((tool) => {
-    //     manipulatedFavorites.push({
-    //       label: tool.name,
-    //       value: tool.name,
-    //       key: tool.name,
-    //     });
-    //     tools.forEach((tl) => {
-    //       if (tl.label === tool.name) {
-    //         keysArray.push(tl.label);
-    //         // find tool in favorites
-    //         this.$store.state.favoritetools.filter((fav) => {
-    //           if (fav.name === tool.name) {
-    //             this.$store.state.quickAccessTools.push(fav);
-    //           }
-    //         });
-    //       }
-    //     });
-    //   });
-    //   this.$store.state.keysArray = keysArray;
-    //   // if (tools.length > 0) {
-    //   //   for (let tool of tools) {
-    //   //     console.log(tool);
-    //   //     console.log({
-    //   //       label: tool.label,
-    //   //       value: tool.value,
-    //   //     });
-    //   //     manipulatedFavorites.push({
-    //   //       label: tool.label,
-    //   //       value: tool.value,
-    //   //     });
-    //   //   }
-    //   // } else {
-    //   //   this.$store.state.favoritetools.forEach((tool) => {
-    //   //     manipulatedFavorites.push({
-    //   //       label: tool.name,
-    //   //       value: tool.name,
-    //   //     });
-    //   //   });
-    //   // }
-    //   return manipulatedFavorites;
-    // },
+    getManipulatedFavorites() {
+      let manipulatedFavorites = [];
+      let tools = JSON.parse(JSON.stringify(this.$store.state.selectedItemsQA));
+      let keysArray = [];
+      this.$store.state.favoritetools.forEach((tool) => {
+        manipulatedFavorites.push({
+          label: tool.name,
+          value: tool.name,
+          key: tool.name,
+        });
+        tools.forEach((tl) => {
+          if (tl.label === tool.name) {
+            keysArray.push(tl.label);
+            // find tool in favorites
+            this.$store.state.favoritetools.filter((fav) => {
+              if (fav.name === tool.name) {
+                this.$store.state.quickAccessTools.push(fav);
+              }
+            });
+          }
+        });
+      });
+      return manipulatedFavorites;
+    },
   },
   methods: {
-    // updateValue(selectedTools) {
-    //   //limit to 4 selections
-    //   if (selectedTools.length > 6) {
-    //     this.$store.commit("setsSelectedItemsQA", selectedTools.slice(0, 6));
-    //     window.$message.info("You can only select 6 tools");
-    //     return;
-    //   }
+    updateValue(selectedTools) {
+      //limit to 4 selections
+      if (selectedTools.length > 6) {
+        this.$store.commit("setKeysArray", selectedTools.slice(0, 6));
+        window.$message.info("Currently you can only select 6 tools");
+        return;
+      }
+      this.$store.commit("setKeysArray", selectedTools);
 
-    //   this.$store.commit("setsSelectedItemsQA", selectedTools);
-    //   //search for the value in the favorite tools
-    //   let newQuickAccessTools = [];
-    //   selectedTools.forEach((tool) => {
-    //     this.$store.state.favoritetools.forEach((favoriteTool) => {
-    //       if (favoriteTool.name == tool) {
-    //         newQuickAccessTools.push(favoriteTool);
-    //       }
-    //     });
-    //   });
+      //search for the value in the favorite tools
+      let newQuickAccessTools = [];
+      selectedTools.forEach((tool) => {
+        JSON.parse(JSON.stringify(this.$store.state.favoritetools)).forEach(
+          (favoriteTool) => {
+            if (favoriteTool.name == tool) {
+              newQuickAccessTools.push(favoriteTool);
+            }
+          }
+        );
+      });
+      this.$store.commit("setQuickAccessTools", newQuickAccessTools);
 
-    //   //save the new quick access tools to the local storage or strapi
-    //   this.$store.dispatch("SAVE_QUICK_ACCESS_TOOLS", newQuickAccessTools);
-
-    //   let tools = JSON.parse(JSON.stringify(this.$store.state.selectedItemsQA));
-
-    //   let keysArray = [];
-    //   this.$store.state.favoritetools.forEach((tool) => {
-    //     tools.forEach((tl) => {
-    //       console.log(tl);
-    //       console.log(tool);
-    //       if (tl === tool.name) {
-    //         console.log(true);
-    //         keysArray.push(tl);
-    //       }
-    //     });
-    //   });
-    //   this.$store.state.keysArray = keysArray;
-    //   console.log(keysArray);
-    // },
+      // save the new quick access tools to the local storage or strapi
+      this.$store.dispatch("SAVE_QUICK_ACCESS_TOOLS", selectedTools);
+    },
     openLink(link) {
       if (link.includes("https://")) window.open(link, "_blank");
       else this.$router.push(link);
