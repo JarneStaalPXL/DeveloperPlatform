@@ -16,11 +16,12 @@ function renderIcon(icon) {
 
 export default createStore({
   state: {
-    showInfoModal:false,
+    keysArray : [],
+    showInfoModal: false,
     selectedItemsQA: [],
     quickAccessTools: [],
     favoritesCategorizedChecked: true,
-    contentRef : ref(null),
+    contentRef: ref(null),
     showFeedbackPopup: false,
     verticalMenuCollapsed: false,
     colorMode: "dark",
@@ -550,7 +551,7 @@ export default createStore({
       {
         name: "Color Pallette Generator",
         link: "/colorPalleteGenerator",
-          websitePreviewImage: require("../assets/colorGradient.jpg"),
+        websitePreviewImage: require("../assets/colorGradient.jpg"),
         available: true,
       },
     ],
@@ -724,8 +725,8 @@ export default createStore({
     setLearningTools(state, payload) {
       state.learningTools = payload;
     },
-  
-    setShowFeedbackModal(state,payload){
+
+    setShowFeedbackModal(state, payload) {
       state.showFeedbackPopup = payload;
     },
     setGradientGeneratorsTools(state, payload) {
@@ -745,95 +746,116 @@ export default createStore({
     },
     setShowInfoModal(state, payload) {
       state.showInfoModal = payload;
-    }
+    },
   },
   actions: {
-    async GET_QUICK_ACCESS_TOOLS({ commit }) {
-      const resp = await fetch(`${state.baseUrlStrapiApi}user-detail-info/getQuickAccessTools/${localStorage.getItem("uid")}`, {
-        method: "GET",
-        headers: {
-          Accept : "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-      })
-      const dt = await resp.json();
-      return (dt.data.attributes.quickAccessTools);
-    },
-   async SAVE_QUICK_ACCESS_TOOLS({commit},payload){
-    commit("setQuickAccessTools", payload);
-    const resp = await fetch(`${state.baseUrlStrapiApi}user-detail-info/setQuickAccessTools/${localStorage.getItem("uid")}`, {
-      method: "PUT",
-      headers: {
-        Accept : "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + state.strapiApiKey,
-      },
-      body: JSON.stringify({
-        data : {
-          quickAccessTools: payload,
+    async GET_QUICK_ACCESS_TOOLS({ state, commit }) {
+      const resp = await fetch(
+        `${
+          state.baseUrlStrapiApi
+        }user-detail-info/getQuickAccessTools/${localStorage.getItem("uid")}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
         }
-      }),
-    })
-    const data = await resp.json();
-   },
-    async SET_FAVORITES_CATEGORIZED({ state,commit }, isChecked) {
-      commit("setfavoritesCategorizedChecked", isChecked);
-      if(localStorage.getItem('uid') !== null){
-        const resp = await fetch(`${state.baseUrlStrapiApi}user-detail-info/setFavoritesCategorized/${localStorage.getItem("uid")}`,
+      );
+      const dt = await resp.json();
+      return dt.data.attributes.quickAccessTools;
+    },
+    async SAVE_QUICK_ACCESS_TOOLS({ state, commit }, payload) {
+      commit("setQuickAccessTools", payload);
+      const resp = await fetch(
+        `${
+          state.baseUrlStrapiApi
+        }user-detail-info/setQuickAccessTools/${localStorage.getItem("uid")}`,
         {
           method: "PUT",
           headers: {
-            Accept : "application/json",
+            Accept: "application/json",
             "Content-Type": "application/json",
             Authorization: "Bearer " + state.strapiApiKey,
           },
           body: JSON.stringify({
             data: {
-              favoritesCategorized: state.favoritesCategorizedChecked,
-            }
-          })
-        });
-  
+              quickAccessTools: payload,
+            },
+          }),
+        }
+      );
+      const data = await resp.json();
+    },
+    async SET_FAVORITES_CATEGORIZED({ state, commit }, isChecked) {
+      commit("setfavoritesCategorizedChecked", isChecked);
+      if (localStorage.getItem("uid") !== null) {
+        const resp = await fetch(
+          `${
+            state.baseUrlStrapiApi
+          }user-detail-info/setFavoritesCategorized/${localStorage.getItem(
+            "uid"
+          )}`,
+          {
+            method: "PUT",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + state.strapiApiKey,
+            },
+            body: JSON.stringify({
+              data: {
+                favoritesCategorized: state.favoritesCategorizedChecked,
+              },
+            }),
+          }
+        );
+
         const data = await resp.json();
-      }
-      else {
+      } else {
         localStorage.setItem("favoritesCategorized", isChecked);
       }
     },
-    async GET_FAVORITES_CATEGORIZED({ commit }) {
-      if(localStorage.getItem('uid') !== null){
-        const resp = await fetch(`${state.baseUrlStrapiApi}user-detail-info/getFavoritesCategorized/${localStorage.getItem("uid")}`,
-        {
-          method: "GET",
-          headers: {
-            Accept : "application/json",
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + state.strapiApiKey,
-          },
-        });
-  
+    async GET_FAVORITES_CATEGORIZED({ state,commit }) {
+      if (localStorage.getItem("uid") !== null) {
+        const resp = await fetch(
+          `${
+            state.baseUrlStrapiApi
+          }user-detail-info/getFavoritesCategorized/${localStorage.getItem(
+            "uid"
+          )}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + state.strapiApiKey,
+            },
+          }
+        );
+
         const user = await resp.json();
-          commit("setfavoritesCategorizedChecked", user.data.attributes.favoritesCategorized);
-          return user.data.attributes.favoritesCategorized;
-      }
-      else {
+        commit(
+          "setfavoritesCategorizedChecked",
+          user.data.attributes.favoritesCategorized
+        );
+        return user.data.attributes.favoritesCategorized;
+      } else {
         let isChecked = localStorage.getItem("favoritesCategorized");
         commit("setfavoritesCategorizedChecked", isChecked);
         return isChecked;
       }
-     
     },
-    async GET_ALL_FEEDBACK({state, commit}){
-      const resp = await fetch(`${state.baseUrlStrapiApi}feedbacks`,
-      {
+    async GET_ALL_FEEDBACK({ state, commit }) {
+      const resp = await fetch(`${state.baseUrlStrapiApi}feedbacks`, {
         method: "GET",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
           Authorization: "Bearer " + state.strapiApiKey,
         },
-      })
+      });
       const response = await resp.json();
 
       let tempArr = [];
@@ -841,13 +863,12 @@ export default createStore({
         tempArr.push({
           title: item.attributes.title,
           description: item.attributes.description,
-        })
-      })
+        });
+      });
       return tempArr;
     },
     async SUBMIT_FEEDBACK({ state }, payload) {
-      const resp = await fetch(`${state.baseUrlStrapiApi}feedbacks`,
-      {
+      const resp = await fetch(`${state.baseUrlStrapiApi}feedbacks`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -858,10 +879,9 @@ export default createStore({
           data: {
             title: payload.title,
             description: payload.description,
-          }
-        })
-
-      })
+          },
+        }),
+      });
       const data = await resp.json();
       return data;
     },
@@ -1007,7 +1027,7 @@ export default createStore({
       for (let tool of state.colorGeneratorsTools) {
         allTools.push(tool);
       }
-      for(let tool of state.learningTools){
+      for (let tool of state.learningTools) {
         allTools.push(tool);
       }
       commit("setAllTools", allTools);
@@ -1038,7 +1058,6 @@ export default createStore({
         if (state.favoritetools !== null) {
           //globalfrontendtools manipulation favorites
           dispatch("SET_FAVORITE_TOOLS");
-         
         }
       } else {
         //getting user favorite tools from localStorage
