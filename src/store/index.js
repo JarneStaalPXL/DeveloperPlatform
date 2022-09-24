@@ -753,17 +753,11 @@ export default createStore({
     }
   },
   actions: {
-    async REMOVE_TOOL_FROM_QUICK_ACCESS_TOOLS({ state,commit, dispatch }, tool) {
- 
+    async REMOVE_TOOL_FROM_QUICK_ACCESS_TOOLS({ state, dispatch }, tool) {
       state.quickAccessTools = state.quickAccessTools.filter((t) => {
-        console.log("t name", t.name);
-        console.log("tool name", tool.name);
-        console.log(t.name !== tool.name);
         return t.name !== tool.name;
       });
-      console.log(state.quickAccessTools);
       dispatch("SAVE_QUICK_ACCESS_TOOLS", state.quickAccessTools);
-      // const resp = await fetch(`${state.baseUrlStrapiApi}user-detail-info/`);
     },
     async GET_QUICK_ACCESS_TOOLS({ state, commit }) {
       const resp = await fetch(
