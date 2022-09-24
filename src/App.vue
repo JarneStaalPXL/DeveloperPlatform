@@ -305,7 +305,15 @@ export default {
       this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", link);
       this.$store.dispatch("GET_PAGE_VISITS");
 
-      this.navMenu = this.menuOpts.find((option) => option.key === link).link;
+      let opt = this.menuOpts.filter((option) => option.key === link)[0];
+
+      if (opt !== undefined) {
+        this.navMenu = opt.key;
+      }
+
+      if (opt === undefined || opt.length === 0) {
+        this.navMenu = "profile";
+      }
       this.categoryMenu = null;
     },
     openLinkFromCategory(link) {
