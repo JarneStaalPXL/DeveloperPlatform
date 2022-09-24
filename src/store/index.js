@@ -673,6 +673,7 @@ export default createStore({
       state.isLoggedIn = false;
       state.favoriteTools = [];
       state.userSavedColorPallets = [];
+      state.quickAccessTools = [];
 
       for (let tool of state.globalFrontendTools) {
         tool.isFavorited = false;

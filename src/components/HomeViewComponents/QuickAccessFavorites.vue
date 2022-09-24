@@ -108,6 +108,7 @@ import {
   NPopover,
   NTooltip,
 } from "naive-ui";
+import { isObject } from "lodash";
 export default {
   name: "QuickAccessFavorites",
   data() {
@@ -125,11 +126,13 @@ export default {
     NTooltip,
   },
   async mounted() {
-    const tools = await this.$store.dispatch("GET_QUICK_ACCESS_TOOLS");
-    console.log(tools);
-    if (tools === null) {
+    let tools;
+
+    tools = await this.$store.dispatch("GET_QUICK_ACCESS_TOOLS");
+    if (tools === null || tools === undefined || isObject(tools)) {
       return;
     }
+
     let arr = [];
     let arr2 = [];
     for (let key of tools) {
