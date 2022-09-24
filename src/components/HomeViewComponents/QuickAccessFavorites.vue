@@ -129,7 +129,12 @@ export default {
     let tools;
 
     tools = await this.$store.dispatch("GET_QUICK_ACCESS_TOOLS");
-    if (tools === null || tools === undefined || isObject(tools)) {
+
+    // //check if tools is an empty obj
+    // if (isObject(tools)) {
+    //   this.$store.commit("SET_QUICK_ACCESS_TOOLS", tools);
+    // }
+    if (isObject(tools)) {
       return;
     }
 
@@ -144,7 +149,6 @@ export default {
         }
       }
     }
-
     this.$store.commit("setQuickAccessTools", arr2);
     this.$store.commit("setKeysArray", arr);
   },
