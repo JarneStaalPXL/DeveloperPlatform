@@ -93,7 +93,7 @@
                 :collapsed-width="64"
                 :collapsed-icon-size="22"
                 :options="categoryOptions"
-                :value="categoryMenu"
+                v-model:value="categoryMenu"
               />
               <n-menu
                 :value="feedbackMenu"
@@ -317,6 +317,7 @@ export default {
       this.categoryMenu = null;
     },
     openLinkFromCategory(link) {
+      
       if (link === "logout") {
         this.signOutUser();
         return;
@@ -330,7 +331,7 @@ export default {
       this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", link);
       this.$store.dispatch("GET_PAGE_VISITS");
 
-      this.categoryMenu = this.categoryOptions.find((option) => option.key === link).link;
+      // this.categoryMenu = this.categoryOptions.find((option) => option.key === link).link;
       this.navMenu = null;
     },
     userName() {
