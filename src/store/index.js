@@ -753,6 +753,19 @@ export default createStore({
     }
   },
   actions: {
+    async GET_4_WEEK_VISIT_COUNT({  state}) {
+      const resp = await fetch(`${state.baseUrlStrapiApi}visit-log-count/getWeeklyVisits`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+      });
+      const dt = await resp.json();
+      return dt.data.attributes;
+    },
     async REMOVE_TOOL_FROM_QUICK_ACCESS_TOOLS({ state, dispatch }, tool) {
       state.quickAccessTools = state.quickAccessTools.filter((t) => {
         return t.name !== tool.name;

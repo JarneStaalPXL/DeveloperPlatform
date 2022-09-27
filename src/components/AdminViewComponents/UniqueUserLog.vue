@@ -32,7 +32,7 @@
       <b>{{ webpage.visits }}</b> visits
     </h5>
   </n-card>
-  <n-card title="Platform Feedback">
+  <n-card title="Platform Feedback" v-if="allFeedback.length > 0">
     <n-card v-for="fb of allFeedback" :key="fb">
       <h5>{{ fb.title }}</h5>
       <h6>{{ fb.description }}</h6>

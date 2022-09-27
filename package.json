@@ -19,6 +19,7 @@
     "vue": "^3.2.39",
     "vue-router": "^4.0.3",
     "vue-writer": "^1.2.0",
+    "vue3-charts": "^1.1.31",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

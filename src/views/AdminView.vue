@@ -8,6 +8,9 @@
         </n-card>
       </section>
       <section>
+        <WeeklyVisitLog/>
+      </section>  
+      <section>
         <AdminManager />
       </section>
     </n-space>
@@ -19,6 +22,7 @@ import { darkTheme, NConfigProvider, NSpace, NCard } from "naive-ui";
 import ActivityLog from "@/components/AdminViewComponents/ActivityLog.vue";
 import AdminManager from "@/components/AdminViewComponents/AdminManager.vue";
 import UniqueUserLog from "@/components/AdminViewComponents/UniqueUserLog.vue";
+import WeeklyVisitLog from "@/components/AdminViewComponents/WeeklyVisitLog.vue";
 export default {
   components: {
     ActivityLog,
@@ -27,7 +31,8 @@ export default {
     NSpace,
     NCard,
     UniqueUserLog,
-  },
+    WeeklyVisitLog
+},
   setup() {
     return {
       darkTheme,
