@@ -317,7 +317,6 @@ export default {
       this.categoryMenu = null;
     },
     openLinkFromCategory(link) {
-      
       if (link === "logout") {
         this.signOutUser();
         return;

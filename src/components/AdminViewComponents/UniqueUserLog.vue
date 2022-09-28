@@ -26,12 +26,15 @@
       {{ $store.state.uniqueVisitors.length }}
     </h5>
   </n-card>
+
   <n-card title="Visits Overview">
+    <PageVisitsChart :data="visitsOverViewArr" :dataKeys="dataKeys" />
     <h5 v-for="webpage of visitsOverViewArr" :key="webpage">
       <a @click="$router.push(webpage.path)">{{ webpage.route }}</a> ->
       <b>{{ webpage.visits }}</b> visits
     </h5>
   </n-card>
+
   <n-card title="Platform Feedback" v-if="allFeedback.length > 0">
     <n-card v-for="fb of allFeedback" :key="fb">
       <h5>{{ fb.title }}</h5>
@@ -55,6 +58,7 @@ import {
 } from "naive-ui";
 import { h, ref } from "vue";
 import { beforeMount } from "vue-writer";
+import PageVisitsChart from "./PageVisitsChart.vue";
 
 const columns = [
   {
@@ -78,6 +82,7 @@ export default {
     NP,
     NSpace,
     NTag,
+    PageVisitsChart,
   },
   async beforeMount() {
     //get unique visitors
@@ -167,21 +172,21 @@ export default {
       this.routeColorGenerators = dt5.routeVisitorsCount;
 
       //set all the visits of the objects to the new values
-      this.visitsOverViewArr.forEach((obj) => {
-        if (obj.route === "Homepage") {
-          obj.visits = this.routeVisitsHomepage;
-        } else if (obj.route === "Global Frontend Tools") {
-          obj.visits = this.routeVisitsGft;
-        } else if (obj.route === "Hosting Providers") {
-          obj.visits = this.routeVisitsHP;
-        } else if (obj.route === "Gradient Generators") {
-          obj.visits = this.routeGradientGenerators;
-        } else if (obj.route === "Color Generators") {
-          obj.visits = this.routeColorGenerators;
-        }
-      });
+      // this.visitsOverViewArr.forEach((obj) => {
+      //   if (obj.route === "Homepage") {
+      //     obj.visits = this.routeVisitsHomepage;
+      //   } else if (obj.route === "Global Frontend Tools") {
+      //     obj.visits = this.routeVisitsGft;
+      //   } else if (obj.route === "Hosting Providers") {
+      //     obj.visits = this.routeVisitsHP;
+      //   } else if (obj.route === "Gradient Generators") {
+      //     obj.visits = this.routeGradientGenerators;
+      //   } else if (obj.route === "Color Generators") {
+      //     obj.visits = this.routeColorGenerators;
+      //   }
+      // });
       //rank visits overview
-      this.visitsOverViewArr.sort((a, b) => b.visits - a.visits);
+      // this.visitsOverViewArr.sort((a, b) => b.visits - a.visits);
 
       this.$store.dispatch("GET_UNIQUE_VISITORS");
 
@@ -192,6 +197,7 @@ export default {
   methods: {},
   data() {
     return {
+      dataKeys: ["route", "visits"],
       allFeedback: [],
       visitsOverViewArr: [],
       positiveVotes: 0,

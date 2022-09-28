@@ -1,21 +1,16 @@
 <template>
-    <n-card title="Weekly Visits">
-        <Chart
-    :size="{ width: 800, height: 420 }"
-    :data="weekscounts"
+  <Chart
+    :size="{ width: getWidth(), height: 420 }"
+    :data="data"
     :margin="margin"
     :direction="direction"
     :axis="axis"
   >
     <template #layers>
       <Grid strokeDasharray="2,2" />
-      <Area
-        :dataKeys="['name', 'visits']"
-        type="monotone"
-        :areaStyle="{ fill: 'url(#grad)' }"
-      />
+      <Area :dataKeys="dataKeys" type="monotone" :areaStyle="{ fill: 'url(#grad)' }" />
       <Line
-        :dataKeys="['name', 'visits']"
+        :dataKeys="dataKeys"
         type="monotone"
         :lineStyle="{
           stroke: '#9f7aea',
@@ -23,8 +18,15 @@
       />
       <Marker
         :value="1000"
-        label="Mean."
-        color="green"
+        label="Good engagement"
+        color="white"
+        :strokeWidth="2"
+        strokeDasharray="6 6"
+      />
+      <Marker
+        :value="2000"
+        label="Awesome engagement"
+        color="white"
         :strokeWidth="2"
         strokeDasharray="6 6"
       />
@@ -47,26 +49,36 @@
       />
     </template>
   </Chart>
-    </n-card>
-
 </template>
 
 <script>
-    import {ref} from 'vue'
+import { ref } from "vue";
 import { Chart, Grid, Line, Marker, Area, Tooltip } from "vue3-charts";
 import { NCard } from "naive-ui";
 export default {
+  props: {
+    data: Array,
+    dataKeys: Array,
+  },
   components: {
     NCard,
     Chart,
     Grid,
     Line,
-    Marker, Area, Tooltip, 
+    Marker,
+    Area,
+    Tooltip,
   },
   data() {
     return {
       weekscounts: [],
     };
+  },
+  methods: {
+    //get width of screen minus 20 percent
+    getWidth() {
+      return window.innerWidth * 0.9;
+    },
   },
   setup() {
     const direction = ref("horizontal");
@@ -90,30 +102,11 @@ export default {
 
     return { direction, margin, axis };
   },
-  async beforeMount() {
-    let data = [];
-    this.weekscounts = await this.$store.dispatch("GET_4_WEEK_VISIT_COUNT");
-    data.push(
-      {
-        name: "First Week",
-        visits: this.weekscounts.firstWeekOfMonth,
-      },
-      {
-        name: "Second Week",
-        visits: this.weekscounts.secondWeekOfMonth,
-      },
-      {
-        name: "Third Week",
-        visits: this.weekscounts.thirdWeekOfMonth,
-      },
-      {
-        name: "Fourth Week",
-        visits: this.weekscounts.fourthWeekOfMonth,
-      }
-    );
-    this.weekscounts = data;
-  },
 };
 </script>
 
-<style></style>
+<style>
+.n-card.n-card--bordered {
+  text-align: left;
+}
+</style>

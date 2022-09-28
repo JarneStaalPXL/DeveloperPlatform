@@ -1,14 +1,8 @@
 <template>
   <n-space vertical>
     <n-space :style="{ display: 'block' }" class="fullContainer">
-      <div
-        class="colorPalletGenerator d-flex justify-content-between"
-        style="gap: 25px"
-      >
-        <n-card
-          class="colorPalletFunctionalItem"
-          title="Color Pallete Generator"
-        >
+      <div class="colorPalletGenerator d-flex justify-content-between" style="gap: 25px">
+        <n-card class="colorPalletFunctionalItem" title="Color Pallete Generator">
           <section id="creationSection">
             <n-color-picker
               v-model:value="selectedColorForPallet"
@@ -71,10 +65,7 @@
                 >
                   <template #trigger>
                     <n-button :style="{ backgroundColor: 'black' }" class="m-2"
-                      ><n-p
-                        :style="{ color: cl }"
-                        class="d-flex hexCodeTextParagraph"
-                      >
+                      ><n-p :style="{ color: cl }" class="d-flex hexCodeTextParagraph">
                         {{ cl.toUpperCase() }}
                       </n-p></n-button
                     >
@@ -108,10 +99,7 @@
         >
           <div class="d-flex justify-content-between w-100">
             <p class="d-flex m-auto">{{ color.toUpperCase() }}</p>
-            <n-button
-              id="copyHEXButton"
-              class="m-2"
-              @click="copyHEXToClipboard(color)"
+            <n-button id="copyHEXButton" class="m-2" @click="copyHEXToClipboard(color)"
               >Copy HEX</n-button
             >
           </div>
@@ -242,9 +230,7 @@ export default {
             this.$store.state.userSavedColorPallet = [];
           }
           if (this.$store.state.userSavedColorPallet !== undefined) {
-            tempArr = JSON.parse(
-              JSON.stringify(this.$store.state.userSavedColorPallet)
-            );
+            tempArr = JSON.parse(JSON.stringify(this.$store.state.userSavedColorPallet));
           }
           tempArr.push(obj);
 
@@ -281,9 +267,7 @@ export default {
         colors.push(color);
       }
 
-      this.colorPallet = colors.filter(
-        (item, index) => colors.indexOf(item) === index
-      );
+      this.colorPallet = colors.filter((item, index) => colors.indexOf(item) === index);
       this.showColorPalletDrawer = true;
     },
     shadeColor(hexColor, percent) {
@@ -307,12 +291,9 @@ export default {
       G = G < 255 ? G : 255;
       B = B < 255 ? B : 255;
 
-      var RR =
-        R.toString(16).length == 1 ? "0" + R.toString(16) : R.toString(16);
-      var GG =
-        G.toString(16).length == 1 ? "0" + G.toString(16) : G.toString(16);
-      var BB =
-        B.toString(16).length == 1 ? "0" + B.toString(16) : B.toString(16);
+      var RR = R.toString(16).length == 1 ? "0" + R.toString(16) : R.toString(16);
+      var GG = G.toString(16).length == 1 ? "0" + G.toString(16) : G.toString(16);
+      var BB = B.toString(16).length == 1 ? "0" + B.toString(16) : B.toString(16);
 
       return "#" + RR + GG + BB;
     },
@@ -331,9 +312,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  #copyHEXButton {
-    background:white;
-  }
+#copyHEXButton {
+  background: white;
+}
 #creationSection {
   width: 50%;
   margin: auto;

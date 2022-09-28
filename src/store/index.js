@@ -753,8 +753,34 @@ export default createStore({
     }
   },
   actions: {
+    async GET_5_YEAR_VISIT_COUNT({ state }) {
+      const resp = await fetch(`${state.baseUrlStrapiApi}visit-log-count/get5YearVisits`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+      });
+      const dt = await resp.json();
+      return dt.data.attributes;
+    },
     async GET_4_WEEK_VISIT_COUNT({  state}) {
       const resp = await fetch(`${state.baseUrlStrapiApi}visit-log-count/getWeeklyVisits`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+      });
+      const dt = await resp.json();
+      return dt.data.attributes;
+    },
+    async GET_12_MONTH_VISIT_COUNT({  state}) {
+      const resp = await fetch(`${state.baseUrlStrapiApi}visit-log-count/getMonthlyVisits`,
       {
         method: "GET",
         headers: {
