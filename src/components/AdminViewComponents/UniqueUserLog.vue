@@ -29,10 +29,6 @@
 
   <n-card title="Visits Overview">
     <PageVisitsChart :data="visitsOverViewArr" :dataKeys="dataKeys" />
-    <h5 v-for="webpage of visitsOverViewArr" :key="webpage">
-      <a @click="$router.push(webpage.path)">{{ webpage.route }}</a> ->
-      <b>{{ webpage.visits }}</b> visits
-    </h5>
   </n-card>
 
   <n-card title="Platform Feedback" v-if="allFeedback.length > 0">
@@ -84,34 +80,90 @@ export default {
     NTag,
     PageVisitsChart,
   },
-  async beforeMount() {
-    //get unique visitors
-    this.$store.dispatch("GET_UNIQUE_VISITORS");
+  // async beforeMount() {
+  //   //get unique visitors
+  //   this.$store.dispatch("GET_UNIQUE_VISITORS");
+
+  //   //homepage visits
+  //   const dt = await this.$store.dispatch("GET_ROUTE_VISITS", "Homepage");
+  //   this.routeVisitsHomepage = dt.routeVisitorsCount;
+
+  //   //hosting providers visits
+  //   const dt3 = await this.$store.dispatch("GET_ROUTE_VISITS", "hostingproviders");
+  //   this.routeVisitsHP = dt3.routeVisitorsCount;
+
+  //   //global frontend tools visits
+  //   const dt2 = await this.$store.dispatch("GET_ROUTE_VISITS", "globalfrontendtools");
+  //   this.routeVisitsGft = dt2.routeVisitorsCount;
+
+  //   //gradient generators visits
+  //   const dt4 = await this.$store.dispatch("GET_ROUTE_VISITS", "gradientgenerators");
+  //   this.routeGradientGenerators = dt4.routeVisitorsCount;
+
+  //   //color generators visits
+  //   const dt5 = await this.$store.dispatch("GET_ROUTE_VISITS", "colorgenerators");
+  //   this.routeColorGenerators = dt5.routeVisitorsCount;
+
+  //   //playform feedback
+  //   const dt6 = await this.$store.dispatch("GET_VOTES_DESIGN_ROUTE", "Platform");
+  //   this.positiveVotes = dt6.positiveVotes;
+  //   this.negativeVotes = dt6.negativeVotes;
+
+  //   //set all the visits of the objects to the new values
+  //   this.visitsOverViewArr.forEach((obj) => {
+  //       if (obj.route === "Homepage") {
+  //         obj.visits = this.routeVisitsHomepage;
+  //       } else if (obj.route === "Global Frontend Tools") {
+  //         obj.visits = this.routeVisitsGft;
+  //       } else if (obj.route === "Hosting Providers") {
+  //         obj.visits = this.routeVisitsHP;
+  //       } else if (obj.route === "Gradient Generators") {
+  //         obj.visits = this.routeGradientGenerators;
+  //       } else if (obj.route === "Color Generators") {
+  //         obj.visits = this.routeColorGenerators;
+  //       }
+  //     });
+
+  //   //rank visits overview
+  //   this.visitsOverViewArr.sort((a, b) => b.visits - a.visits);
+
+  //   //get all feedback
+  //   this.allFeedback = await this.$store.dispatch("GET_ALL_FEEDBACK");
+  // },
+  async mounted() {
+    window.$loadingbar = useLoadingBar();
 
     //homepage visits
     const dt = await this.$store.dispatch("GET_ROUTE_VISITS", "Homepage");
     this.routeVisitsHomepage = dt.routeVisitorsCount;
 
-    //hosting providers visits
-    const dt3 = await this.$store.dispatch("GET_ROUTE_VISITS", "hostingproviders");
-    this.routeVisitsHP = dt3.routeVisitorsCount;
-
     //global frontend tools visits
-    const dt2 = await this.$store.dispatch("GET_ROUTE_VISITS", "globalfrontendtools");
+    const dt2 = await this.$store.dispatch(
+      "GET_ROUTE_VISITS",
+      "globalfrontendtools"
+    );
     this.routeVisitsGft = dt2.routeVisitorsCount;
 
+    //hosting providers visits
+    const dt3 = await this.$store.dispatch(
+      "GET_ROUTE_VISITS",
+      "hostingproviders"
+    );
+    this.routeVisitsHP = dt3.routeVisitorsCount;
+
     //gradient generators visits
-    const dt4 = await this.$store.dispatch("GET_ROUTE_VISITS", "gradientgenerators");
+    const dt4 = await this.$store.dispatch(
+      "GET_ROUTE_VISITS",
+      "gradientgenerators"
+    );
     this.routeGradientGenerators = dt4.routeVisitorsCount;
 
     //color generators visits
-    const dt5 = await this.$store.dispatch("GET_ROUTE_VISITS", "colorgenerators");
+    const dt5 = await this.$store.dispatch(
+      "GET_ROUTE_VISITS",
+      "colorgenerators"
+    );
     this.routeColorGenerators = dt5.routeVisitorsCount;
-
-    //playform feedback
-    const dt6 = await this.$store.dispatch("GET_VOTES_DESIGN_ROUTE", "Platform");
-    this.positiveVotes = dt6.positiveVotes;
-    this.negativeVotes = dt6.negativeVotes;
 
     this.visitsOverViewArr.push(
       {
@@ -141,53 +193,31 @@ export default {
       }
     );
 
-    //rank visits overview
+    // console.log(this.visitsOverViewArr);
+    // //set all the visits of the objects to the new values
+    // this.visitsOverViewArr.forEach((obj) => {
+    //   console.log(obj.route)
+    //   if (obj.route === "Homepage") {
+    //     obj.visits = this.routeVisitsHomepage;
+    //   } else if (obj.route === "Global Frontend Tools") {
+    //     obj.visits = this.routeVisitsGft;
+    //   } else if (obj.route === "Hosting Providers") {
+    //     obj.visits = this.routeVisitsHP;
+    //   } else if (obj.route === "Gradient Generators") {
+    //     obj.visits = this.routeGradientGenerators;
+    //   } else if (obj.route === "Color Generators") {
+    //     obj.visits = this.routeColorGenerators;
+    //   }
+    // });
+    // rank visits overview
     this.visitsOverViewArr.sort((a, b) => b.visits - a.visits);
+
+    this.$store.dispatch("GET_UNIQUE_VISITORS");
 
     //get all feedback
     this.allFeedback = await this.$store.dispatch("GET_ALL_FEEDBACK");
-  },
-  async mounted() {
-    window.$loadingbar = useLoadingBar();
 
     setInterval(async () => {
-      //homepage visits
-      const dt = await this.$store.dispatch("GET_ROUTE_VISITS", "Homepage");
-      this.routeVisitsHomepage = dt.routeVisitorsCount;
-
-      //global frontend tools visits
-      const dt2 = await this.$store.dispatch("GET_ROUTE_VISITS", "globalfrontendtools");
-      this.routeVisitsGft = dt2.routeVisitorsCount;
-
-      //hosting providers visits
-      const dt3 = await this.$store.dispatch("GET_ROUTE_VISITS", "hostingproviders");
-      this.routeVisitsHP = dt3.routeVisitorsCount;
-
-      //gradient generators visits
-      const dt4 = await this.$store.dispatch("GET_ROUTE_VISITS", "gradientgenerators");
-      this.routeGradientGenerators = dt4.routeVisitorsCount;
-
-      //color generators visits
-      const dt5 = await this.$store.dispatch("GET_ROUTE_VISITS", "colorgenerators");
-      this.routeColorGenerators = dt5.routeVisitorsCount;
-
-      //set all the visits of the objects to the new values
-      // this.visitsOverViewArr.forEach((obj) => {
-      //   if (obj.route === "Homepage") {
-      //     obj.visits = this.routeVisitsHomepage;
-      //   } else if (obj.route === "Global Frontend Tools") {
-      //     obj.visits = this.routeVisitsGft;
-      //   } else if (obj.route === "Hosting Providers") {
-      //     obj.visits = this.routeVisitsHP;
-      //   } else if (obj.route === "Gradient Generators") {
-      //     obj.visits = this.routeGradientGenerators;
-      //   } else if (obj.route === "Color Generators") {
-      //     obj.visits = this.routeColorGenerators;
-      //   }
-      // });
-      //rank visits overview
-      // this.visitsOverViewArr.sort((a, b) => b.visits - a.visits);
-
       this.$store.dispatch("GET_UNIQUE_VISITORS");
 
       //get all feedback

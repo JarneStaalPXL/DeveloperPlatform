@@ -112,14 +112,13 @@ export default {
             this.visitsData = data;
           });
           break;
-
         case "monthly":
           this.$store.dispatch("GET_12_MONTH_VISIT_COUNT").then((res) => {
             this.visitsData = res;
             for (let i = 0; i < 12; i++) {
               data.push({
                 name: i.toString(),
-                visits: this.visitsData[i],
+                visits: this.visitsData[i-1],
               });
             }
 
@@ -138,7 +137,6 @@ export default {
 
             this.visitsData = data;
           });
-
           break;
       }
       setTimeout(() => {
