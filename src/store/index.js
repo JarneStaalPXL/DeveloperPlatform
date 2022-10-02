@@ -753,6 +753,22 @@ export default createStore({
     }
   },
   actions: {
+    async UPDATE_CURRENT_STATUS({ commit, state }, payload) {
+      const res = await fetch(`${state.baseUrlStrapiApi}current-status-info`, 
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+        body: JSON.stringify({data: {
+          currentStatus: payload,
+        }}),
+      });
+      const dt = await res.json();
+      console.log(dt);
+    },
     async GET_5_YEAR_VISIT_COUNT({ state }) {
       const resp = await fetch(`${state.baseUrlStrapiApi}visit-log-count/get5YearVisits`,
       {

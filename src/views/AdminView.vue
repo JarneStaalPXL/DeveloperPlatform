@@ -1,6 +1,13 @@
 <template>
   <n-config-provider>
     <n-space vertical>
+      <n-card>
+        <n-space vertical>
+          <h6>Current Status</h6>
+        <n-input  v-model:value="currentStatusInput" type="text" placeholder="Insert status"/>
+        <n-button class="w-100" @click="updateCurrentStatus(currentStatusInput)">Update Status</n-button>
+        </n-space>
+      </n-card>
       <section>
         <ActivityLog />
         <n-card title="Unique Visitors">
@@ -38,6 +45,9 @@ import {
   NSpace,
   NCard,
   useLoadingBar,
+  NButton,
+  NInput,
+
 } from "naive-ui";
 import ActivityLog from "@/components/AdminViewComponents/ActivityLog.vue";
 import AdminManager from "@/components/AdminViewComponents/AdminManager.vue";
@@ -54,9 +64,12 @@ export default {
     NCard,
     UniqueUserLog,
     VisitsChart,
+    NButton,
+    NInput,
   },
   data() {
     return {
+      currentStatusInput: undefined,
       selectedRadiobutton: "weekly",
       visitsData: [],
       chartKeys: ["name", "visits"],
@@ -72,11 +85,19 @@ export default {
       ],
     };
   },
-  mounted() {
+  async mounted() {
     window.$loadingbar = useLoadingBar();
     this.changeDataPeriod(this.selectedRadiobutton);
+   let status = await this.$store.dispatch("GET_CURRENT_STATUS");
+   status = status.data.attributes.currentStatus; 
+   this.currentStatusInput = status;
   },
   methods: {
+    async updateCurrentStatus(status) {
+      window.$loadingbar.start();
+      await this.$store.dispatch("UPDATE_CURRENT_STATUS", status);
+      window.$loadingbar.finish();
+    },
     async changeDataPeriod(value) {
       //built switch case and check if it's weekly monthly or yearly
       //if weekly then get the 4 week visit count
@@ -118,7 +139,7 @@ export default {
             for (let i = 0; i < 12; i++) {
               data.push({
                 name: i.toString(),
-                visits: this.visitsData[i-1],
+                visits: this.visitsData[i - 1],
               });
             }
 
