@@ -138,31 +138,19 @@ export default {
     this.routeVisitsHomepage = dt.routeVisitorsCount;
 
     //global frontend tools visits
-    const dt2 = await this.$store.dispatch(
-      "GET_ROUTE_VISITS",
-      "globalfrontendtools"
-    );
+    const dt2 = await this.$store.dispatch("GET_ROUTE_VISITS", "globalfrontendtools");
     this.routeVisitsGft = dt2.routeVisitorsCount;
 
     //hosting providers visits
-    const dt3 = await this.$store.dispatch(
-      "GET_ROUTE_VISITS",
-      "hostingproviders"
-    );
+    const dt3 = await this.$store.dispatch("GET_ROUTE_VISITS", "hostingproviders");
     this.routeVisitsHP = dt3.routeVisitorsCount;
 
     //gradient generators visits
-    const dt4 = await this.$store.dispatch(
-      "GET_ROUTE_VISITS",
-      "gradientgenerators"
-    );
+    const dt4 = await this.$store.dispatch("GET_ROUTE_VISITS", "gradientgenerators");
     this.routeGradientGenerators = dt4.routeVisitorsCount;
 
     //color generators visits
-    const dt5 = await this.$store.dispatch(
-      "GET_ROUTE_VISITS",
-      "colorgenerators"
-    );
+    const dt5 = await this.$store.dispatch("GET_ROUTE_VISITS", "colorgenerators");
     this.routeColorGenerators = dt5.routeVisitorsCount;
 
     this.visitsOverViewArr.push(
@@ -218,8 +206,6 @@ export default {
     this.allFeedback = await this.$store.dispatch("GET_ALL_FEEDBACK");
 
     setInterval(async () => {
-      this.$store.dispatch("GET_UNIQUE_VISITORS");
-
       //get all feedback
       this.allFeedback = await this.$store.dispatch("GET_ALL_FEEDBACK");
     }, 5000);

@@ -4,13 +4,32 @@
       <n-card>
         <n-space vertical>
           <h6>Current Status</h6>
-        <n-input  v-model:value="currentStatusInput" type="text" placeholder="Insert status"/>
-        <n-button class="w-100" @click="updateCurrentStatus(currentStatusInput)">Update Status</n-button>
+          <section class="d-flex" style="gap: 10px">
+            <n-input
+              v-model:value="currentStatusInput"
+              type="text"
+              placeholder="Insert status"
+            />
+            <n-select
+              placeholder="Select status"
+              v-model:value="currentStatusType"
+              :options="[
+                { label: 'info', value: 'info' },
+                { label: 'success', value: 'success' },
+                { label: 'warning', value: 'warning' },
+              ]"
+            ></n-select>
+          </section>
+          <n-button
+            class="w-100"
+            @click="updateCurrentStatus(currentStatusInput, currentStatusType)"
+            >Update Status</n-button
+          >
         </n-space>
       </n-card>
       <section>
         <ActivityLog />
-        <n-card title="Unique Visitors">
+        <n-card>
           <UniqueUserLog />
         </n-card>
       </section>
@@ -47,7 +66,8 @@ import {
   useLoadingBar,
   NButton,
   NInput,
-
+  NSelect,
+  useMessage,
 } from "naive-ui";
 import ActivityLog from "@/components/AdminViewComponents/ActivityLog.vue";
 import AdminManager from "@/components/AdminViewComponents/AdminManager.vue";
@@ -66,10 +86,12 @@ export default {
     VisitsChart,
     NButton,
     NInput,
+    NSelect,
   },
   data() {
     return {
       currentStatusInput: undefined,
+      currentStatusType: undefined,
       selectedRadiobutton: "weekly",
       visitsData: [],
       chartKeys: ["name", "visits"],
@@ -87,16 +109,22 @@ export default {
   },
   async mounted() {
     window.$loadingbar = useLoadingBar();
+    window.$message = useMessage();
     this.changeDataPeriod(this.selectedRadiobutton);
-   let status = await this.$store.dispatch("GET_CURRENT_STATUS");
-   status = status.data.attributes.currentStatus; 
-   this.currentStatusInput = status;
+
+    let status = await this.$store.dispatch("GET_CURRENT_STATUS");
+    this.currentStatusInput = status.data.attributes.currentStatus;
+    this.currentStatusType = status.data.attributes.typeOfStatus;
   },
   methods: {
-    async updateCurrentStatus(status) {
+    async updateCurrentStatus(status, statusType) {
       window.$loadingbar.start();
-      await this.$store.dispatch("UPDATE_CURRENT_STATUS", status);
+      await this.$store.dispatch("UPDATE_CURRENT_STATUS", {
+        currentStatus: status,
+        Type: statusType,
+      });
       window.$loadingbar.finish();
+      window.$message.success("Status updated successfully");
     },
     async changeDataPeriod(value) {
       //built switch case and check if it's weekly monthly or yearly

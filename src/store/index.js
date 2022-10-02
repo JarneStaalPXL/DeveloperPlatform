@@ -763,11 +763,11 @@ export default createStore({
           Authorization: "Bearer " + state.strapiApiKey,
         },
         body: JSON.stringify({data: {
-          currentStatus: payload,
+          currentStatus: payload.currentStatus,
+          statusType: payload.Type
         }}),
       });
       const dt = await res.json();
-      console.log(dt);
     },
     async GET_5_YEAR_VISIT_COUNT({ state }) {
       const resp = await fetch(`${state.baseUrlStrapiApi}visit-log-count/get5YearVisits`,
@@ -1564,20 +1564,7 @@ export default createStore({
         }
       );
       commit("setUserData", { user: user });
-      dispatch("LOAD_USER_SAVED_DATA", user.uid);
-    },
-    async USER_EXISTS({ state }, userId) {
-      const dataResponse = await fetch(
-        `${state.baseUrlStrapiApi}user-details?userid=${userId}`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + state.strapiApiKey,
-          },
-        }
-      );
+      dispatch("LOAD_USER_SAVED_DATA", user.uid);  
       const content2 = await dataResponse.json();
       return content2.data.length > 0;
     },
