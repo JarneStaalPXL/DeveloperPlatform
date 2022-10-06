@@ -19,6 +19,7 @@ import LoginView from "@/views/LoginView";
 import ForgotPasswordView from "@/views/ForgotPasswordView";
 import ProfileView from "@/views/ProfileView";
 import LearningView from "@/views/LearningView";
+import FontsView from '@/views/FontsView';
 
 const routes = [
   {
@@ -115,6 +116,11 @@ const routes = [
     path: "/learningtools",
     name: "learningtools",
     component: LearningView
+  },
+  {
+    path: "/fonts",
+    name: "fonts",
+    component: FontsView
   }
 ];
 
