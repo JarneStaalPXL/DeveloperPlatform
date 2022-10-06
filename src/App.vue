@@ -148,6 +148,7 @@ import {
   Color24Regular as ColorIcon,
   PersonFeedback16Regular as FeedbackIcon,
 } from "@vicons/fluent";
+import { Font as FontIcon } from "@vicons/fa";
 import SearchComponent from "./components/GlobalComponents/SearchComponent.vue";
 import FeedbackComponent from "./components/GlobalComponents/FeedbackComponent.vue";
 import InfoComponent from "./components/GlobalComponents/InfoComponent.vue";
@@ -231,6 +232,7 @@ export default {
     InfoComponent,
     NH4,
     InfoIcon,
+    FontIcon,
   },
   methods: {
     checkIfOnMobile() {
@@ -520,6 +522,11 @@ export default {
               key: "/colorPalleteGenerator",
             },
           ],
+        },
+        {
+          label: "Fonts",
+          key: "/fonts",
+          icon: renderIcon(FontIcon),
         },
         {
           label: "Hosting Providers",

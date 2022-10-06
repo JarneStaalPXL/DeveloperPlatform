@@ -320,6 +320,16 @@ export default createStore({
         link: "https://app.haikei.app/",
         websitePreviewImage: require("../assets/haikei.png"),
       },
+      {
+        name: "Cubic-bezier Generator",
+        link: "https://cubic-bezier.com/",
+        websitePreviewImage: require("../assets/cubic-bezier.png"),
+      },
+      {
+        name:"GitHub Profile Generator",
+        link: "https://gprm.itsvg.in/",
+        websitePreviewImage: require("../assets/gprm.png"),
+      }
     ],
     hostingproviders: [
       {
