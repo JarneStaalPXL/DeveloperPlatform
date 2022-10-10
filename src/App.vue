@@ -473,6 +473,7 @@ export default {
           label: "File Converters",
           key: "/fileconverters",
           icon: renderIcon(FileIcon),
+          disabled: true
         }
       ];
     },
@@ -554,6 +555,7 @@ export default {
           label: "File Converters",
           key: "/fileconverters",
           icon: renderIcon(FileIcon),
+          disabled: true
         }
       ];
     },
