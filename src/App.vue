@@ -453,6 +453,11 @@ export default {
           icon: renderIcon(ColorIcon),
         },
         {
+          label: "Fonts",
+          key: "/fonts",
+          icon: renderIcon(FontIcon),
+        },
+        {
           label: "Hosting Providers",
           key: "/hostingproviders",
           icon: renderIcon(HostingIcon),
