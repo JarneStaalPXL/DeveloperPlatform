@@ -320,6 +320,33 @@ export default createStore({
         link: "https://app.haikei.app/",
         websitePreviewImage: require("../assets/haikei.png"),
       },
+      {
+        name: "Cubic-bezier Generator",
+        link: "https://cubic-bezier.com/",
+        websitePreviewImage: require("../assets/cubic-bezier.png"),
+      },
+      {
+        name:"GitHub Profile Generator",
+        link: "https://gprm.itsvg.in/",
+        websitePreviewImage: require("../assets/gprm.png"),
+      }
+    ],
+    fonts: [
+      {
+        name: "FontShare",
+        link: "https://www.fontshare.com/",
+        websitePreviewImage: require("../assets/fontshare.jpg"),
+      },
+      {
+        name: "Google Fonts",
+        link: "https://fonts.google.com/",
+        websitePreviewImage: require("../assets/googlefonts.png"),
+      },
+      {
+        name: "Font Squirrel",
+        link: "https://www.fontsquirrel.com/",
+        websitePreviewImage: require("../assets/font_squirrel.jpg"),
+      }
     ],
     hostingproviders: [
       {
@@ -750,6 +777,9 @@ export default createStore({
     },
     setKeysArray(state, payload) {
       state.keysArray = payload;
+    },
+    setFonts(state, payload) {
+      state.fonts = payload;
     }
   },
   actions: {
@@ -1121,7 +1151,6 @@ export default createStore({
         }
 
         if (state.favoritetools !== null) {
-          //globalfrontendtools manipulation favorites
           dispatch("SET_FAVORITE_TOOLS");
         }
       } else {
@@ -1182,6 +1211,16 @@ export default createStore({
         );
       }
       commit("setColorGeneratorsTools", cgt);
+
+      //fonts manipulation favorites
+      const fnt = JSON.parse(JSON.stringify(state.fonts));
+      for (const font of fnt) {
+        font.isFavorited = state.favoritetools.some(
+          (t) => t.name === font.name
+        );
+      }
+
+      commit("setFonts", fnt);
     },
     async SORT_HOSTINGPROVIDERS_BY_RECOMMENDED({ commit, state }) {
       let array = state.hostingproviders.sort((a, b) => {
