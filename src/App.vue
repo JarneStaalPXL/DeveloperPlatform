@@ -147,6 +147,7 @@ import { Gradient as GradientIcon, CloudApp as HostingIcon } from "@vicons/carbo
 import {
   Color24Regular as ColorIcon,
   PersonFeedback16Regular as FeedbackIcon,
+  FolderArrowUp24Regular as FileIcon
 } from "@vicons/fluent";
 import { Font as FontIcon } from "@vicons/fa";
 import SearchComponent from "./components/GlobalComponents/SearchComponent.vue";
@@ -233,6 +234,7 @@ export default {
     NH4,
     InfoIcon,
     FontIcon,
+    FileIcon
   },
   methods: {
     checkIfOnMobile() {
@@ -467,6 +469,11 @@ export default {
           key: "/learningtools",
           icon: renderIcon(BookIcon),
         },
+        {
+          label: "File Converters",
+          key: "/fileconverters",
+          icon: renderIcon(FileIcon),
+        }
       ];
     },
     extraOptions() {
@@ -543,6 +550,11 @@ export default {
           key: "/learningtools",
           icon: renderIcon(BookIcon),
         },
+        {
+          label: "File Converters",
+          key: "/fileconverters",
+          icon: renderIcon(FileIcon),
+        }
       ];
     },
     menuOpts() {
