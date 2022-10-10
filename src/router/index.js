@@ -20,6 +20,7 @@ import ForgotPasswordView from "@/views/ForgotPasswordView";
 import ProfileView from "@/views/ProfileView";
 import LearningView from "@/views/LearningView";
 import FontsView from '@/views/FontsView';
+import FileConvertersView from '@/views/FileConvertersView'
 
 const routes = [
   {
@@ -121,6 +122,11 @@ const routes = [
     path: "/fonts",
     name: "fonts",
     component: FontsView
+  },
+  {
+    path: "/fileconverters",
+    name: "fileconverters",
+    component: FileConvertersView
   }
 ];
 
