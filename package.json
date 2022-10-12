@@ -20,7 +20,8 @@
     "vue-router": "^4.0.3",
     "vue-writer": "^1.2.0",
     "vue3-charts": "^1.1.31",
-    "vuex": "^4.0.2"
+    "vuex": "^4.0.2",
+    "express": "^4.17.1"
   },
   "devDependencies": {
     "@vicons/carbon": "^0.12.0",
