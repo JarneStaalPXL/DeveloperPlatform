@@ -859,6 +859,7 @@ export default createStore({
         }
       );
       const dt = await resp.json();
+      console.log(dt);
       return dt.data.attributes.quickAccessTools;
     },
     async SAVE_QUICK_ACCESS_TOOLS({ state, commit }, payload) {
@@ -1165,6 +1166,8 @@ export default createStore({
           }
         }
       }
+
+      return state.favoritetools;
     },
     async SET_FAVORITE_TOOLS({ commit, state }) {
       const gbt = JSON.parse(JSON.stringify(state.globalFrontendTools));
