@@ -241,6 +241,11 @@ export default createStore({
         textColor: "black",
       },
       {
+        name: "Vue3 Chart Library",
+        link: "https://vue3charts.org/",
+        websitePreviewImage: require("../assets/vue3charts.png"),
+      },
+      {
         name: "CompSciLib",
         link: "https://www.compscilib.com/",
         websitePreviewImage: require("../assets/compscilib.png"),

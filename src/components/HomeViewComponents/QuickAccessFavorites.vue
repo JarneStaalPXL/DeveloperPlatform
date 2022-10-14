@@ -134,8 +134,6 @@ export default {
 
     let arr = [];
     let arr2 = [];
-
-    console.log("QA Tools",QAtools);
     for (let key of QAtools) {
       arr.push(key);
       for (let tool of JSON.parse(JSON.stringify(favTools))) {
