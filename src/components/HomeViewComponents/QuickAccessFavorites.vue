@@ -126,24 +126,19 @@ export default {
     NTooltip,
   },
   async mounted() {
-    let tools;
-
-    tools = await this.$store.dispatch("GET_QUICK_ACCESS_TOOLS");
-
-    // //check if tools is an empty obj
-    // if (isObject(tools)) {
-    //   this.$store.commit("SET_QUICK_ACCESS_TOOLS", tools);
-    // }
-    if (isObject(tools)) {
+    let QAtools = await this.$store.dispatch("GET_QUICK_ACCESS_TOOLS");
+    if(QAtools === null) {
       return;
     }
+    let favTools = await this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
 
     let arr = [];
     let arr2 = [];
-    for (let key of tools) {
-      arr.push(key);
 
-      for (let tool of JSON.parse(JSON.stringify(this.$store.state.favoritetools))) {
+    console.log("QA Tools",QAtools);
+    for (let key of QAtools) {
+      arr.push(key);
+      for (let tool of JSON.parse(JSON.stringify(favTools))) {
         if (tool.name === key) {
           arr2.push(tool);
         }
