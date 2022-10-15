@@ -127,7 +127,8 @@ export default {
   },
   async mounted() {
     let QAtools = await this.$store.dispatch("GET_QUICK_ACCESS_TOOLS");
-    if(QAtools === null) {
+
+    if (QAtools === null || this.isEmpty(QAtools) || QAtools === undefined) {
       return;
     }
     let favTools = await this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
@@ -172,6 +173,9 @@ export default {
     },
   },
   methods: {
+    isEmpty(obj) {
+      return Object.keys(obj).length === 0;
+    },
     updateValue(selectedTools) {
       //limit to 4 selections
       if (selectedTools.length > 6) {
