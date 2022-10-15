@@ -133,6 +133,12 @@ export default {
           const errorCode = error.code;
           const errorMessage = error.message;
 
+          if (errorCode === undefined) {
+            window.$message.error("Report this error to admin: " + error);
+            window.$loadingbar.error();
+            return;
+          }
+
           if (errorCode.includes("user-not-found")) {
             window.$message.error("User is not registered.");
             window.$loadingbar.error();
