@@ -864,7 +864,6 @@ export default createStore({
         }
       );
       const dt = await resp.json();
-      console.log(dt);
       return dt.data.attributes.quickAccessTools;
     },
     async SAVE_QUICK_ACCESS_TOOLS({ state, commit }, payload) {
@@ -980,6 +979,7 @@ export default createStore({
           data: {
             title: payload.title,
             description: payload.description,
+            userName: payload.userName
           },
         }),
       });
