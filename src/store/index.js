@@ -1612,8 +1612,8 @@ export default createStore({
       );
       commit("setUserData", { user: user });
       dispatch("LOAD_USER_SAVED_DATA", user.uid);  
-      const content2 = await dataResponse.json();
-      return content2.data.length > 0;
+      const content2 = await resp.json();
+      return content2.statusCode === 409;
     },
     async GET_ADMIN_ID({ state }, useruid) {
       const dataResponse = await fetch(
