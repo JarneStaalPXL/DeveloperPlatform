@@ -117,7 +117,7 @@ export default {
 
       //send file to pdf converter
       //TODO: Create node.js api that converts file to pdf with pdfkit
-      console.log(formData.get(fileName));
+      // console.log(formData.get(fileName));
       fetch("http://localhost:3000/convertDocToPdf",
       {
         method: "POST",
@@ -129,7 +129,7 @@ export default {
        })
       .then((response) => response.blob())
       .then((blob) => {
-        console.log(blob);
+        // console.log(blob);
         let pdfFile = new File([blob], "converted.pdf", {
           type: "application/pdf",
         });

@@ -78,6 +78,8 @@ export default {
   methods: {
     async submitFeedback() {
       if (this.formValue.user.title && this.formValue.user.description) {
+        this.formValue.user.userName =
+          localStorage.getItem("userName") || "Unknown Username";
         let resp = await this.$store.dispatch(
           "SUBMIT_FEEDBACK",
           JSON.parse(JSON.stringify(this.formValue.user))
