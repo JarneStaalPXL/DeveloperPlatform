@@ -1,7 +1,10 @@
 <template>
-  <section class="mt-5" v-if="$store.state.quickAccessTools.length > 0">
-    <n-config-provider class="mb-5 w-75 m-auto">
-      <n-grid x-gap="24" y-gap="24" cols="1 680:2 1200:4" class="quickAccessGrid">
+  <section>
+    <n-config-provider
+      class="mb-5 w-75 m-auto"
+      v-if="$store.state.quickAccessTools.length > 0"
+    >
+      <n-grid x-gap="24" y-gap="24" cols="1 680:2 1200:4" class="quickAccessGrid mt-5">
         <n-gi v-for="tool of $store.state.quickAccessTools" :key="tool">
           <n-card
             :title="tool.name"
