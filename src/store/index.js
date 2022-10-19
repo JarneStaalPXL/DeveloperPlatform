@@ -788,6 +788,22 @@ export default createStore({
     }
   },
   actions: {
+    async USER_CREATE_PROJECT({ commit, state }, payload) {
+      const res = await fetch(`${state.baseUrlStrapiApi}/user-detail-info/addProject`,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({data: {
+          uid: localStorage.getItem("uid"),
+          projects: payload
+        }}),
+      });
+      const data = await res.json();
+      console.log(data);
+    },
     async UPDATE_CURRENT_STATUS({ commit, state }, payload) {
       const res = await fetch(`${state.baseUrlStrapiApi}current-status-info`, 
       {
