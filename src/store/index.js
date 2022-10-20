@@ -16,7 +16,9 @@ function renderIcon(icon) {
 
 export default createStore({
   state: {
+    userProjects: [],
     keysArray : [],
+    showUserProjectCreateModal: false,
     showInfoModal: false,
     selectedItemsQA: [],
     quickAccessTools: [],
@@ -657,6 +659,9 @@ export default createStore({
 
   getters: {},
   mutations: {
+    setUserProjects(state, payload) {
+      state.userProjects = payload;
+    },
     setIsAdmin(state, payload) {
       state.isAdmin = payload;
     },
@@ -780,6 +785,9 @@ export default createStore({
     setShowInfoModal(state, payload) {
       state.showInfoModal = payload;
     },
+    setShowUserProjectCreateModal(state, payload) {
+      state.showUserProjectCreateModal = payload;
+    },
     setKeysArray(state, payload) {
       state.keysArray = payload;
     },
@@ -788,8 +796,8 @@ export default createStore({
     }
   },
   actions: {
-    async USER_CREATE_PROJECT({ commit, state }, payload) {
-      const res = await fetch(`${state.baseUrlStrapiApi}/user-detail-info/addProject`,
+    async REMOVE_USER_PROJECT({ commit }, payload) {
+      const res = await fetch(`http://localhost:1337/api/user-detail-info/removeProject`,
       {
         method: "PUT",
         headers: {
@@ -798,11 +806,40 @@ export default createStore({
         },
         body: JSON.stringify({data: {
           uid: localStorage.getItem("uid"),
-          projects: payload
+          project: payload
+        }}),
+      })
+      const dt = await res.json();
+      console.log(dt)
+      commit("setUserProjects", dt.data.attributes.projects);
+    },
+    async GET_USER_PROJECTS({state, commit}) {
+      const res = await fetch(`http://localhost:1337/api/user-detail-info/getUserProjects/${localStorage.getItem('uid')}`,
+        {
+          method: 'GET',
+          header: {
+            Accept: "Application/json",
+            "Content-Type": 'Application/json'
+          }
+        });
+      const dt = await res.json();
+      console.log(dt);
+      commit("setUserProjects", dt.data.attributes.projects);
+    },
+    async USER_CREATE_PROJECT({ commit, state }, payload) {
+      const res = await fetch(`http://localhost:1337/api/user-detail-info/addProject`,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({data: {
+          uid: localStorage.getItem("uid"),
+          project: payload
         }}),
       });
       const data = await res.json();
-      console.log(data);
     },
     async UPDATE_CURRENT_STATUS({ commit, state }, payload) {
       const res = await fetch(`${state.baseUrlStrapiApi}current-status-info`, 

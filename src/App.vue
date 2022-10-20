@@ -11,6 +11,7 @@
             <n-message-provider>
               <FeedbackComponent v-model:show="$store.state.showFeedbackPopup" />
               <InfoComponent v-model:show="$store.state.showInfoModal" />
+              <UserProjectCreateComponent v-model:show="$store.state.showUserProjectCreateModal" />
             </n-message-provider>
           </n-notification-provider>
         </n-loading-bar-provider>
@@ -153,6 +154,7 @@ import { Font as FontIcon } from "@vicons/fa";
 import SearchComponent from "./components/GlobalComponents/SearchComponent.vue";
 import FeedbackComponent from "./components/GlobalComponents/FeedbackComponent.vue";
 import InfoComponent from "./components/GlobalComponents/InfoComponent.vue";
+import UserProjectCreateComponent from "./components/GlobalComponents/UserProjectCreateComponent.vue";
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -160,6 +162,7 @@ function renderIcon(icon) {
 
 //export reference to contentRef
 
+import {ProjectOutlined as ProjectIcon} from "@vicons/antd";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import {
@@ -207,6 +210,7 @@ export default {
     };
   },
   components: {
+    UserProjectCreateComponent,
     NButton,
     NSpace,
     NConfigProvider,
@@ -234,7 +238,8 @@ export default {
     NH4,
     InfoIcon,
     FontIcon,
-    FileIcon
+    FileIcon,
+    ProjectIcon
   },
   methods: {
     checkIfOnMobile() {
@@ -585,6 +590,11 @@ export default {
               label: "Profile",
               key: "profile",
               icon: renderIcon(UserIcon),
+            },
+            {
+              label: "Projects",
+              key: "projects",
+              icon: renderIcon(ProjectIcon),
             },
             {
               label: "Switch mode",
