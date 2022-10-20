@@ -6,13 +6,18 @@
         <n-badge :value="$store.state.userProjects.length" color="grey" />
       </div>
     </template>
+    <template #header-extra>
+      <n-button @click="$store.commit('setShowUserProjectCreateModal', true)"
+          >Create a project</n-button
+        >
+    </template>
     <UserProjectsFull/>
   </n-card>
 </template>
 
 <script>
 import {
-  NCard,NBadge
+  NCard,NBadge, NButton
 } from "naive-ui";
 import UserProjectsFull from "@/components/UserProjectsViewComponents/UserProjectsFull.vue";
 export default {
@@ -26,6 +31,7 @@ export default {
     NCard,
     NBadge,
     UserProjectsFull,
+    NButton
   },  
 };
 </script>
