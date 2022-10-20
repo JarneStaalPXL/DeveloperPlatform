@@ -162,6 +162,7 @@ function renderIcon(icon) {
 
 //export reference to contentRef
 
+import {ProjectOutlined as ProjectIcon} from "@vicons/antd";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import {
@@ -237,7 +238,8 @@ export default {
     NH4,
     InfoIcon,
     FontIcon,
-    FileIcon
+    FileIcon,
+    ProjectIcon
   },
   methods: {
     checkIfOnMobile() {
@@ -588,6 +590,11 @@ export default {
               label: "Profile",
               key: "profile",
               icon: renderIcon(UserIcon),
+            },
+            {
+              label: "Projects",
+              key: "projects",
+              icon: renderIcon(ProjectIcon),
             },
             {
               label: "Switch mode",

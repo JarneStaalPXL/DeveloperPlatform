@@ -7,11 +7,16 @@
       </div>
     </template>
     <template #header-extra>
-      <n-button @click="$store.commit('setShowUserProjectCreateModal', true)"
+      <n-button :tertiary="$store.state.colorMode === 'Dark' ? 'tertiary': ''" :type="$store.state.colorMode === 'Dark' ? 'primary':''" @click="$store.commit('setShowUserProjectCreateModal', true)"
+
           >Create a project</n-button
         >
     </template>
-    <UserProjectsFull/>
+    <UserProjectsFull v-if="$store.state.userProjects.length > 0"/>
+      <div v-else>
+        <img id="noProjectsSvg" src="../assets/noProjects.svg"/>
+        <p>You currently do not have any projects.</p>
+      </div>
   </n-card>
 </template>
 
@@ -35,3 +40,15 @@ export default {
   },  
 };
 </script>
+
+<style lang="scss" scoped>
+#noProjectsSvg {
+  max-width: 30%;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.n-card.n-card--bordered.categoryCard {
+    height: 100%;
+}
+</style>

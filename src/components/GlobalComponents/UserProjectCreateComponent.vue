@@ -25,6 +25,25 @@
           placeholder="GitHub Repository"
           v-model:value="project.github"
         />
+        <n-dynamic-input v-model:value="extraInformation" :on-create="onCreate" :min="0" :max="8">
+          <template #create-button-default> Add more data </template>
+          <template #default="{ value }">
+            <div style="display: flex; align-items: center; width: 100%">
+              <n-input
+                placeholder="Property"
+                v-model:value="value.propName"
+                style="margin-right: 12px; width: 160px"
+              />
+              <n-input
+                placeholder="Value"
+                v-model:value="value.propValue"
+                type="text"
+              />
+            </div>
+          </template>
+        </n-dynamic-input>
+        <pre>{{project}}</pre>
+        <pre>{{extraInformation}}</pre>
       </n-space>
     </section>
 
@@ -44,6 +63,7 @@ import {
   NInput,
   NModal,
   useMessage,
+  NDynamicInput,
   NSpace,
 } from "naive-ui";
 export default {
@@ -56,6 +76,7 @@ export default {
     NInput,
     NModal,
     NSpace,
+    NDynamicInput,
   },
   data() {
     return {
@@ -93,47 +114,53 @@ export default {
     window.$message = useMessage();
   },
   methods: {
-    async submitFeedback() {
-      if (this.formValue.user.title && this.formValue.user.description) {
-        this.formValue.user.userName =
-          localStorage.getItem("userName") || "Unknown Username";
-        let resp = await this.$store.dispatch(
-          "SUBMIT_FEEDBACK",
-          JSON.parse(JSON.stringify(this.formValue.user))
-        );
-        if (resp.data.attributes.title !== "") {
-          window.$message.success("Feedback submitted successfully");
-          this.$store.commit("setShowFeedbackModal", false);
-          this.formValue.user.title = "";
-          this.formValue.user.description = "";
-        }
-      } else {
-        window.$message.error("Please fill all the fields");
-      }
-    },
     createProject() {
       //check if project.websiteLink is a valid website link
-      if (!this.project.websiteLink.includes("http")) {
+      if(this.project.websiteLink !== ""){
+        if (!this.project.websiteLink.includes("http")) {
         window.$message.error(
-          "Please enter a valid website link. Make sure it contains http/https"
+          "Please enter a valid website link. Make sure it contains http or https"
         );
         return;
       }
+    }
+  
 
       //check if project.github is a valid github link
-      if (!this.project.github.includes("github.com")) {
-        window.$message.error("Please enter a valid GitHub Repository link");
-        return;
+      if (this.project.github !== "") {
+        if (!this.project.github.includes("github.com")) {
+          window.$message.error("Please enter a valid GitHub Repository link");
+          return;
+        }
       }
 
-      this.$store.dispatch("USER_CREATE_PROJECT", this.project);
-      this.$store.dispatch("GET_USER_PROJECTS");
+      let extraData = JSON.parse(JSON.stringify(this.extraInformation));
+      console.log("🚀 ~ file: UserProjectCreateComponent.vue ~ line 138 ~ createProject ~ extraData", extraData)
+
+      let combinedData = {
+        ...this.project, extraData
+      };
+      console.log(combinedData);
+
+      // this.$store.dispatch("USER_CREATE_PROJECT", this.project);
+      // this.$store.dispatch("GET_USER_PROJECTS");
+      // this.$store.commit("setShowUserProjectCreateModal", false);
+      // window.$message.success("Project created successfully");
     },
   },
   setup() {
-    const formRef = ref(null);
     return {
-      formRef,
+      extraInformation: ref([
+        {
+          propName: undefined,
+          propValue: undefined,
+        },
+      ]),
+      onCreate() {
+        return {
+          
+        };
+      },
     };
   },
 };

@@ -2,7 +2,7 @@
   <section>
     <n-grid x-gap="24" y-gap="24" cols="1 680:2 1200:4">
       <n-gi v-for="project of $store.state.userProjects" :key="project">
-        <n-card :title="project.title" bordered>
+        <n-card :title="project.title" bordered closable @close="removeProject(project)">
           <template #footer>
             <div class="titleButtons">
               <div class="actionBtns">
@@ -63,7 +63,9 @@ export default {
     this.$store.dispatch("GET_USER_PROJECTS");
   },
   data() {
-    return {};
+    return {
+        websitePreviewImagePlaceholder: require("../../assets/noImageProject.jpg"),
+    };
   },
   components: {
     NButton,
@@ -81,6 +83,11 @@ export default {
       else this.$router.push(link);
       this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", link);
       this.$store.dispatch("GET_PAGE_VISITS");
+    },
+    removeProject(project) {
+      this.$store.dispatch("REMOVE_USER_PROJECT", project);
+      this.$store.dispatch("GET_USER_PROJECTS");
+      window.$message.success("Project removed");
     },
   },
 };
