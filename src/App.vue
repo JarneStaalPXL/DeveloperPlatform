@@ -11,6 +11,7 @@
             <n-message-provider>
               <FeedbackComponent v-model:show="$store.state.showFeedbackPopup" />
               <InfoComponent v-model:show="$store.state.showInfoModal" />
+              <UserProjectCreateComponent v-model:show="$store.state.showUserProjectCreateModal" />
             </n-message-provider>
           </n-notification-provider>
         </n-loading-bar-provider>
@@ -153,6 +154,7 @@ import { Font as FontIcon } from "@vicons/fa";
 import SearchComponent from "./components/GlobalComponents/SearchComponent.vue";
 import FeedbackComponent from "./components/GlobalComponents/FeedbackComponent.vue";
 import InfoComponent from "./components/GlobalComponents/InfoComponent.vue";
+import UserProjectCreateComponent from "./components/GlobalComponents/UserProjectCreateComponent.vue";
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -207,6 +209,7 @@ export default {
     };
   },
   components: {
+    UserProjectCreateComponent,
     NButton,
     NSpace,
     NConfigProvider,
