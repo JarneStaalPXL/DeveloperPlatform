@@ -135,17 +135,15 @@ export default {
       }
 
       let extraData = JSON.parse(JSON.stringify(this.extraInformation));
-      console.log("🚀 ~ file: UserProjectCreateComponent.vue ~ line 138 ~ createProject ~ extraData", extraData)
 
       let combinedData = {
         ...this.project, extraData
       };
-      console.log(combinedData);
 
-      // this.$store.dispatch("USER_CREATE_PROJECT", this.project);
-      // this.$store.dispatch("GET_USER_PROJECTS");
-      // this.$store.commit("setShowUserProjectCreateModal", false);
-      // window.$message.success("Project created successfully");
+      this.$store.dispatch("USER_CREATE_PROJECT", combinedData);
+      this.$store.dispatch("GET_USER_PROJECTS");
+      this.$store.commit("setShowUserProjectCreateModal", false);
+      window.$message.success("Project created successfully");
     },
   },
   setup() {
