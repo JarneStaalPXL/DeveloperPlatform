@@ -796,13 +796,14 @@ export default createStore({
     }
   },
   actions: {
-    async REMOVE_USER_PROJECT({ commit }, payload) {
-      const res = await fetch(`http://localhost:1337/api/user-detail-info/removeProject`,
+    async REMOVE_USER_PROJECT({ state,commit }, payload) {
+      const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/removeProject`,
       {
         method: "PUT",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
         },
         body: JSON.stringify({data: {
           uid: localStorage.getItem("uid"),
@@ -814,12 +815,13 @@ export default createStore({
       commit("setUserProjects", dt.data.attributes.projects);
     },
     async GET_USER_PROJECTS({state, commit}) {
-      const res = await fetch(`http://localhost:1337/api/user-detail-info/getUserProjects/${localStorage.getItem('uid')}`,
+      const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/getUserProjects/${localStorage.getItem('uid')}`,
         {
           method: 'GET',
           header: {
             Accept: "Application/json",
-            "Content-Type": 'Application/json'
+            "Content-Type": 'Application/json',
+            Authorization: "Bearer " + state.strapiApiKey,
           }
         });
       const dt = await res.json();
@@ -827,12 +829,13 @@ export default createStore({
       commit("setUserProjects", dt.data.attributes.projects);
     },
     async USER_CREATE_PROJECT({ commit, state }, payload) {
-      const res = await fetch(`http://localhost:1337/api/user-detail-info/addProject`,
+      const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/addProject`,
       {
         method: "PUT",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
         },
         body: JSON.stringify({data: {
           uid: localStorage.getItem("uid"),
