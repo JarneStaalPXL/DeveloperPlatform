@@ -79,15 +79,16 @@ export default {
   },
   methods: {
     openLink(link) {
-      if (link.includes("https://")) window.open(link, "_blank");
-      else this.$router.push(link);
+     window.open(link, "_blank");
       this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", link);
       this.$store.dispatch("GET_PAGE_VISITS");
     },
     removeProject(project) {
-      this.$store.dispatch("REMOVE_USER_PROJECT", project);
-      this.$store.dispatch("GET_USER_PROJECTS");
-      window.$message.success("Project removed");
+      this.$store.dispatch("REMOVE_USER_PROJECT", project).then(()=> {
+        this.$store.dispatch("GET_USER_PROJECTS").then(()=> {
+          window.$message.success("Project removed successfully");
+        })
+      });
     },
   },
 };

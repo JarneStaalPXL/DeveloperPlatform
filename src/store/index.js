@@ -19,6 +19,7 @@ export default createStore({
     userProjects: [],
     keysArray : [],
     showUserProjectCreateModal: false,
+    showUserProjectCreateSecondModal: false,
     showInfoModal: false,
     selectedItemsQA: [],
     quickAccessTools: [],
@@ -811,7 +812,6 @@ export default createStore({
         }}),
       })
       const dt = await res.json();
-      console.log(dt)
       commit("setUserProjects", dt.data.attributes.projects);
     },
     async GET_USER_PROJECTS({state, commit}) {

@@ -3,7 +3,7 @@
     <template #header>
       <div class="d-flex" style="gap: 10px">
         <h4>Projects</h4>
-        <n-badge :value="$store.state.userProjects.length" color="grey" />
+        <n-badge v-if="$store.state.userProjects" :value="$store.state.userProjects.length" color="grey" />
       </div>
     </template>
     <template #header-extra>
