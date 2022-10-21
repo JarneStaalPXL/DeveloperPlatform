@@ -820,8 +820,7 @@ export default createStore({
           method: 'GET',
           header: {
             Accept: "Application/json",
-            "Content-Type": 'Application/json',
-            Authorization: "Bearer " + state.strapiApiKey,
+            "Content-Type": 'Application/json',Authorization: "Bearer " + state.strapiApiKey,
           }
         });
       const dt = await res.json();
