@@ -818,10 +818,11 @@ export default createStore({
       const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/getUserProjects/${localStorage.getItem('uid')}`,
         {
           method: 'GET',
-          header: {
-            Accept: "Application/json",
-            "Content-Type": 'Application/json',Authorization: "Bearer " + state.strapiApiKey,
-          }
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
         });
       const dt = await res.json();
       console.log(dt);
