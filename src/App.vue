@@ -11,7 +11,9 @@
             <n-message-provider>
               <FeedbackComponent v-model:show="$store.state.showFeedbackPopup" />
               <InfoComponent v-model:show="$store.state.showInfoModal" />
-              <UserProjectCreateComponent v-model:show="$store.state.showUserProjectCreateModal" />
+              <UserProjectCreateComponent
+                v-model:show="$store.state.showUserProjectCreateModal"
+              />
             </n-message-provider>
           </n-notification-provider>
         </n-loading-bar-provider>
@@ -148,7 +150,7 @@ import { Gradient as GradientIcon, CloudApp as HostingIcon } from "@vicons/carbo
 import {
   Color24Regular as ColorIcon,
   PersonFeedback16Regular as FeedbackIcon,
-  FolderArrowUp24Regular as FileIcon
+  FolderArrowUp24Regular as FileIcon,
 } from "@vicons/fluent";
 import { Font as FontIcon } from "@vicons/fa";
 import SearchComponent from "./components/GlobalComponents/SearchComponent.vue";
@@ -162,7 +164,7 @@ function renderIcon(icon) {
 
 //export reference to contentRef
 
-import {ProjectOutlined as ProjectIcon} from "@vicons/antd";
+import { ProjectOutlined as ProjectIcon } from "@vicons/antd";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import {
@@ -239,7 +241,7 @@ export default {
     InfoIcon,
     FontIcon,
     FileIcon,
-    ProjectIcon
+    ProjectIcon,
   },
   methods: {
     checkIfOnMobile() {
@@ -470,6 +472,11 @@ export default {
           icon: renderIcon(HostingIcon),
         },
         {
+          label: "APIs",
+          key: "/apis",
+          icon: renderIcon(HostingIcon),
+        },
+        {
           label: "Learning Tools",
           key: "/learningtools",
           icon: renderIcon(BookIcon),
@@ -478,8 +485,8 @@ export default {
           label: "File Converters",
           key: "/fileconverters",
           icon: renderIcon(FileIcon),
-          disabled: true
-        }
+          disabled: true,
+        },
       ];
     },
     extraOptions() {
@@ -552,6 +559,11 @@ export default {
           icon: renderIcon(HostingIcon),
         },
         {
+          label: "APIs",
+          key: "/apis",
+          icon: renderIcon(HostingIcon),
+        },
+        {
           label: "Learning Tools",
           key: "/learningtools",
           icon: renderIcon(BookIcon),
@@ -560,8 +572,8 @@ export default {
           label: "File Converters",
           key: "/fileconverters",
           icon: renderIcon(FileIcon),
-          disabled: true
-        }
+          disabled: true,
+        },
       ];
     },
     menuOpts() {
@@ -595,7 +607,7 @@ export default {
               label: "Projects",
               key: "projects",
               icon: renderIcon(ProjectIcon),
-              disabled:true
+              disabled: true,
             },
             {
               label: "Switch mode",

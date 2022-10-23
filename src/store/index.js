@@ -655,6 +655,28 @@ export default createStore({
         websitePreviewImage: require("../assets/pixactly.png"),
       },
     ],
+    apis: [
+      {
+        name: "OpenWeatherMap",
+        link: "https://openweathermap.org/api",
+        description:
+          "Current weather and forecasts for any location on Earth including over 200,000 cities.",
+
+      },
+      {
+        name: "OpenCage",
+        link: "https://opencagedata.com/api",
+        description:
+          "Forward and reverse geocoding, including time zone, elevation, and other data.",
+
+      },
+      {
+        name: "OpenAQ",
+        link: "https://docs.openaq.org/",
+        description:
+          "Air quality data from around the world.",
+      }
+    ],
     allUserActivities: [],
   },
 
