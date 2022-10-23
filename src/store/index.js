@@ -284,7 +284,7 @@ export default createStore({
       },
       {
         name: "TOOOLS Design Resources",
-        link: "https://tooools.design/",
+        link: "https://www.toools.design/",
         websitePreviewImage: require("../assets/tooools.png"),
         textColor: "black",
       },
