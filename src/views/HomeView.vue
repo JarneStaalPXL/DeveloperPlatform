@@ -45,11 +45,30 @@
         >
       </h6>
     </section>
+    <section class="newFeatureBlock">
+      <div>
+        <h3>THE NEXT BIG FEATURE</h3>
+        <p>
+          Soon you will be able to create projects within this platform and add all the
+          tools and data you used for that project.
+        </p>
+        <p>
+          Like this you can keep track of what you used for your projects and have quick
+          access to them.
+        </p>
+        <p>
+          This feature is still in the making and will be released before the first of
+          november of 2022.
+        </p>
+      </div>
+      <img class="d-flex m-auto mt-4" src="../assets/projectCreation.svg" />
+    </section>
+
+    <!--Implement what i'm working on right now or the next biggest feature or something like that-->
   </section>
 </template>
 
 <script>
-import { ref } from "vue";
 import { ThumbsDown, ThumbsUp } from "@vicons/ionicons5";
 import {
   NModal,
@@ -174,6 +193,29 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.newFeatureBlock {
+  display: flex;
+  flex-wrap: wrap;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgb(0 0 0 / 37%);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  width: 50vw;
+  margin: 0 auto;
+  padding: 20px;
+  margin-bottom: 200px;
+
+  p {
+    margin-bottom: 2px;
+  }
+
+  img {
+    max-width: 50%;
+  }
+}
+
 .developmentSection {
   text-align: center;
   width: 75%;
@@ -429,6 +471,12 @@ a {
 }
 
 @media only screen and (max-width: 980px) {
+  .newFeatureBlock {
+    width: 90% !important;
+    img {
+    }
+  }
+
   #searchbar {
     display: flex;
     justify-content: center !important;

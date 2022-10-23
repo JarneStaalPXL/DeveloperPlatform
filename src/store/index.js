@@ -16,7 +16,10 @@ function renderIcon(icon) {
 
 export default createStore({
   state: {
+    userProjects: [],
     keysArray : [],
+    showUserProjectCreateModal: false,
+    showUserProjectCreateSecondModal: false,
     showInfoModal: false,
     selectedItemsQA: [],
     quickAccessTools: [],
@@ -239,6 +242,11 @@ export default createStore({
         link: "https://chartscss.org/",
         websitePreviewImage: require("../assets/charts-css.png"),
         textColor: "black",
+      },
+      {
+        name: "Vue3 Chart Library",
+        link: "https://vue3charts.org/",
+        websitePreviewImage: require("../assets/vue3charts.png"),
       },
       {
         name: "CompSciLib",
@@ -652,6 +660,9 @@ export default createStore({
 
   getters: {},
   mutations: {
+    setUserProjects(state, payload) {
+      state.userProjects = payload;
+    },
     setIsAdmin(state, payload) {
       state.isAdmin = payload;
     },
@@ -775,6 +786,9 @@ export default createStore({
     setShowInfoModal(state, payload) {
       state.showInfoModal = payload;
     },
+    setShowUserProjectCreateModal(state, payload) {
+      state.showUserProjectCreateModal = payload;
+    },
     setKeysArray(state, payload) {
       state.keysArray = payload;
     },
@@ -783,6 +797,53 @@ export default createStore({
     }
   },
   actions: {
+    async REMOVE_USER_PROJECT({ state,commit }, payload) {
+      const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/removeProject`,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+        body: JSON.stringify({data: {
+          uid: localStorage.getItem("uid"),
+          project: payload
+        }}),
+      })
+      const dt = await res.json();
+      commit("setUserProjects", dt.data.attributes.projects);
+    },
+    async GET_USER_PROJECTS({state, commit}) {
+      const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/getUserProjects/${localStorage.getItem('uid')}`,
+        {
+          method: 'GET',
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+        });
+      const dt = await res.json();
+      console.log(dt);
+      commit("setUserProjects", dt.data.attributes.projects);
+    },
+    async USER_CREATE_PROJECT({ commit, state }, payload) {
+      const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/addProject`,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+        body: JSON.stringify({data: {
+          uid: localStorage.getItem("uid"),
+          project: payload
+        }}),
+      });
+      const data = await res.json();
+    },
     async UPDATE_CURRENT_STATUS({ commit, state }, payload) {
       const res = await fetch(`${state.baseUrlStrapiApi}current-status-info`, 
       {
@@ -974,6 +1035,7 @@ export default createStore({
           data: {
             title: payload.title,
             description: payload.description,
+            userName: payload.userName
           },
         }),
       });
@@ -1165,6 +1227,8 @@ export default createStore({
           }
         }
       }
+
+      return state.favoritetools;
     },
     async SET_FAVORITE_TOOLS({ commit, state }) {
       const gbt = JSON.parse(JSON.stringify(state.globalFrontendTools));
@@ -1604,8 +1668,8 @@ export default createStore({
       );
       commit("setUserData", { user: user });
       dispatch("LOAD_USER_SAVED_DATA", user.uid);  
-      const content2 = await dataResponse.json();
-      return content2.data.length > 0;
+      const content2 = await resp.json();
+      return content2.statusCode === 409;
     },
     async GET_ADMIN_ID({ state }, useruid) {
       const dataResponse = await fetch(

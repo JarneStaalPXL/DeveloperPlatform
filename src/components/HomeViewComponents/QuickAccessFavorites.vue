@@ -1,10 +1,10 @@
 <template>
-  <section class="mt-5">
+  <section>
     <n-config-provider
       class="mb-5 w-75 m-auto"
       v-if="$store.state.quickAccessTools.length > 0"
     >
-      <n-grid x-gap="24" y-gap="24" cols="1 680:2 1200:4" class="quickAccessGrid">
+      <n-grid x-gap="24" y-gap="24" cols="1 680:2 1200:4" class="quickAccessGrid mt-5">
         <n-gi v-for="tool of $store.state.quickAccessTools" :key="tool">
           <n-card
             :title="tool.name"
@@ -126,24 +126,18 @@ export default {
     NTooltip,
   },
   async mounted() {
-    let tools;
+    let QAtools = await this.$store.dispatch("GET_QUICK_ACCESS_TOOLS");
 
-    tools = await this.$store.dispatch("GET_QUICK_ACCESS_TOOLS");
-
-    // //check if tools is an empty obj
-    // if (isObject(tools)) {
-    //   this.$store.commit("SET_QUICK_ACCESS_TOOLS", tools);
-    // }
-    if (isObject(tools)) {
+    if (QAtools === null || this.isEmpty(QAtools) || QAtools === undefined) {
       return;
     }
+    let favTools = await this.$store.dispatch("GET_USER_FAVORITE_TOOLS");
 
     let arr = [];
     let arr2 = [];
-    for (let key of tools) {
+    for (let key of QAtools) {
       arr.push(key);
-
-      for (let tool of JSON.parse(JSON.stringify(this.$store.state.favoritetools))) {
+      for (let tool of JSON.parse(JSON.stringify(favTools))) {
         if (tool.name === key) {
           arr2.push(tool);
         }
@@ -179,6 +173,9 @@ export default {
     },
   },
   methods: {
+    isEmpty(obj) {
+      return Object.keys(obj).length === 0;
+    },
     updateValue(selectedTools) {
       //limit to 4 selections
       if (selectedTools.length > 6) {

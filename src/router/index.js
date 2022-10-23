@@ -127,6 +127,11 @@ const routes = [
     path: "/fileconverters",
     name: "fileconverters",
     component: FileConvertersView
+  },
+  {
+    path: "/projects",
+    name: "projects",
+    component: () => import("../views/UserProjectsView.vue"),
   }
 ];
 
