@@ -145,7 +145,7 @@ import {
   Menu as MenuHamburgerIcon,
   Information as InfoIcon,
 } from "@vicons/ionicons5";
-import { World as WorldIcon } from "@vicons/tabler";
+import { World as WorldIcon, Api as ApiIcon } from "@vicons/tabler";
 import { Gradient as GradientIcon, CloudApp as HostingIcon } from "@vicons/carbon";
 import {
   Color24Regular as ColorIcon,
@@ -242,6 +242,7 @@ export default {
     FontIcon,
     FileIcon,
     ProjectIcon,
+    ApiIcon,
   },
   methods: {
     checkIfOnMobile() {
@@ -474,7 +475,7 @@ export default {
         {
           label: "APIs",
           key: "/apis",
-          icon: renderIcon(HostingIcon),
+          icon: renderIcon(ApiIcon),
         },
         {
           label: "Learning Tools",
@@ -561,7 +562,7 @@ export default {
         {
           label: "APIs",
           key: "/apis",
-          icon: renderIcon(HostingIcon),
+          icon: renderIcon(ApiIcon),
         },
         {
           label: "Learning Tools",

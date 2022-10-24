@@ -682,6 +682,9 @@ export default createStore({
 
   getters: {},
   mutations: {
+    setApis(state,payload){
+      state.apis = payload
+    },
     setUserProjects(state, payload) {
       state.userProjects = payload;
     },
@@ -1307,6 +1310,15 @@ export default createStore({
       }
 
       commit("setFonts", fnt);
+
+      //apis manipulation favorites
+      const aps = JSON.parse(JSON.stringify(state.apis));
+      for (const api of aps) {
+        api.isFavorited = state.favoritetools.some(
+          (t) => t.name === api.name
+        );
+      }
+      commit("setApis", aps);
     },
     async SORT_HOSTINGPROVIDERS_BY_RECOMMENDED({ commit, state }) {
       let array = state.hostingproviders.sort((a, b) => {
