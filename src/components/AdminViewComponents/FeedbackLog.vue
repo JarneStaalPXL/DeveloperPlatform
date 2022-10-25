@@ -53,6 +53,14 @@ export default {
     //get all feedback
     this.allFeedback = await this.$store.dispatch("GET_ALL_FEEDBACK");
   },
+  methods: {
+    assignAsProcessed() {
+      //TODO
+    },
+    assignAsCancelled() {
+      //TODO
+    },
+  },
 };
 </script>
 
