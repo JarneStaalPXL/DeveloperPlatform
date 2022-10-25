@@ -108,10 +108,7 @@ export default {
   },
   methods: {
     async submitFeedback(user) {
-      console.log(user);
       user = JSON.parse(JSON.stringify(user));
-
-      console.log(user);
       switch (user.type) {
         case "FeatureRequest":
           user.type = "Feature Request";
@@ -126,8 +123,6 @@ export default {
 
       if (user.title && user.description) {
         user.userName = localStorage.getItem("userName") || "Unknown Username";
-
-        console.log("Object that strapi receives", JSON.parse(JSON.stringify(user)));
         let resp = await this.$store.dispatch(
           "SUBMIT_FEEDBACK",
           JSON.parse(JSON.stringify(user))
