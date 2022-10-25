@@ -30,13 +30,6 @@
   <n-card title="Visits Overview">
     <PageVisitsChart :data="visitsOverViewArr" :dataKeys="dataKeys" />
   </n-card>
-
-  <n-card title="Platform Feedback" v-if="allFeedback.length > 0">
-    <n-card v-for="fb of allFeedback" :key="fb">
-      <h5>{{ fb.title }}</h5>
-      <h6>{{ fb.description }}</h6>
-    </n-card>
-  </n-card>
 </template>
 
 <script>
@@ -130,7 +123,7 @@ export default {
   //   //get all feedback
   //   this.allFeedback = await this.$store.dispatch("GET_ALL_FEEDBACK");
   // },
-  async mounted() {
+  async beforeMount() {
     window.$loadingbar = useLoadingBar();
 
     //homepage visits
@@ -180,35 +173,10 @@ export default {
         path: "/colorgenerators",
       }
     );
-
-    // console.log(this.visitsOverViewArr);
-    // //set all the visits of the objects to the new values
-    // this.visitsOverViewArr.forEach((obj) => {
-    //   console.log(obj.route)
-    //   if (obj.route === "Homepage") {
-    //     obj.visits = this.routeVisitsHomepage;
-    //   } else if (obj.route === "Global Frontend Tools") {
-    //     obj.visits = this.routeVisitsGft;
-    //   } else if (obj.route === "Hosting Providers") {
-    //     obj.visits = this.routeVisitsHP;
-    //   } else if (obj.route === "Gradient Generators") {
-    //     obj.visits = this.routeGradientGenerators;
-    //   } else if (obj.route === "Color Generators") {
-    //     obj.visits = this.routeColorGenerators;
-    //   }
-    // });
     // rank visits overview
     this.visitsOverViewArr.sort((a, b) => b.visits - a.visits);
 
     this.$store.dispatch("GET_UNIQUE_VISITORS");
-
-    //get all feedback
-    this.allFeedback = await this.$store.dispatch("GET_ALL_FEEDBACK");
-
-    setInterval(async () => {
-      //get all feedback
-      this.allFeedback = await this.$store.dispatch("GET_ALL_FEEDBACK");
-    }, 5000);
   },
   methods: {},
   data() {
