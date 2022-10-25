@@ -123,7 +123,6 @@ export default {
         path: "/colorgenerators",
       }
     );
-
     // rank visits overview
     this.visitsOverViewArr.sort((a, b) => b.visits - a.visits);
 

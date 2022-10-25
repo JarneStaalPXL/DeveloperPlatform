@@ -73,7 +73,6 @@ import AdminManager from "@/components/AdminViewComponents/AdminManager.vue";
 import UniqueUserLog from "@/components/AdminViewComponents/UniqueUserLog.vue";
 import VisitsChart from "@/components/AdminViewComponents/VisitsChart.vue";
 import FeedbackLog from "@/components/AdminViewComponents/FeedbackLog";
-import { beforeMount } from "vue-writer";
 export default {
   components: {
     NRadioButton,

@@ -825,7 +825,6 @@ export default createStore({
           },
         });
       const dt = await res.json();
-      console.log(dt);
       commit("setUserProjects", dt.data.attributes.projects);
     },
     async USER_CREATE_PROJECT({ commit, state }, payload) {
