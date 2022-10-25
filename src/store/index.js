@@ -1019,6 +1019,8 @@ export default createStore({
         tempArr.push({
           title: item.attributes.title,
           description: item.attributes.description,
+          type: item.attributes.type,
+          userName: item.attributes.userName
         });
       });
       return tempArr;
