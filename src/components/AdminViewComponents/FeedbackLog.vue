@@ -49,7 +49,7 @@ export default {
       allFeedback: [],
     };
   },
-  async mounted() {
+  async beforeMount() {
     //get all feedback
     this.allFeedback = await this.$store.dispatch("GET_ALL_FEEDBACK");
   },
