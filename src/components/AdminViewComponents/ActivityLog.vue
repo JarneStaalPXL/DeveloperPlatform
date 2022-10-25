@@ -48,23 +48,6 @@ import {
 import { h, ref } from "vue";
 import UniqueUserLog from "./UniqueUserLog.vue";
 
-import {
-  BookOutline as BookIcon,
-  PersonOutline as PersonIcon,
-  WineOutline as WineIcon,
-  HomeOutline as HomeIcon,
-  HeartOutline as HeartIcon,
-  ArrowForwardOutline,
-  ArrowBackOutline,
-  PersonCircleOutline as UserIcon,
-  Pencil as EditIcon,
-  LogOutOutline as LogoutIcon,
-} from "@vicons/ionicons5";
-
-function renderIcon(icon) {
-  return () => h(NIcon, null, { default: () => h(icon) });
-}
-
 const columns = [
   {
     title: "User ID",
@@ -135,7 +118,7 @@ export default {
     NDropdown,
     UniqueUserLog,
   },
-  mounted() {
+  beforeMount() {
     this.getAllActivity(5);
     window.$loadingbar = useLoadingBar();
   },

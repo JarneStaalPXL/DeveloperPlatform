@@ -29,9 +29,7 @@
       </n-card>
       <section>
         <ActivityLog />
-
         <UniqueUserLog />
-
         <FeedbackLog />
       </section>
       <n-card>
@@ -110,7 +108,7 @@ export default {
       ],
     };
   },
-  async mounted() {
+  async beforeMount() {
     window.$loadingbar = useLoadingBar();
     window.$message = useMessage();
     this.changeDataPeriod(this.selectedRadiobutton);
