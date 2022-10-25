@@ -1035,7 +1035,8 @@ export default createStore({
           data: {
             title: payload.title,
             description: payload.description,
-            userName: payload.userName
+            userName: payload.userName,
+            type: payload.type
           },
         }),
       });
