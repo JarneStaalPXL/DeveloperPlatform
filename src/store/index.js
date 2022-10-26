@@ -845,7 +845,7 @@ export default createStore({
     }
   },
   actions: {
-    async GET_USER_HOME_NOTIFICATION({commit}){
+    async GET_USER_HOME_NOTIFICATION({state,commit}){
       const res = await fetch(`${state.baseUrlStrapi}user-detail-info/getHomeNotification/${localStorage.getItem('uid')}`,
       {
         method: "GET",
