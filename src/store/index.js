@@ -16,6 +16,9 @@ function renderIcon(icon) {
 
 export default createStore({
   state: {
+    selectedDetailedProject: {
+      title: "No project loaded",
+    },
     userProjects: [],
     keysArray : [],
     showUserProjectDetailModal: false,
@@ -829,6 +832,9 @@ export default createStore({
     },
     setFonts(state, payload) {
       state.fonts = payload;
+    },
+    setSelectedDetailedProject(state, payload) {
+      state.selectedDetailedProject = payload;
     }
   },
   actions: {
@@ -1821,6 +1827,19 @@ export default createStore({
       );
       const response = await rawResponse.json();
       commit("setUniqueVisitors", response.data.attributes.uniqueVisitors);
+    },
+    async CONVERT_TO_NAIVEUI_DISPLAYABLE_OPTIONS({ state, commit }, options) {
+      const newOptions = [];
+      for(let option of JSON.parse(JSON.stringify(options))){
+        newOptions.push({
+          label: option.name,
+          value: option.name,
+        });
+      }
+      return newOptions;
+    },
+    async GET_FULL_TOOL({ state }, toolName) {
+      return state.allTools.find((tool) => tool.name === toolName);
     },
   },
   modules: {},

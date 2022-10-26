@@ -1,23 +1,14 @@
 <template>
   <section>
+    <UserProjectDetailModel :show="$store.state.showUserProjectDetailModal === true" />
     <n-grid x-gap="24" y-gap="24" cols="1 680:2 1200:4">
       <n-gi v-for="project of $store.state.userProjects" :key="project">
-        <UserProjectDetailModel
-          :show="$store.state.showUserProjectDetailModal === true"
-          :project="project"
-        />
         <n-card :title="project.title" bordered closable @close="removeProject(project)">
-          <template #footer>
-            <div class="titleButtons">
-              <div class="actionBtns">
-                <n-button @click="openLink(project.websiteLink)">Open website</n-button>
-                <n-button @click="openLink(project.github)">Open Github</n-button>
-                <n-button @click="$store.commit('setShowUserProjectDetailModal', true)"
-                  >Open details</n-button
-                >
-              </div>
+          <section class="toolContent">
+            <div class="descriptionContainer" v-if="project.description">
+              <p>{{ project.description }}</p>
             </div>
-          </template>
+          </section>
           <template #cover>
             <div
               class="cover"
@@ -31,12 +22,15 @@
               }"
             ></div>
           </template>
-
-          <section class="toolContent">
-            <div class="descriptionContainer" v-if="project.description">
-              <p>{{ project.description }}</p>
+          <template #footer>
+            <div class="titleButtons">
+              <div class="actionBtns">
+                <n-button @click="openLink(project.websiteLink)">Open website</n-button>
+                <n-button @click="openLink(project.github)">Open Github</n-button>
+                <n-button @click="openDetailModel(project)">Open details</n-button>
+              </div>
             </div>
-          </section>
+          </template>
         </n-card>
       </n-gi>
     </n-grid>
@@ -81,6 +75,10 @@ export default {
     UserProjectDetailModel,
   },
   methods: {
+    openDetailModel(project) {
+      this.$store.commit("setSelectedDetailedProject", project);
+      this.$store.commit("setShowUserProjectDetailModal", true);
+    },
     openLink(link) {
       window.open(link, "_blank");
       this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", link);
