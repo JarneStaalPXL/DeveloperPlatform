@@ -18,6 +18,7 @@ export default createStore({
   state: {
     userProjects: [],
     keysArray : [],
+    showUserProjectDetailModal: false,
     showUserProjectCreateModal: false,
     showUserProjectCreateSecondModal: false,
     showInfoModal: false,
@@ -682,6 +683,9 @@ export default createStore({
 
   getters: {},
   mutations: {
+    setShowUserProjectDetailModal(state, payload) {
+      state.showUserProjectDetailModal = payload;
+    },
     setApis(state,payload){
       state.apis = payload
     },
