@@ -29,9 +29,8 @@
       </n-card>
       <section>
         <ActivityLog />
-        <n-card>
-          <UniqueUserLog />
-        </n-card>
+        <UniqueUserLog />
+        <FeedbackLog />
       </section>
       <n-card>
         <n-radio-group
@@ -73,6 +72,7 @@ import ActivityLog from "@/components/AdminViewComponents/ActivityLog.vue";
 import AdminManager from "@/components/AdminViewComponents/AdminManager.vue";
 import UniqueUserLog from "@/components/AdminViewComponents/UniqueUserLog.vue";
 import VisitsChart from "@/components/AdminViewComponents/VisitsChart.vue";
+import FeedbackLog from "@/components/AdminViewComponents/FeedbackLog";
 export default {
   components: {
     NRadioButton,
@@ -87,6 +87,7 @@ export default {
     NButton,
     NInput,
     NSelect,
+    FeedbackLog,
   },
   data() {
     return {
@@ -107,7 +108,7 @@ export default {
       ],
     };
   },
-  async mounted() {
+  async beforeMount() {
     window.$loadingbar = useLoadingBar();
     window.$message = useMessage();
     this.changeDataPeriod(this.selectedRadiobutton);
