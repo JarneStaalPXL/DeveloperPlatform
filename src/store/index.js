@@ -18,6 +18,7 @@ export default createStore({
   state: {
     userProjects: [],
     keysArray : [],
+    showUserProjectDetailModal: false,
     showUserProjectCreateModal: false,
     showUserProjectCreateSecondModal: false,
     showInfoModal: false,
@@ -655,11 +656,45 @@ export default createStore({
         websitePreviewImage: require("../assets/pixactly.png"),
       },
     ],
+    apis: [
+      {
+        name: "OpenWeatherMap",
+        link: "https://openweathermap.org/api",
+        description:
+          "Current weather and forecasts for any location on Earth including over 200,000 cities.",
+
+      },
+      {
+        name: "OpenCage",
+        link: "https://opencagedata.com/api",
+        description:
+          "Forward and reverse geocoding, including time zone, elevation, and other data.",
+
+      },
+      {
+        name: "OpenAQ",
+        link: "https://docs.openaq.org/",
+        description:
+          "Air quality data from around the world.",
+      },
+      {
+        name: "Public APIS",
+        link: "https://github.com/public-apis/public-apis",
+        description:
+          "A collective list of free APIs for use in software and web development.",
+      }
+    ],
     allUserActivities: [],
   },
 
   getters: {},
   mutations: {
+    setShowUserProjectDetailModal(state, payload) {
+      state.showUserProjectDetailModal = payload;
+    },
+    setApis(state,payload){
+      state.apis = payload
+    },
     setUserProjects(state, payload) {
       state.userProjects = payload;
     },
@@ -1287,6 +1322,15 @@ export default createStore({
       }
 
       commit("setFonts", fnt);
+
+      //apis manipulation favorites
+      const aps = JSON.parse(JSON.stringify(state.apis));
+      for (const api of aps) {
+        api.isFavorited = state.favoritetools.some(
+          (t) => t.name === api.name
+        );
+      }
+      commit("setApis", aps);
     },
     async SORT_HOSTINGPROVIDERS_BY_RECOMMENDED({ commit, state }) {
       let array = state.hostingproviders.sort((a, b) => {

@@ -132,6 +132,11 @@ const routes = [
     path: "/projects",
     name: "projects",
     component: () => import("../views/UserProjectsView.vue"),
+  },
+  {
+    path: "/apis",
+    name: "apis",
+    component: () => import("../views/ApiView.vue"),
   }
 ];
 
