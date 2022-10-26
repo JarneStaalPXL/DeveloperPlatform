@@ -35,8 +35,11 @@
           ></n-select>
         </div>
         <div vertical v-if="dynamicInputShow === undefined">
+          <!--TODO: Implement dynamic color pickers with n-dynamic-input -->
+
+          <!---->
           <p style="margin-bottom: 0px">
-            You can now add more properties with values to the project.
+            You can also add more properties with values to the project.
           </p>
           <p>If it's not in the list, just type it and press enter.</p>
           <n-space vertical>

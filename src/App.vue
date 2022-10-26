@@ -608,7 +608,6 @@ export default {
               label: "Projects",
               key: "projects",
               icon: renderIcon(ProjectIcon),
-              disabled: true,
             },
             {
               label: "Switch mode",
