@@ -3,7 +3,7 @@
     <template #header>
       <div class="d-flex" style="gap: 10px">
         <h4>APIS</h4>
-        <n-badge :value="$store.state.fonts.length" color="grey" />
+        <n-badge :value="$store.state.apis.length" color="grey" />
       </div>
     </template>
     <ApiList />
