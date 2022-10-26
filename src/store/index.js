@@ -676,6 +676,12 @@ export default createStore({
         link: "https://docs.openaq.org/",
         description:
           "Air quality data from around the world.",
+      },
+      {
+        name: "Public APIS",
+        link: "https://github.com/public-apis/public-apis",
+        description:
+          "A collective list of free APIs for use in software and web development.",
       }
     ],
     allUserActivities: [],
