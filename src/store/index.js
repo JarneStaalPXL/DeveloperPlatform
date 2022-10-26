@@ -846,13 +846,13 @@ export default createStore({
   },
   actions: {
     async GET_USER_HOME_NOTIFICATION({commit}){
-      const res = await fetch(`http://localhost:1337/api/user-detail-info/getHomeNotification/${localStorage.getItem('uid')}`,
+      const res = await fetch(`${state.baseUrlStrapi}user-detail-info/getHomeNotification/${localStorage.getItem('uid')}`,
       {
         method: "GET",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          // Authorization: "Bearer " + state.strapiApiKey,
+          Authorization: "Bearer " + state.strapiApiKey,
         },
       })
       const dt = await res.json();
@@ -860,13 +860,13 @@ export default createStore({
       return dt.data.attributes.homeNotificationChecked;
     },
     async SET_USER_HOME_NOTIFICATION({ state,commit }, isChecked) {
-      const res = await fetch(`http://localhost:1337/api/user-detail-info/setHomeNotification/${localStorage.getItem('uid')}`,
+      const res = await fetch(`${state.baseUrlStrapi}user-detail-info/setHomeNotification/${localStorage.getItem('uid')}`,
       {
         method: "PUT",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          // Authorization: "Bearer " + state.strapiApiKey,
+          Authorization: "Bearer " + state.strapiApiKey,
         },
         body: JSON.stringify({data: {
           homeNotification: isChecked,
