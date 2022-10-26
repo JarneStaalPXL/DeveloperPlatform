@@ -38,8 +38,13 @@
           </n-timeline>
         </n-scrollbar>
       </n-card>
+      <n-card title="Settings">
+        <div class="d-flex justify-content-center">
+          <n-switch class="m-2" :round="false" v-model:value="homescreenNotificationSwitch" @update:value="toggleHomeNotification()"/>
+          <span class="m-2">Toggle Home Notification</span>
 
-      <n-card title="Settings"> </n-card>
+        </div>
+      </n-card>
     </n-space>
   </n-card>
 </template>
@@ -55,6 +60,7 @@ import {
   NTimeline,
   NTimelineItem,
   NScrollbar,
+  NSwitch
 } from "naive-ui";
 export default {
   components: {
@@ -67,11 +73,13 @@ export default {
     NTimeline,
     NTimelineItem,
     NScrollbar,
+    NSwitch
   },
   data() {
     return {
       totalVisits: 0,
       routeVisitsToday: [],
+      homescreenNotificationSwitch: undefined
     };
   },
   async beforeMount() {
@@ -97,6 +105,9 @@ export default {
         return isLoaded;
       }, 2000);
     },
+    toggleHomeNotification(isChecked){
+      this.$store.dispatch("SET_USER_HOME_NOTIFICATION", isChecked)
+    }
   },
   computed: {
     userName() {

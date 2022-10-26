@@ -16,6 +16,7 @@ function renderIcon(icon) {
 
 export default createStore({
   state: {
+    homeNotification: true,
     selectedDetailedProject: {
       title: "No project loaded",
     },
@@ -692,11 +693,14 @@ export default createStore({
 
   getters: {},
   mutations: {
+    setHomeNotification(state, payload){
+      state.homeNotification = payload;
+    },
     setShowUserProjectDetailModal(state, payload) {
       state.showUserProjectDetailModal = payload;
     },
     setApis(state,payload){
-      state.apis = payload
+      state.apis = payload;
     },
     setUserProjects(state, payload) {
       state.userProjects = payload;
@@ -838,6 +842,22 @@ export default createStore({
     }
   },
   actions: {
+    async SET_USER_HOME_NOTIFICATION({ state,commit }, payload) {
+      const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/setHomeNotification/${localStorage.getItem('uid')}`,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+        body: JSON.stringify({data: {
+          homeNotification: payload
+        }}),
+      })
+      const dt = await res.json();
+      this.$store.commit("setHomeNotification", payload);
+    },
     async REMOVE_USER_PROJECT({ state,commit }, payload) {
       const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/removeProject`,
       {
