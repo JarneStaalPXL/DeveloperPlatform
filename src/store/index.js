@@ -292,7 +292,7 @@ export default createStore({
       },
       {
         name: "TOOOLS Design Resources",
-        link: "https://tooools.design/",
+        link: "https://www.toools.design/",
         websitePreviewImage: require("../assets/tooools.png"),
         textColor: "black",
       },
@@ -825,7 +825,6 @@ export default createStore({
           },
         });
       const dt = await res.json();
-      console.log(dt);
       commit("setUserProjects", dt.data.attributes.projects);
     },
     async USER_CREATE_PROJECT({ commit, state }, payload) {
@@ -1019,6 +1018,8 @@ export default createStore({
         tempArr.push({
           title: item.attributes.title,
           description: item.attributes.description,
+          type: item.attributes.type,
+          userName: item.attributes.userName
         });
       });
       return tempArr;
@@ -1035,7 +1036,8 @@ export default createStore({
           data: {
             title: payload.title,
             description: payload.description,
-            userName: payload.userName
+            userName: payload.userName,
+            type: payload.type
           },
         }),
       });
