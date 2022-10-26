@@ -839,24 +839,41 @@ export default createStore({
     },
     setSelectedDetailedProject(state, payload) {
       state.selectedDetailedProject = payload;
+    },
+    setUserHomeNotification(state, payload) {
+      state.homeNotification = payload;
     }
   },
   actions: {
-    async SET_USER_HOME_NOTIFICATION({ state,commit }, payload) {
-      const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/setHomeNotification/${localStorage.getItem('uid')}`,
+    async GET_USER_HOME_NOTIFICATION({commit}){
+      const res = await fetch(`http://localhost:1337/api/user-detail-info/getHomeNotification/${localStorage.getItem('uid')}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          // Authorization: "Bearer " + state.strapiApiKey,
+        },
+      })
+      const dt = await res.json();
+      commit("setHomeNotification", dt.data.attributes.homeNotificationChecked);
+      return dt.data.attributes.homeNotificationChecked;
+    },
+    async SET_USER_HOME_NOTIFICATION({ state,commit }, isChecked) {
+      const res = await fetch(`http://localhost:1337/api/user-detail-info/setHomeNotification/${localStorage.getItem('uid')}`,
       {
         method: "PUT",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
+          // Authorization: "Bearer " + state.strapiApiKey,
         },
         body: JSON.stringify({data: {
-          homeNotification: payload
+          homeNotification: isChecked,
         }}),
       })
       const dt = await res.json();
-      this.$store.commit("setHomeNotification", payload);
+      commit("setHomeNotification", isChecked);
     },
     async REMOVE_USER_PROJECT({ state,commit }, payload) {
       const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/removeProject`,
