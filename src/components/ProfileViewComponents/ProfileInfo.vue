@@ -38,6 +38,8 @@
           </n-timeline>
         </n-scrollbar>
       </n-card>
+
+      <n-card title="Settings"> </n-card>
     </n-space>
   </n-card>
 </template>

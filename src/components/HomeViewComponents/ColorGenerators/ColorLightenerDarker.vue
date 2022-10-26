@@ -7,23 +7,13 @@
         :modes="['hex']"
         :on-complete="generateDarkOrLighterColor(color, shadePercentage)"
         placeholder="Enter a color"
-        :swatches="[
-          '#00FF78FF',
-          '#0076FFFF',
-          '#FF9D00FF',
-          '#FF3F3FFF',
-          '#A700EEFF',
-        ]"
+        :swatches="['#00FF78FF', '#0076FFFF', '#FF9D00FF', '#FF3F3FFF', '#A700EEFF']"
         :show-preview="true"
       >
       </n-color-picker>
 
       <n-h6>Choose if u want a Lighter or Darker color</n-h6>
-      <n-radio-group
-        @change="handleChange"
-        name="radiobuttongroup1"
-        class="d-flex mb-2"
-      >
+      <n-radio-group @change="handleChange" name="radiobuttongroup1" class="d-flex mb-2">
         <n-radio-button class="w-100" :value="'Lighter'" :label="'Lighter'" />
         <n-radio-button class="w-100" :value="'Darker'" :label="'Darker'" />
       </n-radio-group>
@@ -42,10 +32,7 @@
       <!-- <n-button class="w-100" @click="generateDarkOrLighterColor(color, shadePercentage)">Apply
                         </n-button> -->
       <n-card title="Result" class="mt-5" v-if="shadePercentage">
-        <n-h6
-          >This is a {{ lighter ? "lighter" : "darker" }} color of
-          {{ color }}</n-h6
-        >
+        <n-h6>This is a {{ lighter ? "lighter" : "darker" }} color of {{ color }}</n-h6>
         <n-color-picker
           v-model:value="shadedColor"
           :modes="['hex']"
@@ -144,12 +131,9 @@ export default {
       G = G < 255 ? G : 255;
       B = B < 255 ? B : 255;
 
-      var RR =
-        R.toString(16).length == 1 ? "0" + R.toString(16) : R.toString(16);
-      var GG =
-        G.toString(16).length == 1 ? "0" + G.toString(16) : G.toString(16);
-      var BB =
-        B.toString(16).length == 1 ? "0" + B.toString(16) : B.toString(16);
+      var RR = R.toString(16).length == 1 ? "0" + R.toString(16) : R.toString(16);
+      var GG = G.toString(16).length == 1 ? "0" + G.toString(16) : G.toString(16);
+      var BB = B.toString(16).length == 1 ? "0" + B.toString(16) : B.toString(16);
 
       return "#" + RR + GG + BB;
     },
