@@ -113,7 +113,6 @@ export default {
       }, 2000);
     },
     toggleHomeNotification(isChecked) {
-      console.log(isChecked);
       this.$store.dispatch("SET_USER_HOME_NOTIFICATION", isChecked);
     },
   },

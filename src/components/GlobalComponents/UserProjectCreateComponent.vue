@@ -281,7 +281,8 @@ export default {
       this.$store.commit("setShowLoadingAnimation", false);
       window.$message.success("Project created successfully");
 
-      this.project = {
+      //Rever this.project back to its original state
+      let emptyProject = {
         title: "",
         description: "",
         image: "",
@@ -290,6 +291,20 @@ export default {
         usedTools: [],
         technologies: [],
       };
+      this.project = emptyProject;
+
+      this.usedColors = [
+        {
+          usedColor: "#000000FF",
+        },
+      ];
+
+      this.extraInformation = [
+        {
+          propName: undefined,
+          propValue: undefined,
+        },
+      ];
     },
   },
   setup() {
