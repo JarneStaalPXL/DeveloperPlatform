@@ -12,7 +12,7 @@
     </template>
     <template #header-extra>
       <n-button
-        :tertiary="$store.state.colorMode === 'Dark' ? 'tertiary' : ''"
+        :tertiary="$store.state.colorMode === 'Dark' ? 'tertiary' : null"
         :type="$store.state.colorMode === 'Dark' ? 'primary' : ''"
         @click="$store.commit('setShowUserProjectCreateModal', true)"
         >Create a project</n-button

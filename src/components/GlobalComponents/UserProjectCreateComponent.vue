@@ -4,6 +4,7 @@
     preset="card"
     title="Feedback"
     class="feedbackModal"
+    @update:show="revertToFirstStep()"
   >
     <template #header>
       <div>Create Project</div>
@@ -33,6 +34,21 @@
             :options="displayableToolOptions"
             placeholder="Select tools"
           ></n-select>
+
+          <p style="margin-bottom: 0px">Pick the colors you used for your project</p>
+          <n-dynamic-input
+            v-model:value="usedColors"
+            :on-create="onCreate"
+            :min="0"
+            :max="15"
+          >
+            <template #create-button-default> Add color </template>
+            <template #default="{ value }">
+              <div style="display: flex; align-items: center; width: 100%">
+                <n-color-picker :modes="['hex']" v-model:value="value.usedColor" />
+              </div>
+            </template>
+          </n-dynamic-input>
         </div>
         <div vertical v-if="dynamicInputShow === undefined">
           <!--TODO: Implement dynamic color pickers with n-dynamic-input -->
@@ -147,6 +163,7 @@ import {
   NDynamicInput,
   NSpace,
   NSelect,
+  NColorPicker,
 } from "naive-ui";
 export default {
   name: "FeedbackComponent",
@@ -160,6 +177,7 @@ export default {
     NSpace,
     NDynamicInput,
     NSelect,
+    NColorPicker,
   },
   data() {
     return {
@@ -206,6 +224,10 @@ export default {
     window.$message = useMessage();
   },
   methods: {
+    revertToFirstStep() {
+      //Goes back to the first step of the modal
+      this.dynamicInputShow = false;
+    },
     async createProject(project) {
       let proj = project;
       //check if project.websiteLink is a valid website link
@@ -238,9 +260,17 @@ export default {
       proj.usedTools = JSON.parse(JSON.stringify(detailedUsedTools));
 
       let extraData = JSON.parse(JSON.stringify(this.extraInformation));
+      let usedColors = JSON.parse(JSON.stringify(this.usedColors));
+
+      //Remove duplicate colors
+      usedColors = usedColors.filter(
+        (color, index) =>
+          usedColors.findIndex((c) => c.usedColor === color.usedColor) === index
+      );
 
       let combinedData = {
         ...proj,
+        usedColors,
         extraData,
       };
 
@@ -262,6 +292,11 @@ export default {
   },
   setup() {
     return {
+      usedColors: ref([
+        {
+          usedColor: "#000000FF",
+        },
+      ]),
       extraInformation: ref([
         {
           propName: undefined,

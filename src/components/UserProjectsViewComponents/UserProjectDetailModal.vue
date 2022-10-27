@@ -9,7 +9,7 @@
       <h4>{{ $store.state.selectedDetailedProject.title }}</h4>
       <!-- <pre>{{ project }}</pre> -->
       <n-space vertical class="nSpaceContainer">
-        <p>Used Tools</p>
+        <p v-if="$store.state.selectedDetailedProject.usedTools.length > 0">Used Tools</p>
         <section class="nTagContainer">
           <n-popover
             trigger="hover"
@@ -22,6 +22,21 @@
             <span>Click to get to the tool</span>
           </n-popover>
         </section>
+
+        <p v-if="$store.state.selectedDetailedProject.usedColors.length > 0">
+          Used Colors
+        </p>
+        <section class="nTagContainer">
+          <n-tag
+            :style="applyColorIfColorProperty('Colors', color.usedColor)"
+            class="mt-2"
+            v-for="color of $store.state.selectedDetailedProject.usedColors"
+            :key="color"
+          >
+            {{ color.usedColor ? color.usedColor : "Black" }}
+          </n-tag>
+        </section>
+
         <section
           class="mb-3"
           v-for="extraDt of processExtraDataPropertiesWithValues(
@@ -85,17 +100,29 @@ export default {
     applyColorIfColorProperty(property, color) {
       if (property !== "Colors") return;
       //Get a good text color that contrasts backgroundcolor
+      let textColor;
       try {
-        let textColor = this.getContrastYIQ(this.colourNameToHex(color));
+        if (color === undefined) {
+          textColor = "white";
+          color = "black";
+        }
+
+        //check if color is a hex color
+        if (color.includes("#")) {
+          textColor = this.getContrastYIQ(color);
+        }
+
+        if (color !== undefined && !color.includes("#")) {
+          textColor = this.getContrastYIQ(this.colourNameToHex(color));
+          console.log(textColor);
+        }
+
         return {
           background: color,
           color: textColor,
         };
       } catch (e) {
-        return {
-          background: color,
-          color: "black",
-        };
+        return {};
       }
     },
     colourNameToHex(color) {
@@ -271,9 +298,11 @@ export default {
       for (const property of project.extraData) {
         let propertyName = property.propName;
         let propertyValues = property.propValue;
-        extraDataPropertiesWithValues.push({
-          [propertyName]: JSON.parse(JSON.stringify(propertyValues)),
-        });
+        if (propertyValues !== undefined) {
+          extraDataPropertiesWithValues.push({
+            [propertyName]: JSON.parse(JSON.stringify(propertyValues)),
+          });
+        }
       }
       return extraDataPropertiesWithValues;
     },
