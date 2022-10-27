@@ -279,6 +279,7 @@ export default {
       await this.$store.dispatch("GET_USER_PROJECTS");
       this.$store.commit("setShowUserProjectCreateModal", false);
       this.$store.commit("setShowLoadingAnimation", false);
+      this.dynamicInputShow = false;
       window.$message.success("Project created successfully");
 
       //Rever this.project back to its original state
@@ -305,6 +306,8 @@ export default {
           propValue: undefined,
         },
       ];
+
+      this.$router.push("/projects");
     },
   },
   setup() {

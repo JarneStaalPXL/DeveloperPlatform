@@ -314,6 +314,16 @@ export default {
         this.$store.commit("setShowFeedbackModal", true);
         return;
       }
+
+      if (link === "createProject") {
+        this.$store.commit("setShowUserProjectCreateModal", true);
+        return;
+      }
+
+      if (link === "allProjects") {
+        this.$router.push("/projects");
+        return;
+      }
       if (link.includes("https://")) window.open(link, "_blank");
       else this.$router.push(link);
       this.$store.dispatch("ADD_PAGE_VISIT_ROUTE", link);
@@ -610,6 +620,17 @@ export default {
               label: "Projects",
               key: "projects",
               icon: renderIcon(ProjectIcon),
+              children: [
+                {
+                  label: "All projects",
+                  key: "allProjects",
+                },
+                {
+                  label: "Create project",
+                  key: "createProject",
+                  // icon: renderIcon(UserIcon),
+                },
+              ],
             },
             {
               label: "Switch mode",
