@@ -229,6 +229,7 @@ export default {
       this.dynamicInputShow = false;
     },
     async createProject(project) {
+      this.$store.commit("setShowLoadingAnimation", true);
       let proj = project;
       //check if project.websiteLink is a valid website link
       if (proj.websiteLink !== "") {
@@ -277,9 +278,12 @@ export default {
       await this.$store.dispatch("USER_CREATE_PROJECT", combinedData);
       await this.$store.dispatch("GET_USER_PROJECTS");
       this.$store.commit("setShowUserProjectCreateModal", false);
+      this.$store.commit("setShowLoadingAnimation", false);
+      this.dynamicInputShow = false;
       window.$message.success("Project created successfully");
 
-      this.project = {
+      //Rever this.project back to its original state
+      let emptyProject = {
         title: "",
         description: "",
         image: "",
@@ -288,6 +292,22 @@ export default {
         usedTools: [],
         technologies: [],
       };
+      this.project = emptyProject;
+
+      this.usedColors = [
+        {
+          usedColor: "#000000FF",
+        },
+      ];
+
+      this.extraInformation = [
+        {
+          propName: undefined,
+          propValue: undefined,
+        },
+      ];
+
+      this.$router.push("/projects");
     },
   },
   setup() {

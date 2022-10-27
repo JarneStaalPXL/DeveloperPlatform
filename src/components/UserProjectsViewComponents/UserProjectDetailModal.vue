@@ -114,7 +114,6 @@ export default {
 
         if (color !== undefined && !color.includes("#")) {
           textColor = this.getContrastYIQ(this.colourNameToHex(color));
-          console.log(textColor);
         }
 
         return {
