@@ -229,6 +229,7 @@ export default {
       this.dynamicInputShow = false;
     },
     async createProject(project) {
+      this.$store.commit("setShowLoadingAnimation", true);
       let proj = project;
       //check if project.websiteLink is a valid website link
       if (proj.websiteLink !== "") {
@@ -277,6 +278,7 @@ export default {
       await this.$store.dispatch("USER_CREATE_PROJECT", combinedData);
       await this.$store.dispatch("GET_USER_PROJECTS");
       this.$store.commit("setShowUserProjectCreateModal", false);
+      this.$store.commit("setShowLoadingAnimation", false);
       window.$message.success("Project created successfully");
 
       this.project = {
