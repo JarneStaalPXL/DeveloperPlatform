@@ -47,19 +47,17 @@
     </section>
     <section class="newFeatureBlock">
       <div>
-        <h3>THE NEXT BIG FEATURE</h3>
+        <h3>THE NEXT BIG FEATURE - PROJECTS</h3>
         <p>
-          Soon you will be able to create projects within this platform and add all the
-          tools and data you used for that project.
+          You are able to create <a @click="$router.push('/projects')">projects</a> within
+          this platform and add all the tools and data you used for that project.
         </p>
         <p>
           Like this you can keep track of what you used for your projects and have quick
           access to them.
         </p>
-        <p>
-          This feature is still in the making and will be released before the first of
-          november of 2022.
-        </p>
+        <p>As of now the feature is released but we are still trying to improve it.</p>
+        <p>If you have any feedback, please let us know.</p>
       </div>
       <img class="d-flex m-auto mt-4" src="../assets/projectCreation.svg" />
     </section>
@@ -230,6 +228,15 @@ export default {
     color: #2bd48c;
 
     &:hover {
+      cursor: pointer;
+    }
+  }
+}
+.newFeatureBlock {
+  a {
+    color: #2bd48c;
+    &:hover {
+      color: #2bd48c;
       cursor: pointer;
     }
   }

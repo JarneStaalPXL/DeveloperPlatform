@@ -87,6 +87,7 @@ export default {
     };
   },
   async beforeMount() {
+    this.$store.commit("setShowLoadingAnimation", true);
     this.$store.dispatch("GET_USER_HOME_NOTIFICATION").then((result) => {
       this.homescreenNotificationSwitch = result;
     });
@@ -94,12 +95,7 @@ export default {
     data = data.data.attributes;
     this.totalVisits = data.totalVisits;
     this.routeVisitsToday = data.entriesFromToday;
-  },
-  async mounted() {
-    let data = await this.$store.dispatch("GET_USER_VISIT_COUNT");
-    data = data.data.attributes;
-    this.totalVisits = data.totalVisits;
-    this.routeVisitsToday = data.entriesFromToday;
+    this.$store.commit("setShowLoadingAnimation", false);
   },
   methods: {
     isProfilePictureLoaded() {

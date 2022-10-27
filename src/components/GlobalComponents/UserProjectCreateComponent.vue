@@ -112,7 +112,6 @@
         <pre>{{extraInformation}}</pre> -->
       </n-space>
     </section>
-    test
     <template #action>
       <n-space vertical>
         <n-button

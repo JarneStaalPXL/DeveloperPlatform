@@ -694,6 +694,9 @@ export default createStore({
 
   getters: {},
   mutations: {
+    setfavoritesCategorizedChecked(state, payload) {
+      state.favoritesCategorizedChecked = payload;
+    },
     setShowLoadingAnimation(state, payload) {
       state.showLoadingAnimation = payload;
     },

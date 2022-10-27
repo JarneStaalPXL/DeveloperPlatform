@@ -59,10 +59,14 @@ import {
 } from "naive-ui";
 import UserProjectDetailModel from "@/components/UserProjectsViewComponents/UserProjectDetailModal.vue";
 export default {
+  async beforeMount() {
+    this.$store.commit("setShowLoadingAnimation", true);
+    await this.$store.dispatch("GET_USER_PROJECTS");
+    this.$store.commit("setShowLoadingAnimation", false);
+  },
   mounted() {
     window.$loadingbar = useLoadingBar();
     window.$message = useMessage();
-    this.$store.dispatch("GET_USER_PROJECTS");
   },
   data() {
     return {
