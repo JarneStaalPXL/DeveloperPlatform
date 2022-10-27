@@ -136,7 +136,7 @@ export default {
   beforeUnmount() {
     window.$notification.destroyAll();
   },
-  mounted() {
+  async mounted() {
     window.$message = useMessage();
     window.$notification = useNotification();
 
@@ -146,6 +146,10 @@ export default {
       // });
 
       //check if on mobile
+      if ((await this.$store.dispatch("GET_USER_HOME_NOTIFICATION")) === false) {
+        return;
+      }
+
       if (window.innerWidth < 768) {
         window.$message.success("Welcome back " + this.userName() + "!", {
           duration: 5000,

@@ -132,6 +132,11 @@ const routes = [
     path: "/projects",
     name: "projects",
     component: () => import("../views/UserProjectsView.vue"),
+  },
+  {
+    path: "/apis",
+    name: "apis",
+    component: () => import("../views/ApiView.vue"),
   }
 ];
 
@@ -143,6 +148,8 @@ import {
 } from "naive-ui";
 import { computed, defineComponent, ref } from 'vue'
 
+//Bugs out when created with new account. Troubles with toLowerCase() function.
+//Most likely undefined value is passed to it.
 const configProviderPropsRef = computed(() => ({
   theme: store.state.colorMode.toLowerCase() === 'light'? lightTheme : darkTheme
 }));

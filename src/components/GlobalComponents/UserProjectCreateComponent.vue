@@ -11,7 +11,7 @@
 
     <section>
       <n-space vertical class="d-flex">
-        <n-space vertical v-if="!dynamicInputShow">
+        <n-space vertical v-if="dynamicInputShow === false">
           <n-input placeholder="Project Title" v-model:value="project.title" />
           <n-input
             placeholder="Project Description"
@@ -22,13 +22,25 @@
             placeholder="Project Website Link"
             v-model:value="project.websiteLink"
           />
-          <n-input
-            placeholder="GitHub Repository"
-            v-model:value="project.github"
-          />
+          <n-input placeholder="GitHub Repository" v-model:value="project.github" />
         </n-space>
-        <div vertical v-if="dynamicInputShow">
-          <p style="    margin-bottom: 0px;">You can now add more properties with values to the project.</p>
+        <div vertical v-if="dynamicInputShow === true">
+          <p style="margin-bottom: 0px">Select the tools you used for your project</p>
+          <n-select
+            filterable
+            v-model:value="project.usedTools"
+            multiple
+            :options="displayableToolOptions"
+            placeholder="Select tools"
+          ></n-select>
+        </div>
+        <div vertical v-if="dynamicInputShow === undefined">
+          <!--TODO: Implement dynamic color pickers with n-dynamic-input -->
+
+          <!---->
+          <p style="margin-bottom: 0px">
+            You can also add more properties with values to the project.
+          </p>
           <p>If it's not in the list, just type it and press enter.</p>
           <n-space vertical>
             <n-dynamic-input
@@ -66,9 +78,10 @@
                     ]"
                   />
                   <n-select
-                  :show-arrow="false"
-                  multiple
-                  tag
+                    filterable
+                    :show-arrow="false"
+                    multiple
+                    tag
                     placeholder="Values"
                     v-model:value="value.propValue"
                     type="text"
@@ -87,22 +100,35 @@
     <template #action>
       <n-space vertical>
         <n-button
-        class="w-100"
-        v-if="dynamicInputShow === true"
-        @click="dynamicInputShow = false"
-        >Previous</n-button
-      >
-      <n-button
-        class="w-100"
-        v-if="dynamicInputShow === false"
-        @click="dynamicInputShow = true"
-        >Next</n-button
-      >
-      <n-button
-        class="w-100"
-        v-if="dynamicInputShow === true"
-        @click="createProject()"
-        >Create Project</n-button>
+          class="w-100"
+          v-if="dynamicInputShow === false"
+          @click="dynamicInputShow = true"
+          >Next</n-button
+        >
+        <n-button
+          class="w-100"
+          v-if="dynamicInputShow === true"
+          @click="dynamicInputShow = false"
+          >Previous</n-button
+        >
+        <n-button
+          class="w-100"
+          v-if="dynamicInputShow === undefined"
+          @click="dynamicInputShow = true"
+          >Previous</n-button
+        >
+        <n-button
+          class="w-100"
+          v-if="dynamicInputShow === true"
+          @click="dynamicInputShow = undefined"
+          >Next</n-button
+        >
+        <n-button
+          class="w-100"
+          v-if="dynamicInputShow === undefined"
+          @click="createProject(project)"
+          >Create Project</n-button
+        >
       </n-space>
     </template>
   </n-modal>
@@ -138,12 +164,14 @@ export default {
   data() {
     return {
       dynamicInputShow: false,
+      displayableToolOptions: [],
       project: {
         title: "",
         description: "",
         image: "",
         websiteLink: "",
         github: "",
+        usedTools: [],
         technologies: [],
       },
       formValue: ref({
@@ -168,14 +196,21 @@ export default {
       },
     };
   },
+  async beforeMount() {
+    this.displayableToolOptions = await this.$store.dispatch(
+      "CONVERT_TO_NAIVEUI_DISPLAYABLE_OPTIONS",
+      this.$store.state.allTools
+    );
+  },
   mounted() {
     window.$message = useMessage();
   },
   methods: {
-    createProject() {
+    async createProject(project) {
+      let proj = project;
       //check if project.websiteLink is a valid website link
-      if (this.project.websiteLink !== "") {
-        if (!this.project.websiteLink.includes("http")) {
+      if (proj.websiteLink !== "") {
+        if (!proj.websiteLink.includes("http")) {
           window.$message.error(
             "Please enter a valid website link. Make sure it contains http or https"
           );
@@ -184,24 +219,45 @@ export default {
       }
 
       //check if project.github is a valid github link
-      if (this.project.github !== "") {
-        if (!this.project.github.includes("github.com")) {
+      if (proj.github !== "") {
+        if (!proj.github.includes("github.com")) {
           window.$message.error("Please enter a valid GitHub Repository link");
           return;
         }
       }
 
+      let detailedUsedTools = [];
+      for (let tool of proj.usedTools) {
+        //find tool in allTools
+        let foundTool = await this.$store.dispatch("GET_FULL_TOOL", tool);
+        if (foundTool) {
+          detailedUsedTools.push(JSON.parse(JSON.stringify(foundTool)));
+        }
+      }
+
+      proj.usedTools = JSON.parse(JSON.stringify(detailedUsedTools));
+
       let extraData = JSON.parse(JSON.stringify(this.extraInformation));
 
       let combinedData = {
-        ...this.project,
+        ...proj,
         extraData,
       };
 
-      this.$store.dispatch("USER_CREATE_PROJECT", combinedData);
-      this.$store.dispatch("GET_USER_PROJECTS");
+      await this.$store.dispatch("USER_CREATE_PROJECT", combinedData);
+      await this.$store.dispatch("GET_USER_PROJECTS");
       this.$store.commit("setShowUserProjectCreateModal", false);
       window.$message.success("Project created successfully");
+
+      this.project = {
+        title: "",
+        description: "",
+        image: "",
+        websiteLink: "",
+        github: "",
+        usedTools: [],
+        technologies: [],
+      };
     },
   },
   setup() {

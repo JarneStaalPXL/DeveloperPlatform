@@ -16,8 +16,13 @@ function renderIcon(icon) {
 
 export default createStore({
   state: {
+    homeNotification: true,
+    selectedDetailedProject: {
+      title: "No project loaded",
+    },
     userProjects: [],
     keysArray : [],
+    showUserProjectDetailModal: false,
     showUserProjectCreateModal: false,
     showUserProjectCreateSecondModal: false,
     showInfoModal: false,
@@ -292,7 +297,7 @@ export default createStore({
       },
       {
         name: "TOOOLS Design Resources",
-        link: "https://tooools.design/",
+        link: "https://www.toools.design/",
         websitePreviewImage: require("../assets/tooools.png"),
         textColor: "black",
       },
@@ -655,11 +660,48 @@ export default createStore({
         websitePreviewImage: require("../assets/pixactly.png"),
       },
     ],
+    apis: [
+      {
+        name: "OpenWeatherMap",
+        link: "https://openweathermap.org/api",
+        description:
+          "Current weather and forecasts for any location on Earth including over 200,000 cities.",
+
+      },
+      {
+        name: "OpenCage",
+        link: "https://opencagedata.com/api",
+        description:
+          "Forward and reverse geocoding, including time zone, elevation, and other data.",
+
+      },
+      {
+        name: "OpenAQ",
+        link: "https://docs.openaq.org/",
+        description:
+          "Air quality data from around the world.",
+      },
+      {
+        name: "Public APIS",
+        link: "https://github.com/public-apis/public-apis",
+        description:
+          "A collective list of free APIs for use in software and web development.",
+      }
+    ],
     allUserActivities: [],
   },
 
   getters: {},
   mutations: {
+    setHomeNotification(state, payload){
+      state.homeNotification = payload;
+    },
+    setShowUserProjectDetailModal(state, payload) {
+      state.showUserProjectDetailModal = payload;
+    },
+    setApis(state,payload){
+      state.apis = payload;
+    },
     setUserProjects(state, payload) {
       state.userProjects = payload;
     },
@@ -794,9 +836,45 @@ export default createStore({
     },
     setFonts(state, payload) {
       state.fonts = payload;
+    },
+    setSelectedDetailedProject(state, payload) {
+      state.selectedDetailedProject = payload;
+    },
+    setUserHomeNotification(state, payload) {
+      state.homeNotification = payload;
     }
   },
   actions: {
+    async GET_USER_HOME_NOTIFICATION({state,commit}){
+      const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/getHomeNotification/${localStorage.getItem('uid')}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+      })
+      const dt = await res.json();
+      commit("setHomeNotification", dt.data.attributes.homeNotificationChecked);
+      return dt.data.attributes.homeNotificationChecked;
+    },
+    async SET_USER_HOME_NOTIFICATION({ state,commit }, isChecked) {
+      const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/setHomeNotification/${localStorage.getItem('uid')}`,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+        body: JSON.stringify({data: {
+          homeNotification: isChecked,
+        }}),
+      })
+      const dt = await res.json();
+      commit("setHomeNotification", isChecked);
+    },
     async REMOVE_USER_PROJECT({ state,commit }, payload) {
       const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/removeProject`,
       {
@@ -825,7 +903,6 @@ export default createStore({
           },
         });
       const dt = await res.json();
-      console.log(dt);
       commit("setUserProjects", dt.data.attributes.projects);
     },
     async USER_CREATE_PROJECT({ commit, state }, payload) {
@@ -1019,6 +1096,8 @@ export default createStore({
         tempArr.push({
           title: item.attributes.title,
           description: item.attributes.description,
+          type: item.attributes.type,
+          userName: item.attributes.userName
         });
       });
       return tempArr;
@@ -1035,7 +1114,8 @@ export default createStore({
           data: {
             title: payload.title,
             description: payload.description,
-            userName: payload.userName
+            userName: payload.userName,
+            type: payload.type
           },
         }),
       });
@@ -1285,6 +1365,15 @@ export default createStore({
       }
 
       commit("setFonts", fnt);
+
+      //apis manipulation favorites
+      const aps = JSON.parse(JSON.stringify(state.apis));
+      for (const api of aps) {
+        api.isFavorited = state.favoritetools.some(
+          (t) => t.name === api.name
+        );
+      }
+      commit("setApis", aps);
     },
     async SORT_HOSTINGPROVIDERS_BY_RECOMMENDED({ commit, state }) {
       let array = state.hostingproviders.sort((a, b) => {
@@ -1775,6 +1864,19 @@ export default createStore({
       );
       const response = await rawResponse.json();
       commit("setUniqueVisitors", response.data.attributes.uniqueVisitors);
+    },
+    async CONVERT_TO_NAIVEUI_DISPLAYABLE_OPTIONS({ state, commit }, options) {
+      const newOptions = [];
+      for(let option of JSON.parse(JSON.stringify(options))){
+        newOptions.push({
+          label: option.name,
+          value: option.name,
+        });
+      }
+      return newOptions;
+    },
+    async GET_FULL_TOOL({ state }, toolName) {
+      return state.allTools.find((tool) => tool.name === toolName);
     },
   },
   modules: {},
