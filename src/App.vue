@@ -14,6 +14,7 @@
               <UserProjectCreateComponent
                 v-model:show="$store.state.showUserProjectCreateModal"
               />
+              <LoadingAnimationComponent :show="$store.state.showLoadingAnimation" />
             </n-message-provider>
           </n-notification-provider>
         </n-loading-bar-provider>
@@ -157,6 +158,7 @@ import SearchComponent from "./components/GlobalComponents/SearchComponent.vue";
 import FeedbackComponent from "./components/GlobalComponents/FeedbackComponent.vue";
 import InfoComponent from "./components/GlobalComponents/InfoComponent.vue";
 import UserProjectCreateComponent from "./components/GlobalComponents/UserProjectCreateComponent.vue";
+import LoadingAnimationComponent from "./components/GlobalComponents/LoadingAnimationComponent.vue";
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -189,7 +191,6 @@ import {
   NLayoutFooter,
   NP,
   NPopover,
-  useLoadingBar,
   NH4,
 } from "naive-ui";
 export default {
@@ -212,6 +213,7 @@ export default {
     };
   },
   components: {
+    LoadingAnimationComponent,
     UserProjectCreateComponent,
     NButton,
     NSpace,
@@ -310,6 +312,16 @@ export default {
       }
       if (link === "feedback") {
         this.$store.commit("setShowFeedbackModal", true);
+        return;
+      }
+
+      if (link === "createProject") {
+        this.$store.commit("setShowUserProjectCreateModal", true);
+        return;
+      }
+
+      if (link === "allProjects") {
+        this.$router.push("/projects");
         return;
       }
       if (link.includes("https://")) window.open(link, "_blank");
@@ -608,6 +620,17 @@ export default {
               label: "Projects",
               key: "projects",
               icon: renderIcon(ProjectIcon),
+              children: [
+                {
+                  label: "All projects",
+                  key: "allProjects",
+                },
+                {
+                  label: "Create project",
+                  key: "createProject",
+                  // icon: renderIcon(UserIcon),
+                },
+              ],
             },
             {
               label: "Switch mode",

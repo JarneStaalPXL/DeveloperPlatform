@@ -16,6 +16,7 @@ function renderIcon(icon) {
 
 export default createStore({
   state: {
+    showLoadingAnimation: false,
     homeNotification: true,
     selectedDetailedProject: {
       title: "No project loaded",
@@ -693,6 +694,9 @@ export default createStore({
 
   getters: {},
   mutations: {
+    setShowLoadingAnimation(state, payload) {
+      state.showLoadingAnimation = payload;
+    },
     setHomeNotification(state, payload){
       state.homeNotification = payload;
     },
@@ -806,24 +810,8 @@ export default createStore({
     setLearningTools(state, payload) {
       state.learningTools = payload;
     },
-
     setShowFeedbackModal(state, payload) {
       state.showFeedbackPopup = payload;
-    },
-    setGradientGeneratorsTools(state, payload) {
-      state.gradientGeneratorsTools = payload;
-    },
-    setColorGeneratorsTools(state, payload) {
-      state.colorGeneratorsTools = payload;
-    },
-    setfavoritesCategorizedChecked(state, payload) {
-      state.favoritesCategorizedChecked = payload;
-    },
-    setQuickAccessTools(state, payload) {
-      state.quickAccessTools = payload;
-    },
-    setsSelectedItemsQA(state, payload) {
-      state.selectedItemsQA = payload;
     },
     setShowInfoModal(state, payload) {
       state.showInfoModal = payload;
@@ -842,6 +830,12 @@ export default createStore({
     },
     setUserHomeNotification(state, payload) {
       state.homeNotification = payload;
+    },
+    setGradientGeneratorsTools(state, payload) {
+      state.gradientGeneratorsTools = payload;
+    },
+    setColorGeneratorsTools(state, payload) {
+      state.colorGeneratorsTools = payload;
     }
   },
   actions: {

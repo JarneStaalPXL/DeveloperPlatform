@@ -25,8 +25,14 @@
           <template #footer>
             <div class="titleButtons">
               <div class="actionBtns">
-                <n-button @click="openLink(project.websiteLink)">Open website</n-button>
-                <n-button @click="openLink(project.github)">Open Github</n-button>
+                <n-button
+                  v-if="project.websiteLink"
+                  @click="openLink(project.websiteLink)"
+                  >Open website</n-button
+                >
+                <n-button v-if="project.github" @click="openLink(project.github)"
+                  >Open Github</n-button
+                >
                 <n-button @click="openDetailModel(project)">Open details</n-button>
               </div>
             </div>
@@ -85,8 +91,10 @@ export default {
       this.$store.dispatch("GET_PAGE_VISITS");
     },
     removeProject(project) {
+      this.$store.commit("setShowLoadingAnimation", true);
       this.$store.dispatch("REMOVE_USER_PROJECT", project).then(() => {
         this.$store.dispatch("GET_USER_PROJECTS").then(() => {
+          this.$store.commit("setShowLoadingAnimation", false);
           window.$message.success("Project removed successfully");
         });
       });
