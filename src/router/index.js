@@ -175,7 +175,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-
+  store.commit("setShowLoadingAnimation", true);
   loadingBar.start();
   // const loadingBar = useLoadingBar();
   // loadingBar.start();
@@ -202,6 +202,7 @@ router.afterEach((to, from) => {
   loadingBar.finish();
   //vue scroll to top
     window.$scrollContent.scrollTo({ top: 0, behavior: "smooth" });
+    store.commit("setShowLoadingAnimation", false);
 });
 
 export default router;

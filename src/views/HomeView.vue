@@ -45,6 +45,16 @@
         >
       </h6>
     </section>
+    <section class="jokeBlock">
+      <div>
+        <h4>{{ fetchedJokeSetup }}</h4>
+
+        <h5 style="font-style: italic; margin-top: 10px">
+          {{ fetchedJokeDelivery }}
+        </h5>
+      </div>
+    </section>
+
     <section class="newFeatureBlock">
       <div>
         <h3>THE NEXT BIG FEATURE - PROJECTS</h3>
@@ -124,6 +134,8 @@ export default {
       hours: 0,
       minutes: 0,
       seconds: 0,
+      fetchedJokeSetup: "",
+      fetchedJokeDelivery: "",
     };
   },
   setup() {
@@ -135,6 +147,18 @@ export default {
     window.$notification.destroyAll();
   },
   async mounted() {
+    //Load joke
+    fetch(
+      "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=religious,racist&type=twopart"
+    )
+      .then((response) => response.json())
+      .then((response) => {
+        this.fetchedJokeSetup = response.setup;
+        this.fetchedJokeDelivery = response.delivery;
+      })
+      .catch((err) => console.error(err));
+    //
+
     window.$message = useMessage();
     window.$notification = useNotification();
 
@@ -195,7 +219,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.newFeatureBlock {
+.jokeBlock {
+  margin-bottom: 25px !important;
+}
+.newFeatureBlock,
+.jokeBlock {
   display: flex;
   flex-wrap: wrap;
   background: rgba(255, 255, 255, 0.25);

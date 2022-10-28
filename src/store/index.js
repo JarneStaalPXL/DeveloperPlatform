@@ -694,6 +694,9 @@ export default createStore({
 
   getters: {},
   mutations: {
+    setQuickAccessTools(state, payload) {
+      state.quickAccessTools = payload;
+    },
     setfavoritesCategorizedChecked(state, payload) {
       state.favoritesCategorizedChecked = payload;
     },
