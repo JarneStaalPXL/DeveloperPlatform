@@ -137,6 +137,11 @@ const routes = [
     path: "/apis",
     name: "apis",
     component: () => import("../views/ApiView.vue"),
+  },
+  {
+    path: "/accesDenied",
+    name: "accesDenied",
+    component: () => import("../views/AccessDeniedView.vue"),
   }
 ];
 
@@ -177,19 +182,13 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   store.commit("setShowLoadingAnimation", true);
   loadingBar.start();
-  // const loadingBar = useLoadingBar();
-  // loadingBar.start();
   if (to.name === "adminpanel") {
     if (localStorage.getItem("email") === null) {
-      //TODO: REDIRECT TO ACCES DENIED PAGE
-      next("/");
+      next("/accesDenied");
       return;
     }
-
-    //TODO: CHECK IF USER IS ADMIN
-    if (!localStorage.getItem("email").includes("jarne.staal9@gmail.com")) {
-      //TODO: REDIRECT TO ACCES DENIED PAGE
-      next("/");
+    if (store.dispatch('IS_ADMIN', localStorage.getItem('uid')) === false) {
+      next("/accesDenied");
       return;
     }
   }
