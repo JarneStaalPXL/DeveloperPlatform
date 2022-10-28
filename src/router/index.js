@@ -139,8 +139,8 @@ const routes = [
     component: () => import("../views/ApiView.vue"),
   },
   {
-    path: "/accesDenied",
-    name: "accesDenied",
+    path: "/accessDenied/:message",
+    name: "accessDenied",
     component: () => import("../views/AccessDeniedView.vue"),
   }
 ];
@@ -184,11 +184,11 @@ router.beforeEach((to, from, next) => {
   loadingBar.start();
   if (to.name === "adminpanel") {
     if (localStorage.getItem("email") === null) {
-      next("/accesDenied");
+      next({ path: '/accessDenied/Only administrators have access to this page.'});
       return;
     }
     if (store.dispatch('IS_ADMIN', localStorage.getItem('uid')) === false) {
-      next("/accesDenied");
+      next({ path: '/accessDenied/Only administrators have access to this page.'});
       return;
     }
   }
@@ -205,3 +205,5 @@ router.afterEach((to, from) => {
 });
 
 export default router;
+
+
