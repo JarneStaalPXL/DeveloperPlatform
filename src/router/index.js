@@ -184,11 +184,11 @@ router.beforeEach((to, from, next) => {
   loadingBar.start();
   if (to.name === "adminpanel") {
     if (localStorage.getItem("email") === null) {
-      next("/accessDenied", );
+      next({ path: '/accessDenied/Only administrators have access to this page.'});
       return;
     }
     if (store.dispatch('IS_ADMIN', localStorage.getItem('uid')) === false) {
-      next({ name: 'accessDenied', params: { message: 'You are not allowed here!' } });
+      next({ path: '/accessDenied/Only administrators have access to this page.'});
       return;
     }
   }

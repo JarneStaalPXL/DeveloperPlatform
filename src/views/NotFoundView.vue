@@ -59,8 +59,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#openIssue {
-}
 section {
   //center in the middle of the screen
   position: absolute;
