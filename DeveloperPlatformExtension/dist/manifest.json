@@ -3,9 +3,9 @@
     "version": "1.0.0",
     "description": "A very basic extension to quickly block or allow a list of sites",
     "permissions": [
-        "storage",
-        "webRequest",
-        "webRequestBlocking",
+        "storage"
+    ],
+    "host_permissions": [
         "http://*/",
         "https://*/"
     ],
@@ -17,7 +17,7 @@
     "background": {
         "service_worker": "js/background.js"
     },
-    "browser_action": {
+    "action": {
         "default_popup": "popup.html",
         "default_icon": "images/icon-48x48-off.png"
     },

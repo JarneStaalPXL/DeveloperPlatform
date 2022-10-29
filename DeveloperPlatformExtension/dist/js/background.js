@@ -1,61 +1,76 @@
-/******/ (() => { // webpackBootstrap
+/******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./assets/js/background.js":
 /*!*********************************!*\
   !*** ./assets/js/background.js ***!
   \*********************************/
-/***/ (() => {
+/***/ (function() {
+
+
 
 //when the extension is installed for the first time, set default values
 
-chrome.runtime.onInstalled.addListener(function () {
-  chrome.storage.sync.set({
-    toggleSitesActive: false,
-    toggleSitesList: 'example.com'
-  }, function () {});
-});
+// chrome.runtime.onInstalled.addListener(() => {
+//     chrome.storage.sync.set({
+//         toggleSitesActive: false,
+//         toggleSitesList: 'example.com'
+//     }, () => {})
+// })
 //
 
 //setup the initial chrome storage values
 
-var toggleSitesActive = false;
-var toggleSitesList = "example.com";
+// let toggleSitesActive = false
+// let toggleSitesList = "example.com"
 
 //
-chrome.storage.sync.get(['toggleSitesActive', 'toggleSitesList'], function (result) {
-  toggleSitesActive = result.toggleSitesActive;
-  toggleSitesList = result.toggleSitesList;
-});
+// chrome.storage.sync.get([
+//     'toggleSitesActive',
+//     'toggleSitesList'
+// ], (result) => {
+//     toggleSitesActive = result.toggleSitesActive;
+//     toggleSitesList = result.toggleSitesList;
+// })
 
 //
 
-chrome.webRequest.onBeforeRequest.addListener(function (details) {
-  if (!toggleSitesActive) {
-    return {
-      cancel: false
-    };
-  }
-  var cancel = toggleSitesList.split(/\n/).some(function (site) {
-    var url = new URL(details.url);
-    return Boolean(url.hostname.indexOf(site) !== -1);
-  });
-  return {
-    cancel: cancel
-  };
-}, {
-  urls: ["<all_urls>"]
-}, ["blocking"]);
-chrome.storage.onChanged.addListener(function (changes, namespace) {
-  if (namespace == 'sync') {
-    if (changes.toggleSitesActive) {
-      toggleSitesActive = changes.toggleSitesActive.newValue;
-    }
-    if (changes.toggleSitesList) {
-      toggleSitesList = changes.toggleSitesList.newValue;
-    }
-  }
-});
+// chrome.webRequest.onBeforeRequest.addListener(
+//     (details) => {
+//         if(!toggleSitesActive){
+//             return {cancel: false}
+//         }
+
+//         let cancel = toggleSitesList.split(/\n/)
+//         .some(site => {
+//             let url = new URL(details.url)
+
+//             return Boolean(url.hostname.indexOf(site) !== -1)
+//         });
+
+//         return { cancel : cancel};
+
+//     },
+//     {
+//         urls: ["<all_urls>"]
+
+//     },
+//     [
+//         "blocking"
+//     ]
+
+// )
+
+// chrome.storage.onChanged.addListener((changes, namespace) => {
+//     if(namespace == 'sync') {
+//         if(changes.toggleSitesActive) {
+//             toggleSitesActive = changes.toggleSitesActive.newValue
+//         }
+//         if(changes.toggleSitesList){
+//             toggleSitesList = changes.toggleSitesList.newValue
+//         }
+//     }
+// })
 
 /***/ }),
 
@@ -63,7 +78,7 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
 /*!********************************!*\
   !*** ./assets/sass/popup.scss ***!
   \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -103,9 +118,9 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/chunk loaded */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		var deferred = [];
-/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 		__webpack_require__.O = function(result, chunkIds, fn, priority) {
 /******/ 			if(chunkIds) {
 /******/ 				priority = priority || 0;
 /******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
@@ -114,10 +129,12 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 			}
 /******/ 			var notFulfilled = Infinity;
 /******/ 			for (var i = 0; i < deferred.length; i++) {
-/******/ 				var [chunkIds, fn, priority] = deferred[i];
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
 /******/ 				var fulfilled = true;
 /******/ 				for (var j = 0; j < chunkIds.length; j++) {
-/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every(function(key) { return __webpack_require__.O[key](chunkIds[j]); })) {
 /******/ 						chunkIds.splice(j--, 1);
 /******/ 					} else {
 /******/ 						fulfilled = false;
@@ -132,26 +149,26 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 			}
 /******/ 			return result;
 /******/ 		};
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
+/******/ 		__webpack_require__.r = function(exports) {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/jsonp chunk loading */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		// no baseURI
 /******/ 		
 /******/ 		// object to store loaded and loading chunks
@@ -172,15 +189,17 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 		
 /******/ 		// no HMR manifest
 /******/ 		
-/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		__webpack_require__.O.j = function(chunkId) { return installedChunks[chunkId] === 0; };
 /******/ 		
 /******/ 		// install a JSONP callback for chunk loading
-/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
-/******/ 			var [chunkIds, moreModules, runtime] = data;
+/******/ 		var webpackJsonpCallback = function(parentChunkLoadingFunction, data) {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
 /******/ 			// add "moreModules" to the modules object,
 /******/ 			// then flag all "chunkIds" as loaded and fire callback
 /******/ 			var moduleId, chunkId, i = 0;
-/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 			if(chunkIds.some(function(id) { return installedChunks[id] !== 0; })) {
 /******/ 				for(moduleId in moreModules) {
 /******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
 /******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
@@ -202,15 +221,15 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 		var chunkLoadingGlobal = self["webpackChunk"] = self["webpackChunk"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /************************************************************************/
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["dist/css/popup"], () => (__webpack_require__("./assets/js/background.js")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["dist/css/popup"], () => (__webpack_require__("./assets/sass/popup.scss")))
+/******/ 	__webpack_require__.O(undefined, ["dist/css/popup"], function() { return __webpack_require__("./assets/js/background.js"); })
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["dist/css/popup"], function() { return __webpack_require__("./assets/sass/popup.scss"); })
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

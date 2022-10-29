@@ -1,8 +1,12 @@
-import Vue from 'vue'
-import Popup from './components/Popup.vue'
+import { createApp } from "vue";
 
-const app = new Vue({
-    el: '#app',
-    render: createElement => createElement(Popup)
-})
+import Popup from "./views/Popup.vue";
+import router from "./router";
+import store from "./store";
+const app = createApp(Popup);
 
+app.use(router);
+
+app.use(store);
+
+app.mount("#app");
