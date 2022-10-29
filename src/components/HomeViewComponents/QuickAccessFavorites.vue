@@ -55,7 +55,9 @@
       placement="bottom"
       trigger="click"
       scrollable
-      v-if="$store.state.favoritetools.length > 0"
+      v-if="
+        $store.state.favoritetools.length > 0 && $store.state.showQADashboard !== false
+      "
     >
       <template #trigger>
         <n-tooltip>

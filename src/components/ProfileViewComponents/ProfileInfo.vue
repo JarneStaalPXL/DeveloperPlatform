@@ -40,13 +40,26 @@
       </n-card>
       <n-card title="Settings">
         <div class="d-flex justify-content-center">
-          <n-switch
-            class="m-2"
-            :round="false"
-            v-model:value="homescreenNotificationSwitch"
-            @update:value="toggleHomeNotification"
-          />
-          <span class="m-2">Toggle Home Notification</span>
+          <div class="d-flex justify-content-between" style="width: 300px">
+            <span class="m-2">Toggle Home Notification</span>
+            <n-switch
+              class="m-2"
+              :round="false"
+              v-model:value="homescreenNotificationSwitch"
+              @update:value="toggleHomeNotification"
+            />
+          </div>
+        </div>
+        <div class="d-flex justify-content-center">
+          <div class="d-flex justify-content-between" style="width: 300px">
+            <span class="m-2">Toggle QA Dashboard visiblity</span>
+            <n-switch
+              class="m-2"
+              :round="false"
+              v-model:value="QADashboardSwitch"
+              @update:value="toggleQADashboardVisibility"
+            />
+          </div>
         </div>
       </n-card>
     </n-space>
@@ -84,12 +97,20 @@ export default {
       totalVisits: 0,
       routeVisitsToday: [],
       homescreenNotificationSwitch: undefined,
+      QADashboardSwitch: undefined,
     };
   },
   async beforeMount() {
     this.$store.commit("setShowLoadingAnimation", true);
     this.$store.dispatch("GET_USER_HOME_NOTIFICATION").then((result) => {
-      this.homescreenNotificationSwitch = result;
+      if (result.homeNotification !== null) {
+        this.homescreenNotificationSwitch = result;
+      }
+    });
+    this.$store.dispatch("GET_QA_DASHBOARD_VISIBILITY").then((result) => {
+      if (result.showQADashboard !== null) {
+        this.QADashboardSwitch = result;
+      }
     });
     let data = await this.$store.dispatch("GET_USER_VISIT_COUNT");
     data = data.data.attributes;
@@ -110,6 +131,9 @@ export default {
     },
     toggleHomeNotification(isChecked) {
       this.$store.dispatch("SET_USER_HOME_NOTIFICATION", isChecked);
+    },
+    toggleQADashboardVisibility(isChecked) {
+      this.$store.dispatch("SET_USER_QA_DASHBOARD_VISIBILITY", isChecked);
     },
   },
   computed: {
