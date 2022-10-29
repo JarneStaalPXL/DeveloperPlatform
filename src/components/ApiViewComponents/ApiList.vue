@@ -82,7 +82,7 @@ export default {
   },
   data() {
     return {
-      websitePreviewImagePlaceholder: require("../../assets/coming-soon.jpg"),
+      websitePreviewImagePlaceholder: require("../../assets/apiBg.png"),
       manipulatedTools: [],
       dataIsLoading: false,
       showFavoriteBtn: false,
