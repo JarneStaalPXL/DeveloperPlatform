@@ -136,6 +136,7 @@ export default {
       seconds: 0,
       fetchedJokeSetup: "",
       fetchedJokeDelivery: "",
+      showQADashboard: true,
     };
   },
   setup() {
@@ -147,6 +148,8 @@ export default {
     window.$notification.destroyAll();
   },
   async mounted() {
+    this.$store.dispatch("GET_QA_DASHBOARD_VISIBILITY");
+
     //Load joke
     fetch(
       "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=religious,racist&type=twopart"

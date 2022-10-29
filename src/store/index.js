@@ -17,6 +17,7 @@ function renderIcon(icon) {
 export default createStore({
   state: {
     showLoadingAnimation: false,
+    showQADashboard: true,
     homeNotification: true,
     selectedDetailedProject: {
       title: "No project loaded",
@@ -694,6 +695,9 @@ export default createStore({
 
   getters: {},
   mutations: {
+    setShowQADashboard(state, payload) {
+      state.showQADashboard = payload;
+    },
     setQuickAccessTools(state, payload) {
       state.quickAccessTools = payload;
     },
@@ -874,6 +878,36 @@ export default createStore({
       })
       const dt = await res.json();
       commit("setHomeNotification", isChecked);
+    },
+     async SET_USER_QA_DASHBOARD_VISIBILITY({ state,commit }, isChecked) {
+      const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/setShowQADashboard/${localStorage.getItem('uid')}`,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+        body: JSON.stringify({data: {
+          showQADashboard: isChecked,
+        }}),
+      })
+      const dt = await res.json();
+      commit("setShowQADashboard", isChecked);
+    },
+    async GET_QA_DASHBOARD_VISIBILITY({state,commit}){
+      const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/getShowQADashboard/${localStorage.getItem('uid')}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+      })
+      const dt = await res.json();
+      commit("setShowQADashboard", dt.data.attributes.showQADashboard.showQADashboard);
+      return dt.data.attributes.showQADashboard.showQADashboard;
     },
     async REMOVE_USER_PROJECT({ state,commit }, payload) {
       const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/removeProject`,
