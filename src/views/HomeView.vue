@@ -45,7 +45,7 @@
         >
       </h6>
     </section>
-    <section class="jokeBlock">
+    <section class="contentBlock">
       <div>
         <h4>{{ fetchedJokeSetup }}</h4>
 
@@ -66,10 +66,28 @@
           Like this you can keep track of what you used for your projects and have quick
           access to them.
         </p>
-        <p>As of now the feature is released but we are still trying to improve it.</p>
+        <p>
+          As of now the feature is released but we are still trying to improve it and
+          edits cannot be made yet.
+        </p>
         <p>If you have any feedback, please let us know.</p>
       </div>
       <img class="d-flex m-auto mt-4" src="../assets/projectCreation.svg" />
+    </section>
+
+    <section class="contentBlock">
+      <div>
+        <h3>BE EVEN MORE PRODUCTIVE WITH OUR EXTENSION</h3>
+        <p>
+          We are currently working on a chrome extension that will allow you to have quick
+          access to functionalities within the platform.
+        </p>
+        <p>
+          One of our trusted contributors is working on this and we hope to release it
+          soon.
+        </p>
+      </div>
+      <img class="d-flex m-auto mt-4" src="../assets/extensionpic.svg" />
     </section>
 
     <!--Implement what i'm working on right now or the next biggest feature or something like that-->
@@ -219,11 +237,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.jokeBlock {
-  margin-bottom: 25px !important;
-}
 .newFeatureBlock,
-.jokeBlock {
+.contentBlock {
+  margin-bottom: 25px !important;
   display: flex;
   flex-wrap: wrap;
   background: rgba(255, 255, 255, 0.25);
@@ -235,7 +251,6 @@ export default {
   width: 50vw;
   margin: 0 auto;
   padding: 20px;
-  margin-bottom: 200px;
 
   p {
     margin-bottom: 2px;
