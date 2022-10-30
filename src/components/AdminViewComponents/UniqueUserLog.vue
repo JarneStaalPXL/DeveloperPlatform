@@ -21,7 +21,7 @@
       />
     </n-space>
   </n-card>
-  <n-card title="Unique Visitors Count">
+  <n-card title="Signed Up Users Count">
     <h5>
       {{ $store.state.uniqueVisitors.length }}
     </h5>
@@ -51,10 +51,6 @@ import PageVisitsChart from "./PageVisitsChart.vue";
 
 const columns = [
   {
-    title: "IP",
-    key: "ip",
-  },
-  {
     title: "Username",
     key: "name",
   },
@@ -74,6 +70,7 @@ export default {
     PageVisitsChart,
   },
   async beforeMount() {
+    this.$store.commit("setShowLoadingAnimation", true);
     window.$loadingbar = useLoadingBar();
 
     //homepage visits
@@ -126,7 +123,8 @@ export default {
     // rank visits overview
     this.visitsOverViewArr.sort((a, b) => b.visits - a.visits);
 
-    this.$store.dispatch("GET_UNIQUE_VISITORS");
+    this.$store.dispatch("GET_SIGNED_UP_USERS");
+    this.$store.commit("setShowLoadingAnimation", false);
   },
   methods: {},
   data() {

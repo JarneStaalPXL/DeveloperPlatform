@@ -59,10 +59,6 @@ const columns = [
     key: "key",
   },
   {
-    title: "IP Adress",
-    key: "ip",
-  },
-  {
     title: "Name",
     key: "username",
   },

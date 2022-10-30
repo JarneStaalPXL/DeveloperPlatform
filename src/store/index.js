@@ -1672,16 +1672,6 @@ export default createStore({
         if (route === "/") {
           route = "Homepage";
         }
-        //get ip adress
-        const res = await fetch(`https://api.ipify.org/?format=json`, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        });
-
-        const ip = await res.json();
 
         let isAdmin = await dispatch("IS_ADMIN", localStorage.getItem("uid"));
         const rawResponse = await fetch(`${state.baseUrlStrapiApi}visit-logs`, {
@@ -1706,7 +1696,6 @@ export default createStore({
                 localStorage.getItem("userName") !== null
                   ? localStorage.getItem("userName")
                   : "Unknown username",
-              ip: ip.ip,
               isadmin: isAdmin,
             },
           }),
@@ -1884,9 +1873,9 @@ export default createStore({
       commit("setIsAdmin", admins.data.attributes.isAdmin);
       return admins.data.attributes.isAdmin;
     },
-    async GET_UNIQUE_VISITORS({ state, commit }) {
+    async GET_SIGNED_UP_USERS({ state, commit }) {
       const rawResponse = await fetch(
-        `${state.baseUrlStrapiApi}visit-log-count/uniqueVisitors`,
+        `${state.baseUrlStrapiApi}visit-log-count/signedUpUsers`,
         {
           method: "GET",
           headers: {
@@ -1897,7 +1886,7 @@ export default createStore({
         }
       );
       const response = await rawResponse.json();
-      commit("setUniqueVisitors", response.data.attributes.uniqueVisitors);
+      commit("setUniqueVisitors", response.data.attributes.signedUpUsers);
     },
     async CONVERT_TO_NAIVEUI_DISPLAYABLE_OPTIONS({ state, commit }, options) {
       const newOptions = [];
