@@ -1648,7 +1648,6 @@ export default createStore({
           email: act.email,
           route: act.route,
           createdat: date,
-          ip: act.ip,
           isadmin: [isAdmin],
         });
         index++;
