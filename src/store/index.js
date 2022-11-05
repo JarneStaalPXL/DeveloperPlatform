@@ -9,6 +9,7 @@ import {
 } from "@vicons/ionicons5";
 import { NIcon } from "naive-ui";
 import { TrayItemAdd20Filled } from "@vicons/fluent";
+import { ConsoleSqlOutlined } from "@vicons/antd";
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -16,6 +17,7 @@ function renderIcon(icon) {
 
 export default createStore({
   state: {
+    processedFeedbacks: [],
     showLoadingAnimation: false,
     showQADashboard: true,
     homeNotification: true,
@@ -846,9 +848,50 @@ export default createStore({
     },
     setColorGeneratorsTools(state, payload) {
       state.colorGeneratorsTools = payload;
+    },
+    setProcessedFeedbacks(state, payload){
+      state.processedFeedbacks = payload;
     }
   },
   actions: {
+    async ADD_TO_PROCESSED_FEEDBACK({ state }, payload) {
+      const resp = await fetch(`${state.baseUrlStrapiApi}processed-feedbacks`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+      },
+      body: JSON.stringify({
+        data: {
+          title: payload.title,
+          description: payload.description,
+          type: payload.type
+        }
+      }),
+      });
+      const answer = await resp.json();
+      console.log(answer);
+    },
+    async GET_PROCESSED_FEEDBACKS({ state, commit }) {
+      const resp = await fetch(`${state.baseUrlStrapiApi}processed-feedbacks`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + state.strapiApiKey,
+        },
+      });
+      const answer = await resp.json();
+
+      let arr = [];
+      for(let feedback of answer.data){
+        arr.push(feedback.attributes);
+      }
+      commit("setProcessedFeedbacks", arr);
+      return arr;
+    },  
     async GET_USER_HOME_NOTIFICATION({state,commit}){
       const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/getHomeNotification/${localStorage.getItem('uid')}`,
       {

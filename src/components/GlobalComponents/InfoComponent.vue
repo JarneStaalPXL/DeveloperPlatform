@@ -47,6 +47,9 @@
           currentStatusObj.currentStatus
         }}</n-tag>
       </section>
+      <section>
+        <a @click="$router.push('/processedFeedbacks')">Show handled feedback</a>
+      </section>
     </div>
     <!-- <template #action>
       <n-button @click="submitFeedback()" class="w-100">Submit</n-button>

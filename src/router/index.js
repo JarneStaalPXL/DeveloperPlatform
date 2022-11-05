@@ -142,6 +142,11 @@ const routes = [
     path: "/accessDenied/:message",
     name: "accessDenied",
     component: () => import("../views/AccessDeniedView.vue"),
+  },
+  {
+    path: "/processedFeedbacks",
+    name: "processedFeedbacks",
+    component: () => import("../views/ProcessedFeedbackView.vue"),
   }
 ];
 
