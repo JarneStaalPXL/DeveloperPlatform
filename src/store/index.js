@@ -9,6 +9,7 @@ import {
 } from "@vicons/ionicons5";
 import { NIcon } from "naive-ui";
 import { TrayItemAdd20Filled } from "@vicons/fluent";
+import { ConsoleSqlOutlined } from "@vicons/antd";
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -16,6 +17,7 @@ function renderIcon(icon) {
 
 export default createStore({
   state: {
+    processedFeedbacks: [],
     showLoadingAnimation: false,
     showQADashboard: true,
     homeNotification: true,
@@ -23,7 +25,7 @@ export default createStore({
       title: "No project loaded",
     },
     userProjects: [],
-    keysArray : [],
+    keysArray: [],
     showUserProjectDetailModal: false,
     showUserProjectCreateModal: false,
     showUserProjectCreateSecondModal: false,
@@ -341,7 +343,7 @@ export default createStore({
         websitePreviewImage: require("../assets/cubic-bezier.png"),
       },
       {
-        name:"GitHub Profile Generator",
+        name: "GitHub Profile Generator",
         link: "https://gprm.itsvg.in/",
         websitePreviewImage: require("../assets/gprm.png"),
       }
@@ -692,8 +694,6 @@ export default createStore({
     ],
     allUserActivities: [],
   },
-
-  getters: {},
   mutations: {
     setShowQADashboard(state, payload) {
       state.showQADashboard = payload;
@@ -707,13 +707,13 @@ export default createStore({
     setShowLoadingAnimation(state, payload) {
       state.showLoadingAnimation = payload;
     },
-    setHomeNotification(state, payload){
+    setHomeNotification(state, payload) {
       state.homeNotification = payload;
     },
     setShowUserProjectDetailModal(state, payload) {
       state.showUserProjectDetailModal = payload;
     },
-    setApis(state,payload){
+    setApis(state, payload) {
       state.apis = payload;
     },
     setUserProjects(state, payload) {
@@ -846,87 +846,154 @@ export default createStore({
     },
     setColorGeneratorsTools(state, payload) {
       state.colorGeneratorsTools = payload;
+    },
+    setProcessedFeedbacks(state, payload) {
+      state.processedFeedbacks = payload;
     }
   },
   actions: {
-    async GET_USER_HOME_NOTIFICATION({state,commit}){
-      const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/getHomeNotification/${localStorage.getItem('uid')}`,
-      {
+    async PDF_TO_PNG({ commit }, payload) {
+      const resp = await fetch("http://localhost:3000/convert")
+    },
+    async REMOVE_FEEDBACK({ state }, payload) {
+      console.log(payload);
+      const resp = await fetch(`${state.baseUrlStrapiApi}feedback-info/deleteFeedback`,
+        {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+          body: JSON.stringify({
+            feedbackDescription: payload.description,
+          })
+        });
+      const data = await resp.json();
+      console.log(data);
+    },
+    async ADD_TO_PROCESSED_FEEDBACK({ state }, payload) {
+      const resp = await fetch(`${state.baseUrlStrapiApi}processed-feedbacks`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+          body: JSON.stringify({
+            data: {
+              title: payload.title,
+              description: payload.description,
+              type: payload.type
+            }
+          }),
+        });
+      const answer = await resp.json();
+      console.log(answer);
+    },
+    async GET_PROCESSED_FEEDBACKS({ state, commit }) {
+      const resp = await fetch(`${state.baseUrlStrapiApi}processed-feedbacks`, {
         method: "GET",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
           Authorization: "Bearer " + state.strapiApiKey,
         },
-      })
+      });
+      const answer = await resp.json();
+
+      let arr = [];
+      for (let feedback of answer.data) {
+        arr.push(feedback.attributes);
+      }
+      commit("setProcessedFeedbacks", arr);
+      return arr;
+    },
+    async GET_USER_HOME_NOTIFICATION({ state, commit }) {
+      const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/getHomeNotification/${localStorage.getItem('uid')}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+        })
       const dt = await res.json();
       commit("setHomeNotification", dt.data.attributes.homeNotificationChecked);
       return dt.data.attributes.homeNotificationChecked;
     },
-    async SET_USER_HOME_NOTIFICATION({ state,commit }, isChecked) {
+    async SET_USER_HOME_NOTIFICATION({ state, commit }, isChecked) {
       const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/setHomeNotification/${localStorage.getItem('uid')}`,
-      {
-        method: "PUT",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-        body: JSON.stringify({data: {
-          homeNotification: isChecked,
-        }}),
-      })
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+          body: JSON.stringify({
+            data: {
+              homeNotification: isChecked,
+            }
+          }),
+        })
       const dt = await res.json();
       commit("setHomeNotification", isChecked);
     },
-     async SET_USER_QA_DASHBOARD_VISIBILITY({ state,commit }, isChecked) {
+    async SET_USER_QA_DASHBOARD_VISIBILITY({ state, commit }, isChecked) {
       const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/setShowQADashboard/${localStorage.getItem('uid')}`,
-      {
-        method: "PUT",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-        body: JSON.stringify({data: {
-          showQADashboard: isChecked,
-        }}),
-      })
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+          body: JSON.stringify({
+            data: {
+              showQADashboard: isChecked,
+            }
+          }),
+        })
       const dt = await res.json();
       commit("setShowQADashboard", isChecked);
     },
-    async GET_QA_DASHBOARD_VISIBILITY({state,commit}){
+    async GET_QA_DASHBOARD_VISIBILITY({ state, commit }) {
       const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/getShowQADashboard/${localStorage.getItem('uid')}`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-      })
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+        })
       const dt = await res.json();
       commit("setShowQADashboard", dt.data.attributes.showQADashboard.showQADashboard);
       return dt.data.attributes.showQADashboard.showQADashboard;
     },
-    async REMOVE_USER_PROJECT({ state,commit }, payload) {
+    async REMOVE_USER_PROJECT({ state, commit }, payload) {
       const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/removeProject`,
-      {
-        method: "PUT",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-        body: JSON.stringify({data: {
-          uid: localStorage.getItem("uid"),
-          project: payload
-        }}),
-      })
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+          body: JSON.stringify({
+            data: {
+              uid: localStorage.getItem("uid"),
+              project: payload
+            }
+          }),
+        })
       const dt = await res.json();
       commit("setUserProjects", dt.data.attributes.projects);
     },
-    async GET_USER_PROJECTS({state, commit}) {
+    async GET_USER_PROJECTS({ state, commit }) {
       const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/getUserProjects/${localStorage.getItem('uid')}`,
         {
           method: 'GET',
@@ -941,72 +1008,76 @@ export default createStore({
     },
     async USER_CREATE_PROJECT({ commit, state }, payload) {
       const res = await fetch(`${state.baseUrlStrapiApi}user-detail-info/addProject`,
-      {
-        method: "PUT",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-        body: JSON.stringify({data: {
-          uid: localStorage.getItem("uid"),
-          project: payload
-        }}),
-      });
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+          body: JSON.stringify({
+            data: {
+              uid: localStorage.getItem("uid"),
+              project: payload
+            }
+          }),
+        });
       const data = await res.json();
     },
     async UPDATE_CURRENT_STATUS({ commit, state }, payload) {
-      const res = await fetch(`${state.baseUrlStrapiApi}current-status-info`, 
-      {
-        method: "PUT",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-        body: JSON.stringify({data: {
-          currentStatus: payload.currentStatus,
-          statusType: payload.Type
-        }}),
-      });
+      const res = await fetch(`${state.baseUrlStrapiApi}current-status-info`,
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+          body: JSON.stringify({
+            data: {
+              currentStatus: payload.currentStatus,
+              statusType: payload.Type
+            }
+          }),
+        });
       const dt = await res.json();
     },
     async GET_5_YEAR_VISIT_COUNT({ state }) {
       const resp = await fetch(`${state.baseUrlStrapiApi}visit-log-count/get5YearVisits`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-      });
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+        });
       const dt = await resp.json();
       return dt.data.attributes;
     },
-    async GET_4_WEEK_VISIT_COUNT({  state}) {
+    async GET_4_WEEK_VISIT_COUNT({ state }) {
       const resp = await fetch(`${state.baseUrlStrapiApi}visit-log-count/getWeeklyVisits`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-      });
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+        });
       const dt = await resp.json();
       return dt.data.attributes;
     },
-    async GET_12_MONTH_VISIT_COUNT({  state}) {
+    async GET_12_MONTH_VISIT_COUNT({ state }) {
       const resp = await fetch(`${state.baseUrlStrapiApi}visit-log-count/getMonthlyVisits`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state.strapiApiKey,
-        },
-      });
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state.strapiApiKey,
+          },
+        });
       const dt = await resp.json();
       return dt.data.attributes;
     },
@@ -1018,8 +1089,7 @@ export default createStore({
     },
     async GET_QUICK_ACCESS_TOOLS({ state, commit }) {
       const resp = await fetch(
-        `${
-          state.baseUrlStrapiApi
+        `${state.baseUrlStrapiApi
         }user-detail-info/getQuickAccessTools/${localStorage.getItem("uid")}`,
         {
           method: "GET",
@@ -1036,8 +1106,7 @@ export default createStore({
     async SAVE_QUICK_ACCESS_TOOLS({ state, commit }, payload) {
       // commit("setQuickAccessTools", payload);
       const resp = await fetch(
-        `${
-          state.baseUrlStrapiApi
+        `${state.baseUrlStrapiApi
         }user-detail-info/setQuickAccessTools/${localStorage.getItem("uid")}`,
         {
           method: "PUT",
@@ -1059,8 +1128,7 @@ export default createStore({
       commit("setfavoritesCategorizedChecked", isChecked);
       if (localStorage.getItem("uid") !== null) {
         const resp = await fetch(
-          `${
-            state.baseUrlStrapiApi
+          `${state.baseUrlStrapiApi
           }user-detail-info/setFavoritesCategorized/${localStorage.getItem(
             "uid"
           )}`,
@@ -1084,11 +1152,10 @@ export default createStore({
         localStorage.setItem("favoritesCategorized", isChecked);
       }
     },
-    async GET_FAVORITES_CATEGORIZED({ state,commit }) {
+    async GET_FAVORITES_CATEGORIZED({ state, commit }) {
       if (localStorage.getItem("uid") !== null) {
         const resp = await fetch(
-          `${
-            state.baseUrlStrapiApi
+          `${state.baseUrlStrapiApi
           }user-detail-info/getFavoritesCategorized/${localStorage.getItem(
             "uid"
           )}`,
@@ -1158,8 +1225,7 @@ export default createStore({
     },
     async GET_USER_VISIT_COUNT({ state }) {
       const resp = await fetch(
-        `${
-          state.baseUrlStrapiApi
+        `${state.baseUrlStrapiApi
         }visit-log-count/getRouteVisitsFromUID/${localStorage.getItem("uid")}`,
         {
           method: "GET",
@@ -1198,8 +1264,7 @@ export default createStore({
     async GET_USER_COLOR_MODE({ state, commit }) {
       if (localStorage.getItem("uid") !== null) {
         const res = await fetch(
-          `${
-            state.baseUrlStrapiApi
+          `${state.baseUrlStrapiApi
           }user-detail-info/getColorMode/${localStorage.getItem("uid")}`,
           {
             method: "GET",
@@ -1307,8 +1372,7 @@ export default createStore({
       if (localStorage.getItem("uid") !== null) {
         //getting user favorite tools from strapi
         const response = await fetch(
-          `${
-            state.baseUrlStrapiApi
+          `${state.baseUrlStrapiApi
           }user-data/favorite-tools/${localStorage.getItem("uid")}`,
           {
             method: "GET",
@@ -1448,7 +1512,7 @@ export default createStore({
         commit("setFavoriteTools", res.favoritetools);
 
         //Also remove tool from quick access tools
-        
+
         dispatch("REMOVE_TOOL_FROM_QUICK_ACCESS_TOOLS", tool);
         return Promise.resolve(true);
       } else {
@@ -1544,7 +1608,7 @@ export default createStore({
       }
       return found;
     },
-    async CHECK_TOOL_PRESENT_LST({}, toolname) {
+    async CHECK_TOOL_PRESENT_LST({ }, toolname) {
       let favTools = JSON.parse(localStorage.getItem("favTools"));
       let found = false;
       for (let tol of favTools) {
@@ -1716,8 +1780,7 @@ export default createStore({
       //remove colorpallette from strapi
       // const userId = await dispatch("GET_USER_ID", user.id);
       const rawResponse = await fetch(
-        `${
-          state.baseUrlStrapiApi
+        `${state.baseUrlStrapiApi
         }user-detail-info/setColorPallette/${localStorage.getItem("uid")}`,
         {
           method: "PUT",
@@ -1744,8 +1807,7 @@ export default createStore({
       }
       //find id of user with useruid
       const rawResponse = await fetch(
-        `${
-          state.baseUrlStrapiApi
+        `${state.baseUrlStrapiApi
         }user-detail-info/setColorPallette/${localStorage.getItem("uid")}`,
         {
           method: "PUT",
@@ -1778,7 +1840,7 @@ export default createStore({
         }
       );
       commit("setUserData", { user: user });
-      dispatch("LOAD_USER_SAVED_DATA", user.uid);  
+      dispatch("LOAD_USER_SAVED_DATA", user.uid);
       const content2 = await resp.json();
       return content2.statusCode === 409;
     },
@@ -1823,8 +1885,7 @@ export default createStore({
         return Promise.reject("User uid is undefined");
       }
       const dataResponse = await fetch(
-        `${
-          state.baseUrlStrapiApi
+        `${state.baseUrlStrapiApi
         }user-detail-info/getColorPallete/${localStorage.getItem("uid")}`,
         {
           method: "GET",
@@ -1889,7 +1950,7 @@ export default createStore({
     },
     async CONVERT_TO_NAIVEUI_DISPLAYABLE_OPTIONS({ state, commit }, options) {
       const newOptions = [];
-      for(let option of JSON.parse(JSON.stringify(options))){
+      for (let option of JSON.parse(JSON.stringify(options))) {
         newOptions.push({
           label: option.name,
           value: option.name,

@@ -42,10 +42,18 @@
             >Join our community on Discord</a
           >
         </h6>
-        <h6 class="mt-5">Current status:</h6>
-        <n-tag :type="currentStatusObj.typeOfStatus">{{
-          currentStatusObj.currentStatus
-        }}</n-tag>
+        <div>
+          <h6 class="mt-5">Current status:</h6>
+          <n-tag :type="currentStatusObj.typeOfStatus">{{
+            currentStatusObj.currentStatus
+          }}</n-tag>
+        </div>
+        <n-button
+          class="mt-3"
+          v-if="!$route.path.includes('/processedFeedbacks')"
+          @click="openHandledFeedback()"
+          >Show handled feedback</n-button
+        >
       </section>
     </div>
     <!-- <template #action>
@@ -103,6 +111,10 @@ export default {
     async getCurrentStatus() {
       let result = await this.$store.dispatch("GET_CURRENT_STATUS");
       this.currentStatusObj = result.data.attributes;
+    },
+    openHandledFeedback() {
+      this.$store.commit("setShowInfoModal", false);
+      this.$router.push("/processedFeedbacks");
     },
   },
 };
