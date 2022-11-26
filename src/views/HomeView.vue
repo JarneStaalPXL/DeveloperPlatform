@@ -147,7 +147,7 @@ export default {
   beforeUnmount() {
     window.$notification.destroyAll();
   },
-  async mounted() {
+  async beforeMount() {
     this.$store.dispatch("GET_QA_DASHBOARD_VISIBILITY");
 
     //Load joke

@@ -84,17 +84,22 @@ export default {
   methods: {
     openFBHandleModal(fb) {
       //create a copy of the fb
+      this.selectedFeedback = fb;
       this.handledFeedback = { ...fb };
       this.processedModal = true;
     },
     async addToProcessed(handledFeedback) {
       window.$loadingbar.start();
       await this.$store.dispatch("ADD_TO_PROCESSED_FEEDBACK", handledFeedback);
+      await this.$store.dispatch("REMOVE_FEEDBACK", this.selectedFeedback);
       this.processedModal = false;
       window.$loadingbar.finish();
     },
-    removeFeedback() {
+    async removeFeedback(feedbackToRemove) {
       //TODO
+      window.$loadingbar.start();
+      await this.$store.dispatch("REMOVE_FEEDBACK", feedbackToRemove);
+      window.$loadingbar.finish();
     },
   },
 };
