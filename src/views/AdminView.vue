@@ -112,7 +112,6 @@ export default {
     window.$loadingbar = useLoadingBar();
     window.$message = useMessage();
     this.changeDataPeriod(this.selectedRadiobutton);
-
     let status = await this.$store.dispatch("GET_CURRENT_STATUS");
     this.currentStatusInput = status.data.attributes.currentStatus;
     this.currentStatusType = status.data.attributes.typeOfStatus;
