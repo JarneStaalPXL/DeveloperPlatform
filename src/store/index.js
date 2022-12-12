@@ -971,7 +971,9 @@ export default createStore({
           },
         })
       const dt = await res.json();
-      commit("setShowQADashboard", dt.data.attributes.showQADashboard.showQADashboard);
+      if(dt.data.attributes.showQADashboard.showQADashboard !== undefined){
+        commit("setShowQADashboard", dt.data.attributes.showQADashboard.showQADashboard);
+      }
       return dt.data.attributes.showQADashboard.showQADashboard;
     },
     async REMOVE_USER_PROJECT({ state, commit }, payload) {
@@ -1712,6 +1714,7 @@ export default createStore({
           email: act.email,
           route: act.route,
           createdat: date,
+          ip: act.ip,
           isadmin: [isAdmin],
         });
         index++;
@@ -1921,7 +1924,7 @@ export default createStore({
       const rawResponse = await fetch(
         `${state.baseUrlStrapiApi}admin-info/isadmin/${uid}`,
         {
-          method: "GET",
+          method: "GET",  
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
