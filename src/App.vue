@@ -453,6 +453,12 @@ export default {
         this.$router.push("/");
 
         window.$notification.destroyAll();
+        window.$notification.info({
+          title: "You have been logged out",
+          content:
+            "You can log in again if you want to use the full functionality of the platform.",
+          duration: 3000,
+        });
       });
     },
   },
