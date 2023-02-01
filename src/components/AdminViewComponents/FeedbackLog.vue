@@ -1,4 +1,27 @@
 <template>
+  <n-modal :show="processedModal">
+    <n-card
+      style="width: 600px"
+      :title="handledFeedback.type"
+      :bordered="false"
+      size="huge"
+      role="dialog"
+      aria-modal="true"
+    >
+      <template #action>
+        <n-space vertical>
+          <n-input v-model:value="handledFeedback.title" />
+          <n-input v-model:value="handledFeedback.description" />
+          <p>
+            From: <b>{{ handledFeedback.userName }}</b>
+          </p>
+          <n-button @click="addToProcessed(handledFeedback)"
+            >Finish as processed</n-button
+          >
+        </n-space>
+      </template>
+    </n-card>
+  </n-modal>
   <n-card title="Platform Feedback" v-if="allFeedback.length > 0">
     <n-card v-for="fb of allFeedback" :key="fb">
       <n-space vertical>
@@ -10,7 +33,7 @@
         </p>
       </n-space>
       <n-space justify="center" class="mt-3">
-        <n-button @click="assignAsProcessed()">
+        <n-button @click="openFBHandleModal(fb)">
           <template #icon>
             <n-icon>
               <CheckIcon />
@@ -18,7 +41,7 @@
           </template>
           Processed
         </n-button>
-        <n-button @click="assignAsCancelled()">
+        <n-button @click="removeFeedback(fb)">
           <template #icon>
             <n-icon>
               <CancelIcon />
@@ -34,7 +57,7 @@
 <script>
 import { Check as CheckIcon } from "@vicons/tabler";
 import { CancelOutlined as CancelIcon } from "@vicons/material";
-import { NCard, NButton, NIcon, NSpace } from "naive-ui";
+import { NCard, NButton, NIcon, NSpace, NModal, NInput } from "naive-ui";
 export default {
   components: {
     NCard,
@@ -43,9 +66,14 @@ export default {
     CheckIcon,
     CancelIcon,
     NSpace,
+    NModal,
+    NInput,
   },
   data() {
     return {
+      handledFeedback: [],
+      selectedFeedback: null,
+      processedModal: false,
       allFeedback: [],
     };
   },
@@ -54,11 +82,24 @@ export default {
     this.allFeedback = await this.$store.dispatch("GET_ALL_FEEDBACK");
   },
   methods: {
-    assignAsProcessed() {
-      //TODO
+    openFBHandleModal(fb) {
+      //create a copy of the fb
+      this.selectedFeedback = fb;
+      this.handledFeedback = { ...fb };
+      this.processedModal = true;
     },
-    assignAsCancelled() {
+    async addToProcessed(handledFeedback) {
+      window.$loadingbar.start();
+      await this.$store.dispatch("ADD_TO_PROCESSED_FEEDBACK", handledFeedback);
+      await this.$store.dispatch("REMOVE_FEEDBACK", this.selectedFeedback);
+      this.processedModal = false;
+      window.$loadingbar.finish();
+    },
+    async removeFeedback(feedbackToRemove) {
       //TODO
+      window.$loadingbar.start();
+      await this.$store.dispatch("REMOVE_FEEDBACK", feedbackToRemove);
+      window.$loadingbar.finish();
     },
   },
 };

@@ -142,6 +142,11 @@ const routes = [
     path: "/accessDenied/:message",
     name: "accessDenied",
     component: () => import("../views/AccessDeniedView.vue"),
+  },
+  {
+    path: "/processedFeedbacks",
+    name: "processedFeedbacks",
+    component: () => import("../views/ProcessedFeedbackView.vue"),
   }
 ];
 
@@ -179,7 +184,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   store.commit("setShowLoadingAnimation", true);
   loadingBar.start();
   if (to.name === "adminpanel") {
@@ -187,10 +192,14 @@ router.beforeEach((to, from, next) => {
       next({ path: '/accessDenied/Only administrators have access to this page.'});
       return;
     }
-    if (store.dispatch('IS_ADMIN', localStorage.getItem('uid')) === false) {
-      next({ path: '/accessDenied/Only administrators have access to this page.'});
-      return;
-    }
+
+   let isAdmin = await store.dispatch('IS_ADMIN', localStorage.getItem('uid'));
+   if(isAdmin === false){
+    next({ path: '/accessDenied/Only administrators have access to this page.'});
+    return;
+  }
+      
+    
   }
   store.dispatch("ADD_PAGE_VISIT_ROUTE", to.fullPath);
   store.dispatch("GET_PAGE_VISITS");
