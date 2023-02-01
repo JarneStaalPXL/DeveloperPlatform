@@ -45,7 +45,7 @@
         >
       </h6>
     </section>
-    <section class="jokeBlock">
+    <!-- <section class="jokeBlock">
       <div>
         <h4>{{ fetchedJokeSetup }}</h4>
 
@@ -53,10 +53,15 @@
           {{ fetchedJokeDelivery }}
         </h5>
       </div>
-    </section>
+    </section> -->
 
     <section class="newFeatureBlock">
-      <div>
+      <h3>
+        Due to high cost, Developer Platform has decided to abort the operations. We are
+        sorry for the inconvenience.
+      </h3>
+      <h3>Online functionality is disabled</h3>
+      <!-- <div>
         <h3>THE NEXT BIG FEATURE - PROJECTS</h3>
         <p>
           You are able to create <a @click="$router.push('/projects')">projects</a> within
@@ -68,8 +73,8 @@
         </p>
         <p>As of now the feature is released but we are still trying to improve it.</p>
         <p>If you have any feedback, please let us know.</p>
-      </div>
-      <img class="d-flex m-auto mt-4" src="../assets/projectCreation.svg" />
+      </div> -->
+      <!-- <img class="d-flex m-auto mt-4" src="../assets/projectCreation.svg" /> -->
     </section>
 
     <!--Implement what i'm working on right now or the next biggest feature or something like that-->
@@ -264,6 +269,7 @@ export default {
   }
 }
 .newFeatureBlock {
+  background: lightcoral;
   a {
     color: #2bd48c;
     &:hover {

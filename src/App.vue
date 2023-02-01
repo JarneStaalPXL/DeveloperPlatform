@@ -10,7 +10,7 @@
           >
             <n-message-provider>
               <FeedbackComponent v-model:show="$store.state.showFeedbackPopup" />
-              <InfoComponent v-model:show="$store.state.showInfoModal" />
+              <InfoComponent :show="false" />
               <UserProjectCreateComponent
                 v-model:show="$store.state.showUserProjectCreateModal"
               />
